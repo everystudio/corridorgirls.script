@@ -18,20 +18,6 @@ public class DataManager : DataManagerBase<DataManager> {
 	public DataCard dataHand = new DataCard();
 	public DataCard dataDeck = new DataCard ();
 
-	public bool IsReady
-	{
-		get
-		{
-			if (m_iWaitLoadNum == 0)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-	}
 	public override void Initialize()
 	{
 		base.Initialize();
