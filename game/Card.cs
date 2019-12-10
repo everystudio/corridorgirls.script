@@ -14,6 +14,7 @@ public class Card : MonoBehaviour {
 	private TextMeshProUGUI m_txtPower;
 	[SerializeField]
 	private Image m_imgTypeIcon;
+	public Animator m_animator;
 
 	public Button m_btn;
 	public UnityEventInt OnClickCard = new UnityEventInt();
@@ -41,6 +42,11 @@ public class Card : MonoBehaviour {
 		});
 	}
 
+
+	public void Deleted()
+	{
+		Destroy(gameObject);
+	}
 
 
 

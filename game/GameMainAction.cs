@@ -91,15 +91,24 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			foreach( Card card in gameMain.card_list_hand)
+
+			select_card_serial.Value = 0;
+
+			foreach ( Card card in gameMain.card_list_hand)
 			{
 				card.OnClickCard.AddListener(OnClickCard);
 			}
 		}
 		private void OnClickCard(int arg0)
 		{
-			select_card_serial.Value = arg0;
-			Fsm.Event("select");
+			if (select_card_serial.Value == arg0)
+			{
+				Fsm.Event("select");
+			}
+			else {
+				select_card_serial.Value = arg0;
+				gameMain.CardSelectUp(select_card_serial.Value);
+			}
 		}
 		public override void OnExit()
 		{
@@ -120,13 +129,18 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			Card selected_card = gameMain.card_list_hand.Find(p => p.data_card.card_serial == select_card_serial.Value);
+			//DataCardParam card = DataManager.Instance.dataCard.list.Find(p => p.card_serial == select_card_serial.Value);
 
-			DataCardParam card = DataManager.Instance.dataCard.list.Find(p => p.card_serial == select_card_serial.Value);
-
-			StartCoroutine(gameMain.chara_control.RequestMove(card.power, () =>
+			StartCoroutine(gameMain.chara_control.RequestMove(selected_card.data_card.power, () =>
 			{
-			   Finish();
+				Finish();
 			}));
+
+			selected_card.m_animator.SetBool("delete", true);
+
+			gameMain.card_list_hand.Remove(selected_card);
+			gameMain.CardOrder();
 		}
 
 	}
