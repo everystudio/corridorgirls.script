@@ -12,6 +12,7 @@ public class DataManager : DataManagerBase<DataManager> {
 
 	public MasterStage masterStage = new MasterStage();
 	public MasterCorridor masterCorridor = new MasterCorridor();
+	public MasterCorridorEvent masterCorridorEvent = new MasterCorridorEvent();
 
 	public MasterGimic masterGimic = new MasterGimic();
 	public MasterCard masterCard = new MasterCard();
@@ -33,6 +34,7 @@ public class DataManager : DataManagerBase<DataManager> {
 
 		masterStage.Load(data_holder.Get("master_stage"));
 		masterCorridor.Load(data_holder.Get("master_corridor"));
+		masterCorridorEvent.Load(data_holder.Get("master_corridor_event"));
 
 		dataCard.SetSaveFilename("data_card");
 		dataCard.LoadMulti("data_card");

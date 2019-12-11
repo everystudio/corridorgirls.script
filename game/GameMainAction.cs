@@ -32,7 +32,7 @@ namespace GameMainAction
 		{
 			base.OnUpdate();
 
-			if( DataManager.Instance.Initialized)
+			if (DataManager.Instance.Initialized)
 			{
 				Finish();
 			}
@@ -69,7 +69,7 @@ namespace GameMainAction
 			base.OnEnter();
 			DataManager.Instance.dataCorridor.Create(DataManager.Instance.masterCorridor.list.FindAll(p => p.stage_id == 1));
 
-			foreach( DataCorridorParam param in DataManager.Instance.dataCorridor.list )
+			foreach (DataCorridorParam param in DataManager.Instance.dataCorridor.list)
 			{
 				//Debug.Log(string.Format("x={0} y={1}", param.master.x, param.master.y));
 
@@ -77,7 +77,7 @@ namespace GameMainAction
 				corr.Initialize(param);
 				//obj.transform.localPosition = new Vector3(param.master.x, param.master.y, 0.0f);
 			}
-			gameMain.chara_control.SetCorridor(DataManager.Instance.dataCorridor.list.Find(p => p.index == 2));
+			gameMain.chara_control.SetCorridor(DataManager.Instance.dataCorridor.list.Find(p => p.index == 1));
 
 			Finish();
 		}
@@ -94,7 +94,7 @@ namespace GameMainAction
 
 			select_card_serial.Value = 0;
 
-			foreach ( Card card in gameMain.card_list_hand)
+			foreach (Card card in gameMain.card_list_hand)
 			{
 				card.OnClickCard.AddListener(OnClickCard);
 			}
@@ -147,45 +147,53 @@ namespace GameMainAction
 
 	[ActionCategory("GameMainAction")]
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
-	public class CorridorEvent : GameMainActionBase
+	public class CheckCorridorEvent : GameMainActionBase
 	{
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			string event_name = "none";
+			switch (gameMain.chara_control.target_corridor.corridor_event.type)
+			{
+				case 1:
+					event_name = "gold";
+					break;
+				case 2:
+					event_name = "card";
+					break;
+				case 3:
+					event_name = "item";
+					break;
+				case 4:
+					event_name = "event";
+					break;
+				case 5:
+					event_name = "heal";
+					break;
+				case 6:
+					event_name = "shop";
+					break;
+				case 7:
+					event_name = "battle";
+					break;
+				case 8:
+					event_name = "boss";
+					break;
 
-
+				case 0:
+				default:
+					event_name = "none";
+					break;
+			}
+			Fsm.Event(event_name);
 		}
 	}
 
 	[ActionCategory("GameMainAction")]
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
-	public class IdleWalk : FsmStateAction
+	public class GetGold : GameMainActionBase
 	{
-		public FsmInt selected_card_serial;
 
-		public override void OnEnter ()
-		{
-			base.OnEnter ();
-
-			if (CardHolder.Instance.IsNeedFill ()) {
-				Fsm.Event ("fill");
-			} else {
-				CardHolder.Instance.OnSelectCard.AddListener(SelectedCard);
-			}
-
-		}
-
-		public override void OnExit ()
-		{
-			CardHolder.Instance.OnSelectCard.RemoveListener(SelectedCard);
-			base.OnExit ();
-		}
-
-		private void SelectedCard(DataCardParam _card){
-			selected_card_serial.Value = _card.card_serial;
-
-		}
 
 	}
-
 }

@@ -8,14 +8,16 @@ public class DataCorridorParam : CsvDataParam
 	public int index { get; set; }
 
 	public MasterCorridorParam master;
+	public MasterCorridorEventParam corridor_event;
 
 	public DataCorridorParam() { }
-	public DataCorridorParam(MasterCorridorParam _master)
+	public DataCorridorParam(MasterCorridorParam _master , MasterCorridorEventParam _corridor_event)
 	{
 		stage_id = _master.stage_id;
 		index = _master.index;
 
 		master = _master;
+		corridor_event = _corridor_event;
 	}
 
 }
@@ -27,7 +29,8 @@ public class DataCorridor : CsvData<DataCorridorParam> {
 		list.Clear();
 		foreach (MasterCorridorParam master in _masterList)
 		{
-			DataCorridorParam param = new DataCorridorParam(master);
+			MasterCorridorEventParam event_param = DataManager.Instance.masterCorridorEvent.list.Find(p => p.corridor_event_id==master.corridor_event_id);
+			DataCorridorParam param = new DataCorridorParam(master , event_param);
 			list.Add(param);
 		}
 	}

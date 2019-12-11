@@ -17,7 +17,7 @@ public class GameMain : Singleton<GameMain> {
 	void Start()
 	{
 		m_prefCard.SetActive(false);
-
+		m_prefCorridor.SetActive(false);
 
 		Card[] arr = m_goCardRoot.GetComponentsInChildren<Card>();
 		foreach (Card c in arr)

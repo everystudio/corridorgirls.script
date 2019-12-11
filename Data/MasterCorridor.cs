@@ -14,6 +14,8 @@ public class MasterCorridorParam :CsvDataParam
 	public int next_index2 { get; set; }
 	public int next_index3 { get; set; }
 
+	public int corridor_event_id { get; set; }
+
 	// ここはデータではなく、起動時に
 	public List<int> target_index = new List<int>();
 

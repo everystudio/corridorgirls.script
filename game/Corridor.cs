@@ -7,6 +7,7 @@ public class Corridor : MonoBehaviour {
 
 	public DataCorridorParam data_param;
 	public TextMeshPro m_txtLabel;
+	public SpriteRenderer m_sprIcon;
 
 	public void Initialize(DataCorridorParam _data)
 	{
@@ -14,7 +15,20 @@ public class Corridor : MonoBehaviour {
 
 		transform.localPosition = new Vector3(data_param.master.x, data_param.master.y, 0.0f);
 
-		m_txtLabel.text = "";
+		m_txtLabel.text = _data.corridor_event.label;
+
+		if (_data.corridor_event.sprite_name != "")
+		{
+			m_sprIcon.sprite = SpriteManager.Instance.Get(_data.corridor_event.sprite_name);
+			m_sprIcon.color = new Color(
+				_data.corridor_event.color_r / 255.0f, 
+				_data.corridor_event.color_g / 255.0f, 
+				_data.corridor_event.color_b / 255.0f);
+		}
+		else
+		{
+			m_sprIcon.enabled = false;
+		}
 
 
 
