@@ -142,9 +142,20 @@ namespace GameMainAction
 			gameMain.card_list_hand.Remove(selected_card);
 			gameMain.CardOrder();
 		}
-
 	}
 
+
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class CorridorEvent : GameMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+
+		}
+	}
 
 	[ActionCategory("GameMainAction")]
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
