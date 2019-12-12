@@ -80,7 +80,7 @@ namespace CharaControlAction {
 
 					target_position.Value = new Vector3(
 						target.master.x,
-						target.master.y + 1.5f,
+						target.master.y + 0.85f,
 						-1.0f);
 
 					Fsm.Event("move");
@@ -121,7 +121,18 @@ namespace CharaControlAction {
 		}
 	}
 
+	// -----------------------------------------
 
+	[ActionCategory("CharaControlAction")]
+	[HutongGames.PlayMaker.Tooltip("CharaControlAction")]
+	public class CharaAnimWin : CharaControlActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			GameMain.Instance.chara_control.m_animator.SetTrigger("win");
+		}
+	}
 
 
 }

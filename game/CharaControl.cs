@@ -19,6 +19,7 @@ public class CharaControl : MonoBehaviour {
 	public UnityEvent OnMoveFinished = new UnityEvent();
 
 	public OverrideSprite override_sprite;
+	public Animator m_animator;
 
 	[HideInInspector]
 	public DataCorridorParam target_corridor;
@@ -27,7 +28,7 @@ public class CharaControl : MonoBehaviour {
 	{
 		target_corridor = _data;
 
-		transform.localPosition = new Vector3(target_corridor.master.x, target_corridor.master.y + 1.5f, -1.0f);
+		transform.localPosition = new Vector3(target_corridor.master.x, target_corridor.master.y + 0.85f, -1.0f);
 	}
 
 	public IEnumerator RequestMove( int _iPower , Action _onFinished )

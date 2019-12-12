@@ -26,7 +26,7 @@ MonoBehaviour:
         x: 61
         y: 142
         width: 114
-        height: 128
+        height: 144
       isBreakpoint: 0
       isSequence: 0
       hideUnused: 0
@@ -84,6 +84,14 @@ MonoBehaviour:
           isSystemEvent: 0
           isGlobal: 0
         toState: 
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      - fsmEvent:
+          name: none
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: State 2
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
@@ -190,18 +198,32 @@ MonoBehaviour:
         x: 345
         y: 112
         width: 100
-        height: 16
+        height: 32
       isBreakpoint: 0
       isSequence: 0
       hideUnused: 0
-      transitions: []
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: State 2
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
       actionData:
-        actionNames: []
-        customNames: []
-        actionEnabled: 
-        actionIsOpen: 
-        actionStartIndex: 
-        actionHashCodes: 
+        actionNames:
+        - CharaControlAction.CharaAnimWin
+        - MessageControlAction.ShowMessage
+        - HutongGames.PlayMaker.Actions.Wait
+        customNames:
+        - 
+        - 
+        - 
+        actionEnabled: 010101
+        actionIsOpen: 010101
+        actionStartIndex: 000000000000000001000000
+        actionHashCodes: 000000001322710048c01101
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
@@ -211,12 +233,24 @@ MonoBehaviour:
         fsmEventTargetParams: []
         fsmPropertyParams: []
         layoutOptionParams: []
-        fsmStringParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: "30\u30B4\u30FC\u30EB\u30C9\u3092\u624B\u306B\u5165\u308C\u307E\u3057\u305F"
         fsmObjectParams: []
         fsmVarParams: []
         fsmArrayParams: []
         fsmEnumParams: []
-        fsmFloatParams: []
+        fsmFloatParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 2
         fsmIntParams: []
         fsmBoolParams: []
         fsmVector2Params: []
@@ -224,23 +258,28 @@ MonoBehaviour:
         fsmColorParams: []
         fsmRectParams: []
         fsmQuaternionParams: []
-        stringParams: []
-        byteData: 
+        stringParams:
+        - FINISHED
+        byteData: 00
         arrayParamSizes: 
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 
-        paramName: []
-        paramDataPos: 
-        paramByteDataSize: 
+        paramDataType: 120000000f0000001700000001000000
+        paramName:
+        - message
+        - time
+        - finishEvent
+        - realTime
+        paramDataPos: 00000000000000000000000000000000
+        paramByteDataSize: 00000000000000000000000001000000
     - name: add_card
       description: 
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 348
-        y: 165
+        x: 328
+        y: 188
         width: 100
         height: 16
       isBreakpoint: 0
