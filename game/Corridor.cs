@@ -14,7 +14,8 @@ public class Corridor : MonoBehaviour {
 		data_param = _data;
 
 		transform.localPosition = new Vector3(data_param.master.x, data_param.master.y, 0.0f);
-
+		//Debug.Log(_data);
+		//Debug.Log(_data.corridor_event);
 		m_txtLabel.text = _data.corridor_event.label;
 
 		if (_data.corridor_event.sprite_name != "")

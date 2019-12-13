@@ -191,9 +191,20 @@ namespace GameMainAction
 
 	[ActionCategory("GameMainAction")]
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
-	public class GetGold : GameMainActionBase
+	public class CorridorGetGold : GameMainActionBase
 	{
 
 
 	}
+
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class CorridorHeal : GameMainActionBase
+	{
+
+
+	}
+
+
+
 }
