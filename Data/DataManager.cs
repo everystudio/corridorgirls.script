@@ -17,6 +17,7 @@ public class DataManager : DataManagerBase<DataManager> {
 	public MasterCorridorEvent masterCorridorEvent = new MasterCorridorEvent();
 
 	public MasterItem masterItem = new MasterItem();
+	public MasterStageItem masterStageItem = new MasterStageItem();
 
 	//public MasterGimic masterGimic = new MasterGimic();
 	//public MasterCard masterCard = new MasterCard();
@@ -54,6 +55,7 @@ public class DataManager : DataManagerBase<DataManager> {
 		yield return StartCoroutine(masterCorridor.SpreadSheet(SS_ID, "corridor", () => { }));
 		yield return StartCoroutine(masterCorridorEvent.SpreadSheet(SS_ID, "corridor_event" , ()=> { }));
 		yield return StartCoroutine(masterItem.SpreadSheet(SS_ID, "item" , ()=> { }));
+		yield return StartCoroutine(masterStageItem.SpreadSheet(SS_ID, "stage_item" , ()=> { }));
 		/*
 		foreach ( MasterItemParam item in masterItem.list)
 		{
