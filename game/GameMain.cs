@@ -91,5 +91,14 @@ public class GameMain : Singleton<GameMain> {
 	}
 
 
+	public int GetItem(int _iStageId , int _iCorridorIndex)
+	{
+		int iItemId = 0;
+
+
+		return iItemId;
+	}
+
+
 
 }

@@ -205,6 +205,22 @@ namespace GameMainAction
 
 	}
 
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class GetItem : GameMainActionBase
+	{
+		public FsmInt item_id;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+
+	
+		}
+
+
+	}
+
 
 
 }

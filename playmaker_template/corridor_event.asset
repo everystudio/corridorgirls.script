@@ -24,7 +24,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 61
-        y: 142
+        y: 126
         width: 114
         height: 144
       isBreakpoint: 0
@@ -51,7 +51,7 @@ MonoBehaviour:
           name: item
           isSystemEvent: 0
           isGlobal: 0
-        toState: 
+        toState: get_item
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
@@ -141,8 +141,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 612
-        y: 542
+        x: 615
+        y: 581
         width: 100
         height: 16
       isBreakpoint: 0
@@ -195,8 +195,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 345
-        y: 112
+        x: 361
+        y: 106
         width: 100
         height: 32
       isBreakpoint: 0
@@ -278,8 +278,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 328
-        y: 188
+        x: 353
+        y: 173
         width: 100
         height: 16
       isBreakpoint: 0
@@ -330,8 +330,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 342
-        y: 277
+        x: 351
+        y: 335
         width: 100
         height: 32
       isBreakpoint: 0
@@ -408,6 +408,58 @@ MonoBehaviour:
         - realTime
         paramDataPos: 00000000000000000000000000000000
         paramByteDataSize: 00000000000000000000000001000000
+    - name: get_item
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 345
+        y: 245
+        width: 100
+        height: 16
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions: []
+      actionData:
+        actionNames: []
+        customNames: []
+        actionEnabled: 
+        actionIsOpen: 
+        actionStartIndex: 
+        actionHashCodes: 
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
     events:
     - name: FINISHED
       isSystemEvent: 1
