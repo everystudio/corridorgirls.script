@@ -17,6 +17,16 @@ namespace RouletteItemAction {
 		}
 	}
 
+	[ActionCategory("RouletteItemAction")]
+	[HutongGames.PlayMaker.Tooltip("RouletteItemAction")]
+	public class startup : RouletteItemActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+		}
+	}
+
 
 	[ActionCategory("RouletteItemAction")]
 	[HutongGames.PlayMaker.Tooltip("RouletteItemAction")]

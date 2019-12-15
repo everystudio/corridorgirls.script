@@ -209,13 +209,16 @@ namespace GameMainAction
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
 	public class GetItem : GameMainActionBase
 	{
+		public FsmInt stage_id;
 		public FsmInt item_id;
 		public override void OnEnter()
 		{
 			base.OnEnter();
 
+			gameMain.rouletteItem.Initialize(stage_id.Value, 0);
 
-	
+			gameMain.rouletteItem.gameObject.SetActive(true);
+
 		}
 
 

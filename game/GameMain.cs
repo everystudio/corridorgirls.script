@@ -12,6 +12,9 @@ public class GameMain : Singleton<GameMain> {
 
 	public CharaControl chara_control;
 
+	// 演出とかで使うもの
+	public RouletteItem rouletteItem;
+
 	public List<Card> card_list_hand = new List<Card>();
 
 	void Start()
