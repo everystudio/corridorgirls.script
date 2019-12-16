@@ -1,11 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class RouletteItem : MonoBehaviour {
 
 	public List<BannerRouletteItem> banner_list = new List<BannerRouletteItem>();
 
+	public UnityEventInt OnSelectedItemId = new UnityEventInt();
+
+	public TextMeshProUGUI m_txtMessage;
 
 	public void Initialize(int _iStageId , int _iCorridorIndex)
 	{
@@ -34,6 +39,10 @@ public class RouletteItem : MonoBehaviour {
 		{
 			banner_list[i].m_animator.SetBool("is_active", i == _iIndex);
 		}
+	}
+	public MasterItemParam GetBannerItem(int _iIndex)
+	{
+		return banner_list[_iIndex].masterItem;
 	}
 
 	public void ChangeActive()

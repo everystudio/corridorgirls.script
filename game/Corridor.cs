@@ -17,7 +17,7 @@ public class Corridor : MonoBehaviour {
 		//Debug.Log(_data);
 		//Debug.Log(_data.corridor_event);
 		m_txtLabel.text = _data.corridor_event.label;
-		Debug.Log(_data.corridor_event.sprite_name);
+		//Debug.Log(_data.corridor_event.sprite_name);
 		if (_data.corridor_event.sprite_name != "")
 		{
 			m_sprIcon.sprite = SpriteManager.Instance.Get(_data.corridor_event.sprite_name);

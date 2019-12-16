@@ -216,12 +216,24 @@ namespace GameMainAction
 			base.OnEnter();
 
 			gameMain.rouletteItem.Initialize(stage_id.Value, 0);
-
 			gameMain.rouletteItem.gameObject.SetActive(true);
-
+			gameMain.rouletteItem.OnSelectedItemId.AddListener(OnSelectedItemId);
 		}
 
+		private void OnSelectedItemId(int arg0)
+		{
+			item_id.Value = arg0;
+			MasterItemParam master_item = DataManager.Instance.masterItem.list.Find(p => p.item_id == arg0);
+			Debug.Log(master_item.name);
+			Finish();
+		}
 
+		public override void OnExit()
+		{
+			base.OnExit();
+			gameMain.rouletteItem.OnSelectedItemId.RemoveListener(OnSelectedItemId);
+			gameMain.rouletteItem.gameObject.SetActive(false);
+		}
 	}
 
 
