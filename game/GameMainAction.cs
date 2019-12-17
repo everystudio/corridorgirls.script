@@ -18,7 +18,6 @@ namespace GameMainAction
 		}
 	}
 
-
 	[ActionCategory("GameMainAction")]
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
 	public class Startup : GameMainActionBase
@@ -265,6 +264,32 @@ namespace GameMainAction
 		}
 	}
 
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class Battle : GameMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			gameMain.battleMain.gameObject.SetActive(true);
+
+			gameMain.battleMain.IsBattleFinished = false;
+		}
+
+		public override void OnUpdate()
+		{
+			base.OnUpdate();
+
+			if(gameMain.battleMain.IsBattleFinished)
+			{
+				Finish();
+			}
+
+
+		}
+
+	}
 
 
 }

@@ -12,6 +12,8 @@ public class GameMain : Singleton<GameMain> {
 
 	public CharaControl chara_control;
 
+	public BattleMain battleMain;
+
 	// 演出とかで使うもの
 	public RouletteItem rouletteItem;
 	public PanelGetCard panelGetCard;
