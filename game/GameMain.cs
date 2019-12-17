@@ -14,6 +14,7 @@ public class GameMain : Singleton<GameMain> {
 
 	// 演出とかで使うもの
 	public RouletteItem rouletteItem;
+	public PanelGetCard panelGetCard;
 
 	public List<Card> card_list_hand = new List<Card>();
 

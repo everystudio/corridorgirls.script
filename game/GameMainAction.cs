@@ -235,6 +235,35 @@ namespace GameMainAction
 			gameMain.rouletteItem.gameObject.SetActive(false);
 		}
 	}
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class GetCard : GameMainActionBase
+	{
+		public FsmInt stage_id;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			gameMain.panelGetCard.gameObject.SetActive(true);
+			gameMain.panelGetCard.Initialize(stage_id.Value);
+			gameMain.panelGetCard.OnSelectCardParam.AddListener(OnSelectCardParam);
+		}
+
+		private void OnSelectCardParam(DataCardParam arg0)
+		{
+			Debug.LogWarning(string.Format("card:type={0} power={1}", (MasterCard.CARD_TYPE)arg0.card_type, arg0.power));
+			Finish();
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			if (gameMain.panelGetCard != null)
+			{
+				gameMain.panelGetCard.OnSelectCardParam.RemoveListener(OnSelectCardParam);
+				gameMain.panelGetCard.gameObject.SetActive(false);
+			}
+		}
+	}
 
 
 
