@@ -32,7 +32,6 @@ namespace RouletteItemAction {
 	[HutongGames.PlayMaker.Tooltip("RouletteItemAction")]
 	public class spin : RouletteItemActionBase
 	{
-		int select_index = 0;
 		float time = 0.0f;
 		public FsmFloat interval;
 
