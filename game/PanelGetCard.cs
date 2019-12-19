@@ -31,8 +31,11 @@ public class PanelGetCard : MonoBehaviour {
 			// tempシリアルを配布
 			add_card.card_serial = i;
 
-			add_card.card_type = appear_card[index].card_type;
-			add_card.power = appear_card[index].power;
+			MasterCardParam master = DataManager.Instance.masterCard.list.Find(p => p.card_id == appear_card[i].card_id);
+			add_card.master = master;
+
+			//add_card.card_type = appear_card[index].card_type;
+			//add_card.power = appear_card[index].power;
 
 			card_list[i].Initialize(add_card);
 		}

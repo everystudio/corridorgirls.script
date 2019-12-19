@@ -5,8 +5,8 @@ using UnityEngine;
 public class MasterStageCardParam : CsvDataParam
 {
 	public int stage_id { get; set; }
-	public int card_type { get; set; }
-	public int power { get; set; }
+	public int card_id { get; set; }
+
 	public int prob { get; set; }
 	public int level { get; set; }
 }

@@ -4,8 +4,39 @@ using UnityEngine;
 
 public class MasterCardParam : CsvDataParam
 {
-	public string card_type { get; set; }
+	public int card_id { get; set; }
+	public string label { get; set; }
+
+	public int symbol_1 { get; set; }
+	public int symbol_2 { get; set; }
+	public int symbol_3 { get; set; }
+	public int symbol_4 { get; set; }
+	public int symbol_5 { get; set; }
+	public int symbol_6 { get; set; }
 	public int power { get; set; }
+
+	public int GetSymbolId(int _iIndex)
+	{
+		switch(_iIndex)
+		{
+			case 0:
+				return symbol_1;
+			case 1:
+				return symbol_2;
+			case 2:
+				return symbol_3;
+			case 3:
+				return symbol_4;
+			case 4:
+				return symbol_5;
+			case 5:
+				return symbol_6;
+			default:
+				break;
+		}
+		return 0;
+	}
+
 }
 
 public class MasterCard : CsvData<MasterCardParam> {

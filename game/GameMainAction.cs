@@ -131,7 +131,7 @@ namespace GameMainAction
 			Card selected_card = gameMain.card_list_hand.Find(p => p.data_card.card_serial == select_card_serial.Value);
 			//DataCardParam card = DataManager.Instance.dataCard.list.Find(p => p.card_serial == select_card_serial.Value);
 
-			StartCoroutine(gameMain.chara_control.RequestMove(selected_card.data_card.power, () =>
+			StartCoroutine(gameMain.chara_control.RequestMove(selected_card.data_card.master.power, () =>
 			{
 				Finish();
 			}));
@@ -249,7 +249,7 @@ namespace GameMainAction
 
 		private void OnSelectCardParam(DataCardParam arg0)
 		{
-			Debug.LogWarning(string.Format("card:type={0} power={1}", (MasterCard.CARD_TYPE)arg0.card_type, arg0.power));
+			//Debug.LogWarning(string.Format("card:type={0} power={1}", (MasterCard.CARD_TYPE)arg0.card_type, arg0.power));
 			Finish();
 		}
 

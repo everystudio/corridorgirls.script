@@ -16,13 +16,12 @@ public class DataManager : DataManagerBase<DataManager> {
 	public MasterCorridor masterCorridor = new MasterCorridor();
 	public MasterCorridorEvent masterCorridorEvent = new MasterCorridorEvent();
 
+	public MasterCard masterCard = new MasterCard();
+	public MasterCardSymbol masterCardSymbol = new MasterCardSymbol();
+
 	public MasterItem masterItem = new MasterItem();
 	public MasterStageItem masterStageItem = new MasterStageItem();
 	public MasterStageCard masterStageCard = new MasterStageCard();
-
-	//public MasterGimic masterGimic = new MasterGimic();
-	//public MasterCard masterCard = new MasterCard();
-
 
 	public DataCorridor dataCorridor = new DataCorridor();
 	public DataCard dataCard = new DataCard();
@@ -32,21 +31,7 @@ public class DataManager : DataManagerBase<DataManager> {
 	public override void Initialize()
 	{
 		base.Initialize();
-		/*
-		masterGimic.OnRecieveData.AddListener(OnRecievedMasterDungeonStep);
-		masterGimic.SpreadSheet(CONFIG_SS, "gimic");
-
-		masterCard.OnRecieveData.AddListener(OnRecievedMasterCard);
-		masterCard.SpreadSheet(CONFIG_SS, "card");
-		*/
-
-		//masterStage.Load(data_holder.Get("master_stage"));
-		//masterCorridor.Load(data_holder.Get("master_corridor"));
-		//masterCorridorEvent.Load(data_holder.Get("master_corridor_event"));
-
-
 		StartCoroutine(init_network());
-
 	}
 
 
@@ -55,6 +40,10 @@ public class DataManager : DataManagerBase<DataManager> {
 		yield return StartCoroutine(masterStage.SpreadSheet(SS_ID, "stage", () => { }));
 		yield return StartCoroutine(masterCorridor.SpreadSheet(SS_ID, "corridor", () => { }));
 		yield return StartCoroutine(masterCorridorEvent.SpreadSheet(SS_ID, "corridor_event" , ()=> { }));
+
+		yield return StartCoroutine(masterCard.SpreadSheet(SS_ID, "card", () => { }));
+		yield return StartCoroutine(masterCardSymbol.SpreadSheet(SS_ID, "card_symbol" , ()=> { }));
+
 		yield return StartCoroutine(masterItem.SpreadSheet(SS_ID, "item" , ()=> { }));
 		yield return StartCoroutine(masterStageItem.SpreadSheet(SS_ID, "stage_item" , ()=> { }));
 		yield return StartCoroutine(masterStageCard.SpreadSheet(SS_ID, "stage_card" , ()=> { }));
