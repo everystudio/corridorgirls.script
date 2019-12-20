@@ -50,6 +50,15 @@ public class GameMain : Singleton<GameMain> {
 		}
 	}
 
+	public void CardAdd(DataCardParam _data)
+	{
+		Card c = PrefabManager.Instance.MakeScript<Card>(m_prefCard, m_goCardRoot);
+
+		c.Initialize(_data);
+
+		card_list_hand.Add(c);
+	}
+
 
 	public void CardOrder()
 	{

@@ -19,6 +19,8 @@ public class DataManager : DataManagerBase<DataManager> {
 	public MasterCard masterCard = new MasterCard();
 	public MasterCardSymbol masterCardSymbol = new MasterCardSymbol();
 
+	public MasterCharaCard masterCharaCard = new MasterCharaCard();
+
 	public MasterItem masterItem = new MasterItem();
 	public MasterStageItem masterStageItem = new MasterStageItem();
 	public MasterStageCard masterStageCard = new MasterStageCard();
@@ -41,8 +43,17 @@ public class DataManager : DataManagerBase<DataManager> {
 		yield return StartCoroutine(masterCorridor.SpreadSheet(SS_ID, "corridor", () => { }));
 		yield return StartCoroutine(masterCorridorEvent.SpreadSheet(SS_ID, "corridor_event" , ()=> { }));
 
-		yield return StartCoroutine(masterCard.SpreadSheet(SS_ID, "card", () => { }));
+		yield return StartCoroutine(masterCard.SpreadSheet(SS_ID, "card", () => {
+			/*
+			foreach( MasterCardParam card in masterCard.list)
+			{
+				Debug.Log(string.Format("{0}:{1}", card.card_id, card.label));
+			}
+			*/
+		}));
 		yield return StartCoroutine(masterCardSymbol.SpreadSheet(SS_ID, "card_symbol" , ()=> { }));
+
+		yield return StartCoroutine(masterCharaCard.SpreadSheet(SS_ID, "chara_card", () => { }));
 
 		yield return StartCoroutine(masterItem.SpreadSheet(SS_ID, "item" , ()=> { }));
 		yield return StartCoroutine(masterStageItem.SpreadSheet(SS_ID, "stage_item" , ()=> { }));

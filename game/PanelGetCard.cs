@@ -24,7 +24,7 @@ public class PanelGetCard : MonoBehaviour {
 
 		for (int i = 0; i < iCount; i++)
 		{
-			int index = UtilRand.GetIndex(item_prob);
+			//int index = UtilRand.GetIndex(item_prob);
 
 			DataCardParam add_card = new DataCardParam();
 

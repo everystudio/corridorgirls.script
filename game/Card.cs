@@ -34,6 +34,8 @@ public class Card : MonoBehaviour {
 
 		for( int i = 0; i < symbol_list.Count; i++)
 		{
+			//Debug.Log(_card.card_id);
+			//Debug.Log(_card.master);
 			int symbol_id = _card.master.GetSymbolId(i);
 
 			if( 0 < symbol_id)

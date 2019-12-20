@@ -46,7 +46,31 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			gameMain.CardSetup(DataManager.Instance.dataCard.list);
+
+
+			// 初期設定
+			DataManager.Instance.dataCard.list.Clear();
+
+			List<MasterCharaCardParam> card_list = DataManager.Instance.masterCharaCard.list.FindAll(p => p.chara_id == 1);
+
+			int serial = 1;
+			foreach(MasterCharaCardParam c in card_list)
+			{
+				DataCardParam dc = new DataCardParam();
+
+				dc.chara_id = c.chara_id;
+				dc.card_id = c.card_id;
+				dc.card_serial = serial;
+				dc.status = (int)DataCard.STATUS.DECK;
+
+				serial += 1;
+
+				DataManager.Instance.dataCard.list.Add(dc);
+			}
+
+			DataManager.Instance.dataCard.CardFill(5);
+
+			gameMain.CardSetup(DataManager.Instance.dataCard.list.FindAll(p=>p.status == (int)DataCard.STATUS.HAND));
 
 			gameMain.CardOrder();
 
@@ -81,6 +105,73 @@ namespace GameMainAction
 			Finish();
 		}
 	}
+
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class TurnStart : GameMainActionBase
+	{
+		public FsmInt card_fill_num;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			int hand_card_num = DataManager.Instance.dataCard.list.FindAll(p => p.status == (int)DataCard.STATUS.HAND).Count;
+			Debug.Log(hand_card_num);
+			if( hand_card_num <= card_fill_num.Value)
+			{
+				Fsm.Event("card_fill");
+			}
+			else
+			{
+				Finish();
+			}
+		}
+	}
+
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class CardFill : GameMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			List<DataCardParam> add_list = new List<DataCardParam>();
+			bool bResult = DataManager.Instance.dataCard.CardFill(5 , ref add_list);
+
+			foreach( DataCardParam card in add_list)
+			{
+				gameMain.CardAdd(card);
+			}
+			gameMain.CardOrder();
+
+			if (bResult)
+			{
+				Finish();
+			}
+			else
+			{
+				Fsm.Event("shuffle");
+			}
+		}
+	}
+
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class DeckShuffle : GameMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			DataManager.Instance.dataCard.DeckShuffle();
+
+			Finish();
+		}
+
+	}
+
+
 
 	[ActionCategory("GameMainAction")]
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
@@ -136,6 +227,7 @@ namespace GameMainAction
 				Finish();
 			}));
 
+			selected_card.data_card.status = (int)DataCard.STATUS.REMOVE;
 			selected_card.m_animator.SetBool("delete", true);
 
 			gameMain.card_list_hand.Remove(selected_card);
