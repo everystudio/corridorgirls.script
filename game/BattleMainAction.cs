@@ -26,13 +26,35 @@ namespace BattleMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			battleMain.m_goBattleRoot.SetActive(true);
 
-			battleMain.m_goPanelEnemyInfo.SetActive(true);
+			battleMain.Opening();
 
 			Finish();
 		}
 	}
+
+	[ActionCategory("BattleMainAction")]
+	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
+	public class TurnStart : BattleMainActionBase
+	{
+		public FsmInt card_fill_num;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			int hand_card_num = DataManager.Instance.dataCard.list.FindAll(p => p.status == (int)DataCard.STATUS.HAND).Count;
+			Debug.Log(hand_card_num);
+			if (hand_card_num <= card_fill_num.Value)
+			{
+				Fsm.Event("card_fill");
+			}
+			else
+			{
+				Finish();
+			}
+		}
+
+	}
+
 
 	[ActionCategory("BattleMainAction")]
 	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
@@ -69,13 +91,89 @@ namespace BattleMainAction
 				card.OnClickCard.RemoveListener(OnClickCard);
 			}
 		}
-
-
 	}
 
 
+	[ActionCategory("BattleMainAction")]
+	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
+	public class EnemyCard : BattleMainActionBase
+	{
+	}
+	[ActionCategory("BattleMainAction")]
+	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
+	public class PlayerCard : BattleMainActionBase
+	{
+	}
+
+	[ActionCategory("BattleMainAction")]
+	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
+	public class IconStandby : BattleMainActionBase
+	{
+	}
+	[ActionCategory("BattleMainAction")]
+	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
+	public class PhysicsStart : BattleMainActionBase
+	{
+	}
+	[ActionCategory("BattleMainAction")]
+	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
+	public class PhysicsOffset : BattleMainActionBase
+	{
+	}
+	[ActionCategory("BattleMainAction")]
+	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
+	public class PhysicsPlayerAttack : BattleMainActionBase
+	{
+	}
+	[ActionCategory("BattleMainAction")]
+	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
+	public class PhysicsEnemyAttack : BattleMainActionBase
+	{
+	}
+	[ActionCategory("BattleMainAction")]
+	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
+	public class PhysicsEnd : BattleMainActionBase
+	{
+	}
 
 
+	[ActionCategory("BattleMainAction")]
+	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
+	public class MagicStart : BattleMainActionBase
+	{
+	}
+	[ActionCategory("BattleMainAction")]
+	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
+	public class MagicOffset : BattleMainActionBase
+	{
+	}
+	[ActionCategory("BattleMainAction")]
+	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
+	public class MagicPlayerAttack : BattleMainActionBase
+	{
+	}
+	[ActionCategory("BattleMainAction")]
+	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
+	public class MagicEnemyAttack : BattleMainActionBase
+	{
+	}
+	[ActionCategory("BattleMainAction")]
+	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
+	public class MagicEnd : BattleMainActionBase
+	{
+	}
+
+	[ActionCategory("BattleMainAction")]
+	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
+	public class TurnResult : BattleMainActionBase
+	{
+	}
+
+	[ActionCategory("BattleMainAction")]
+	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
+	public class TrunEnd : BattleMainActionBase
+	{
+	}
 
 
 }
