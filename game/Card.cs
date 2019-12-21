@@ -25,49 +25,52 @@ public class Card : MonoBehaviour {
 
 	public DataCardParam data_card;
 
-	public void Initialize(DataCardParam _card )
-	{
-		data_card = _card;
-		//m_imgFrame.color = MasterCard.GetCardColor(_card.card_type);
-		//m_txtType.text = ((MasterCard.CARD_TYPE)_card.card_type).ToString();
-		//m_txtPower.text = _card.power.ToString();
+	public List<MasterCardSymbolParam> card_symbol_list = new List<MasterCardSymbolParam>();
 
-		for( int i = 0; i < symbol_list.Count; i++)
+	public void Initialize(MasterCardParam _master)
+	{
+		if( data_card == null)
+		{
+			data_card = new DataCardParam();
+			data_card.master = _master;
+		}
+
+		card_symbol_list.Clear();
+
+		for (int i = 0; i < symbol_list.Count; i++)
 		{
 			//Debug.Log(_card.card_id);
 			//Debug.Log(_card.master);
-			int symbol_id = _card.master.GetSymbolId(i);
+			int symbol_id = _master.GetSymbolId(i);
 
-			if( 0 < symbol_id)
+			if (0 < symbol_id)
 			{
 				MasterCardSymbolParam symbol = DataManager.Instance.masterCardSymbol.list.Find(p => p.card_symbol_id == symbol_id);
 				symbol_list[i].gameObject.SetActive(true);
 				symbol_list[i].sprite = SpriteManager.Instance.Get(symbol.sprite_name);
+
+				card_symbol_list.Add(symbol);
 			}
 			else
 			{
 				symbol_list[i].gameObject.SetActive(false);
-				if( i == 3)
+				if (i == 3)
 				{
 					m_goSymbolLine2.SetActive(false);
 				}
 			}
 		}
-
-
-
-
-
-
-
-
-		m_txtType.text = _card.master.label;
-		m_txtPower.text = _card.master.power.ToString();
-
-
-
-		//m_imgTypeIcon.sprite = SpriteManager.Instance.Get(MasterCard.GetIconSpriteName(_card.card_type));
+		m_txtType.text = _master.label;
+		m_txtPower.text = _master.power.ToString();
 	}
+
+	public void Initialize(DataCardParam _card )
+	{
+		data_card = _card;
+		Initialize(data_card.master);
+	}
+
+
 
 	void Start()
 	{

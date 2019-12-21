@@ -165,13 +165,15 @@ MonoBehaviour:
         colorIndex: 0
       actionData:
         actionNames:
+        - HutongGames.PlayMaker.Actions.SetIntValue
         - BattleMainAction.TurnStart
         customNames:
         - 
-        actionEnabled: 01
-        actionIsOpen: 01
-        actionStartIndex: 00000000
-        actionHashCodes: dcbe4804
+        - 
+        actionEnabled: 0101
+        actionIsOpen: 0101
+        actionStartIndex: 0000000003000000
+        actionHashCodes: 603dd905dcbe4804
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
@@ -188,6 +190,18 @@ MonoBehaviour:
         fsmEnumParams: []
         fsmFloatParams: []
         fsmIntParams:
+        - useVariable: 1
+          name: select_card_serial
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
         - useVariable: 0
           name: 
           tooltip: 
@@ -201,29 +215,40 @@ MonoBehaviour:
         fsmRectParams: []
         fsmQuaternionParams: []
         stringParams: []
-        byteData: 
+        byteData: 00
         arrayParamSizes: 
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 10000000
+        paramDataType: 10000000100000000100000010000000
         paramName:
+        - intVariable
+        - intValue
+        - everyFrame
         - card_fill_num
-        paramDataPos: 00000000
-        paramByteDataSize: 00000000
-    - name: player_card
+        paramDataPos: 00000000010000000000000002000000
+        paramByteDataSize: 00000000000000000100000000000000
+    - name: player_card_select
       description: 
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 211
-        y: 260
-        width: 110
-        height: 32
+        x: 220
+        y: 275
+        width: 158
+        height: 48
       isBreakpoint: 0
       isSequence: 0
       hideUnused: 0
       transitions:
+      - fsmEvent:
+          name: touch
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: player_card
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
       - fsmEvent:
           name: select
           isSystemEvent: 0
@@ -297,17 +322,19 @@ MonoBehaviour:
           name: FINISHED
           isSystemEvent: 1
           isGlobal: 0
-        toState: player_card
+        toState: player_card_select
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
       actionData:
-        actionNames: []
-        customNames: []
-        actionEnabled: 
-        actionIsOpen: 
-        actionStartIndex: 
-        actionHashCodes: 
+        actionNames:
+        - BattleMainAction.EnemyCard
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: dcbe4804
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
@@ -323,7 +350,13 @@ MonoBehaviour:
         fsmArrayParams: []
         fsmEnumParams: []
         fsmFloatParams: []
-        fsmIntParams: []
+        fsmIntParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 1
         fsmBoolParams: []
         fsmVector2Params: []
         fsmVector3Params: []
@@ -336,17 +369,18 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 
-        paramName: []
-        paramDataPos: 
-        paramByteDataSize: 
+        paramDataType: 10000000
+        paramName:
+        - card_id
+        paramDataPos: 00000000
+        paramByteDataSize: 00000000
     - name: card_open
       description: 
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 610
-        y: 324
+        x: 671
+        y: 339
         width: 100
         height: 16
       isBreakpoint: 0
@@ -601,8 +635,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 361
-        y: 275
+        x: 590
+        y: 296
         width: 118
         height: 32
       isBreakpoint: 0
@@ -618,12 +652,14 @@ MonoBehaviour:
         linkConstraint: 0
         colorIndex: 0
       actionData:
-        actionNames: []
-        customNames: []
-        actionEnabled: 
-        actionIsOpen: 
-        actionStartIndex: 
-        actionHashCodes: 
+        actionNames:
+        - BattleMainAction.IconStandby
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 00000000
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
@@ -1341,7 +1377,7 @@ MonoBehaviour:
           name: FINISHED
           isSystemEvent: 1
           isGlobal: 0
-        toState: finish
+        toState: State 2
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
@@ -1384,6 +1420,127 @@ MonoBehaviour:
         paramName: []
         paramDataPos: 
         paramByteDataSize: 
+    - name: State 2
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 543
+        y: 599
+        width: 100
+        height: 16
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions: []
+      actionData:
+        actionNames: []
+        customNames: []
+        actionEnabled: 
+        actionIsOpen: 
+        actionStartIndex: 
+        actionHashCodes: 
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: player_card
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 447
+        y: 258
+        width: 110
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: player_card_select
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - BattleMainAction.PlayerCard
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: dcbe4804
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams:
+        - useVariable: 1
+          name: select_card_serial
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 10000000
+        paramName:
+        - select_card_serial
+        paramDataPos: 00000000
+        paramByteDataSize: 00000000
     events:
     - name: FINISHED
       isSystemEvent: 1
@@ -1398,6 +1555,9 @@ MonoBehaviour:
       isSystemEvent: 0
       isGlobal: 0
     - name: shuffle
+      isSystemEvent: 0
+      isGlobal: 0
+    - name: touch
       isSystemEvent: 0
       isGlobal: 0
     globalTransitions: []
@@ -1435,7 +1595,7 @@ MonoBehaviour:
     locked: 0
     manualUpdate: 0
     keepDelayedEventsOnStateExit: 0
-    preprocessed: 1
+    preprocessed: 0
     ExposedEvents: []
     RestartOnEnable: 1
     EnableDebugFlow: 0

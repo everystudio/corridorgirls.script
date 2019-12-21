@@ -28,8 +28,21 @@ namespace BattleMainAction
 			base.OnEnter();
 
 			battleMain.Opening();
-
-			Finish();
+			if (battleMain.player_card != null)
+			{
+				GameObject.Destroy(battleMain.player_card.gameObject);
+				battleMain.player_card = null;
+			}
+			if (battleMain.enemy_card != null)
+			{
+				GameObject.Destroy(battleMain.enemy_card.gameObject);
+				battleMain.enemy_card = null;
+			}
+			battleMain.OnOpeningEnd.AddListener(() =>
+			{
+				battleMain.OnOpeningEnd.RemoveAllListeners();
+				Finish();
+			});
 		}
 	}
 
@@ -65,8 +78,6 @@ namespace BattleMainAction
 		{
 			base.OnEnter();
 
-			select_card_serial.Value = 0;
-
 			foreach (Card card in battleMain.gameMain.card_list_hand)
 			{
 				card.OnClickCard.AddListener(OnClickCard);
@@ -81,6 +92,7 @@ namespace BattleMainAction
 			else {
 				select_card_serial.Value = arg0;
 				battleMain.gameMain.CardSelectUp(select_card_serial.Value);
+				Fsm.Event("touch");
 			}
 		}
 		public override void OnExit()
@@ -98,17 +110,87 @@ namespace BattleMainAction
 	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
 	public class EnemyCard : BattleMainActionBase
 	{
+		public FsmInt enemy_card_id;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			if(battleMain.enemy_card!= null)
+			{
+				GameObject.Destroy(battleMain.enemy_card.gameObject);
+				battleMain.enemy_card = null;
+			}
+
+			battleMain.enemy_card = PrefabManager.Instance.MakeScript<Card>(
+				battleMain.m_prefCard, battleMain.m_goEnemyCardRoot);
+
+			MasterCardParam master_enemy_card = DataManager.Instance.masterCard.list.Find(p => p.card_id == enemy_card_id.Value);
+
+			battleMain.enemy_card.Initialize(master_enemy_card);
+
+			Finish();
+		}
 	}
+
 	[ActionCategory("BattleMainAction")]
 	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
 	public class PlayerCard : BattleMainActionBase
 	{
+		public FsmInt select_card_serial;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			if (battleMain.player_card != null)
+			{
+				GameObject.Destroy(battleMain.player_card.gameObject);
+				battleMain.player_card = null;
+			}
+
+			battleMain.player_card = PrefabManager.Instance.MakeScript<Card>(
+				battleMain.m_prefCard, battleMain.m_goPlayerCardRoot);
+
+			DataCardParam data_card = DataManager.Instance.dataCard.list.Find(p => p.card_serial == select_card_serial.Value);
+
+			battleMain.player_card.Initialize(data_card);
+
+			Finish();
+		}
 	}
 
 	[ActionCategory("BattleMainAction")]
 	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
 	public class IconStandby : BattleMainActionBase
 	{
+		//public FsmInt select_card_serial;
+		//public FsmInt enemy_card_id;
+
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			battleMain.player_icon_list.Clear();
+			battleMain.enemy_icon_list.Clear();
+
+			for ( int i = 1; i <= 4; i++)
+			{
+				int iIndex = 0;
+				foreach (MasterCardSymbolParam sym in battleMain.player_card.card_symbol_list.FindAll(p=>p.line == i)){
+					BattleIcon icon = PrefabManager.Instance.MakeScript<BattleIcon>(battleMain.m_prefBattleIcon, battleMain.m_goBattleChara);
+					icon.is_left = true;
+					icon.Initialize(sym, iIndex);
+					battleMain.player_icon_list.Add(icon);
+					iIndex += 1;
+				}
+				iIndex = 0;
+				foreach (MasterCardSymbolParam sym in battleMain.enemy_card.card_symbol_list.FindAll(p => p.line == i))
+				{
+					BattleIcon icon = PrefabManager.Instance.MakeScript<BattleIcon>(battleMain.m_prefBattleIcon, battleMain.m_goBattleEnemy);
+					icon.Initialize(sym, iIndex);
+					battleMain.enemy_icon_list.Add(icon);
+					iIndex += 1;
+				}
+			}
+		}
 	}
 	[ActionCategory("BattleMainAction")]
 	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
