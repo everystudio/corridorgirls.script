@@ -83,6 +83,23 @@ namespace GameMainAction
 		}
 	}
 
+
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class UnitSetup : GameMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			gameMain.panelStatus.Initialize();
+			Finish();
+		}
+
+	}
+
+
+
+
 	[ActionCategory("GameMainAction")]
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
 	public class CreateDungeon : GameMainActionBase
@@ -198,6 +215,10 @@ namespace GameMainAction
 			else {
 				select_card_serial.Value = arg0;
 				gameMain.CardSelectUp(select_card_serial.Value);
+
+				DataCardParam card =  DataManager.Instance.dataCard.list.Find(p => p.card_serial == select_card_serial.Value);
+
+				GameMain.Instance.SelectCharaId = card.chara_id;
 			}
 		}
 		public override void OnExit()
@@ -375,6 +396,7 @@ namespace GameMainAction
 
 			if(gameMain.battleMain.IsBattleFinished)
 			{
+				gameMain.battleMain.BattleClose();
 				Finish();
 			}
 

@@ -10,6 +10,7 @@ public class GameMain : Singleton<GameMain> {
 	public GameObject m_goCardRoot;
 	public GameObject m_prefCard;
 
+	public PanelStatus panelStatus;
 	public CharaControl chara_control;
 
 	public BattleMain battleMain;
@@ -17,6 +18,8 @@ public class GameMain : Singleton<GameMain> {
 	// 演出とかで使うもの
 	public RouletteItem rouletteItem;
 	public PanelGetCard panelGetCard;
+
+	public int SelectCharaId;
 
 	public List<Card> card_list_hand = new List<Card>();
 
@@ -110,10 +113,15 @@ public class GameMain : Singleton<GameMain> {
 	{
 		int iItemId = 0;
 
-
 		return iItemId;
 	}
 
+
+	public void CharaRefresh()
+	{
+		panelStatus.area_chara_left.Refresh();
+		panelStatus.area_chara_right.Refresh();
+	}
 
 
 }

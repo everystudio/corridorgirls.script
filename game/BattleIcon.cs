@@ -10,8 +10,11 @@ public class BattleIcon : MonoBehaviour {
 	public int index;
 	public bool is_left;
 
+	public int m_iDamageNum;
+
 	public class EventBattleIcon : UnityEvent<BattleIcon> {
 	}
+	public EventBattleIcon HitHandler = new EventBattleIcon();
 	public EventBattleIcon AttackHandler = new EventBattleIcon();
 
 	public MasterCardSymbolParam master_symbol;
@@ -63,10 +66,35 @@ public class BattleIcon : MonoBehaviour {
 		//Debug.Log("MoveCompleteHandler");
 	}
 
-	public void Attack()
+	public void Hit()
 	{
-		Debug.Log("attack");
-		AttackHandler.Invoke(this);
+		//Debug.Log("hit");
+
+		GameObject root = null;
+
+		if( is_left)
+		{
+			root = BattleMain.Instance.m_goBattleEnemy;
+		}
+		else
+		{
+			root = BattleMain.Instance.m_goBattleChara;
+		}
+
+		DamageNum script = PrefabManager.Instance.MakeScript<DamageNum>(BattleMain.Instance.m_prefDamageNum, root);
+		//Debug.Log(script.gameObject.transform.localPosition);
+		script.gameObject.transform.localPosition = new Vector3(0.0f, -1.5f, 0.0f);
+
+		m_iDamageNum = 12;
+
+		HitHandler.Invoke(this);
+
+		script.Action(m_iDamageNum, () =>
+		{
+			AttackHandler.Invoke(this);
+		});
+
+		//AttackHandler.Invoke(this);
 	}
 
 }

@@ -55,6 +55,8 @@ namespace BattleMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
+
+
 			int hand_card_num = DataManager.Instance.dataCard.list.FindAll(p => p.status == (int)DataCard.STATUS.HAND).Count;
 			Debug.Log(hand_card_num);
 			if (hand_card_num <= card_fill_num.Value)
@@ -227,7 +229,7 @@ namespace BattleMainAction
 			base.OnEnter();
 			move_time = 0.5f;
 			m_fTime = 0.0f;
-			Debug.Log("SymbolOffset.OnEnter");
+			//Debug.Log("SymbolOffset.OnEnter");
 
 			if( symbol_id_player_canceler.Value != 0)
 			{
@@ -305,7 +307,6 @@ namespace BattleMainAction
 		public FsmBool is_player;
 		public FsmInt symbol_id;
 
-		private bool m_bNext;
 		private float m_fTime;
 
 		private int attack_count = 0;
@@ -315,7 +316,7 @@ namespace BattleMainAction
 		{
 			base.OnEnter();
 
-			attack_count = 0;
+			attack_count = 1;
 			result_count = 0;
 
 			StartCoroutine(exe_attack());
@@ -391,10 +392,10 @@ namespace BattleMainAction
 					target_list = battleMain.enemy_icon_list.FindAll(p => p.master_symbol.line == target_icon.master_symbol.line && p != target_icon);
 				}
 			}
-
 			if (target_icon != null)
 			{
-				target_icon.AttackHandler.AddListener(OnAttackIcon);
+				target_icon.HitHandler.AddListener(OnHit);
+				target_icon.AttackHandler.AddListener(OnAttackFinished);
 				target_icon.m_animator.SetTrigger("attack");
 				if (is_player.Value)
 				{
@@ -404,28 +405,52 @@ namespace BattleMainAction
 				{
 					battleMain.enemy_icon_list.Remove(target_icon);
 				}
+				bRet = true;
 			}
 			if (target_list != null && 0 < target_list.Count)
 			{
-				m_bNext = true;
 				foreach (BattleIcon icon in target_list)
 				{
 					icon.move(Defines.ICON_MOVE_TIME, icon.index - 1, icon.master_symbol.line, icon.is_left);
 					icon.index -= 1;
 				}
-				bRet = true;
 			}
 			else
 			{
-				bRet = false;
+				// ここいらない
+				//bRet = false;
 			}
 			return bRet;
 		}
 
-		private void OnAttackIcon(BattleIcon arg0)
+		private void OnHit(BattleIcon arg0)
+		{
+			Debug.Log(arg0.m_iDamageNum);
+
+			// プレイヤー側の攻撃
+			if (arg0.is_left)
+			{
+				DataUnitParam enemy = DataManager.Instance.dataUnit.list.Find(p =>
+				p.unit == "enemy");
+				Debug.Log(enemy.hp);
+				enemy.hp -= arg0.m_iDamageNum;
+			}
+			else
+			{
+
+				DataUnitParam select_chara = DataManager.Instance.dataUnit.list.Find(p =>
+				p.chara_id == GameMain.Instance.SelectCharaId &&
+				p.unit == "chara");
+
+				select_chara.hp -= arg0.m_iDamageNum;
+				GameMain.Instance.CharaRefresh();
+			}
+			battleMain.HpRefresh();
+		}
+
+		private void OnAttackFinished(BattleIcon arg0)
 		{
 			result_count += 1;
-			Debug.Log(arg0.gameObject.name);
 		}
 
 		private IEnumerator exe_attack()
@@ -435,7 +460,7 @@ namespace BattleMainAction
 				attack_count += 1;
 				yield return new WaitForSeconds(0.3f);
 			}
-
+			result_count += 1;
 		}
 
 		public override void OnUpdate()
@@ -513,6 +538,38 @@ namespace BattleMainAction
 	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
 	public class TrunEnd : BattleMainActionBase
 	{
+	}
+
+	[ActionCategory("BattleMainAction")]
+	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
+	public class ResultCheck : BattleMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			DataUnitParam enemy = DataManager.Instance.dataUnit.list.Find(p => p.unit == "enemy");
+
+			if( enemy.hp <= 0)
+			{
+				Fsm.Event("win");
+			}
+			else
+			{
+				Finish();
+			}
+		}
+	}
+
+	[ActionCategory("BattleMainAction")]
+	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
+	public class BattleFinish : BattleMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			battleMain.IsBattleFinished = true;
+		}
 	}
 
 

@@ -9,6 +9,7 @@ public class DataManager : DataManagerBase<DataManager> {
 	public static readonly string SS_QUEST = "1ls0u6TFbOisVM5nOw6cIP1Y4nK0mDtdgRPaOKmlzGvU";
 
 	public static readonly string SS_ID = "1NVMQClQVzejSE3nE3qsgNA2wMSEdM2l892afiGYj83c";
+	public static readonly string SS_TEST = "1bPRYINRf64UOumP6ExJGBb4pHN4qPlM-fUJk7VGAEpg";
 
 	public TextAssetHolder data_holder;
 
@@ -27,6 +28,8 @@ public class DataManager : DataManagerBase<DataManager> {
 
 	public DataCorridor dataCorridor = new DataCorridor();
 	public DataCard dataCard = new DataCard();
+
+	public DataUnit dataUnit = new DataUnit();
 
 	public bool Initialized = false;
 
@@ -71,6 +74,8 @@ public class DataManager : DataManagerBase<DataManager> {
 
 		dataCard.SetSaveFilename("data_card");
 		dataCard.LoadMulti("data_card");
+
+		yield return StartCoroutine(dataUnit.SpreadSheet(SS_TEST, "unit", () => { }));
 
 		Initialized = true;
 

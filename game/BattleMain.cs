@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using System;
 
-public class BattleMain : MonoBehaviour {
+public class BattleMain : Singleton<BattleMain> {
 
 	public bool IsBattleFinished;
 
@@ -30,17 +30,22 @@ public class BattleMain : MonoBehaviour {
 	public GameObject m_prefBattleIcon;
 	public SpriteRenderer m_sprPlayer;
 	public SpriteRenderer m_sprEnemy;
+	public GameObject m_prefDamageNum;
 
 	public List<BattleIcon> player_icon_list = new List<BattleIcon>();
 	public List<BattleIcon> enemy_icon_list = new List<BattleIcon>();
 
 	public GameObject m_goPanelEnemyDeck;
 
+	public EnergyBar hp_bar_chara;
+	public EnergyBar hp_bar_enemy;
+
 	public UnityEvent OnOpeningEnd = new UnityEvent();
 
 	public void Opening()
 	{
 		m_goPanelEnemyInfo.SetActive(true);
+		HpRefresh();
 		m_animator.SetTrigger("opening");
 	}
 
@@ -48,6 +53,37 @@ public class BattleMain : MonoBehaviour {
 	{
 		OnOpeningEnd.Invoke();
 	}
+
+	public void BattleClose()
+	{
+		m_goPanelEnemyInfo.SetActive(false);
+		gameObject.SetActive(false);
+	}
+
+
+	public void HpRefresh()
+	{
+		if(GameMain.Instance.SelectCharaId == 0)
+		{
+			return;
+		}
+
+		DataUnitParam select_chara = DataManager.Instance.dataUnit.list.Find(p =>
+		p.chara_id == GameMain.Instance.SelectCharaId &&
+		p.unit == "chara");
+
+
+		DataUnitParam enemy = DataManager.Instance.dataUnit.list.Find(p =>
+		p.unit == "enemy");
+
+		hp_bar_chara.SetValueMax(select_chara.hp_max);
+		hp_bar_chara.SetValueCurrent(select_chara.hp);
+
+		hp_bar_enemy.SetValueMax(enemy.hp_max);
+		hp_bar_enemy.SetValueCurrent(enemy.hp);
+	}
+
+
 
 
 }
