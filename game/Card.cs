@@ -105,12 +105,12 @@ public class Card : MonoBehaviour {
 				strMessage = "手札";
 				break;
 			case (int)DataCard.STATUS.REMOVE:
-				color = new Color(0.0f, 0.0f, 1.0f, 0.5f);
+				color = new Color(0.0f, 0.0f, 0.0f, 0.5f);
 				strMessage = "捨て";
 				break;
 
 			case (int)DataCard.STATUS.DECK:
-				color = new Color(0.0f, 0.0f, 0.0f, 0.5f);
+				color = new Color(0.0f, 0.0f, 1.0f, 0.5f);
 				strMessage = "山札";
 				break;
 			default:
