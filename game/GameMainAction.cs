@@ -51,21 +51,24 @@ namespace GameMainAction
 			// 初期設定
 			DataManager.Instance.dataCard.list.Clear();
 
-			List<MasterCharaCardParam> card_list = DataManager.Instance.masterCharaCard.list.FindAll(p => p.chara_id == 1);
-
 			int serial = 1;
-			foreach(MasterCharaCardParam c in card_list)
+
+			List<DataUnitParam> unit_param_list = DataManager.Instance.dataUnit.list.FindAll(p => p.unit == "chara" && (p.status == "left" || p.status == "right"));
+			foreach (DataUnitParam unit in unit_param_list)
 			{
-				DataCardParam dc = new DataCardParam();
+				List<MasterCharaCardParam> card_list = DataManager.Instance.masterCharaCard.list.FindAll(p => p.chara_id == unit.chara_id);
+				foreach (MasterCharaCardParam c in card_list)
+				{
+					DataCardParam dc = new DataCardParam();
 
-				dc.chara_id = c.chara_id;
-				dc.card_id = c.card_id;
-				dc.card_serial = serial;
-				dc.status = (int)DataCard.STATUS.DECK;
+					dc.chara_id = c.chara_id;
+					dc.card_id = c.card_id;
+					dc.card_serial = serial;
+					dc.status = (int)DataCard.STATUS.DECK;
+					serial += 1;
 
-				serial += 1;
-
-				DataManager.Instance.dataCard.list.Add(dc);
+					DataManager.Instance.dataCard.list.Add(dc);
+				}
 			}
 
 			DataManager.Instance.dataCard.CardFill(5);

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -34,19 +35,43 @@ public class DataCardParam : CsvDataParam
 	}
 	private MasterCardParam master_card_param;
 
+	public void Copy(MasterCardParam c , int _iCharaId , int _card_serial)
+	{
+		card_id = c.card_id;
+		card_serial = _card_serial;
+		status = (int)DataCard.STATUS.DECK;
+		chara_id = _iCharaId;
+		master = c;
+	}
 }
 
 public class DataCard : CsvData< DataCardParam> {
 
 	public enum STATUS{
 		NONE		= 0,
-		HAND		,
-		DECK		,
+		DECK,
+		HAND,
+		PLAY		,
 		REMOVE		,
 		MAX			,
 	}
 
 	public int hand_number;
+
+	public DataCardParam RandomSelectFromHand()
+	{
+		List<DataCardParam> temp = list.FindAll(p => p.status == (int)STATUS.HAND);
+
+		int[] select_prob = new int[temp.Count];
+		for( int i = 0; i < temp.Count; i++)
+		{
+			select_prob[i] = 100;
+		}
+
+		int index = UtilRand.GetIndex(select_prob);
+
+		return temp[index];
+	}
 
 	public bool CardFill(int _iFillNum)
 	{
@@ -106,6 +131,8 @@ public class DataCard : CsvData< DataCardParam> {
 			}
 		}
 	}
+
+
 
 
 

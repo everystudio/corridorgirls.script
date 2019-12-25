@@ -40,6 +40,8 @@ public class BattleMain : Singleton<BattleMain> {
 	public EnergyBar hp_bar_chara;
 	public EnergyBar hp_bar_enemy;
 
+	public DataCard dataCardEnemy = new DataCard();
+
 	public UnityEvent OnOpeningEnd = new UnityEvent();
 
 	public void Opening()

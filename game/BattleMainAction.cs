@@ -24,6 +24,8 @@ namespace BattleMainAction
 	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
 	public class opening : BattleMainActionBase
 	{
+
+		public FsmInt enemy_chara_id;
 		public override void OnEnter()
 		{
 			base.OnEnter();
@@ -39,6 +41,30 @@ namespace BattleMainAction
 				GameObject.Destroy(battleMain.enemy_card.gameObject);
 				battleMain.enemy_card = null;
 			}
+
+
+			battleMain.dataCardEnemy.list.Clear();
+			// 敵のデッキデータ
+			Debug.LogWarning(DataManager.Instance.masterCharaCard.list.FindAll(p => p.chara_id == enemy_chara_id.Value).Count);
+
+			int iSerial = 1;
+			foreach( MasterCharaCardParam cc in DataManager.Instance.masterCharaCard.list.FindAll(p=>p.chara_id == enemy_chara_id.Value))
+			{
+				DataCardParam add = new DataCardParam();
+
+				MasterCardParam master_card = DataManager.Instance.masterCard.list.Find(p => p.card_id == cc.card_id);
+
+				add.Copy(master_card, enemy_chara_id.Value, iSerial);
+
+				battleMain.dataCardEnemy.list.Add(add);
+
+				iSerial += 1;
+
+			}
+
+
+
+
 			battleMain.OnOpeningEnd.AddListener(() =>
 			{
 				battleMain.OnOpeningEnd.RemoveAllListeners();
@@ -127,9 +153,21 @@ namespace BattleMainAction
 			battleMain.enemy_card = PrefabManager.Instance.MakeScript<Card>(
 				battleMain.m_prefCard, battleMain.m_goEnemyCardRoot);
 
-			MasterCardParam master_enemy_card = DataManager.Instance.masterCard.list.Find(p => p.card_id == enemy_card_id.Value);
+			Debug.Log(battleMain.dataCardEnemy.list.Count);
+			if( battleMain.dataCardEnemy.CardFill(2) == false)
+			{
+				battleMain.dataCardEnemy.DeckShuffle();
+				if (battleMain.dataCardEnemy.CardFill(2) == false)
+				{
+					Debug.LogError("warning enemy deck");
+				}
+			}
 
-			battleMain.enemy_card.Initialize(master_enemy_card);
+			DataCardParam select_enemy_card = battleMain.dataCardEnemy.RandomSelectFromHand();
+
+			select_enemy_card.status = (int)DataCard.STATUS.PLAY;
+			//MasterCardParam master_enemy_card = DataManager.Instance.masterCard.list.Find(p => p.card_id == enemy_card_id.Value);
+			battleMain.enemy_card.Initialize(select_enemy_card);
 
 			Finish();
 		}

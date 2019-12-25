@@ -20,6 +20,8 @@ public class Card : MonoBehaviour {
 	public GameObject m_goSymbolLine2;
 	public List<Image> symbol_list;
 
+	public Image m_imgFaceIcon;
+
 	public Button m_btn;
 	public UnityEventInt OnClickCard = new UnityEventInt();
 
@@ -33,6 +35,22 @@ public class Card : MonoBehaviour {
 		{
 			data_card = new DataCardParam();
 			data_card.master = _master;
+		}
+
+		if( data_card.chara_id == 0)
+		{
+			m_imgFaceIcon.gameObject.SetActive(false);
+		}
+		else
+		{
+			Sprite spr = SpriteManager.Instance.Get(string.Format("face_{0:D3}01", data_card.chara_id));
+			if (spr != null) {
+				m_imgFaceIcon.sprite = spr;
+			}
+			else
+			{
+				m_imgFaceIcon.gameObject.SetActive(false);
+			}
 		}
 
 		card_symbol_list.Clear();
