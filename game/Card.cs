@@ -29,9 +29,14 @@ public class Card : MonoBehaviour {
 
 	public List<MasterCardSymbolParam> card_symbol_list = new List<MasterCardSymbolParam>();
 
+	public Image m_imgStatusFrame;
+	public TextMeshProUGUI m_txtStatus;
+
 	public void Initialize(MasterCardParam _master)
 	{
-		if( data_card == null)
+		m_imgStatusFrame.gameObject.SetActive(false);
+
+		if ( data_card == null)
 		{
 			data_card = new DataCardParam();
 			data_card.master = _master;
@@ -89,6 +94,34 @@ public class Card : MonoBehaviour {
 	}
 
 
+	public void ShowStatus()
+	{
+		Color color;
+		string strMessage = "";
+		switch( data_card.status)
+		{
+			case (int)DataCard.STATUS.HAND:
+				color = new Color(1.0f, 0.0f, 0.0f, 0.5f);
+				strMessage = "手札";
+				break;
+			case (int)DataCard.STATUS.REMOVE:
+				color = new Color(0.0f, 0.0f, 1.0f, 0.5f);
+				strMessage = "捨て";
+				break;
+
+			case (int)DataCard.STATUS.DECK:
+				color = new Color(0.0f, 0.0f, 0.0f, 0.5f);
+				strMessage = "山札";
+				break;
+			default:
+				color = new Color(0.0f, 0.0f, 0.0f, 0.5f);
+				strMessage = "";
+				break;
+		}
+		m_imgStatusFrame.gameObject.SetActive(true);
+		m_imgStatusFrame.color = color;
+		m_txtStatus.text = strMessage;
+	}
 
 	void Start()
 	{
