@@ -174,6 +174,7 @@ namespace BattleMainAction
 			DataCardParam select_enemy_card = battleMain.dataCardEnemy.RandomSelectFromHand();
 
 			select_enemy_card.status = (int)DataCard.STATUS.PLAY;
+			enemy_card_id.Value = select_enemy_card.card_id;
 			//MasterCardParam master_enemy_card = DataManager.Instance.masterCard.list.Find(p => p.card_id == enemy_card_id.Value);
 			battleMain.enemy_card.Initialize(select_enemy_card);
 

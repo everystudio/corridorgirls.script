@@ -77,6 +77,17 @@ namespace GameMainAction
 
 			gameMain.CardOrder();
 
+
+
+			gameMain.ClearSkill();
+			gameMain.AddSkillIcon(2);
+			gameMain.AddSkillIcon(3);
+			gameMain.AddSkillIcon(4);
+
+
+
+
+
 			Finish();
 		}
 
@@ -231,6 +242,71 @@ namespace GameMainAction
 			{
 				card.OnClickCard.RemoveListener(OnClickCard);
 			}
+		}
+	}
+	[ActionCategory("Common")]
+	[HutongGames.PlayMaker.Tooltip("Common")]
+	public class SkillSelect : GameMainActionBase
+	{
+		public FsmInt skill_id;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			foreach( BtnSkill btn in GameMain.Instance.m_btnSkillList)
+			{
+				btn.OnSkillButton.AddListener(OnSkill);
+			}
+		}
+
+		private void OnSkill(BtnSkill arg0)
+		{
+			skill_id.Value = arg0.m_masterSkillParam.skill_id;
+			Fsm.Event("skill");
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			if (GameMain.Instance.m_btnSkillList != null)
+			{
+				foreach (BtnSkill btn in GameMain.Instance.m_btnSkillList)
+				{
+					btn.OnSkillButton.RemoveListener(OnSkill);
+				}
+			}
+		}
+	}
+
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class SkillShow : GameMainActionBase
+	{
+		public FsmGameObject panel_skill_detail;
+		public FsmInt skill_id;
+
+		private PanelSkillDetail m_panelSkillDetail;
+
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			GameMain.Instance.CardSelectUp(0);
+
+			m_panelSkillDetail = panel_skill_detail.Value.GetComponent<PanelSkillDetail>();
+			m_panelSkillDetail.Initialize(skill_id.Value);
+
+			m_panelSkillDetail.m_btnCancel.onClick.AddListener(OnCancel);
+		}
+
+		private void OnCancel()
+		{
+			Fsm.Event("cancel");
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			m_panelSkillDetail.m_btnCancel.onClick.RemoveListener(OnCancel);
+			m_panelSkillDetail.gameObject.SetActive(false);
 		}
 	}
 

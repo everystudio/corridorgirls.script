@@ -26,6 +26,8 @@ public class DataManager : DataManagerBase<DataManager> {
 	public MasterStageItem masterStageItem = new MasterStageItem();
 	public MasterStageCard masterStageCard = new MasterStageCard();
 
+	public MasterSkill masterSkill = new MasterSkill();
+
 	public DataCorridor dataCorridor = new DataCorridor();
 	public DataCard dataCard = new DataCard();
 
@@ -62,7 +64,8 @@ public class DataManager : DataManagerBase<DataManager> {
 		yield return StartCoroutine(masterStageItem.SpreadSheet(SS_ID, "stage_item" , ()=> { }));
 		yield return StartCoroutine(masterStageCard.SpreadSheet(SS_ID, "stage_card" , ()=> { }));
 
-		
+		yield return StartCoroutine(masterSkill.SpreadSheet(SS_ID, "skill" , ()=> { }));
+
 		/*
 		foreach ( MasterItemParam item in masterItem.list)
 		{

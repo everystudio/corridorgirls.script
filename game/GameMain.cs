@@ -19,6 +19,11 @@ public class GameMain : Singleton<GameMain> {
 	public RouletteItem rouletteItem;
 	public PanelGetCard panelGetCard;
 
+	public GameObject m_goSkillButtonRoot;
+	public GameObject m_prefBtnSkill;
+	public List<BtnSkill> m_btnSkillList = new List<BtnSkill>();
+	public PanelSkillDetail m_panelSkillDetail;
+
 	public UnityEventInt CharaIdHandler = new UnityEventInt();
 	public int SelectCharaId
 	{
@@ -122,15 +127,33 @@ public class GameMain : Singleton<GameMain> {
 					"isLocal", true)
 				);
 		}
-
 	}
-
 
 	public int GetItem(int _iStageId , int _iCorridorIndex)
 	{
 		int iItemId = 0;
-
 		return iItemId;
+	}
+
+	public void ClearSkill()
+	{
+		BtnSkill[] arr = m_goSkillButtonRoot.GetComponentsInChildren<BtnSkill>();
+		foreach (BtnSkill btn in arr)
+		{
+			Destroy(btn.gameObject);
+		}
+		m_btnSkillList.Clear();
+	}
+	public void AddSkillIcon(int _iSkillId)
+	{
+		BtnSkill btn = PrefabManager.Instance.MakeScript<BtnSkill>(m_prefBtnSkill, m_goSkillButtonRoot);
+
+		MasterSkillParam master = DataManager.Instance.masterSkill.list.Find(p => p.skill_id == _iSkillId);
+
+		btn.Initialize(master);
+
+		m_btnSkillList.Add(btn);
+
 	}
 
 
