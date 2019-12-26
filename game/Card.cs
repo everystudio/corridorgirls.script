@@ -48,7 +48,7 @@ public class Card : MonoBehaviour {
 		}
 		else
 		{
-			Sprite spr = SpriteManager.Instance.Get(string.Format("face_{0:D3}01", data_card.chara_id));
+			Sprite spr = SpriteManager.Instance.Get(string.Format(Defines.STR_FORMAT_FACE, data_card.chara_id));
 			if (spr != null) {
 				m_imgFaceIcon.sprite = spr;
 			}

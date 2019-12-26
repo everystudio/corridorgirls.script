@@ -60,7 +60,10 @@ public class CharaControl : MonoBehaviour {
 		OnMoveRequest.Invoke(3);
 	}
 
-
+	public void ChangeCharaId(int _iCharaId)
+	{
+		override_sprite.overrideTexture = TextureManager.Instance.Get(string.Format(Defines.STR_FORMAT_CHARA_TEXTURE, _iCharaId));
+	}
 
 
 

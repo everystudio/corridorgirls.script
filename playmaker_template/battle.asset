@@ -249,18 +249,18 @@ MonoBehaviour:
       hideUnused: 0
       transitions:
       - fsmEvent:
-          name: touch
-          isSystemEvent: 0
-          isGlobal: 0
-        toState: player_card
-        linkStyle: 0
-        linkConstraint: 0
-        colorIndex: 0
-      - fsmEvent:
           name: select
           isSystemEvent: 0
           isGlobal: 0
         toState: icon_standby
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      - fsmEvent:
+          name: touch
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: player_card
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0

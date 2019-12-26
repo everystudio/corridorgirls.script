@@ -40,6 +40,8 @@ public class BattleMain : Singleton<BattleMain> {
 	public EnergyBar hp_bar_chara;
 	public EnergyBar hp_bar_enemy;
 
+	public OverrideSprite override_sprite_chara;
+
 	public DataCard dataCardEnemy = new DataCard();
 
 	public UnityEvent OnOpeningEnd = new UnityEvent();
@@ -86,6 +88,10 @@ public class BattleMain : Singleton<BattleMain> {
 	}
 
 
+	public void ChangeCharaId(int _iCharaId)
+	{
+		override_sprite_chara.overrideTexture = TextureManager.Instance.Get(string.Format(Defines.STR_FORMAT_CHARA_TEXTURE, _iCharaId));
+	}
 
 
 }

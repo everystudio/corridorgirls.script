@@ -19,7 +19,24 @@ public class GameMain : Singleton<GameMain> {
 	public RouletteItem rouletteItem;
 	public PanelGetCard panelGetCard;
 
-	public int SelectCharaId;
+	public UnityEventInt CharaIdHandler = new UnityEventInt();
+	public int SelectCharaId
+	{
+		get
+		{
+			return m_iSelectCharaId;
+		}
+		set
+		{
+			if( m_iSelectCharaId != value)
+			{
+				m_iSelectCharaId = value;
+				CharaIdHandler.Invoke(m_iSelectCharaId);
+			}
+		}
+
+	}
+	private int m_iSelectCharaId;
 
 	public List<Card> card_list_hand = new List<Card>();
 

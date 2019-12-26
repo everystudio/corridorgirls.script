@@ -9,5 +9,7 @@ public class Defines{
 
 	public const float ICON_MOVE_TIME = 0.1f;
 
+	public const string STR_FORMAT_CHARA_TEXTURE = "chara{0:D3}01_mini";
+	public const string STR_FORMAT_FACE = "face_{0:D3}01";
 
 }

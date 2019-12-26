@@ -117,10 +117,18 @@ namespace BattleMainAction
 			if (select_card_serial.Value == arg0)
 			{
 				Fsm.Event("select");
+				Card selected_card = battleMain.gameMain.card_list_hand.Find(p => p.data_card.card_serial == select_card_serial.Value);
+				selected_card.data_card.status = (int)DataCard.STATUS.REMOVE;
+				selected_card.m_animator.SetBool("delete", true);
+				battleMain.gameMain.card_list_hand.Remove(selected_card);
+				battleMain.gameMain.CardOrder();
 			}
 			else {
 				select_card_serial.Value = arg0;
 				battleMain.gameMain.CardSelectUp(select_card_serial.Value);
+				DataCardParam card = DataManager.Instance.dataCard.list.Find(p => p.card_serial == select_card_serial.Value);
+
+				battleMain.gameMain.SelectCharaId = card.chara_id;
 				Fsm.Event("touch");
 			}
 		}
