@@ -100,6 +100,11 @@ public class Card : MonoBehaviour {
 		string strMessage = "";
 		switch( data_card.status)
 		{
+			case (int)DataCard.STATUS.PLAY:
+				color = new Color(1.0f, 1.0f, 0.0f, 0.5f);
+				strMessage = "プレイ";
+				break;
+
 			case (int)DataCard.STATUS.HAND:
 				color = new Color(1.0f, 0.0f, 0.0f, 0.5f);
 				strMessage = "手札";
