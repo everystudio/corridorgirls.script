@@ -267,7 +267,7 @@ namespace GameMainAction
 		public override void OnExit()
 		{
 			base.OnExit();
-			if (GameMain.Instance.m_btnSkillList != null)
+			if (GameMain.Instance != null)
 			{
 				foreach (BtnSkill btn in GameMain.Instance.m_btnSkillList)
 				{
