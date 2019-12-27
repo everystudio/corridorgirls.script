@@ -28,9 +28,9 @@ public class DataManager : DataManagerBase<DataManager> {
 
 	public MasterSkill masterSkill = new MasterSkill();
 
+	public DataKvs dataQuest = new DataKvs();
 	public DataCorridor dataCorridor = new DataCorridor();
 	public DataCard dataCard = new DataCard();
-
 	public DataUnit dataUnit = new DataUnit();
 
 	public bool Initialized = false;
@@ -79,6 +79,7 @@ public class DataManager : DataManagerBase<DataManager> {
 		dataCard.LoadMulti("data_card");
 
 		yield return StartCoroutine(dataUnit.SpreadSheet(SS_TEST, "unit", () => { }));
+		yield return StartCoroutine(dataQuest.SpreadSheet(SS_TEST, "quest", () => { }));
 
 		Initialized = true;
 

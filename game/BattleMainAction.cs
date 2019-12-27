@@ -45,7 +45,7 @@ namespace BattleMainAction
 
 			battleMain.dataCardEnemy.list.Clear();
 			// 敵のデッキデータ
-			Debug.LogWarning(DataManager.Instance.masterCharaCard.list.FindAll(p => p.chara_id == enemy_chara_id.Value).Count);
+			//Debug.LogWarning(DataManager.Instance.masterCharaCard.list.FindAll(p => p.chara_id == enemy_chara_id.Value).Count);
 
 			int iSerial = 1;
 			foreach( MasterCharaCardParam cc in DataManager.Instance.masterCharaCard.list.FindAll(p=>p.chara_id == enemy_chara_id.Value))

@@ -20,13 +20,8 @@ namespace GameMainAction
 
 	[ActionCategory("GameMainAction")]
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
-	public class Startup : GameMainActionBase
+	public class DataWait : GameMainActionBase
 	{
-		public override void OnEnter()
-		{
-			base.OnEnter();
-		}
-
 		public override void OnUpdate()
 		{
 			base.OnUpdate();
@@ -35,6 +30,21 @@ namespace GameMainAction
 			{
 				Finish();
 			}
+		}
+	}
+
+
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class Startup : GameMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			gameMain.gauge_mp.Setup();
+
+			Finish();
 		}
 	}
 
@@ -321,6 +331,26 @@ namespace GameMainAction
 			}
 		}
 	}
+
+
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class SkillUse : GameMainActionBase
+	{
+		public FsmInt skill_id;
+
+		private MasterSkillParam masterSkillParam;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			masterSkillParam = DataManager.Instance.masterSkill.list.Find(p => p.skill_id == skill_id.Value);
+
+			DataManager.Instance.dataQuest.AddInt("mp", -1 * masterSkillParam.mp);
+
+			Finish();
+		}
+	}
+
 
 	[ActionCategory("GameMainAction")]
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]

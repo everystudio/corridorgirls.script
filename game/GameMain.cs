@@ -24,6 +24,8 @@ public class GameMain : Singleton<GameMain> {
 	public List<BtnSkill> m_btnSkillList = new List<BtnSkill>();
 	public PanelSkillDetail m_panelSkillDetail;
 
+	public GaugeMP gauge_mp;
+
 	public UnityEventInt CharaIdHandler = new UnityEventInt();
 	public int SelectCharaId
 	{
