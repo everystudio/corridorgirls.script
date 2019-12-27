@@ -169,22 +169,23 @@ namespace GameMainAction
 		}
 	}
 
-	[ActionCategory("GameMainAction")]
-	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	[ActionCategory("Common")]
+	[HutongGames.PlayMaker.Tooltip("Common")]
 	public class CardFill : GameMainActionBase
 	{
+		public FsmInt fill_num;
 		public override void OnEnter()
 		{
 			base.OnEnter();
 
 			List<DataCardParam> add_list = new List<DataCardParam>();
-			bool bResult = DataManager.Instance.dataCard.CardFill(5 , ref add_list);
+			bool bResult = DataManager.Instance.dataCard.CardFill(fill_num.Value, ref add_list);
 
 			foreach( DataCardParam card in add_list)
 			{
-				gameMain.CardAdd(card);
+				GameMain.Instance.CardAdd(card);
 			}
-			gameMain.CardOrder();
+			GameMain.Instance.CardOrder();
 
 			if (bResult)
 			{
@@ -197,8 +198,8 @@ namespace GameMainAction
 		}
 	}
 
-	[ActionCategory("GameMainAction")]
-	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	[ActionCategory("Common")]
+	[HutongGames.PlayMaker.Tooltip("Common")]
 	public class DeckShuffle : GameMainActionBase
 	{
 		public override void OnEnter()
