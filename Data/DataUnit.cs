@@ -15,6 +15,8 @@ public class DataUnitParam : CsvDataParam
 	public int wis { get; set; }
 	public int heal { get; set; }
 
+	public int turn { get; set; }
+
 }
 
 public class DataUnit : CsvData<DataUnitParam> {

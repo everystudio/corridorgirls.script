@@ -340,7 +340,6 @@ namespace GameMainAction
 		public FsmInt skill_id;
 		public FsmGameObject panel_skill_detail;
 
-
 		private MasterSkillParam masterSkillParam;
 		public override void OnEnter()
 		{

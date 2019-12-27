@@ -49,7 +49,6 @@ namespace SkillMainAction {
 		}
 	}
 
-
 	[ActionCategory("SkillMainAction")]
 	[HutongGames.PlayMaker.Tooltip("SkillMainAction")]
 	public class skill_order : SkillMainActionBase
@@ -74,9 +73,35 @@ namespace SkillMainAction {
 
 			Finish();
 		}
-
 	}
 
+	[ActionCategory("SkillMainAction")]
+	[HutongGames.PlayMaker.Tooltip("SkillMainAction")]
+	public class skill_add_str : SkillMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			List<DataUnitParam> chara_list = DataManager.Instance.dataUnit.list.FindAll(p => p.unit == "chara");
+
+			foreach (DataUnitParam unit in chara_list)
+			{
+				DataUnitParam new_assist = new DataUnitParam();
+
+				new_assist.chara_id = unit.chara_id;
+				new_assist.unit = "assist";
+				new_assist.str = 10;
+
+				DataManager.Instance.dataUnit.list.Add(new_assist);
+			}
+
+			BattleMain.Instance.HpRefresh();
+			GameMain.Instance.CharaRefresh();
+
+			Finish();
+		}
+	}
 
 
 	[ActionCategory("SkillMainAction")]
