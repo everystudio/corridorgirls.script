@@ -11,12 +11,14 @@ public class PanelSkillDetail : MonoBehaviour {
 	public TextMeshProUGUI m_txtOutline;
 	public TextMeshProUGUI m_txtMP;
 
+	public string m_strSituation;
+	public bool m_bUsed;
 	public Button m_btnUse;
 	public Button m_btnCancel;
 
 	private MasterSkillParam m_masterSkillParam;
 
-	public void Initialize(int _iSkillId)
+	public void Initialize(int _iSkillId , string _strSituation , bool _bUsed)
 	{
 		m_masterSkillParam = DataManager.Instance.masterSkill.list.Find(p => p.skill_id == _iSkillId);
 
@@ -26,6 +28,11 @@ public class PanelSkillDetail : MonoBehaviour {
 
 		m_txtOutline.text = m_masterSkillParam.outline;
 		gameObject.SetActive(true);
+
+		m_strSituation = _strSituation;
+		m_bUsed = _bUsed;
+
+		m_btnUse.interactable = !m_bUsed;
 	}
 
 }

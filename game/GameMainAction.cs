@@ -283,6 +283,8 @@ namespace GameMainAction
 	{
 		public FsmGameObject panel_skill_detail;
 		public FsmInt skill_id;
+		public FsmString situation;
+		public FsmBool skill_used;
 
 		private PanelSkillDetail m_panelSkillDetail;
 
@@ -292,9 +294,15 @@ namespace GameMainAction
 			GameMain.Instance.CardSelectUp(0);
 
 			m_panelSkillDetail = panel_skill_detail.Value.GetComponent<PanelSkillDetail>();
-			m_panelSkillDetail.Initialize(skill_id.Value);
+			m_panelSkillDetail.Initialize(skill_id.Value , situation.Value , skill_used.Value);
 
+			m_panelSkillDetail.m_btnUse.onClick.AddListener(OnSkill);
 			m_panelSkillDetail.m_btnCancel.onClick.AddListener(OnCancel);
+		}
+
+		private void OnSkill()
+		{
+			Fsm.Event("skill");
 		}
 
 		private void OnCancel()
@@ -306,7 +314,11 @@ namespace GameMainAction
 		{
 			base.OnExit();
 			m_panelSkillDetail.m_btnCancel.onClick.RemoveListener(OnCancel);
-			m_panelSkillDetail.gameObject.SetActive(false);
+			m_panelSkillDetail.m_btnUse.onClick.RemoveListener(OnSkill);
+			if (m_panelSkillDetail.gameObject != null)
+			{
+				m_panelSkillDetail.gameObject.SetActive(false);
+			}
 		}
 	}
 
