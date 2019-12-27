@@ -325,7 +325,7 @@ namespace GameMainAction
 			base.OnExit();
 			m_panelSkillDetail.m_btnCancel.onClick.RemoveListener(OnCancel);
 			m_panelSkillDetail.m_btnUse.onClick.RemoveListener(OnSkill);
-			if (m_panelSkillDetail.gameObject != null)
+			if (m_panelSkillDetail != null)
 			{
 				m_panelSkillDetail.gameObject.SetActive(false);
 			}
@@ -376,6 +376,43 @@ namespace GameMainAction
 			gameMain.CardOrder();
 		}
 	}
+
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class AddMp : GameMainActionBase
+	{
+		public FsmInt add_mp;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			DataManager.Instance.dataQuest.AddInt("mp", add_mp.Value);
+			Finish();
+		}
+	}
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class AddMp_CardSerial : GameMainActionBase
+	{
+		public FsmInt card_serial;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			Card selected_card = GameMain.Instance.card_list_hand.Find(p => p.data_card.card_serial == card_serial.Value);
+
+			int mp_max = DataManager.Instance.dataQuest.ReadInt("mp_max");
+			int mp_current = DataManager.Instance.dataQuest.ReadInt("mp");
+
+			if (mp_max < mp_current + selected_card.data_card.master.power)
+			{
+				DataManager.Instance.dataQuest.WriteInt("mp", mp_max);
+			}
+			else {
+				DataManager.Instance.dataQuest.AddInt("mp", selected_card.data_card.master.power);
+			}
+			Finish();
+		}
+	}
+
 
 
 	[ActionCategory("GameMainAction")]
