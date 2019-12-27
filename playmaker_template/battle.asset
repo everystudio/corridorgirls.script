@@ -1987,8 +1987,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 499
-        y: 220
+        x: 497
+        y: 215
         width: 101
         height: 48
       isBreakpoint: 0
@@ -2007,7 +2007,7 @@ MonoBehaviour:
           name: skill
           isSystemEvent: 0
           isGlobal: 0
-        toState: State 5
+        toState: skill_use
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
@@ -2080,13 +2080,13 @@ MonoBehaviour:
         - skill_used
         paramDataPos: 00000000000000000000000000000000
         paramByteDataSize: 00000000000000000000000000000000
-    - name: State 5
+    - name: skill_use
       description: 
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 731
-        y: 230
+        x: 631
+        y: 210
         width: 100
         height: 32
       isBreakpoint: 0
@@ -2097,21 +2097,29 @@ MonoBehaviour:
           name: FINISHED
           isSystemEvent: 1
           isGlobal: 0
-        toState: skill_show
+        toState: player_card_select
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
       actionData:
         actionNames:
         - HutongGames.PlayMaker.Actions.SetBoolValue
+        - GameMainAction.SkillUse
         customNames:
         - 
-        actionEnabled: 01
-        actionIsOpen: 01
-        actionStartIndex: 00000000
-        actionHashCodes: 27fbe103
+        - 
+        actionEnabled: 0101
+        actionIsOpen: 0101
+        actionStartIndex: 0000000003000000
+        actionHashCodes: 27fbe10313791901
         unityObjectParams: []
-        fsmGameObjectParams: []
+        fsmGameObjectParams:
+        - useVariable: 1
+          name: panel_skill_detail
+          tooltip: 
+          showInInspector: 1
+          networkSync: 0
+          value: {fileID: 0}
         fsmOwnerDefaultParams: []
         animationCurveParams: []
         functionCallParams: []
@@ -2125,7 +2133,13 @@ MonoBehaviour:
         fsmArrayParams: []
         fsmEnumParams: []
         fsmFloatParams: []
-        fsmIntParams: []
+        fsmIntParams:
+        - useVariable: 1
+          name: skill_id
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
         fsmBoolParams:
         - useVariable: 1
           name: is_skill_used
@@ -2150,13 +2164,15 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 110000001100000001000000
+        paramDataType: 1100000011000000010000001000000013000000
         paramName:
         - boolVariable
         - boolValue
         - everyFrame
-        paramDataPos: 000000000100000000000000
-        paramByteDataSize: 000000000000000001000000
+        - skill_id
+        - panel_skill_detail
+        paramDataPos: 0000000001000000000000000000000000000000
+        paramByteDataSize: 0000000000000000010000000000000000000000
     - name: State 6
       description: 
       colorIndex: 0

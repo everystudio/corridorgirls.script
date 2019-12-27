@@ -338,16 +338,35 @@ namespace GameMainAction
 	public class SkillUse : GameMainActionBase
 	{
 		public FsmInt skill_id;
+		public FsmGameObject panel_skill_detail;
+
 
 		private MasterSkillParam masterSkillParam;
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			masterSkillParam = DataManager.Instance.masterSkill.list.Find(p => p.skill_id == skill_id.Value);
+			if (panel_skill_detail != null)
+			{
+				panel_skill_detail.Value.SetActive(false);
+			}
 
+			SkillMain.Instance.SkillFinishHandler.AddListener(OnSkillFinished);
+			SkillMain.Instance.SkillRequest.Invoke(skill_id.Value);
+
+			masterSkillParam = DataManager.Instance.masterSkill.list.Find(p => p.skill_id == skill_id.Value);
 			DataManager.Instance.dataQuest.AddInt("mp", -1 * masterSkillParam.mp);
 
 			Finish();
+		}
+
+		private void OnSkillFinished(bool arg0)
+		{
+			Finish();
+		}
+		public override void OnExit()
+		{
+			base.OnExit();
+			SkillMain.Instance.SkillFinishHandler.RemoveListener(OnSkillFinished);
 		}
 	}
 

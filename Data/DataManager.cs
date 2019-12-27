@@ -27,6 +27,7 @@ public class DataManager : DataManagerBase<DataManager> {
 	public MasterStageCard masterStageCard = new MasterStageCard();
 
 	public MasterSkill masterSkill = new MasterSkill();
+	public MasterSkillEffect masterSkillEffect = new MasterSkillEffect();
 
 	public DataKvs dataQuest = new DataKvs();
 	public DataCorridor dataCorridor = new DataCorridor();

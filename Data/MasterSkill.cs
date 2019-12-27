@@ -9,6 +9,10 @@ public class MasterSkillParam : CsvDataParam
 	public int mp { get; set; }
 	public string sprite_name { get; set; }
 	public string outline { get; set; }
+
+	public string skill_type { get; set; }
+
+
 }
 
 public class MasterSkill : CsvData<MasterSkillParam> {
