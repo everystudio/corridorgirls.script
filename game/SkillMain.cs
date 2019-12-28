@@ -9,4 +9,6 @@ public class SkillMain : Singleton<SkillMain> {
 
 	public MasterSkillParam master_skill_param;
 
+	public List<MasterSkillEffectParam> master_skill_effect_param_list = new List<MasterSkillEffectParam>();
+
 }

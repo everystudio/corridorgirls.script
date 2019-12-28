@@ -10,8 +10,6 @@ public class MasterSkillParam : CsvDataParam
 	public string sprite_name { get; set; }
 	public string outline { get; set; }
 
-	public string skill_type { get; set; }
-
 
 }
 

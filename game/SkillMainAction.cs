@@ -21,7 +21,6 @@ namespace SkillMainAction {
 	public class standby : SkillMainActionBase
 	{
 		public FsmInt skill_id;
-		public FsmString skill_type;
 
 		public override void OnEnter()
 		{
@@ -35,7 +34,6 @@ namespace SkillMainAction {
 			skill_id.Value = arg0;
 			SkillMain.Instance.master_skill_param = DataManager.Instance.masterSkill.list.Find(p => p.skill_id == arg0);
 
-			skill_type.Value = SkillMain.Instance.master_skill_param.skill_type;
 			Fsm.Event("request");
 		}
 
@@ -58,16 +56,61 @@ namespace SkillMainAction {
 
 	[ActionCategory("SkillMainAction")]
 	[HutongGames.PlayMaker.Tooltip("SkillMainAction")]
-	public class skill_heal : SkillMainActionBase
+	public class skill_analyze_effect : SkillMainActionBase
+	{
+		public FsmInt skill_id;
+		public FsmInt effect_num;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			SkillMain.Instance.master_skill_effect_param_list = DataManager.Instance.masterSkillEffect.list.FindAll(p => p.skill_id == skill_id.Value);
+
+			effect_num.Value = SkillMain.Instance.master_skill_effect_param_list.Count;
+			Finish();
+		}
+	}
+
+	[ActionCategory("SkillMainAction")]
+	[HutongGames.PlayMaker.Tooltip("SkillMainAction")]
+	public class skill_effect_start : SkillMainActionBase
+	{
+		public FsmInt skill_index;
+		public FsmString skill_type;
+
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			skill_type.Value = SkillMain.Instance.master_skill_effect_param_list[skill_index.Value].skill_type;
+			Finish();
+		}
+
+	}
+	[ActionCategory("SkillMainAction")]
+	[HutongGames.PlayMaker.Tooltip("SkillMainAction")]
+	public class skill_effect_end : SkillMainActionBase
 	{
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			Finish();
+		}
+	}
+
+
+	[ActionCategory("SkillMainAction")]
+	[HutongGames.PlayMaker.Tooltip("SkillMainAction")]
+	public class skill_heal : SkillMainActionBase
+	{
+		public FsmInt skill_index;
+		private MasterSkillEffectParam effect;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			effect = SkillMain.Instance.master_skill_effect_param_list[skill_index.Value];
 
 			foreach (DataUnitParam unit in DataManager.Instance.dataUnit.list.FindAll(p => p.unit == "chara")){
-				unit.hp += 30;
+				unit.hp += effect.param;
 			}
-
 			BattleMain.Instance.HpRefresh();
 			GameMain.Instance.CharaRefresh();
 
@@ -77,11 +120,14 @@ namespace SkillMainAction {
 
 	[ActionCategory("SkillMainAction")]
 	[HutongGames.PlayMaker.Tooltip("SkillMainAction")]
-	public class skill_add_str : SkillMainActionBase
+	public class skill_buff : SkillMainActionBase
 	{
+		public FsmInt skill_index;
+		private MasterSkillEffectParam effect;
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			effect = SkillMain.Instance.master_skill_effect_param_list[skill_index.Value];
 
 			List<DataUnitParam> chara_list = DataManager.Instance.dataUnit.list.FindAll(p => p.unit == "chara");
 
@@ -91,13 +137,49 @@ namespace SkillMainAction {
 
 				new_assist.chara_id = unit.chara_id;
 				new_assist.unit = "assist";
-				new_assist.str = 10;
+				switch(effect.field)
+				{
+					case "hp_max":
+						new_assist.hp_max = effect.param;
+						break;
+					case "str":
+						new_assist.str = effect.param;
+						break;
+					case "wis":
+						new_assist.wis = effect.param;
+						break;
+					case "heal":
+						new_assist.heal = effect.param;
+						break;
+					default:
+						break;
+				}
 
 				DataManager.Instance.dataUnit.list.Add(new_assist);
 			}
 
 			BattleMain.Instance.HpRefresh();
 			GameMain.Instance.CharaRefresh();
+
+			Finish();
+		}
+	}
+
+
+
+	[ActionCategory("SkillMainAction")]
+	[HutongGames.PlayMaker.Tooltip("SkillMainAction")]
+	public class skill_card_fill : SkillMainActionBase
+	{
+		public FsmInt skill_index;
+		public FsmInt card_fill_num;
+		private MasterSkillEffectParam effect;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			effect = SkillMain.Instance.master_skill_effect_param_list[skill_index.Value];
+
+			card_fill_num.Value = effect.param;
 
 			Finish();
 		}

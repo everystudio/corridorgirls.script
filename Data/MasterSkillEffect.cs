@@ -5,6 +5,8 @@ using UnityEngine;
 public class MasterSkillEffectParam : CsvDataParam
 {
 	public int skill_id { get; set; }
+	public string skill_type { get; set; }
+
 	public int order { get; set; }
 	public int turn { get; set; }
 	public string field { get; set; }
