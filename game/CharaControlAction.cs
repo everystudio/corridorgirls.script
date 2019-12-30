@@ -121,8 +121,18 @@ namespace CharaControlAction {
 		}
 	}
 
-	// -----------------------------------------
+	[ActionCategory("CharaControlAction")]
+	[HutongGames.PlayMaker.Tooltip("CharaControlAction")]
+	public class RouteSelect : CharaControlActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+		}
+	}
 
+
+	// -----------------------------------------
 	[ActionCategory("CharaControlAction")]
 	[HutongGames.PlayMaker.Tooltip("CharaControlAction")]
 	public class CharaAnimWin : CharaControlActionBase
