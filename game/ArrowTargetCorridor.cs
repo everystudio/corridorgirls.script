@@ -7,6 +7,9 @@ public class ArrowTargetCorridor : MonoBehaviour {
 	public UnityEventInt SelectArrowIndex = new UnityEventInt();
 	public Camera target_camera;
 	public SpriteRenderer m_sprArrow;
+	public SpriteRenderer m_sprKey;
+
+	public bool m_bIsLock;
 
 	private DataCorridorParam m_next;
 
@@ -26,6 +29,25 @@ public class ArrowTargetCorridor : MonoBehaviour {
 
 		transform.localPosition = dir.normalized * offset;
 
+		m_bIsLock = false;
+
+		MasterCorridorEventParam e = DataManager.Instance.masterCorridorEvent.list.Find(p => p.corridor_event_id == _now.corridor_event.corridor_event_id);
+
+		// 制約なし
+		if ( _now.master.next_index == _next.index)
+		{
+			m_bIsLock = false;
+		}
+		else if(e != null && e.type == (int)MasterCorridorEvent.CORRIDOR_EVENT_TYPE.DOOR)
+		{
+			m_bIsLock = true;
+			m_sprKey.sprite = SpriteManager.Instance.Get(e.sprite_name);
+		}
+		else
+		{
+			m_bIsLock = false;
+		}
+		m_sprKey.gameObject.SetActive(m_bIsLock);
 	}
 
 	void Update()

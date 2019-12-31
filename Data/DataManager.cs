@@ -33,6 +33,7 @@ public class DataManager : DataManagerBase<DataManager> {
 	public DataCorridor dataCorridor = new DataCorridor();
 	public DataCard dataCard = new DataCard();
 	public DataUnit dataUnit = new DataUnit();
+	public DataItem dataItem = new DataItem();
 
 	public bool Initialized = false;
 
@@ -81,6 +82,8 @@ public class DataManager : DataManagerBase<DataManager> {
 
 		yield return StartCoroutine(dataUnit.SpreadSheet(SS_TEST, "unit", () => { }));
 		yield return StartCoroutine(dataQuest.SpreadSheet(SS_TEST, "quest", () => { }));
+		yield return StartCoroutine(dataItem.SpreadSheet(SS_TEST, "item", () => { }));
+
 
 		Initialized = true;
 

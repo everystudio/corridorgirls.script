@@ -32,6 +32,7 @@ public class CharaControl : MonoBehaviour {
 	void Start()
 	{
 		m_btnGo.gameObject.SetActive(false);
+		m_prefArrowTargetCorridor.SetActive(false);
 	}
 
 	public void SetCorridor(DataCorridorParam _data)

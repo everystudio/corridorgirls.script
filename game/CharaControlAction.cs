@@ -181,15 +181,72 @@ namespace CharaControlAction {
 		{
 			if( target_corridor_index.Value != 0)
 			{
-				Finish();
+				bool bFinish = false;
+				int key_item_id = GetKeyItemId(target_corridor_index.Value);
+				if( key_item_id == 0)
+				{
+					bFinish = true;
+				}
+				else
+				{
+					DataItemParam item = DataManager.Instance.dataItem.list.Find(p => p.item_id == key_item_id && p.status == (int)DataItem.STATUS.STANDBY);
+					if (item != null)
+					{
+						// ここでアイテム消費
+						bFinish = true;
+					}
+					else
+					{
+						Debug.Log("アイテムがないため進行出来ません");
+					}
+				}
+				if (bFinish)
+				{
+					Finish();
+				}
 			}
+		}
+
+		private int GetKeyItemId(int _iNextIndex )
+		{
+			int iRet = 0;
+			MasterCorridorEventParam e = DataManager.Instance.masterCorridorEvent.list.Find(p =>
+			p.corridor_event_id == charaControl.target_corridor.master.corridor_event_id);
+
+			if(_iNextIndex != charaControl.target_corridor.master.next_index)
+			{
+				iRet = e.key_item_id;
+			}
+			return iRet;
 		}
 
 		private void OnSelectArrowIndex(int arg0)
 		{
-			Debug.Log(arg0);
-			target_corridor_index.Value = arg0;
-			charaControl.m_btnGo.interactable = true;
+			bool bOK = false;
+
+			int key_item_id = GetKeyItemId(arg0);
+
+			if( key_item_id == 0)
+			{
+				bOK = true;
+			}
+			else
+			{
+				DataItemParam item = DataManager.Instance.dataItem.list.Find(p => p.item_id == key_item_id && p.status == (int)DataItem.STATUS.STANDBY);
+				if (item != null)
+				{
+					bOK = true;
+				}
+				else
+				{
+					Debug.Log("アイテムがないため進行出来ません");
+				}
+			}
+			if( bOK)
+			{
+				target_corridor_index.Value = arg0;
+				charaControl.m_btnGo.interactable = true;
+			}
 		}
 
 		public override void OnExit()

@@ -442,30 +442,30 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 			string event_name = "none";
-			switch (gameMain.chara_control.target_corridor.corridor_event.type)
+			switch ((MasterCorridorEvent.CORRIDOR_EVENT_TYPE)gameMain.chara_control.target_corridor.corridor_event.type)
 			{
-				case 1:
+				case MasterCorridorEvent.CORRIDOR_EVENT_TYPE.GOLD:
 					event_name = "gold";
 					break;
-				case 2:
+				case MasterCorridorEvent.CORRIDOR_EVENT_TYPE.CARD:
 					event_name = "card";
 					break;
-				case 3:
+				case MasterCorridorEvent.CORRIDOR_EVENT_TYPE.ITEM:
 					event_name = "item";
 					break;
-				case 4:
+				case MasterCorridorEvent.CORRIDOR_EVENT_TYPE.EVENT:
 					event_name = "event";
 					break;
-				case 5:
+				case MasterCorridorEvent.CORRIDOR_EVENT_TYPE.HEAL:
 					event_name = "heal";
 					break;
-				case 6:
+				case MasterCorridorEvent.CORRIDOR_EVENT_TYPE.SHOP:
 					event_name = "shop";
 					break;
-				case 7:
+				case MasterCorridorEvent.CORRIDOR_EVENT_TYPE.BATTLE:
 					event_name = "battle";
 					break;
-				case 8:
+				case MasterCorridorEvent.CORRIDOR_EVENT_TYPE.BOSS:
 					event_name = "boss";
 					break;
 

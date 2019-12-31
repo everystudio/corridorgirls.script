@@ -42,17 +42,5 @@ public class MasterCorridorParam :CsvDataParam
 
 public class MasterCorridor : CsvData<MasterCorridorParam>{
 
-	public enum CORRIDOR_TYPE
-	{
-		NONE			= 0,
-		EVENT_POSITIVE	,
-		EVENT_NEGATIVE	,
-		EVENT_QUESTION	,
-		CHANCE_CARD		,
-		SHOP			,
-		BATTLE			,
-		BOSS			,
-	}
-
 
 }

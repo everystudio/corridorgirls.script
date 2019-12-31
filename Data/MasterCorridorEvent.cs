@@ -13,11 +13,29 @@ public class MasterCorridorEventParam : CsvDataParam
 	public int color_r { get; set; }
 	public int color_g { get; set; }
 	public int color_b { get; set; }
+	public int key_item_id { get; set; }
 	public string outline { get; set; }
 	public string comment { get; set; }
 
 }
 
 public class MasterCorridorEvent : CsvData<MasterCorridorEventParam> {
+
+	public enum CORRIDOR_EVENT_TYPE
+	{
+		NONE		= 0,
+		GOLD		,
+		CARD		,
+		ITEM		,
+		EVENT		,
+		HEAL		,
+		SHOP		,
+		BATTLE		,
+		BOSS		,
+		DOOR		,
+		MAX			,
+	}
+
+
 
 }
