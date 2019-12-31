@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Events;
 using System;
 
@@ -21,8 +22,17 @@ public class CharaControl : MonoBehaviour {
 	public OverrideSprite override_sprite;
 	public Animator m_animator;
 
+	public Button m_btnGo;
+	public GameObject m_goArrowRoot;
+	public GameObject m_prefArrowTargetCorridor;
+
 	[HideInInspector]
 	public DataCorridorParam target_corridor;
+
+	void Start()
+	{
+		m_btnGo.gameObject.SetActive(false);
+	}
 
 	public void SetCorridor(DataCorridorParam _data)
 	{

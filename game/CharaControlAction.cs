@@ -75,14 +75,6 @@ namespace CharaControlAction {
 					target_corridor_index.Value = charaControl.target_corridor.master.next_index;
 
 					//Debug.Log(move_num.Value + ":" + target_corridor_index.Value);
-
-					DataCorridorParam target = DataManager.Instance.dataCorridor.list.Find(p => p.index == target_corridor_index.Value);
-
-					target_position.Value = new Vector3(
-						target.master.x,
-						target.master.y + 0.85f,
-						-1.0f);
-
 					Fsm.Event("move");
 				}
 				else
@@ -96,6 +88,30 @@ namespace CharaControlAction {
 			}
 		}
 	}
+
+	[ActionCategory("CharaControlAction")]
+	[HutongGames.PlayMaker.Tooltip("CharaControlAction")]
+	public class MoveTargetIndex : CharaControlActionBase
+	{
+		public FsmInt target_corridor_index;
+		public FsmVector3 target_position;
+
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			DataCorridorParam target = DataManager.Instance.dataCorridor.list.Find(p => p.index == target_corridor_index.Value);
+
+			target_position.Value = new Vector3(
+				target.master.x,
+				target.master.y + 0.85f,
+				-1.0f);
+
+			Finish();
+		}
+
+	}
+
+
 
 	[ActionCategory("CharaControlAction")]
 	[HutongGames.PlayMaker.Tooltip("CharaControlAction")]
@@ -125,9 +141,67 @@ namespace CharaControlAction {
 	[HutongGames.PlayMaker.Tooltip("CharaControlAction")]
 	public class RouteSelect : CharaControlActionBase
 	{
+		public FsmInt target_corridor_index;
+
+		private int m_iSelectedIndex;
+		private List<ArrowTargetCorridor> arrow_list = new List<ArrowTargetCorridor>();
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			target_corridor_index.Value = 0;
+
+			charaControl.m_btnGo.interactable = false;
+			charaControl.m_btnGo.gameObject.SetActive(true);
+			charaControl.m_btnGo.onClick.AddListener(OnDecide);
+
+			arrow_list.Clear();
+
+			int[] target_arr = new int[3] {
+				charaControl.target_corridor.master.next_index,
+				charaControl.target_corridor.master.next_index2,
+				charaControl.target_corridor.master.next_index3
+			};
+
+			for( int i = 0; i < target_arr.Length; i++)
+			{
+				if(target_arr[i] == 0)
+				{
+					continue;
+				}
+				DataCorridorParam next_corridor = DataManager.Instance.dataCorridor.list.Find(p => p.index == target_arr[i]);
+
+				ArrowTargetCorridor arrow = PrefabManager.Instance.MakeScript<ArrowTargetCorridor>(charaControl.m_prefArrowTargetCorridor, charaControl.m_goArrowRoot);
+				arrow.Initialize(charaControl.target_corridor, next_corridor);
+				arrow.SelectArrowIndex.AddListener(OnSelectArrowIndex);
+				arrow_list.Add(arrow);
+			}
+		}
+
+		private void OnDecide()
+		{
+			if( target_corridor_index.Value != 0)
+			{
+				Finish();
+			}
+		}
+
+		private void OnSelectArrowIndex(int arg0)
+		{
+			Debug.Log(arg0);
+			target_corridor_index.Value = arg0;
+			charaControl.m_btnGo.interactable = true;
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+
+			charaControl.m_btnGo.gameObject.SetActive(false);
+			foreach(ArrowTargetCorridor arrow in arrow_list)
+			{
+				GameObject.Destroy(arrow.gameObject);
+			}
+			charaControl.m_btnGo.onClick.RemoveListener(OnDecide);
 		}
 	}
 
