@@ -6,6 +6,7 @@ public class MasterCorridorParam :CsvDataParam
 {
 	public int stage_id { get; set; }
 	public int index { get; set; }
+	public int type { get; set; }
 
 	public int x { get; set; }
 	public int y { get; set; }

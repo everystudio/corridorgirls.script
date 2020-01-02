@@ -57,7 +57,7 @@ public class ArrowTargetCorridor : MonoBehaviour {
 			Ray ray = new Ray();
 
 			Vector2 worldPoint = target_camera.ScreenToWorldPoint(Input.mousePosition);
-			RaycastHit hit = new RaycastHit();
+			//RaycastHit hit = new RaycastHit();
 			ray = target_camera.ScreenPointToRay(Input.mousePosition);
 
 			//RaycastHit2D ray2d = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction, Mathf.Infinity);

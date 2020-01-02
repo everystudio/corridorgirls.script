@@ -66,7 +66,14 @@ namespace CharaControlAction {
 			base.OnEnter();
 			charaControl.m_eStatus = CharaControl.STATUS.MOVE;
 
-			if ( 0 < move_num.Value)
+			MasterCorridorEventParam corridor_event = DataManager.Instance.masterCorridorEvent.list.Find(p => p.corridor_event_id == charaControl.target_corridor.master.corridor_event_id);
+
+			if(corridor_event.label == "BOSS")
+			{
+				// ボスは一時停止
+				Fsm.Event("end");
+			}
+			else if ( 0 < move_num.Value)
 			{
 
 				if(charaControl.target_corridor.master.IsSingle())
