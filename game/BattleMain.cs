@@ -80,11 +80,16 @@ public class BattleMain : Singleton<BattleMain> {
 		DataUnitParam enemy = DataManager.Instance.dataUnit.list.Find(p =>
 		p.unit == "enemy");
 
-		hp_bar_chara.SetValueMax(select_chara.hp_max);
-		hp_bar_chara.SetValueCurrent(select_chara.hp);
-
-		hp_bar_enemy.SetValueMax(enemy.hp_max);
-		hp_bar_enemy.SetValueCurrent(enemy.hp);
+		if (select_chara != null && hp_bar_chara != null)
+		{
+			hp_bar_chara.SetValueMax(select_chara.hp_max);
+			hp_bar_chara.SetValueCurrent(select_chara.hp);
+		}
+		if (enemy != null && hp_bar_enemy != null)
+		{
+			hp_bar_enemy.SetValueMax(enemy.hp_max);
+			hp_bar_enemy.SetValueCurrent(enemy.hp);
+		}
 	}
 
 

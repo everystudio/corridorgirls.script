@@ -443,8 +443,8 @@ namespace GameMainAction
 				case MasterCorridorEvent.CORRIDOR_EVENT_TYPE.ITEM:
 					event_name = "item";
 					break;
-				case MasterCorridorEvent.CORRIDOR_EVENT_TYPE.EVENT:
-					event_name = "event";
+				case MasterCorridorEvent.CORRIDOR_EVENT_TYPE.MISSION:
+					event_name = "mission";
 					break;
 				case MasterCorridorEvent.CORRIDOR_EVENT_TYPE.HEAL:
 					event_name = "heal";
@@ -566,11 +566,42 @@ namespace GameMainAction
 				gameMain.battleMain.BattleClose();
 				Finish();
 			}
+		}
+	}
 
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class Mission : GameMainActionBase
+	{
+		public FsmInt stage_id;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			PanelMission.Instance.OnFinished.AddListener(OnFinished);
 
+			MasterStageMissionParam m = DataManager.Instance.masterStageMission.Select(stage_id.Value);
+
+			PanelMission.Instance.RequestMission(m.mission_id);
 		}
 
+		private void OnFinished()
+		{
+			Finish();
+		}
+		public override void OnExit()
+		{
+			base.OnExit();
+			if (PanelMission.Instance != null)
+			{
+				PanelMission.Instance.OnFinished.RemoveListener(OnFinished);
+			}
+
+		}
 	}
+
+
+
+
 
 
 }

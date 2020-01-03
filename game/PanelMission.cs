@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using TMPro;
 using System;
@@ -18,6 +19,7 @@ public class PanelMission : Singleton<PanelMission> {
 	public GameObject m_goRootContinue;
 	public GameObject m_goRootYesNo;
 
+	public UnityEvent OnFinished = new UnityEvent();
 	public UnityEventInt RequestMissionHandler = new UnityEventInt();
 
 	public IEnumerator MessageShow(string _strMessage)

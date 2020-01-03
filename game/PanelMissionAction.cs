@@ -283,6 +283,17 @@ namespace PanelMissionAction {
 		}
 	}
 
+	[ActionCategory("PanelMissionAction")]
+	[HutongGames.PlayMaker.Tooltip("PanelMissionAction")]
+	public class mission_finished : PanelMissionActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			panelMission.OnFinished.Invoke();
+			Finish();
+		}
 
+	}
 
 }

@@ -27,7 +27,7 @@ public class MasterCorridorEvent : CsvData<MasterCorridorEventParam> {
 		GOLD		,
 		CARD		,
 		ITEM		,
-		EVENT		,
+		MISSION		,
 		HEAL		,
 		SHOP		,
 		BATTLE		,
