@@ -29,6 +29,9 @@ public class DataManager : DataManagerBase<DataManager> {
 	public MasterSkill masterSkill = new MasterSkill();
 	public MasterSkillEffect masterSkillEffect = new MasterSkillEffect();
 
+	public MasterMission masterMission = new MasterMission();
+	public MasterMissionDetail masterMissionDetail = new MasterMissionDetail();
+
 	public DataKvs dataQuest = new DataKvs();
 	public DataCorridor dataCorridor = new DataCorridor();
 	public DataCard dataCard = new DataCard();
@@ -67,6 +70,9 @@ public class DataManager : DataManagerBase<DataManager> {
 		yield return StartCoroutine(masterStageCard.SpreadSheet(SS_ID, "stage_card" , ()=> { }));
 
 		yield return StartCoroutine(masterSkill.SpreadSheet(SS_ID, "skill" , ()=> { }));
+
+		yield return StartCoroutine(masterMission.SpreadSheet(SS_ID, "mission" , ()=> { }));
+		yield return StartCoroutine(masterMissionDetail.SpreadSheet(SS_ID, "mission_detail" , ()=> { }));
 
 		/*
 		foreach ( MasterItemParam item in masterItem.list)
