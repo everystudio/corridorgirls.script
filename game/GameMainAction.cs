@@ -354,7 +354,7 @@ namespace GameMainAction
 			SkillMain.Instance.SkillRequest.Invoke(skill_id.Value);
 
 			masterSkillParam = DataManager.Instance.masterSkill.list.Find(p => p.skill_id == skill_id.Value);
-			DataManager.Instance.dataQuest.AddInt("mp", -1 * masterSkillParam.mp);
+			DataManager.Instance.dataQuest.AddInt(Defines.KEY_MP, -1 * masterSkillParam.mp);
 
 			Finish();
 		}
@@ -404,7 +404,7 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			DataManager.Instance.dataQuest.AddInt("mp", add_mp.Value);
+			DataManager.Instance.dataQuest.AddInt(Defines.KEY_MP, add_mp.Value);
 			Finish();
 		}
 	}
@@ -417,17 +417,7 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 			Card selected_card = GameMain.Instance.card_list_hand.Find(p => p.data_card.card_serial == card_serial.Value);
-
-			int mp_max = DataManager.Instance.dataQuest.ReadInt("mp_max");
-			int mp_current = DataManager.Instance.dataQuest.ReadInt("mp");
-
-			if (mp_max < mp_current + selected_card.data_card.master.power)
-			{
-				DataManager.Instance.dataQuest.WriteInt("mp", mp_max);
-			}
-			else {
-				DataManager.Instance.dataQuest.AddInt("mp", selected_card.data_card.master.power);
-			}
+			DataManager.Instance.MpHeal(selected_card.data_card.master.power);
 			Finish();
 		}
 	}

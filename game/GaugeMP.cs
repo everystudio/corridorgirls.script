@@ -8,12 +8,12 @@ public class GaugeMP : MonoBehaviour {
 
 	public void Setup()
 	{
-		DataManager.Instance.dataQuest.AddListener("mp_max", (string _strMpMax) =>
+		DataManager.Instance.dataQuest.AddListener(Defines.KEY_MP_MAX, (string _strMpMax) =>
 		{
 			energy_bar.SetValueMax(int.Parse(_strMpMax));
 		});
 
-		DataManager.Instance.dataQuest.AddListener("mp", (string _strMp) =>
+		DataManager.Instance.dataQuest.AddListener(Defines.KEY_MP, (string _strMp) =>
 		{
 			energy_bar.SetValueCurrent(int.Parse(_strMp));
 		});

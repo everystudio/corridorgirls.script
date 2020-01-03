@@ -17,6 +17,24 @@ public class DataUnitParam : CsvDataParam
 
 	public int turn { get; set; }
 
+	public void HpHeal(int _iHeal)
+	{
+		hp += _iHeal;
+		if (hp_max < hp)
+		{
+			hp = hp_max;
+		}
+	}
+
+	public void TrapDamage(int _iDamage)
+	{
+		hp -= _iDamage;
+		if (hp <= 0)
+		{
+			hp = 1;
+		}
+	}
+
 }
 
 public class DataUnit : CsvData<DataUnitParam> {

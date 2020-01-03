@@ -109,7 +109,7 @@ namespace SkillMainAction {
 			effect = SkillMain.Instance.master_skill_effect_param_list[skill_index.Value];
 
 			foreach (DataUnitParam unit in DataManager.Instance.dataUnit.list.FindAll(p => p.unit == "chara")){
-				unit.hp += effect.param;
+				unit.HpHeal(effect.param);
 			}
 			BattleMain.Instance.HpRefresh();
 			GameMain.Instance.CharaRefresh();

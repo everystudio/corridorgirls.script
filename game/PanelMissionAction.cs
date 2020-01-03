@@ -199,16 +199,40 @@ namespace PanelMissionAction {
 			switch( prize.Value)
 			{
 				case "hp_heal_30":
+					foreach( DataUnitParam u in DataManager.Instance.dataUnit.list.FindAll(p=>p.unit == "chara"))
+					{
+						u.HpHeal(30);
+					}
+					BattleMain.Instance.HpRefresh();
+					GameMain.Instance.CharaRefresh();
 					bIsFinish = true;
 					break;
 				case "hp_damage_20":
 					bIsFinish = true;
+					foreach (DataUnitParam u in DataManager.Instance.dataUnit.list.FindAll(p => p.unit == "chara"))
+					{
+						u.TrapDamage(20);
+					}
+					BattleMain.Instance.HpRefresh();
+					GameMain.Instance.CharaRefresh();
 					break;
 				case "str_buff_10":
 					bIsFinish = true;
+					foreach (DataUnitParam u in DataManager.Instance.dataUnit.list.FindAll(p => p.unit == "chara"))
+					{
+						DataUnitParam add = new DataUnitParam();
+						add.chara_id = u.chara_id;
+						add.unit = "assist";
+						add.turn = 99999;       // なんかいいの欲しいね
+						add.str = 10;
+						DataManager.Instance.dataUnit.list.Add(add);
+					}
 					break;
 				case "mp_heal_30":
+					DataManager.Instance.MpHeal(30);
 					bIsFinish = true;
+					BattleMain.Instance.HpRefresh();
+					GameMain.Instance.CharaRefresh();
 					break;
 				case "battle":
 					event_name = "battle";

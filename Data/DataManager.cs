@@ -108,4 +108,20 @@ public class DataManager : DataManagerBase<DataManager> {
 	}
 
 
+	public void MpHeal(int _iHeal)
+	{
+		int mp_max = DataManager.Instance.dataQuest.ReadInt(Defines.KEY_MP_MAX);
+		int mp_current = DataManager.Instance.dataQuest.ReadInt(Defines.KEY_MP);
+
+		if (mp_max < mp_current + _iHeal)
+		{
+			DataManager.Instance.dataQuest.WriteInt(Defines.KEY_MP, mp_max);
+		}
+		else {
+			DataManager.Instance.dataQuest.AddInt(Defines.KEY_MP, _iHeal);
+		}
+
+	}
+
+
 }
