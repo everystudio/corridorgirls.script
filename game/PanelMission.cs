@@ -12,6 +12,8 @@ public class PanelMission : Singleton<PanelMission> {
 
 	public Button m_btnYes;
 	public Button m_btnNo;
+	public TextMeshProUGUI m_txtBtnYes;
+	public TextMeshProUGUI m_txtBtnNo;
 
 	public Button m_btnContinue;
 
@@ -63,6 +65,31 @@ public class PanelMission : Singleton<PanelMission> {
 		m_goRootYesNo.SetActive(false);
 	}
 
+	public void ShowTwoButton(string _strKeyMessage)
+	{
+		MasterMissionDetailParam detail = masterMissionDetailParamList.Find(p => p.type == _strKeyMessage);
+		StartCoroutine(MessageShow(detail.param));
+		m_goRoot.SetActive(true);
+		m_goRootYesNo.SetActive(true);
+		m_goRootContinue.SetActive(false);
+
+		m_txtBtnYes.text = masterMissionParam.btnlabel_yes;
+		m_txtBtnNo.text = masterMissionParam.btnlabel_no;
+	}
+
+	public void ShowMessageTwoButton(string _strMessage)
+	{
+		StartCoroutine(MessageShow(_strMessage));
+		m_goRoot.SetActive(true);
+		m_goRootYesNo.SetActive(true);
+		m_goRootContinue.SetActive(false);
+
+		m_txtBtnYes.text = masterMissionParam.btnlabel_yes;
+		m_txtBtnNo.text = masterMissionParam.btnlabel_no;
+	}
+
+
+	/*
 	public void ShowIntro()
 	{
 		MasterMissionDetailParam detail = masterMissionDetailParamList.Find(p => p.type == "intro");
@@ -71,8 +98,12 @@ public class PanelMission : Singleton<PanelMission> {
 		m_goRootYesNo.SetActive(true);
 		m_goRootContinue.SetActive(false);
 
+		m_txtBtnYes.text = masterMissionParam.btnlabel_yes;
+		m_txtBtnNo.text = masterMissionParam.btnlabel_no;
+
 		Canvas.ForceUpdateCanvases();
 	}
+	*/
 
 	public void ShowSuccess()
 	{

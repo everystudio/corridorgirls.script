@@ -34,6 +34,20 @@ namespace PanelMissionAction {
 		private void OnRequestMission(int arg0)
 		{
 			mission_id.Value = arg0;
+
+			MasterMissionParam mission = DataManager.Instance.masterMission.list.Find(p => p.mission_id == mission_id.Value);
+
+
+			switch( mission.type )
+			{
+				case "yesno":
+				case "choice":
+					break;
+
+				case "item":
+					break;
+			}
+
 			Finish();
 		}
 		public override void OnUpdate()
@@ -55,14 +69,14 @@ namespace PanelMissionAction {
 
 	[ActionCategory("PanelMissionAction")]
 	[HutongGames.PlayMaker.Tooltip("PanelMissionAction")]
-	public class show_intro: PanelMissionActionBase
+	public class show_intro : PanelMissionActionBase
 	{
 		public FsmInt mission_id;
 		public override void OnEnter()
 		{
 			base.OnEnter();
 			panelMission.set_mission(mission_id.Value);
-			panelMission.ShowIntro();
+			panelMission.ShowTwoButton("intro");
 
 			panelMission.m_btnYes.onClick.AddListener(OnYes);
 			panelMission.m_btnNo.onClick.AddListener(OnNo);
@@ -82,9 +96,82 @@ namespace PanelMissionAction {
 			base.OnExit();
 			panelMission.m_btnYes.onClick.RemoveListener(OnYes);
 			panelMission.m_btnNo.onClick.RemoveListener(OnNo);
-
 		}
 	}
+
+	[ActionCategory("PanelMissionAction")]
+	[HutongGames.PlayMaker.Tooltip("PanelMissionAction")]
+	public class show_two_button : PanelMissionActionBase
+	{
+		public FsmInt mission_id;
+		public FsmString key;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			panelMission.set_mission(mission_id.Value);
+			panelMission.ShowTwoButton(key.Value);
+
+			panelMission.m_btnYes.onClick.AddListener(OnYes);
+			panelMission.m_btnNo.onClick.AddListener(OnNo);
+		}
+
+		private void OnYes()
+		{
+			Fsm.Event("yes");
+		}
+
+		private void OnNo()
+		{
+			Fsm.Event("no");
+		}
+		public override void OnExit()
+		{
+			base.OnExit();
+			panelMission.m_btnYes.onClick.RemoveListener(OnYes);
+			panelMission.m_btnNo.onClick.RemoveListener(OnNo);
+		}
+	}
+
+
+	[ActionCategory("PanelMissionAction")]
+	[HutongGames.PlayMaker.Tooltip("PanelMissionAction")]
+	public class show_use_check : PanelMissionActionBase
+	{
+		public FsmInt mission_id;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			panelMission.set_mission(mission_id.Value);
+
+			MasterMissionDetailParam detail = panelMission.masterMissionDetailParamList.Find(p => p.type == "intro_have");
+
+			MasterItemParam item = DataManager.Instance.masterItem.list.Find(p => p.item_id == panelMission.masterMissionParam.item_id);
+
+			string message = string.Format(detail.param, item.name);
+
+			panelMission.ShowMessageTwoButton(message);
+
+			panelMission.m_btnYes.onClick.AddListener(OnYes);
+			panelMission.m_btnNo.onClick.AddListener(OnNo);
+		}
+
+		private void OnYes()
+		{
+			Fsm.Event("yes");
+		}
+
+		private void OnNo()
+		{
+			Fsm.Event("no");
+		}
+		public override void OnExit()
+		{
+			base.OnExit();
+			panelMission.m_btnYes.onClick.RemoveListener(OnYes);
+			panelMission.m_btnNo.onClick.RemoveListener(OnNo);
+		}
+	}
+
 	[ActionCategory("PanelMissionAction")]
 	[HutongGames.PlayMaker.Tooltip("PanelMissionAction")]
 	public class yesno_check : PanelMissionActionBase
@@ -103,6 +190,31 @@ namespace PanelMissionAction {
 			}
 		}
 	}
+
+
+	[ActionCategory("PanelMissionAction")]
+	[HutongGames.PlayMaker.Tooltip("PanelMissionAction")]
+	public class item_check : PanelMissionActionBase
+	{
+		public FsmInt mission_id;
+
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			MasterMissionParam mission = DataManager.Instance.masterMission.list.Find(p => p.mission_id == mission_id.Value);
+
+			if( DataManager.Instance.dataItem.HasItem( mission.item_id))
+			{
+				Fsm.Event("yes");
+			}
+			else
+			{
+				Fsm.Event("no");
+			}
+
+		}
+	}
+
 
 	[ActionCategory("PanelMissionAction")]
 	[HutongGames.PlayMaker.Tooltip("PanelMissionAction")]

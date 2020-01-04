@@ -12,6 +12,8 @@ public class MasterMissionParam : CsvDataParam
 	public int prob_fail { get; set; }
 	public int item_id { get; set; }
 
+	public string btnlabel_yes { get; set; }
+	public string btnlabel_no { get; set; }
 
 	public bool IsSuccess()
 	{

@@ -19,4 +19,11 @@ public class DataItem : CsvData<DataItemParam> {
 		REMOVE	,
 		MAX
 	}
+
+	public bool HasItem(int _iItemId)
+	{
+		DataItemParam item = list.Find(p => p.item_id == _iItemId && p.status == (int)STATUS.STANDBY);
+		return item != null;
+	}
+
 }
