@@ -37,18 +37,26 @@ namespace PanelMissionAction {
 
 			MasterMissionParam mission = DataManager.Instance.masterMission.list.Find(p => p.mission_id == mission_id.Value);
 
+			string next_event = "";
 
 			switch( mission.type )
 			{
 				case "yesno":
 				case "choice":
+					next_event = "yesno";
 					break;
 
 				case "item":
+					next_event = "item";
+					break;
+				default:
+					Debug.LogError(mission.type);
 					break;
 			}
 
-			Finish();
+			Fsm.Event(next_event);
+
+			
 		}
 		public override void OnUpdate()
 		{
@@ -56,7 +64,7 @@ namespace PanelMissionAction {
 			if( debug_skip.Value)
 			{
 				mission_id.Value = debug_mission_id.Value;
-				Finish();
+				OnRequestMission(mission_id.Value);
 			}
 		}
 
@@ -201,6 +209,8 @@ namespace PanelMissionAction {
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			panelMission.set_mission(mission_id.Value);
+
 			MasterMissionParam mission = DataManager.Instance.masterMission.list.Find(p => p.mission_id == mission_id.Value);
 
 			if( DataManager.Instance.dataItem.HasItem( mission.item_id))
@@ -394,7 +404,32 @@ namespace PanelMissionAction {
 			panelMission.m_btnContinue.onClick.RemoveListener(OnContinue);
 		}
 	}
+	[ActionCategory("PanelMissionAction")]
+	[HutongGames.PlayMaker.Tooltip("PanelMissionAction")]
+	public class show_no_item : PanelMissionActionBase
+	{
+		public FsmInt mission_id;
+		public override void OnEnter()
+		{
+			base.OnEnter();
 
+			MasterMissionDetailParam detail = panelMission.masterMissionDetailParamList.Find(p => p.type == "intro_no");
+			MasterItemParam item = DataManager.Instance.masterItem.list.Find(p => p.item_id == panelMission.masterMissionParam.item_id);
+			string message = string.Format(detail.param, item.name);
+
+			panelMission.ShowNoItem(message);
+			panelMission.m_btnContinue.onClick.AddListener(OnContinue);
+		}
+		private void OnContinue()
+		{
+			Finish();
+		}
+		public override void OnExit()
+		{
+			base.OnExit();
+			panelMission.m_btnContinue.onClick.RemoveListener(OnContinue);
+		}
+	}
 	[ActionCategory("PanelMissionAction")]
 	[HutongGames.PlayMaker.Tooltip("PanelMissionAction")]
 	public class mission_finished : PanelMissionActionBase

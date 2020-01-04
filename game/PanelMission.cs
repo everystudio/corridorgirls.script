@@ -123,7 +123,6 @@ public class PanelMission : Singleton<PanelMission> {
 		m_goRootContinue.SetActive(true);
 	}
 
-
 	public void ShowNo()
 	{
 		MasterMissionDetailParam detail = masterMissionDetailParamList.Find(p => p.type == "no");
@@ -132,7 +131,14 @@ public class PanelMission : Singleton<PanelMission> {
 		m_goRootYesNo.SetActive(false);
 		m_goRootContinue.SetActive(true);
 		Canvas.ForceUpdateCanvases();
+	}
 
+	public void ShowNoItem(string _strMessage )
+	{
+		StartCoroutine(MessageShow(_strMessage));
+		m_goRoot.SetActive(true);
+		m_goRootYesNo.SetActive(false);
+		m_goRootContinue.SetActive(true);
 	}
 
 }
