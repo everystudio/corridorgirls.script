@@ -31,7 +31,7 @@ public class ArrowTargetCorridor : MonoBehaviour {
 
 		m_bIsLock = false;
 
-		MasterCorridorEventParam e = DataManager.Instance.masterCorridorEvent.list.Find(p => p.corridor_event_id == _now.corridor_event.corridor_event_id);
+		MasterCorridorEventParam e = DataManagerGame.Instance.masterCorridorEvent.list.Find(p => p.corridor_event_id == _now.corridor_event.corridor_event_id);
 
 		// 制約なし
 		if ( _now.master.next_index == _next.index)

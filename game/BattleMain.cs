@@ -72,12 +72,12 @@ public class BattleMain : Singleton<BattleMain> {
 			return;
 		}
 
-		DataUnitParam select_chara = DataManager.Instance.dataUnit.list.Find(p =>
+		DataUnitParam select_chara = DataManagerGame.Instance.dataUnit.list.Find(p =>
 		p.chara_id == GameMain.Instance.SelectCharaId &&
 		p.unit == "chara");
 
 
-		DataUnitParam enemy = DataManager.Instance.dataUnit.list.Find(p =>
+		DataUnitParam enemy = DataManagerGame.Instance.dataUnit.list.Find(p =>
 		p.unit == "enemy");
 
 		if (select_chara != null && hp_bar_chara != null)

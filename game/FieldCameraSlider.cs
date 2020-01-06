@@ -22,6 +22,6 @@ public class FieldCameraSlider : MonoBehaviour {
 
 	void OnEnable()
 	{
-		//slider.value = DataManager.Instance.user_data.ReadFloat(group_name);
+		//slider.value = DataManagerGame.Instance.user_data.ReadFloat(group_name);
 	}
 }

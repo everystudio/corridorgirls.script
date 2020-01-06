@@ -24,7 +24,7 @@ public class DataCardParam : CsvDataParam
 		{
 			if(master_card_param == null)
 			{
-				master_card_param = DataManager.Instance.masterCard.list.Find(p => p.card_id == card_id);
+				master_card_param = DataManagerGame.Instance.masterCard.list.Find(p => p.card_id == card_id);
 			}
 			return master_card_param;
 		}

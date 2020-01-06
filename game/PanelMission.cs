@@ -54,8 +54,8 @@ public class PanelMission : Singleton<PanelMission> {
 
 	public void set_mission( int _iMissionId)
 	{
-		masterMissionParam = DataManager.Instance.masterMission.list.Find(p => p.mission_id == _iMissionId);
-		masterMissionDetailParamList = DataManager.Instance.masterMissionDetail.list.FindAll(p => p.mission_id == _iMissionId);
+		masterMissionParam = DataManagerGame.Instance.masterMission.list.Find(p => p.mission_id == _iMissionId);
+		masterMissionDetailParamList = DataManagerGame.Instance.masterMissionDetail.list.FindAll(p => p.mission_id == _iMissionId);
 	}
 
 	public void Close()

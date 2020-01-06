@@ -22,7 +22,7 @@ public class BannerRouletteItem : MonoBehaviour {
 
 	public void Initialize( int _iItemId )
 	{
-		MasterItemParam master = DataManager.Instance.masterItem.list.Find(p => p.item_id == _iItemId);
+		MasterItemParam master = DataManagerGame.Instance.masterItem.list.Find(p => p.item_id == _iItemId);
 		Initialize(master);
 	}
 

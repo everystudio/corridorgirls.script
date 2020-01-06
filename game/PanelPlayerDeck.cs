@@ -19,10 +19,10 @@ public class PanelPlayerDeck : MonoBehaviour {
 		}
 
 		List<DataCardParam> card_list = new List<DataCardParam>();
-		List<DataUnitParam> unit_param_list = DataManager.Instance.dataUnit.list.FindAll(p => p.unit == "chara" );
+		List<DataUnitParam> unit_param_list = DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara" );
 		foreach (DataUnitParam unit in unit_param_list)
 		{
-			foreach( DataCardParam c in DataManager.Instance.dataCard.list.FindAll(p=>p.chara_id == unit.chara_id))
+			foreach( DataCardParam c in DataManagerGame.Instance.dataCard.list.FindAll(p=>p.chara_id == unit.chara_id))
 			{
 				card_list.Add(c);
 			}

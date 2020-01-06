@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DataManager : DataManagerBase<DataManager> {
+public class DataManagerGame : DataManagerBase<DataManagerGame> {
 
 	public static readonly string CONFIG_SS = "18bT3K48n7wOjPwQP-zn1QdUs_JoNKVKZpE6pb-I6PUQ";
 	public static readonly string SS_QUEST = "1ls0u6TFbOisVM5nOw6cIP1Y4nK0mDtdgRPaOKmlzGvU";
@@ -114,15 +114,15 @@ public class DataManager : DataManagerBase<DataManager> {
 
 	public void MpHeal(int _iHeal)
 	{
-		int mp_max = DataManager.Instance.dataQuest.ReadInt(Defines.KEY_MP_MAX);
-		int mp_current = DataManager.Instance.dataQuest.ReadInt(Defines.KEY_MP);
+		int mp_max = DataManagerGame.Instance.dataQuest.ReadInt(Defines.KEY_MP_MAX);
+		int mp_current = DataManagerGame.Instance.dataQuest.ReadInt(Defines.KEY_MP);
 
 		if (mp_max < mp_current + _iHeal)
 		{
-			DataManager.Instance.dataQuest.WriteInt(Defines.KEY_MP, mp_max);
+			DataManagerGame.Instance.dataQuest.WriteInt(Defines.KEY_MP, mp_max);
 		}
 		else {
-			DataManager.Instance.dataQuest.AddInt(Defines.KEY_MP, _iHeal);
+			DataManagerGame.Instance.dataQuest.AddInt(Defines.KEY_MP, _iHeal);
 		}
 
 	}

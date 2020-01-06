@@ -16,7 +16,7 @@ public class RouletteItem : MonoBehaviour {
 	{
 		int iItemCount = banner_list.Count;
 
-		List<MasterStageItemParam> appear_item = DataManager.Instance.masterStageItem.list.FindAll(p => p.stage_id == _iStageId);
+		List<MasterStageItemParam> appear_item = DataManagerGame.Instance.masterStageItem.list.FindAll(p => p.stage_id == _iStageId);
 
 
 		int[] item_prob = new int[appear_item.Count];

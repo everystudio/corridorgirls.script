@@ -29,7 +29,7 @@ public class DataCorridor : CsvData<DataCorridorParam> {
 		list.Clear();
 		foreach (MasterCorridorParam master in _masterList)
 		{
-			MasterCorridorEventParam event_param = DataManager.Instance.masterCorridorEvent.list.Find(p => p.corridor_event_id==master.corridor_event_id);
+			MasterCorridorEventParam event_param = DataManagerGame.Instance.masterCorridorEvent.list.Find(p => p.corridor_event_id==master.corridor_event_id);
 			//Debug.Log(master.corridor_event_id);
 			//Debug.Log(event_param);
 			DataCorridorParam param = new DataCorridorParam(master , event_param);

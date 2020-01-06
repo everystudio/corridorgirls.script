@@ -32,7 +32,7 @@ namespace SkillMainAction {
 		private void OnSkillRequest(int arg0)
 		{
 			skill_id.Value = arg0;
-			SkillMain.Instance.master_skill_param = DataManager.Instance.masterSkill.list.Find(p => p.skill_id == arg0);
+			SkillMain.Instance.master_skill_param = DataManagerGame.Instance.masterSkill.list.Find(p => p.skill_id == arg0);
 
 			Fsm.Event("request");
 		}
@@ -63,7 +63,7 @@ namespace SkillMainAction {
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			SkillMain.Instance.master_skill_effect_param_list = DataManager.Instance.masterSkillEffect.list.FindAll(p => p.skill_id == skill_id.Value);
+			SkillMain.Instance.master_skill_effect_param_list = DataManagerGame.Instance.masterSkillEffect.list.FindAll(p => p.skill_id == skill_id.Value);
 
 			effect_num.Value = SkillMain.Instance.master_skill_effect_param_list.Count;
 			Debug.Log(skill_id.Value);
@@ -110,7 +110,7 @@ namespace SkillMainAction {
 			base.OnEnter();
 			effect = SkillMain.Instance.master_skill_effect_param_list[skill_index.Value];
 
-			foreach (DataUnitParam unit in DataManager.Instance.dataUnit.list.FindAll(p => p.unit == "chara")){
+			foreach (DataUnitParam unit in DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara")){
 				unit.HpHeal(effect.param);
 			}
 			BattleMain.Instance.HpRefresh();
@@ -131,7 +131,7 @@ namespace SkillMainAction {
 			base.OnEnter();
 			effect = SkillMain.Instance.master_skill_effect_param_list[skill_index.Value];
 
-			List<DataUnitParam> chara_list = DataManager.Instance.dataUnit.list.FindAll(p => p.unit == "chara");
+			List<DataUnitParam> chara_list = DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara");
 
 			foreach (DataUnitParam unit in chara_list)
 			{
@@ -157,7 +157,7 @@ namespace SkillMainAction {
 						break;
 				}
 
-				DataManager.Instance.dataUnit.list.Add(new_assist);
+				DataManagerGame.Instance.dataUnit.list.Add(new_assist);
 			}
 
 			BattleMain.Instance.HpRefresh();

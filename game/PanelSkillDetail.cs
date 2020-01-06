@@ -20,7 +20,7 @@ public class PanelSkillDetail : MonoBehaviour {
 
 	public void Initialize(int _iSkillId , string _strSituation , bool _bUsed)
 	{
-		m_masterSkillParam = DataManager.Instance.masterSkill.list.Find(p => p.skill_id == _iSkillId);
+		m_masterSkillParam = DataManagerGame.Instance.masterSkill.list.Find(p => p.skill_id == _iSkillId);
 
 		m_txtTitle.text = m_masterSkillParam.name;
 		m_imgSkillIcon.sprite = SpriteManager.Instance.Get(m_masterSkillParam.sprite_name);

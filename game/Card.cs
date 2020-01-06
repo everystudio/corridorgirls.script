@@ -68,7 +68,7 @@ public class Card : MonoBehaviour {
 
 			if (0 < symbol_id)
 			{
-				MasterCardSymbolParam symbol = DataManager.Instance.masterCardSymbol.list.Find(p => p.card_symbol_id == symbol_id);
+				MasterCardSymbolParam symbol = DataManagerGame.Instance.masterCardSymbol.list.Find(p => p.card_symbol_id == symbol_id);
 				symbol_list[i].gameObject.SetActive(true);
 				symbol_list[i].sprite = SpriteManager.Instance.Get(symbol.sprite_name);
 

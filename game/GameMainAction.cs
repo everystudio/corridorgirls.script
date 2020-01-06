@@ -26,7 +26,7 @@ namespace GameMainAction
 		{
 			base.OnUpdate();
 
-			if (DataManager.Instance.Initialized)
+			if (DataManagerGame.Instance.Initialized)
 			{
 				Finish();
 			}
@@ -59,14 +59,14 @@ namespace GameMainAction
 
 
 			// 初期設定
-			DataManager.Instance.dataCard.list.Clear();
+			DataManagerGame.Instance.dataCard.list.Clear();
 
 			int serial = 1;
 
-			List<DataUnitParam> unit_param_list = DataManager.Instance.dataUnit.list.FindAll(p => p.unit == "chara" && (p.status == "left" || p.status == "right"));
+			List<DataUnitParam> unit_param_list = DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara" && (p.status == "left" || p.status == "right"));
 			foreach (DataUnitParam unit in unit_param_list)
 			{
-				List<MasterCharaCardParam> card_list = DataManager.Instance.masterCharaCard.list.FindAll(p => p.chara_id == unit.chara_id);
+				List<MasterCharaCardParam> card_list = DataManagerGame.Instance.masterCharaCard.list.FindAll(p => p.chara_id == unit.chara_id);
 				foreach (MasterCharaCardParam c in card_list)
 				{
 					DataCardParam dc = new DataCardParam();
@@ -77,13 +77,13 @@ namespace GameMainAction
 					dc.status = (int)DataCard.STATUS.DECK;
 					serial += 1;
 
-					DataManager.Instance.dataCard.list.Add(dc);
+					DataManagerGame.Instance.dataCard.list.Add(dc);
 				}
 			}
 
-			DataManager.Instance.dataCard.CardFill(5);
+			DataManagerGame.Instance.dataCard.CardFill(5);
 
-			gameMain.CardSetup(DataManager.Instance.dataCard.list.FindAll(p=>p.status == (int)DataCard.STATUS.HAND));
+			gameMain.CardSetup(DataManagerGame.Instance.dataCard.list.FindAll(p=>p.status == (int)DataCard.STATUS.HAND));
 
 			gameMain.CardOrder();
 
@@ -131,9 +131,9 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			DataManager.Instance.dataCorridor.Create(DataManager.Instance.masterCorridor.list.FindAll(p => p.stage_id == 1));
+			DataManagerGame.Instance.dataCorridor.Create(DataManagerGame.Instance.masterCorridor.list.FindAll(p => p.stage_id == 1));
 
-			foreach (DataCorridorParam param in DataManager.Instance.dataCorridor.list)
+			foreach (DataCorridorParam param in DataManagerGame.Instance.dataCorridor.list)
 			{
 				//Debug.Log(string.Format("x={0} y={1}", param.master.x, param.master.y));
 
@@ -141,7 +141,7 @@ namespace GameMainAction
 				corr.Initialize(param);
 				//obj.transform.localPosition = new Vector3(param.master.x, param.master.y, 0.0f);
 			}
-			gameMain.chara_control.SetCorridor(DataManager.Instance.dataCorridor.list.Find(p => p.index == 1));
+			gameMain.chara_control.SetCorridor(DataManagerGame.Instance.dataCorridor.list.Find(p => p.index == 1));
 
 			Finish();
 		}
@@ -156,7 +156,7 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 
-			int hand_card_num = DataManager.Instance.dataCard.list.FindAll(p => p.status == (int)DataCard.STATUS.HAND).Count;
+			int hand_card_num = DataManagerGame.Instance.dataCard.list.FindAll(p => p.status == (int)DataCard.STATUS.HAND).Count;
 			Debug.Log(hand_card_num);
 			if( hand_card_num <= card_fill_num.Value)
 			{
@@ -179,7 +179,7 @@ namespace GameMainAction
 			base.OnEnter();
 
 			List<DataCardParam> add_list = new List<DataCardParam>();
-			bool bResult = DataManager.Instance.dataCard.CardFill(fill_num.Value, ref add_list);
+			bool bResult = DataManagerGame.Instance.dataCard.CardFill(fill_num.Value, ref add_list);
 
 			foreach( DataCardParam card in add_list)
 			{
@@ -206,7 +206,7 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 
-			DataManager.Instance.dataCard.DeckShuffle();
+			DataManagerGame.Instance.dataCard.DeckShuffle();
 
 			Finish();
 		}
@@ -241,7 +241,7 @@ namespace GameMainAction
 				select_card_serial.Value = arg0;
 				gameMain.CardSelectUp(select_card_serial.Value);
 
-				DataCardParam card =  DataManager.Instance.dataCard.list.Find(p => p.card_serial == select_card_serial.Value);
+				DataCardParam card =  DataManagerGame.Instance.dataCard.list.Find(p => p.card_serial == select_card_serial.Value);
 
 				GameMain.Instance.SelectCharaId = card.chara_id;
 			}
@@ -353,8 +353,8 @@ namespace GameMainAction
 			SkillMain.Instance.SkillFinishHandler.AddListener(OnSkillFinished);
 			SkillMain.Instance.SkillRequest.Invoke(skill_id.Value);
 
-			masterSkillParam = DataManager.Instance.masterSkill.list.Find(p => p.skill_id == skill_id.Value);
-			DataManager.Instance.dataQuest.AddInt(Defines.KEY_MP, -1 * masterSkillParam.mp);
+			masterSkillParam = DataManagerGame.Instance.masterSkill.list.Find(p => p.skill_id == skill_id.Value);
+			DataManagerGame.Instance.dataQuest.AddInt(Defines.KEY_MP, -1 * masterSkillParam.mp);
 
 			Finish();
 		}
@@ -381,7 +381,7 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 			Card selected_card = gameMain.card_list_hand.Find(p => p.data_card.card_serial == select_card_serial.Value);
-			//DataCardParam card = DataManager.Instance.dataCard.list.Find(p => p.card_serial == select_card_serial.Value);
+			//DataCardParam card = DataManagerGame.Instance.dataCard.list.Find(p => p.card_serial == select_card_serial.Value);
 
 			StartCoroutine(gameMain.chara_control.RequestMove(selected_card.data_card.master.power, () =>
 			{
@@ -404,7 +404,7 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			DataManager.Instance.dataQuest.AddInt(Defines.KEY_MP, add_mp.Value);
+			DataManagerGame.Instance.dataQuest.AddInt(Defines.KEY_MP, add_mp.Value);
 			Finish();
 		}
 	}
@@ -417,7 +417,7 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 			Card selected_card = GameMain.Instance.card_list_hand.Find(p => p.data_card.card_serial == card_serial.Value);
-			DataManager.Instance.MpHeal(selected_card.data_card.master.power);
+			DataManagerGame.Instance.MpHeal(selected_card.data_card.master.power);
 			Finish();
 		}
 	}
@@ -509,7 +509,7 @@ namespace GameMainAction
 		private void OnSelectedItemId(int arg0)
 		{
 			item_id.Value = arg0;
-			MasterItemParam master_item = DataManager.Instance.masterItem.list.Find(p => p.item_id == arg0);
+			MasterItemParam master_item = DataManagerGame.Instance.masterItem.list.Find(p => p.item_id == arg0);
 			Debug.Log(master_item.name);
 			Finish();
 		}
@@ -586,7 +586,7 @@ namespace GameMainAction
 			base.OnEnter();
 			PanelMission.Instance.OnFinished.AddListener(OnFinished);
 
-			MasterStageMissionParam m = DataManager.Instance.masterStageMission.Select(stage_id.Value);
+			MasterStageMissionParam m = DataManagerGame.Instance.masterStageMission.Select(stage_id.Value);
 
 			PanelMission.Instance.RequestMission(m.mission_id);
 		}

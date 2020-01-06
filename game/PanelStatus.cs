@@ -10,8 +10,8 @@ public class PanelStatus : MonoBehaviour {
 	public void Initialize()
 	{
 
-		DataUnitParam left = DataManager.Instance.dataUnit.list.Find(p => p.unit == "chara" && p.status == "left");
-		DataUnitParam right = DataManager.Instance.dataUnit.list.Find(p => p.unit == "chara" && p.status == "right");
+		DataUnitParam left = DataManagerGame.Instance.dataUnit.list.Find(p => p.unit == "chara" && p.status == "left");
+		DataUnitParam right = DataManagerGame.Instance.dataUnit.list.Find(p => p.unit == "chara" && p.status == "right");
 
 		area_chara_left.Initialize(left);
 		area_chara_right.Initialize(right);

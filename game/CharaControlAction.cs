@@ -66,7 +66,7 @@ namespace CharaControlAction {
 			base.OnEnter();
 			charaControl.m_eStatus = CharaControl.STATUS.MOVE;
 
-			MasterCorridorEventParam corridor_event = DataManager.Instance.masterCorridorEvent.list.Find(p => p.corridor_event_id == charaControl.target_corridor.master.corridor_event_id);
+			MasterCorridorEventParam corridor_event = DataManagerGame.Instance.masterCorridorEvent.list.Find(p => p.corridor_event_id == charaControl.target_corridor.master.corridor_event_id);
 
 			if(corridor_event.label == "BOSS")
 			{
@@ -111,7 +111,7 @@ namespace CharaControlAction {
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			DataCorridorParam target = DataManager.Instance.dataCorridor.list.Find(p => p.index == target_corridor_index.Value);
+			DataCorridorParam target = DataManagerGame.Instance.dataCorridor.list.Find(p => p.index == target_corridor_index.Value);
 
 			target_position.Value = new Vector3(
 				target.master.x,
@@ -137,7 +137,7 @@ namespace CharaControlAction {
 		{
 			base.OnEnter();
 			move_num.Value -= 1;
-			charaControl.target_corridor = DataManager.Instance.dataCorridor.list.Find(p => p.index == target_corridor_index.Value);
+			charaControl.target_corridor = DataManagerGame.Instance.dataCorridor.list.Find(p => p.index == target_corridor_index.Value);
 
 			StartCoroutine(delay_finish());
 		}
@@ -180,7 +180,7 @@ namespace CharaControlAction {
 				{
 					continue;
 				}
-				DataCorridorParam next_corridor = DataManager.Instance.dataCorridor.list.Find(p => p.index == target_arr[i]);
+				DataCorridorParam next_corridor = DataManagerGame.Instance.dataCorridor.list.Find(p => p.index == target_arr[i]);
 
 				ArrowTargetCorridor arrow = PrefabManager.Instance.MakeScript<ArrowTargetCorridor>(charaControl.m_prefArrowTargetCorridor, charaControl.m_goArrowRoot);
 				arrow.Initialize(charaControl.target_corridor, next_corridor);
@@ -201,7 +201,7 @@ namespace CharaControlAction {
 				}
 				else
 				{
-					DataItemParam item = DataManager.Instance.dataItem.list.Find(p => p.item_id == key_item_id && p.status == (int)DataItem.STATUS.STANDBY);
+					DataItemParam item = DataManagerGame.Instance.dataItem.list.Find(p => p.item_id == key_item_id && p.status == (int)DataItem.STATUS.STANDBY);
 					if (item != null)
 					{
 						// ここでアイテム消費
@@ -222,7 +222,7 @@ namespace CharaControlAction {
 		private int GetKeyItemId(int _iNextIndex )
 		{
 			int iRet = 0;
-			MasterCorridorEventParam e = DataManager.Instance.masterCorridorEvent.list.Find(p =>
+			MasterCorridorEventParam e = DataManagerGame.Instance.masterCorridorEvent.list.Find(p =>
 			p.corridor_event_id == charaControl.target_corridor.master.corridor_event_id);
 
 			if(_iNextIndex != charaControl.target_corridor.master.next_index)
@@ -244,7 +244,7 @@ namespace CharaControlAction {
 			}
 			else
 			{
-				DataItemParam item = DataManager.Instance.dataItem.list.Find(p => p.item_id == key_item_id && p.status == (int)DataItem.STATUS.STANDBY);
+				DataItemParam item = DataManagerGame.Instance.dataItem.list.Find(p => p.item_id == key_item_id && p.status == (int)DataItem.STATUS.STANDBY);
 				if (item != null)
 				{
 					bOK = true;

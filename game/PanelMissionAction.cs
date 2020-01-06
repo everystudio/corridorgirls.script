@@ -35,7 +35,7 @@ namespace PanelMissionAction {
 		{
 			mission_id.Value = arg0;
 
-			MasterMissionParam mission = DataManager.Instance.masterMission.list.Find(p => p.mission_id == mission_id.Value);
+			MasterMissionParam mission = DataManagerGame.Instance.masterMission.list.Find(p => p.mission_id == mission_id.Value);
 
 			string next_event = "";
 
@@ -153,7 +153,7 @@ namespace PanelMissionAction {
 
 			MasterMissionDetailParam detail = panelMission.masterMissionDetailParamList.Find(p => p.type == "intro_have");
 
-			MasterItemParam item = DataManager.Instance.masterItem.list.Find(p => p.item_id == panelMission.masterMissionParam.item_id);
+			MasterItemParam item = DataManagerGame.Instance.masterItem.list.Find(p => p.item_id == panelMission.masterMissionParam.item_id);
 
 			string message = string.Format(detail.param, item.name);
 
@@ -211,9 +211,9 @@ namespace PanelMissionAction {
 			base.OnEnter();
 			panelMission.set_mission(mission_id.Value);
 
-			MasterMissionParam mission = DataManager.Instance.masterMission.list.Find(p => p.mission_id == mission_id.Value);
+			MasterMissionParam mission = DataManagerGame.Instance.masterMission.list.Find(p => p.mission_id == mission_id.Value);
 
-			if( DataManager.Instance.dataItem.HasItem( mission.item_id))
+			if( DataManagerGame.Instance.dataItem.HasItem( mission.item_id))
 			{
 				Fsm.Event("yes");
 			}
@@ -321,7 +321,7 @@ namespace PanelMissionAction {
 			switch( prize.Value)
 			{
 				case "hp_heal_30":
-					foreach( DataUnitParam u in DataManager.Instance.dataUnit.list.FindAll(p=>p.unit == "chara"))
+					foreach( DataUnitParam u in DataManagerGame.Instance.dataUnit.list.FindAll(p=>p.unit == "chara"))
 					{
 						u.HpHeal(30);
 					}
@@ -331,7 +331,7 @@ namespace PanelMissionAction {
 					break;
 				case "hp_damage_20":
 					bIsFinish = true;
-					foreach (DataUnitParam u in DataManager.Instance.dataUnit.list.FindAll(p => p.unit == "chara"))
+					foreach (DataUnitParam u in DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara"))
 					{
 						u.TrapDamage(20);
 					}
@@ -340,18 +340,18 @@ namespace PanelMissionAction {
 					break;
 				case "str_buff_10":
 					bIsFinish = true;
-					foreach (DataUnitParam u in DataManager.Instance.dataUnit.list.FindAll(p => p.unit == "chara"))
+					foreach (DataUnitParam u in DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara"))
 					{
 						DataUnitParam add = new DataUnitParam();
 						add.chara_id = u.chara_id;
 						add.unit = "assist";
 						add.turn = 99999;       // なんかいいの欲しいね
 						add.str = 10;
-						DataManager.Instance.dataUnit.list.Add(add);
+						DataManagerGame.Instance.dataUnit.list.Add(add);
 					}
 					break;
 				case "mp_heal_30":
-					DataManager.Instance.MpHeal(30);
+					DataManagerGame.Instance.MpHeal(30);
 					bIsFinish = true;
 					BattleMain.Instance.HpRefresh();
 					GameMain.Instance.CharaRefresh();
@@ -414,7 +414,7 @@ namespace PanelMissionAction {
 			base.OnEnter();
 
 			MasterMissionDetailParam detail = panelMission.masterMissionDetailParamList.Find(p => p.type == "intro_no");
-			MasterItemParam item = DataManager.Instance.masterItem.list.Find(p => p.item_id == panelMission.masterMissionParam.item_id);
+			MasterItemParam item = DataManagerGame.Instance.masterItem.list.Find(p => p.item_id == panelMission.masterMissionParam.item_id);
 			string message = string.Format(detail.param, item.name);
 
 			panelMission.ShowNoItem(message);

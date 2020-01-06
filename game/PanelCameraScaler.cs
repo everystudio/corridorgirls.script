@@ -70,6 +70,6 @@ public class PanelCameraScaler : MonoBehaviour {
 	{
 		float temp = (target_camera.orthographicSize - CameraSizeMin) / (CameraSizeMax - CameraSizeMin);
 		slider.value = temp;
-		//slider.value = DataManager.Instance.user_data.ReadFloat(group_name);
+		//slider.value = DataManagerGame.Instance.user_data.ReadFloat(group_name);
 	}
 }

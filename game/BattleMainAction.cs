@@ -45,14 +45,14 @@ namespace BattleMainAction
 
 			battleMain.dataCardEnemy.list.Clear();
 			// 敵のデッキデータ
-			//Debug.LogWarning(DataManager.Instance.masterCharaCard.list.FindAll(p => p.chara_id == enemy_chara_id.Value).Count);
+			//Debug.LogWarning(DataManagerGame.Instance.masterCharaCard.list.FindAll(p => p.chara_id == enemy_chara_id.Value).Count);
 
 			int iSerial = 1;
-			foreach( MasterCharaCardParam cc in DataManager.Instance.masterCharaCard.list.FindAll(p=>p.chara_id == enemy_chara_id.Value))
+			foreach( MasterCharaCardParam cc in DataManagerGame.Instance.masterCharaCard.list.FindAll(p=>p.chara_id == enemy_chara_id.Value))
 			{
 				DataCardParam add = new DataCardParam();
 
-				MasterCardParam master_card = DataManager.Instance.masterCard.list.Find(p => p.card_id == cc.card_id);
+				MasterCardParam master_card = DataManagerGame.Instance.masterCard.list.Find(p => p.card_id == cc.card_id);
 
 				add.Copy(master_card, enemy_chara_id.Value, iSerial);
 
@@ -83,7 +83,7 @@ namespace BattleMainAction
 			base.OnEnter();
 
 
-			int hand_card_num = DataManager.Instance.dataCard.list.FindAll(p => p.status == (int)DataCard.STATUS.HAND).Count;
+			int hand_card_num = DataManagerGame.Instance.dataCard.list.FindAll(p => p.status == (int)DataCard.STATUS.HAND).Count;
 			Debug.Log(hand_card_num);
 			if (hand_card_num <= card_fill_num.Value)
 			{
@@ -126,7 +126,7 @@ namespace BattleMainAction
 			else {
 				select_card_serial.Value = arg0;
 				battleMain.gameMain.CardSelectUp(select_card_serial.Value);
-				DataCardParam card = DataManager.Instance.dataCard.list.Find(p => p.card_serial == select_card_serial.Value);
+				DataCardParam card = DataManagerGame.Instance.dataCard.list.Find(p => p.card_serial == select_card_serial.Value);
 
 				battleMain.gameMain.SelectCharaId = card.chara_id;
 				Fsm.Event("touch");
@@ -175,7 +175,7 @@ namespace BattleMainAction
 
 			select_enemy_card.status = (int)DataCard.STATUS.PLAY;
 			enemy_card_id.Value = select_enemy_card.card_id;
-			//MasterCardParam master_enemy_card = DataManager.Instance.masterCard.list.Find(p => p.card_id == enemy_card_id.Value);
+			//MasterCardParam master_enemy_card = DataManagerGame.Instance.masterCard.list.Find(p => p.card_id == enemy_card_id.Value);
 			battleMain.enemy_card.Initialize(select_enemy_card);
 
 			Finish();
@@ -199,7 +199,7 @@ namespace BattleMainAction
 			battleMain.player_card = PrefabManager.Instance.MakeScript<Card>(
 				battleMain.m_prefCard, battleMain.m_goPlayerCardRoot);
 
-			DataCardParam data_card = DataManager.Instance.dataCard.list.Find(p => p.card_serial == select_card_serial.Value);
+			DataCardParam data_card = DataManagerGame.Instance.dataCard.list.Find(p => p.card_serial == select_card_serial.Value);
 
 			battleMain.player_card.Initialize(data_card);
 
@@ -477,7 +477,7 @@ namespace BattleMainAction
 			// プレイヤー側の攻撃
 			if (arg0.is_left)
 			{
-				DataUnitParam enemy = DataManager.Instance.dataUnit.list.Find(p =>
+				DataUnitParam enemy = DataManagerGame.Instance.dataUnit.list.Find(p =>
 				p.unit == "enemy");
 				Debug.Log(enemy.hp);
 				enemy.hp -= arg0.m_iDamageNum;
@@ -485,7 +485,7 @@ namespace BattleMainAction
 			else
 			{
 
-				DataUnitParam select_chara = DataManager.Instance.dataUnit.list.Find(p =>
+				DataUnitParam select_chara = DataManagerGame.Instance.dataUnit.list.Find(p =>
 				p.chara_id == GameMain.Instance.SelectCharaId &&
 				p.unit == "chara");
 
@@ -595,7 +595,7 @@ namespace BattleMainAction
 		{
 			base.OnEnter();
 
-			DataUnitParam enemy = DataManager.Instance.dataUnit.list.Find(p => p.unit == "enemy");
+			DataUnitParam enemy = DataManagerGame.Instance.dataUnit.list.Find(p => p.unit == "enemy");
 
 			if( enemy.hp <= 0)
 			{

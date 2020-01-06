@@ -19,7 +19,7 @@ public class PanelEnemyDeck : MonoBehaviour {
 		}
 
 		List<DataCardParam> card_list = new List<DataCardParam>();
-		List<DataUnitParam> unit_param_list = DataManager.Instance.dataUnit.list.FindAll(p => p.unit == "enemy");
+		List<DataUnitParam> unit_param_list = DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "enemy");
 		foreach (DataUnitParam unit in unit_param_list)
 		{
 			foreach (DataCardParam c in GameMain.Instance.battleMain.dataCardEnemy.list.FindAll(p => p.chara_id == unit.chara_id))

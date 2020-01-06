@@ -153,7 +153,7 @@ public class GameMain : Singleton<GameMain> {
 	{
 		BtnSkill btn = PrefabManager.Instance.MakeScript<BtnSkill>(m_prefBtnSkill, m_goSkillButtonRoot);
 
-		MasterSkillParam master = DataManager.Instance.masterSkill.list.Find(p => p.skill_id == _iSkillId);
+		MasterSkillParam master = DataManagerGame.Instance.masterSkill.list.Find(p => p.skill_id == _iSkillId);
 
 		btn.Initialize(master);
 

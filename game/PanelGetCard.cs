@@ -14,7 +14,7 @@ public class PanelGetCard : MonoBehaviour {
 	{
 		int iCount = card_list.Count;
 
-		List<MasterStageCardParam> appear_card = DataManager.Instance.masterStageCard.list.FindAll(p => p.stage_id == _iStageId);
+		List<MasterStageCardParam> appear_card = DataManagerGame.Instance.masterStageCard.list.FindAll(p => p.stage_id == _iStageId);
 
 		int[] item_prob = new int[appear_card.Count];
 		for (int i = 0; i < appear_card.Count; i++)
@@ -31,7 +31,7 @@ public class PanelGetCard : MonoBehaviour {
 			// tempシリアルを配布
 			add_card.card_serial = i;
 
-			MasterCardParam master = DataManager.Instance.masterCard.list.Find(p => p.card_id == appear_card[i].card_id);
+			MasterCardParam master = DataManagerGame.Instance.masterCard.list.Find(p => p.card_id == appear_card[i].card_id);
 			add_card.master = master;
 
 			//add_card.card_type = appear_card[index].card_type;
