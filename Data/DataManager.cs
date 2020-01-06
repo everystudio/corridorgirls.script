@@ -73,6 +73,7 @@ public class DataManager : DataManagerBase<DataManager> {
 
 
 		yield return StartCoroutine(masterSkill.SpreadSheet(SS_ID, "skill" , ()=> { }));
+		yield return StartCoroutine(masterSkillEffect.SpreadSheet(SS_ID, "skill_effect" , ()=> { }));
 
 		yield return StartCoroutine(masterMission.SpreadSheet(SS_ID, "mission" , ()=> { }));
 		yield return StartCoroutine(masterMissionDetail.SpreadSheet(SS_ID, "mission_detail" , ()=> { }));

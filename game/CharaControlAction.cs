@@ -73,6 +73,11 @@ namespace CharaControlAction {
 				// ボスは一時停止
 				Fsm.Event("end");
 			}
+			else if( corridor_event.corridor_event_id == 2)
+			{
+				// ゴールも停止
+				Fsm.Event("end");
+			}
 			else if ( 0 < move_num.Value)
 			{
 

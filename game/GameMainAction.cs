@@ -459,7 +459,14 @@ namespace GameMainAction
 					event_name = "boss";
 					break;
 
-				case 0:
+				case MasterCorridorEvent.CORRIDOR_EVENT_TYPE.NONE:
+					// ゴール
+					if (gameMain.chara_control.target_corridor.corridor_event.sub_type == 2)
+					{
+						event_name = "goal";
+					}
+					break;
+
 				default:
 					event_name = "none";
 					break;
@@ -600,8 +607,36 @@ namespace GameMainAction
 	}
 
 
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class EnterGoal : GameMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			gameMain.m_bIsGoal = true;
+			Finish();
+		}
+
+	}
 
 
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class TurnEnt : GameMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			if (gameMain.m_bIsGoal)
+			{
+				Fsm.Event("goal");
+			}
+			else {
+				Finish();
+			}
+		}
 
+	}
 
 }

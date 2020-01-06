@@ -33,6 +33,7 @@ public class MasterCorridorEvent : CsvData<MasterCorridorEventParam> {
 		BATTLE		,
 		BOSS		,
 		DOOR		,
+		GOAL		,
 		MAX			,
 	}
 

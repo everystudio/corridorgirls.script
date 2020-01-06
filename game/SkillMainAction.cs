@@ -66,6 +66,8 @@ namespace SkillMainAction {
 			SkillMain.Instance.master_skill_effect_param_list = DataManager.Instance.masterSkillEffect.list.FindAll(p => p.skill_id == skill_id.Value);
 
 			effect_num.Value = SkillMain.Instance.master_skill_effect_param_list.Count;
+			Debug.Log(skill_id.Value);
+			Debug.Log(effect_num.Value);
 			Finish();
 		}
 	}

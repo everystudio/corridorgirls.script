@@ -26,6 +26,8 @@ public class GameMain : Singleton<GameMain> {
 
 	public GaugeMP gauge_mp;
 
+	public bool m_bIsGoal;
+
 	public UnityEventInt CharaIdHandler = new UnityEventInt();
 	public int SelectCharaId
 	{
@@ -51,6 +53,7 @@ public class GameMain : Singleton<GameMain> {
 	{
 		m_prefCard.SetActive(false);
 		m_prefCorridor.SetActive(false);
+		m_bIsGoal = false;
 
 		Card[] arr = m_goCardRoot.GetComponentsInChildren<Card>();
 		foreach (Card c in arr)
