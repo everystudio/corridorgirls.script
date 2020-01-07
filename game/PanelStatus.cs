@@ -1,11 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PanelStatus : MonoBehaviour {
 
 	public AreaChara area_chara_left;
 	public AreaChara area_chara_right;
+
+	public Button m_btnStatus;
+	public Button m_btnItem;
+	public Button m_btnDeck;
+
+
 
 	public void Initialize()
 	{

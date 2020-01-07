@@ -31,7 +31,7 @@ public class PanelEnemyDeck : MonoBehaviour {
 		foreach (DataCardParam card_param in card_list)
 		{
 			Card script = PrefabManager.Instance.MakeScript<Card>(m_prefCard, m_goContentRoot);
-			script.Initialize(card_param);
+			script.Initialize(card_param, DataManagerGame.Instance.masterCardSymbol.list);
 			script.ShowStatus();
 		}
 		gameObject.SetActive(true);

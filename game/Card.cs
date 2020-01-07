@@ -32,7 +32,7 @@ public class Card : MonoBehaviour {
 	public Image m_imgStatusFrame;
 	public TextMeshProUGUI m_txtStatus;
 
-	public void Initialize(MasterCardParam _master)
+	public void Initialize(MasterCardParam _master , List<MasterCardSymbolParam> _master_card_symbol_list)
 	{
 		m_imgStatusFrame.gameObject.SetActive(false);
 
@@ -68,8 +68,9 @@ public class Card : MonoBehaviour {
 
 			if (0 < symbol_id)
 			{
-				MasterCardSymbolParam symbol = DataManagerGame.Instance.masterCardSymbol.list.Find(p => p.card_symbol_id == symbol_id);
+				MasterCardSymbolParam symbol = _master_card_symbol_list.Find(p => p.card_symbol_id == symbol_id);
 				symbol_list[i].gameObject.SetActive(true);
+				//Debug.Log(symbol.sprite_name);
 				symbol_list[i].sprite = SpriteManager.Instance.Get(symbol.sprite_name);
 
 				card_symbol_list.Add(symbol);
@@ -87,10 +88,10 @@ public class Card : MonoBehaviour {
 		m_txtPower.text = _master.power.ToString();
 	}
 
-	public void Initialize(DataCardParam _card )
+	public void Initialize(DataCardParam _card , List<MasterCardSymbolParam> _master_card_symbol_list)
 	{
 		data_card = _card;
-		Initialize(data_card.master);
+		Initialize(data_card.master , _master_card_symbol_list );
 	}
 
 

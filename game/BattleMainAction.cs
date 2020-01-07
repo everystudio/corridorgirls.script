@@ -176,7 +176,7 @@ namespace BattleMainAction
 			select_enemy_card.status = (int)DataCard.STATUS.PLAY;
 			enemy_card_id.Value = select_enemy_card.card_id;
 			//MasterCardParam master_enemy_card = DataManagerGame.Instance.masterCard.list.Find(p => p.card_id == enemy_card_id.Value);
-			battleMain.enemy_card.Initialize(select_enemy_card);
+			battleMain.enemy_card.Initialize(select_enemy_card , DataManagerGame.Instance.masterCardSymbol.list);
 
 			Finish();
 		}
@@ -201,7 +201,7 @@ namespace BattleMainAction
 
 			DataCardParam data_card = DataManagerGame.Instance.dataCard.list.Find(p => p.card_serial == select_card_serial.Value);
 
-			battleMain.player_card.Initialize(data_card);
+			battleMain.player_card.Initialize(data_card, DataManagerGame.Instance.masterCardSymbol.list);
 
 			Finish();
 		}

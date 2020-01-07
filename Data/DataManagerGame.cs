@@ -87,8 +87,8 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 
 		yield return null;
 
-		dataCard.SetSaveFilename("data_card");
-		dataCard.LoadMulti("data_card");
+		//dataCard.SetSaveFilename("data_card");
+		//dataCard.LoadMulti("data_card");
 
 		yield return StartCoroutine(dataUnit.SpreadSheet(SS_TEST, "unit", () => { }));
 		yield return StartCoroutine(dataQuest.SpreadSheet(SS_TEST, "quest", () => { }));

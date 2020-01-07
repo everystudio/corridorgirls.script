@@ -24,6 +24,10 @@ public class GameMain : Singleton<GameMain> {
 	public List<BtnSkill> m_btnSkillList = new List<BtnSkill>();
 	public PanelSkillDetail m_panelSkillDetail;
 
+	public PanelStatus m_panelStatus;
+	public PanelPlayerDeck m_panelPlayerDeck;
+
+
 	public GaugeMP gauge_mp;
 
 	public bool m_bIsGoal;
@@ -55,6 +59,11 @@ public class GameMain : Singleton<GameMain> {
 		m_prefCorridor.SetActive(false);
 		m_bIsGoal = false;
 
+		m_panelStatus.m_btnDeck.onClick.AddListener(() =>
+		{
+			m_panelPlayerDeck.Show();
+		});
+
 		Card[] arr = m_goCardRoot.GetComponentsInChildren<Card>();
 		foreach (Card c in arr)
 		{
@@ -70,13 +79,13 @@ public class GameMain : Singleton<GameMain> {
 		{
 			Card c = PrefabManager.Instance.MakeScript<Card>(m_prefCard, m_goCardRoot);
 
-			c.Initialize(param);
+			c.Initialize(param, DataManagerGame.Instance.masterCardSymbol.list);
 			card_list_hand.Add(c);
 		}
 
 		for( int i = 0; i < card_list_hand.Count; i++)
 		{
-			card_list_hand[i].Initialize(_list[i]);
+			card_list_hand[i].Initialize(_list[i], DataManagerGame.Instance.masterCardSymbol.list);
 		}
 	}
 
@@ -84,7 +93,7 @@ public class GameMain : Singleton<GameMain> {
 	{
 		Card c = PrefabManager.Instance.MakeScript<Card>(m_prefCard, m_goCardRoot);
 
-		c.Initialize(_data);
+		c.Initialize(_data, DataManagerGame.Instance.masterCardSymbol.list);
 
 		card_list_hand.Add(c);
 	}

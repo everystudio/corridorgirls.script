@@ -37,7 +37,7 @@ public class PanelGetCard : MonoBehaviour {
 			//add_card.card_type = appear_card[index].card_type;
 			//add_card.power = appear_card[index].power;
 
-			card_list[i].Initialize(add_card);
+			card_list[i].Initialize(add_card, DataManagerGame.Instance.masterCardSymbol.list);
 		}
 	}
 
