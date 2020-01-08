@@ -60,6 +60,58 @@ namespace CampMainAction {
 		}
 
 	}
+	[ActionCategory("CampMainAction")]
+	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
+	public class chara_top : CampMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			campMain.m_panelChara.gameObject.SetActive(true);
+			//campMain.m_panelChara.ShowList();
+
+			campMain.m_panelChara.m_btnClose.onClick.AddListener(OnClose);
+		}
+
+		private void OnClose()
+		{
+			campMain.m_panelChara.gameObject.SetActive(false);
+			Fsm.Event("close");
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			campMain.m_panelChara.m_btnClose.onClick.RemoveListener(OnClose);
+		}
+
+	}
+	[ActionCategory("CampMainAction")]
+	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
+	public class skill_top : CampMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			campMain.m_panelSkill.gameObject.SetActive(true);
+			//campMain.m_panelStage.ShowList();
+
+			campMain.m_panelSkill.m_btnClose.onClick.AddListener(OnClose);
+		}
+
+		private void OnClose()
+		{
+			campMain.m_panelSkill.gameObject.SetActive(false);
+			Fsm.Event("close");
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			campMain.m_panelSkill.m_btnClose.onClick.RemoveListener(OnClose);
+		}
+
+	}
 
 
 

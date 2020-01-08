@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PanelChara : MonoBehaviour {
+public class PanelSkill : MonoBehaviour {
 
 	public Button m_btnClose;
-
 }
