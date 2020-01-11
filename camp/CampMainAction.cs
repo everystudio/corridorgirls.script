@@ -38,13 +38,26 @@ namespace CampMainAction {
 	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
 	public class stage_top : CampMainActionBase
 	{
+		public FsmInt stage_id;
 		public override void OnEnter()
 		{
 			base.OnEnter();
 			campMain.m_panelStage.gameObject.SetActive(true);
+
+			campMain.m_panelStage.OnBannerStage.AddListener(OnBannerStage);
 			campMain.m_panelStage.ShowList();
 
 			campMain.m_panelStage.m_btnClose.onClick.AddListener(OnClose);
+		}
+
+		private void OnBannerStage(BannerStage arg0)
+		{
+			stage_id.Value = arg0.m_masterStageParam.stage_id;
+
+			DMCamp.Instance.config.WriteInt("stage_id", stage_id.Value);
+			DMCamp.Instance.config.Save();
+
+			Fsm.Event("select");
 		}
 
 		private void OnClose()
@@ -56,6 +69,7 @@ namespace CampMainAction {
 		public override void OnExit()
 		{
 			base.OnExit();
+			campMain.m_panelStage.OnBannerStage.RemoveListener(OnBannerStage);
 			campMain.m_panelStage.m_btnClose.onClick.RemoveListener(OnClose);
 		}
 
