@@ -13,6 +13,10 @@ public class CampMain : Singleton<CampMain> {
 	public PanelStatus m_panelStatus;
 	public PanelPlayerDeck m_panelPlayerDeck;
 
+	public PanelDecideCheck m_panelDecideCheckBottom;
+
+	public PartyHolder m_partyHolder;
+
 	public override void Initialize()
 	{
 		base.Initialize();

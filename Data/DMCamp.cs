@@ -9,6 +9,7 @@ public class DMCamp : DataManagerBase<DMCamp> {
 
 	public MasterStage masterStage = new MasterStage();
 
+	public MasterChara masterChara = new MasterChara();
 	public MasterCharaCard masterCharaCard = new MasterCharaCard();
 
 
@@ -37,6 +38,7 @@ public class DMCamp : DataManagerBase<DMCamp> {
 	private IEnumerator init_network()
 	{
 		// master
+		yield return StartCoroutine(masterChara.SpreadSheet(SS_ID, "chara", () => { }));
 		yield return StartCoroutine(masterCharaCard.SpreadSheet(SS_ID, "chara_card", () => { }));
 
 		yield return StartCoroutine(masterStage.SpreadSheet(SS_ID, "stage", () => { }));
