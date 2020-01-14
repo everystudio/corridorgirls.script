@@ -19,6 +19,8 @@ public class Processor : IPreprocessBuild, IPostprocessBuild
 			EditDirectory.Delete(Application.dataPath + "/../" + Path.Combine(BuildScript.BUILD_PROJECT_DIRECTORY, BuildScript.GetPlatformFolderForAssetBundles(target)));
 		}
 
+
+
 		// 引数取得
 		string[] args = System.Environment.GetCommandLineArgs();
 
@@ -30,6 +32,13 @@ public class Processor : IPreprocessBuild, IPostprocessBuild
 				case "/branch":
 				case "/debug_message":
 					break;
+				case "build_target":
+					if( args[i+1] == "ios")
+					{
+						EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.iOS, BuildTarget.iOS);
+					}
+					break;
+
 				case "target_env":
 					if (args[i + 1] == "development")
 					{

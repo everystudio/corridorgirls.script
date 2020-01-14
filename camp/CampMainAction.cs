@@ -90,6 +90,10 @@ namespace CampMainAction {
 				DMCamp.Instance.masterChara.list.Find(p=>p.chara_id == 2 )
 				);
 
+			// 非表示にする
+			campMain.m_panelDecideCheckBottom.gameObject.SetActive(false);
+			campMain.m_panelChara.CloseList();
+
 
 			campMain.m_panelChara.m_btnClose.onClick.AddListener(OnClose);
 			campMain.m_panelChara.m_btnEdit.onClick.AddListener(OnEdit);
@@ -165,6 +169,8 @@ namespace CampMainAction {
 		{
 			base.OnEnter();
 
+			campMain.m_partyHolder.Cover(0);
+
 			campMain.m_panelDecideCheckBottom.m_txtMessage.text = "変更したいキャラを\n選択してください";
 			campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(true);
 
@@ -172,6 +178,8 @@ namespace CampMainAction {
 			{
 				Fsm.Event("decide");
 			});
+
+			campMain.m_panelDecideCheckBottom.gameObject.SetActive(true);
 			campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.AddListener(() =>
 			{
 				Fsm.Event("cancel");
