@@ -20,6 +20,7 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 	public MasterCard masterCard = new MasterCard();
 	public MasterCardSymbol masterCardSymbol = new MasterCardSymbol();
 
+	public MasterChara masterChara = new MasterChara();
 	public MasterCharaCard masterCharaCard = new MasterCharaCard();
 
 	public MasterItem masterItem = new MasterItem();
@@ -67,6 +68,7 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 		}));
 		yield return StartCoroutine(masterCardSymbol.SpreadSheet(SS_ID, "card_symbol" , ()=> { }));
 
+		yield return StartCoroutine(masterChara.SpreadSheet(SS_ID, "chara", () => { }));
 		yield return StartCoroutine(masterCharaCard.SpreadSheet(SS_ID, "chara_card", () => { }));
 
 		yield return StartCoroutine(masterItem.SpreadSheet(SS_ID, "item" , ()=> { }));

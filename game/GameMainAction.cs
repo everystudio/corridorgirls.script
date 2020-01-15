@@ -63,7 +63,7 @@ namespace GameMainAction
 
 			int serial = 1;
 
-			List<DataUnitParam> unit_param_list = DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara" && (p.status == "left" || p.status == "right"));
+			List<DataUnitParam> unit_param_list = DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara" && (p.position == "left" || p.position == "right"));
 			foreach (DataUnitParam unit in unit_param_list)
 			{
 				List<MasterCharaCardParam> card_list = DataManagerGame.Instance.masterCharaCard.list.FindAll(p => p.chara_id == unit.chara_id);
@@ -115,7 +115,8 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			gameMain.panelStatus.Initialize();
+			gameMain.panelStatus.Initialize(DataManagerGame.Instance.dataUnit, DataManagerGame.Instance.masterChara);
+
 			Finish();
 		}
 

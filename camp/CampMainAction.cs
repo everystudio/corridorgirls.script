@@ -13,6 +13,41 @@ namespace CampMainAction {
 			base.OnEnter();
 			campMain = Owner.GetComponent<CampMain>();
 		}
+
+		public void PartyReset()
+		{
+			MasterCharaParam left = DMCamp.Instance.masterChara.list.Find(p => p.chara_id == (
+			DMCamp.Instance.dataUnit.list.Find(a => a.unit == "chara" && a.position == "left").chara_id
+			));
+			MasterCharaParam right = DMCamp.Instance.masterChara.list.Find(p => p.chara_id == (
+			DMCamp.Instance.dataUnit.list.Find(a => a.unit == "chara" && a.position == "right").chara_id
+			));
+			MasterCharaParam back = DMCamp.Instance.masterChara.list.Find(p => p.chara_id == (
+			DMCamp.Instance.dataUnit.list.Find(a => a.unit == "chara" && a.position == "back").chara_id
+			));
+
+			Debug.Log(left);
+			Debug.Log(right);
+			Debug.Log(back);
+
+			Debug.Log(DMCamp.Instance.dataUnit.list.Find(a => a.unit == "chara" && a.position == "left").chara_id);
+			Debug.Log(DMCamp.Instance.dataUnit.list.Find(a => a.unit == "chara" && a.position == "right").chara_id);
+			Debug.Log(DMCamp.Instance.dataUnit.list.Find(a => a.unit == "chara" && a.position == "back").chara_id);
+
+			Debug.Log(campMain);
+			Debug.Log(campMain.m_partyHolder);
+			campMain.m_partyHolder.Initialize(left, right, back);
+		}
+
+
+		protected void CoverChara(int _iCharaId)
+		{
+			foreach (CharaIcon icon in campMain.m_panelChara.icon_list)
+			{
+				icon.Cover(_iCharaId);
+			}
+			campMain.m_partyHolder.Cover(_iCharaId);
+		}
 	}
 
 	[ActionCategory("CampMainAction")]
@@ -29,6 +64,9 @@ namespace CampMainAction {
 			base.OnUpdate();
 			if(DMCamp.Instance.Initialized)
 			{
+				campMain.m_panelStatus.Initialize(DMCamp.Instance.dataUnit, DMCamp.Instance.masterChara);
+
+
 				Finish();
 			}
 		}
@@ -84,11 +122,7 @@ namespace CampMainAction {
 			campMain.m_panelChara.gameObject.SetActive(true);
 			//campMain.m_panelChara.ShowList();
 
-			campMain.m_partyHolder.Initialize(
-				DMCamp.Instance.masterChara.list.Find(p=>p.chara_id == 1 ),
-				DMCamp.Instance.masterChara.list.Find(p=>p.chara_id == 3 ),
-				DMCamp.Instance.masterChara.list.Find(p=>p.chara_id == 2 )
-				);
+			PartyReset();
 
 			// 非表示にする
 			campMain.m_panelDecideCheckBottom.gameObject.SetActive(false);
@@ -199,6 +233,7 @@ namespace CampMainAction {
 		public override void OnExit()
 		{
 			base.OnExit();
+			campMain.m_panelChara.OnListCharaId.RemoveAllListeners();
 			campMain.m_panelDecideCheckBottom.m_btnDecide.onClick.RemoveAllListeners();
 			campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.RemoveAllListeners();
 		}
@@ -207,27 +242,21 @@ namespace CampMainAction {
 
 	[ActionCategory("CampMainAction")]
 	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
-	public class party_exchange : CampMainActionBase
+	public class select_exchange : CampMainActionBase
 	{
 		public FsmInt chara_id;
+		public FsmInt exchange_chara_id;
 		public override void OnEnter()
 		{
 			base.OnEnter();
-
-			foreach( CharaIcon icon in campMain.m_panelChara.icon_list)
-			{
-				icon.Cover(chara_id.Value);
-			}
-			campMain.m_partyHolder.Cover(chara_id.Value);
-
+			Debug.Log(chara_id.Value);
+			CoverChara(chara_id.Value);
 
 			campMain.m_panelDecideCheckBottom.m_txtMessage.text = "変更したいキャラを\n選択してください";
 			campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(true);
 
-			campMain.m_panelDecideCheckBottom.m_btnDecide.onClick.AddListener(() =>
-			{
-				Fsm.Event("decide");
-			});
+			campMain.m_panelDecideCheckBottom.m_btnDecide.interactable = false;
+
 			campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.AddListener(() =>
 			{
 				Fsm.Event("cancel");
@@ -235,22 +264,117 @@ namespace CampMainAction {
 
 			campMain.m_panelChara.OnListCharaId.AddListener((int _iCharaId) =>
 			{
-				chara_id.Value = _iCharaId;
-				Fsm.Event("chara");
+				Debug.Log(chara_id.Value);
+				Debug.Log(_iCharaId);
+				if (chara_id.Value == _iCharaId)
+				{
+					Debug.Log("cancel");
+					Fsm.Event("cancel");
+				}
+				else
+				{
+					bool chara_a = DMCamp.Instance.dataUnit.IsPartyChara(chara_id.Value);
+					bool chara_b = DMCamp.Instance.dataUnit.IsPartyChara(_iCharaId);
+
+					if(chara_a == false && chara_b == false)
+					{
+						Debug.Log("not_party");
+						chara_id.Value = _iCharaId;
+
+						CoverChara(chara_id.Value);
+					}
+					else
+					{
+						Debug.Log("exchange");
+						exchange_chara_id.Value = _iCharaId;
+						Fsm.Event("exchange");
+					}
+				}
 			});
 			// こっちでは閉じるボタンいらない
 			campMain.m_panelChara.m_btnListClose.gameObject.SetActive(false);
-
 		}
+
 
 		public override void OnExit()
 		{
 			base.OnExit();
+			campMain.m_panelDecideCheckBottom.m_btnDecide.interactable = true;
+
+			campMain.m_panelChara.OnListCharaId.RemoveAllListeners();
 			campMain.m_panelDecideCheckBottom.m_btnDecide.onClick.RemoveAllListeners();
 			campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.RemoveAllListeners();
 		}
 	}
 
+	[ActionCategory("CampMainAction")]
+	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
+	public class exchange_party : CampMainActionBase
+	{
+		public FsmInt chara_id;
+		public FsmInt exchange_chara_id;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			Debug.Log(chara_id.Value);
+			Debug.Log(exchange_chara_id.Value);
+			bool chara_a = DMCamp.Instance.dataUnit.IsPartyChara(chara_id.Value);
+			bool chara_b = DMCamp.Instance.dataUnit.IsPartyChara(exchange_chara_id.Value);
+
+			DataUnitParam unit_a = DMCamp.Instance.dataUnit.list.Find(p => p.chara_id == chara_id.Value && p.unit == "chara");
+			DataUnitParam unit_b = DMCamp.Instance.dataUnit.list.Find(p => p.chara_id == exchange_chara_id.Value && p.unit == "chara");
+
+			string chara_a_position = unit_a.position;
+			string chara_b_position = unit_b.position;
+			unit_a.position = chara_b_position;
+			unit_b.position = chara_a_position;
+
+			foreach( DataUnitParam u in DMCamp.Instance.dataUnit.list.FindAll(p=>p.unit == "chara"))
+			{
+				Debug.Log(string.Format("chara_id={0} position={1}", u.chara_id, u.position));
+			}
+
+			PartyReset();
+			CoverChara(0);
+			Finish();
+		}
+	}
+
+	[ActionCategory("CampMainAction")]
+	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
+	public class unit_save : CampMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			// データの上書き
+
+			campMain.m_panelStatus.Initialize(DMCamp.Instance.dataUnit, DMCamp.Instance.masterChara);
+
+
+			Finish();
+		}
+	}
+
+	[ActionCategory("CampMainAction")]
+	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
+	public class unit_reload : CampMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			StartCoroutine(reload());
+
+		}
+
+		private IEnumerator reload()
+		{
+			yield return StartCoroutine(DMCamp.Instance.dataUnit.SpreadSheet(DMCamp.SS_TEST, "unit", () => { }));
+			PartyReset();
+			Finish();
+		}
+	}
 
 
 	[ActionCategory("CampMainAction")]

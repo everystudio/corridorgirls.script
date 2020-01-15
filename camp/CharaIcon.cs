@@ -31,6 +31,9 @@ public class CharaIcon : MonoBehaviour {
 		m_txtName.text = _master.name;
 		m_masterChara = _master;
 
+
+		m_imgIcon.sprite = SpriteManager.Instance.Get(string.Format("chara{0:000}01_00_faceicon", _master.chara_id));
+
 		m_btn.onClick.RemoveAllListeners();
 		m_btn.onClick.AddListener(() =>
 		{

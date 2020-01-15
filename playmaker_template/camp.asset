@@ -24,7 +24,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 66
-        y: 164
+        y: 180
         width: 100
         height: 32
       isBreakpoint: 0
@@ -194,7 +194,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 266
-        y: 336
+        y: 352
         width: 100
         height: 80
       isBreakpoint: 0
@@ -356,8 +356,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 373
-        y: 113.99219
+        x: 395
+        y: 131.99219
         width: 100
         height: 48
       isBreakpoint: 0
@@ -460,8 +460,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 419
-        y: 233
+        x: 427
+        y: 309
         width: 100
         height: 64
       isBreakpoint: 0
@@ -566,7 +566,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 403
-        y: 474
+        y: 584
         width: 100
         height: 48
       isBreakpoint: 0
@@ -663,7 +663,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 105
-        y: 494
+        y: 510
         width: 100
         height: 32
       isBreakpoint: 0
@@ -749,8 +749,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 518
-        y: 101.96094
+        x: 558
+        y: 109.953125
         width: 104
         height: 16
       isBreakpoint: 0
@@ -837,8 +837,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 578
-        y: 186
+        x: 592
+        y: 256
         width: 100
         height: 64
       isBreakpoint: 0
@@ -849,7 +849,7 @@ MonoBehaviour:
           name: cancel
           isSystemEvent: 0
           isGlobal: 0
-        toState: chara_top
+        toState: unit_reload
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
@@ -865,7 +865,7 @@ MonoBehaviour:
           name: decide
           isSystemEvent: 0
           isGlobal: 0
-        toState: State 1
+        toState: unit_save
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
@@ -922,8 +922,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 727
-        y: 278
+        x: 729
+        y: 345
         width: 141
         height: 48
       isBreakpoint: 0
@@ -939,22 +939,22 @@ MonoBehaviour:
         linkConstraint: 0
         colorIndex: 0
       - fsmEvent:
-          name: select
+          name: exchange
           isSystemEvent: 0
           isGlobal: 0
-        toState: change_member
+        toState: exchange_party
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
       actionData:
         actionNames:
-        - CampMainAction.party_exchange
+        - CampMainAction.select_exchange
         customNames:
         - 
         actionEnabled: 01
         actionIsOpen: 01
         actionStartIndex: 00000000
-        actionHashCodes: dcbe4804
+        actionHashCodes: e9ac1d02
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
@@ -977,6 +977,12 @@ MonoBehaviour:
           showInInspector: 0
           networkSync: 0
           value: 0
+        - useVariable: 1
+          name: exchange_chara_id
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
         fsmBoolParams: []
         fsmVector2Params: []
         fsmVector3Params: []
@@ -989,19 +995,20 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 10000000
+        paramDataType: 1000000010000000
         paramName:
         - chara_id
-        paramDataPos: 00000000
-        paramByteDataSize: 00000000
-    - name: change_member
+        - exchange_chara_id
+        paramDataPos: 0000000001000000
+        paramByteDataSize: 0000000000000000
+    - name: exchange_party
       description: 
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 738
-        y: 194
-        width: 140
+        x: 740
+        y: 261
+        width: 137
         height: 32
       isBreakpoint: 0
       isSequence: 0
@@ -1016,12 +1023,14 @@ MonoBehaviour:
         linkConstraint: 0
         colorIndex: 0
       actionData:
-        actionNames: []
-        customNames: []
-        actionEnabled: 
-        actionIsOpen: 
-        actionStartIndex: 
-        actionHashCodes: 
+        actionNames:
+        - CampMainAction.exchange_party
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: e9ac1d02
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
@@ -1037,7 +1046,19 @@ MonoBehaviour:
         fsmArrayParams: []
         fsmEnumParams: []
         fsmFloatParams: []
-        fsmIntParams: []
+        fsmIntParams:
+        - useVariable: 1
+          name: chara_id
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
+        - useVariable: 1
+          name: exchange_chara_id
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
         fsmBoolParams: []
         fsmVector2Params: []
         fsmVector3Params: []
@@ -1050,17 +1071,19 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 
-        paramName: []
-        paramDataPos: 
-        paramByteDataSize: 
+        paramDataType: 1000000010000000
+        paramName:
+        - chara_id
+        - exchange_chara_id
+        paramDataPos: 0000000001000000
+        paramByteDataSize: 0000000000000000
     - name: skill_edit
       description: 
       colorIndex: 0
       position:
         serializedVersion: 2
         x: 540
-        y: 526
+        y: 636
         width: 100
         height: 48
       isBreakpoint: 0
@@ -1128,7 +1151,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 679
-        y: 576
+        y: 686
         width: 100
         height: 48
       isBreakpoint: 0
@@ -1196,7 +1219,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 711
-        y: 514
+        y: 624
         width: 113
         height: 32
       isBreakpoint: 0
@@ -1255,8 +1278,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 552
-        y: 348
+        x: 554
+        y: 415
         width: 100
         height: 48
       isBreakpoint: 0
@@ -1332,8 +1355,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 702
-        y: 384
+        x: 704
+        y: 451
         width: 113
         height: 32
       isBreakpoint: 0
@@ -1387,13 +1410,13 @@ MonoBehaviour:
         paramName: []
         paramDataPos: 
         paramByteDataSize: 
-    - name: State 1
+    - name: unit_save
       description: 
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 586
-        y: 130
+        x: 460
+        y: 202
         width: 100
         height: 32
       isBreakpoint: 0
@@ -1409,12 +1432,14 @@ MonoBehaviour:
         linkConstraint: 0
         colorIndex: 0
       actionData:
-        actionNames: []
-        customNames: []
-        actionEnabled: 
-        actionIsOpen: 
-        actionStartIndex: 
-        actionHashCodes: 
+        actionNames:
+        - CampMainAction.unit_save
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 00000000
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
@@ -1453,7 +1478,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 64
-        y: 226
+        y: 242
         width: 100
         height: 32
       isBreakpoint: 0
@@ -1534,6 +1559,68 @@ MonoBehaviour:
         - everyFrame
         paramDataPos: 0000000000000000010000000000000001000000
         paramByteDataSize: 0000000000000000000000000100000001000000
+    - name: unit_reload
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 446
+        y: 250
+        width: 106
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: chara_top
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - CampMainAction.unit_reload
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 00000000
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
     events:
     - name: FINISHED
       isSystemEvent: 1
@@ -1551,6 +1638,9 @@ MonoBehaviour:
       isSystemEvent: 0
       isGlobal: 0
     - name: edit
+      isSystemEvent: 0
+      isGlobal: 0
+    - name: exchange
       isSystemEvent: 0
       isGlobal: 0
     - name: menu
@@ -1580,6 +1670,12 @@ MonoBehaviour:
         value: 0
       - useVariable: 1
         name: chara_id
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
+      - useVariable: 1
+        name: exchange_chara_id
         tooltip: 
         showInInspector: 0
         networkSync: 0
@@ -1653,7 +1749,7 @@ MonoBehaviour:
       enumVariables: []
       categories:
       - 
-      variableCategoryIDs: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+      variableCategoryIDs: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
     description: 
     docUrl: 
     showStateLabel: 0

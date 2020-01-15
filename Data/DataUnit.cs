@@ -8,7 +8,7 @@ public class DataUnitParam : CsvDataParam
 {
 	public int chara_id { get; set; }
 	public string unit { get; set; }
-	public string status { get; set; }
+	public string position { get; set; }
 	public int hp { get; set; }
 	public int hp_max { get; set; }
 	public int str { get; set; }
@@ -38,5 +38,13 @@ public class DataUnitParam : CsvDataParam
 }
 
 public class DataUnit : CsvData<DataUnitParam> {
+
+	public bool IsPartyChara( int _iCharaId)
+	{
+		DataUnitParam unit = list.Find(p => p.chara_id == _iCharaId &&
+		(p.position == "left" || p.position == "right" || p.position == "back"));
+		Debug.Log(unit);
+		return unit != null;
+	}
 
 }
