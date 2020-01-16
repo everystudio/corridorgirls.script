@@ -26,7 +26,9 @@ public class DMCamp : DataManagerBase<DMCamp> {
 	public DataCard dataCard = new DataCard();
 	public DataUnit dataUnit = new DataUnit();
 	public DataItem dataItem = new DataItem();
+	public DataSkill dataSkill = new DataSkill();
 
+	[HideInInspector]
 	public bool Initialized = false;
 
 	public override void Initialize()
@@ -54,6 +56,7 @@ public class DMCamp : DataManagerBase<DMCamp> {
 		// data
 		yield return StartCoroutine(dataUnit.SpreadSheet(SS_TEST, "unit", () => { }));
 		yield return StartCoroutine(dataItem.SpreadSheet(SS_TEST, "item", () => { }));
+		yield return StartCoroutine(dataSkill.SpreadSheet(SS_TEST, "skill", () => { }));
 
 
 		int serial = 1;

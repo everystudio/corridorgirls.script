@@ -65,8 +65,7 @@ namespace CampMainAction {
 			if(DMCamp.Instance.Initialized)
 			{
 				campMain.m_panelStatus.Initialize(DMCamp.Instance.dataUnit, DMCamp.Instance.masterChara);
-
-
+				campMain.m_panelStatus.SetupSkill(DMCamp.Instance.dataSkill.list.FindAll(p => 0 < p.status), DMCamp.Instance.masterSkill.list);
 				Finish();
 			}
 		}

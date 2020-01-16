@@ -89,12 +89,9 @@ namespace GameMainAction
 
 
 
+			// スキル関係
 			gameMain.ClearSkill();
-			gameMain.AddSkillIcon(2);
-			gameMain.AddSkillIcon(3);
-			gameMain.AddSkillIcon(4);
-
-
+			gameMain.m_panelStatus.SetupSkill(DataManagerGame.Instance.dataSkill.list.FindAll(p => 0 < p.status), DataManagerGame.Instance.masterSkill.list);
 
 
 

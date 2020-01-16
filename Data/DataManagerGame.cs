@@ -39,6 +39,7 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 	public DataCard dataCard = new DataCard();
 	public DataUnit dataUnit = new DataUnit();
 	public DataItem dataItem = new DataItem();
+	public DataSkill dataSkill = new DataSkill();
 
 	public bool Initialized = false;
 
@@ -98,7 +99,8 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 		yield return StartCoroutine(dataUnit.SpreadSheet(SS_TEST, "unit", () => { }));
 		yield return StartCoroutine(dataQuest.SpreadSheet(SS_TEST, "quest", () => { }));
 		yield return StartCoroutine(dataItem.SpreadSheet(SS_TEST, "item", () => { }));
-
+		yield return StartCoroutine(dataSkill.SpreadSheet(SS_TEST, "skill", () => { }));
+		
 
 		Initialized = true;
 

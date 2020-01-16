@@ -151,25 +151,8 @@ public class GameMain : Singleton<GameMain> {
 
 	public void ClearSkill()
 	{
-		BtnSkill[] arr = m_goSkillButtonRoot.GetComponentsInChildren<BtnSkill>();
-		foreach (BtnSkill btn in arr)
-		{
-			Destroy(btn.gameObject);
-		}
-		m_btnSkillList.Clear();
+		m_panelStatus.ClearSkill();
 	}
-	public void AddSkillIcon(int _iSkillId)
-	{
-		BtnSkill btn = PrefabManager.Instance.MakeScript<BtnSkill>(m_prefBtnSkill, m_goSkillButtonRoot);
-
-		MasterSkillParam master = DataManagerGame.Instance.masterSkill.list.Find(p => p.skill_id == _iSkillId);
-
-		btn.Initialize(master);
-
-		m_btnSkillList.Add(btn);
-
-	}
-
 
 	public void CharaRefresh()
 	{
