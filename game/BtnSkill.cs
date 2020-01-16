@@ -10,6 +10,7 @@ public class BtnSkill : MonoBehaviour {
 	public Button m_btn;
 	public Image m_imgIcon;
 	public TextMeshProUGUI m_txtMP;
+	public Image m_imgSelectCover;
 
 	public class SkillButtonHandler : UnityEvent<BtnSkill>
 	{

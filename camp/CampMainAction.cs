@@ -408,6 +408,9 @@ namespace CampMainAction {
 			campMain.m_panelSkill.gameObject.SetActive(true);
 			//campMain.m_panelStage.ShowList();
 
+			campMain.m_panelSkill.SetupSettingSkill(DMCamp.Instance.dataSkill.list.FindAll(p => 0 < p.status), DMCamp.Instance.masterSkill.list);
+			campMain.m_panelSkill.SetupListSkill(DMCamp.Instance.masterSkill.list);
+
 			campMain.m_panelSkill.m_btnClose.onClick.AddListener(OnClose);
 		}
 
