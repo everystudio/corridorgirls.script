@@ -204,6 +204,10 @@ namespace CampMainAction {
 			base.OnEnter();
 
 			campMain.m_partyHolder.Cover(0);
+			campMain.m_partyHolder.OnClickIcon.AddListener((CharaIcon _icon) =>
+			{
+				select_chara(_icon.m_masterChara.chara_id);
+			});
 
 			campMain.m_panelDecideCheckBottom.m_txtMessage.text = "変更したいキャラを\n選択してください";
 			campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(true);
@@ -222,17 +226,23 @@ namespace CampMainAction {
 			campMain.m_panelChara.ShowList();
 			campMain.m_panelChara.OnListCharaId.AddListener((int _iCharaId) =>
 			{
-				chara_id.Value = _iCharaId;
-				Fsm.Event("chara");
+				select_chara(_iCharaId);
 			});
 			// こっちでは閉じるボタンいらない
 			campMain.m_panelChara.m_btnListClose.gameObject.SetActive(false);
 
 		}
 
+		private void select_chara(int _iCharaId)
+		{
+			chara_id.Value = _iCharaId;
+			Fsm.Event("chara");
+		}
+
 		public override void OnExit()
 		{
 			base.OnExit();
+			campMain.m_partyHolder.OnClickIcon.RemoveAllListeners();
 			campMain.m_panelChara.OnListCharaId.RemoveAllListeners();
 			campMain.m_panelDecideCheckBottom.m_btnDecide.onClick.RemoveAllListeners();
 			campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.RemoveAllListeners();
@@ -262,37 +272,48 @@ namespace CampMainAction {
 				Fsm.Event("cancel");
 			});
 
+			campMain.m_partyHolder.OnClickIcon.AddListener((CharaIcon _icon) =>
+			{
+				select_chara(_icon.m_masterChara.chara_id);
+			});
+
+
 			campMain.m_panelChara.OnListCharaId.AddListener((int _iCharaId) =>
 			{
-				Debug.Log(chara_id.Value);
-				Debug.Log(_iCharaId);
-				if (chara_id.Value == _iCharaId)
-				{
-					Debug.Log("cancel");
-					Fsm.Event("cancel");
-				}
-				else
-				{
-					bool chara_a = DMCamp.Instance.dataUnit.IsPartyChara(chara_id.Value);
-					bool chara_b = DMCamp.Instance.dataUnit.IsPartyChara(_iCharaId);
-
-					if(chara_a == false && chara_b == false)
-					{
-						Debug.Log("not_party");
-						chara_id.Value = _iCharaId;
-
-						CoverChara(chara_id.Value);
-					}
-					else
-					{
-						Debug.Log("exchange");
-						exchange_chara_id.Value = _iCharaId;
-						Fsm.Event("exchange");
-					}
-				}
+				select_chara(_iCharaId);
 			});
 			// こっちでは閉じるボタンいらない
 			campMain.m_panelChara.m_btnListClose.gameObject.SetActive(false);
+		}
+
+		private void select_chara(int _iCharaId)
+		{
+			Debug.Log(chara_id.Value);
+			Debug.Log(_iCharaId);
+			if (chara_id.Value == _iCharaId)
+			{
+				Debug.Log("cancel");
+				Fsm.Event("cancel");
+			}
+			else
+			{
+				bool chara_a = DMCamp.Instance.dataUnit.IsPartyChara(chara_id.Value);
+				bool chara_b = DMCamp.Instance.dataUnit.IsPartyChara(_iCharaId);
+
+				if (chara_a == false && chara_b == false)
+				{
+					Debug.Log("not_party");
+					chara_id.Value = _iCharaId;
+
+					CoverChara(chara_id.Value);
+				}
+				else
+				{
+					Debug.Log("exchange");
+					exchange_chara_id.Value = _iCharaId;
+					Fsm.Event("exchange");
+				}
+			}
 		}
 
 
@@ -301,6 +322,7 @@ namespace CampMainAction {
 			base.OnExit();
 			campMain.m_panelDecideCheckBottom.m_btnDecide.interactable = true;
 
+			campMain.m_partyHolder.OnClickIcon.RemoveAllListeners();
 			campMain.m_panelChara.OnListCharaId.RemoveAllListeners();
 			campMain.m_panelDecideCheckBottom.m_btnDecide.onClick.RemoveAllListeners();
 			campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.RemoveAllListeners();

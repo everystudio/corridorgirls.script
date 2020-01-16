@@ -12,6 +12,8 @@ public class PartyHolder : MonoBehaviour {
 	[SerializeField]
 	private CharaIcon back;
 
+	public CharaIcon.OnCharaIcon OnClickIcon = new CharaIcon.OnCharaIcon();
+
 	public void Reset()
 	{
 
@@ -22,6 +24,24 @@ public class PartyHolder : MonoBehaviour {
 		left.Initialize(_left);
 		right.Initialize(_right);
 		back.Initialize(_back);
+
+		left.OnClickIcon.RemoveAllListeners();
+		right.OnClickIcon.RemoveAllListeners();
+		back.OnClickIcon.RemoveAllListeners();
+
+		left.OnClickIcon.AddListener((CharaIcon _icon) =>
+		{
+			OnClickIcon.Invoke(_icon);
+		});
+		right.OnClickIcon.AddListener((CharaIcon _icon) =>
+		{
+			OnClickIcon.Invoke(_icon);
+		});
+		back.OnClickIcon.AddListener((CharaIcon _icon) =>
+		{
+			OnClickIcon.Invoke(_icon);
+		});
+
 	}
 
 	public void Cover( int _iCharaId)
