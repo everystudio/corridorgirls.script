@@ -570,7 +570,7 @@ MonoBehaviour:
         x: 382
         y: 594
         width: 100
-        height: 48
+        height: 64
       isBreakpoint: 0
       isSequence: 0
       hideUnused: 0
@@ -588,6 +588,14 @@ MonoBehaviour:
           isSystemEvent: 0
           isGlobal: 0
         toState: idle
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      - fsmEvent:
+          name: list
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: skill_list
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
@@ -1450,7 +1458,7 @@ MonoBehaviour:
         x: 704
         y: 451
         width: 113
-        height: 32
+        height: 48
       isBreakpoint: 0
       isSequence: 0
       hideUnused: 0
@@ -1458,6 +1466,14 @@ MonoBehaviour:
       - fsmEvent:
           name: close
           isSystemEvent: 0
+          isGlobal: 0
+        toState: chara_list
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
           isGlobal: 0
         toState: chara_list
         linkStyle: 0
@@ -1837,6 +1853,68 @@ MonoBehaviour:
         paramName: []
         paramDataPos: 
         paramByteDataSize: 
+    - name: skill_list
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 537
+        y: 528
+        width: 100
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: close
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: skill_top
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - CampMainAction.skill_list
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 00000000
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
     events:
     - name: FINISHED
       isSystemEvent: 1
@@ -1857,6 +1935,9 @@ MonoBehaviour:
       isSystemEvent: 0
       isGlobal: 0
     - name: exchange
+      isSystemEvent: 0
+      isGlobal: 0
+    - name: list
       isSystemEvent: 0
       isGlobal: 0
     - name: menu

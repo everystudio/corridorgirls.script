@@ -6,9 +6,11 @@ using TMPro;
 
 public class PanelSkill : MonoBehaviour {
 
+	public Button m_btnList;
 	public Button m_btnClose;
 	public Button m_btnEdit;
 
+	public TextMeshProUGUI m_textBtnList;
 	public TextMeshProUGUI m_textBtnEdit;
 	public TextMeshProUGUI m_textBtnClose;
 
@@ -75,7 +77,8 @@ public class PanelSkill : MonoBehaviour {
 			m_btnSkillList.Add(btn);
 		}
 	}
-	public void SetupListSkill(List<MasterSkillParam> _master_list)
+
+	public void ClearSkillList()
 	{
 		BannerSkill[] arr = m_goSkillBannerRoot.GetComponentsInChildren<BannerSkill>();
 		foreach (BannerSkill banner in arr)
@@ -84,6 +87,10 @@ public class PanelSkill : MonoBehaviour {
 		}
 		m_bannerSkillList.Clear();
 
+	}
+	public void SetupListSkill(List<MasterSkillParam> _master_list)
+	{
+		ClearSkillList();
 		foreach (MasterSkillParam master in _master_list)
 		{
 			BannerSkill banner = PrefabManager.Instance.MakeScript<BannerSkill>(m_prefBannerSkill, m_goSkillBannerRoot);

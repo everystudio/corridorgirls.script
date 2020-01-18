@@ -21,6 +21,8 @@ public class PanelChara : MonoBehaviour {
 
 	public List<CharaIcon> icon_list = new List<CharaIcon>();
 
+	public GameObject m_goCharaButtons;
+
 	void Start()
 	{
 		m_prefCharaIcon.SetActive(false);

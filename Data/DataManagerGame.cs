@@ -96,11 +96,18 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 		//dataCard.SetSaveFilename("data_card");
 		//dataCard.LoadMulti("data_card");
 
-		yield return StartCoroutine(dataUnit.SpreadSheet(SS_TEST, "unit", () => { }));
+		if (false == dataUnit.Load())
+		{
+			yield return StartCoroutine(dataUnit.SpreadSheet(SS_TEST, "unit", () => { }));
+		}
+		if (false == dataSkill.Load())
+		{
+			yield return StartCoroutine(dataSkill.SpreadSheet(SS_TEST, "skill", () => { }));
+		}
 		yield return StartCoroutine(dataQuest.SpreadSheet(SS_TEST, "quest", () => { }));
 		yield return StartCoroutine(dataItem.SpreadSheet(SS_TEST, "item", () => { }));
-		yield return StartCoroutine(dataSkill.SpreadSheet(SS_TEST, "skill", () => { }));
-		
+
+
 
 		Initialized = true;
 

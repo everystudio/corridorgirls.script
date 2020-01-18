@@ -95,6 +95,7 @@ namespace CampMainAction {
 			base.OnEnter();
 			campMain.m_panelStage.gameObject.SetActive(true);
 
+			campMain.m_panelStage.m_goPanelButtons.SetActive(true);
 			campMain.m_panelStage.OnBannerStage.AddListener(OnBannerStage);
 			campMain.m_panelStage.ShowList();
 
@@ -113,6 +114,7 @@ namespace CampMainAction {
 
 		private void OnClose()
 		{
+			campMain.m_panelStage.m_goPanelButtons.SetActive(false);
 			campMain.m_panelStage.gameObject.SetActive(false);
 			Fsm.Event("close");
 		}
@@ -145,6 +147,9 @@ namespace CampMainAction {
 			campMain.m_panelChara.m_btnClose.onClick.AddListener(OnClose);
 			campMain.m_panelChara.m_btnEdit.onClick.AddListener(OnEdit);
 			campMain.m_panelChara.m_btnList.onClick.AddListener(OnList);
+
+
+			campMain.m_panelChara.m_goCharaButtons.SetActive(true);
 		}
 
 		private void OnEdit()
@@ -159,6 +164,7 @@ namespace CampMainAction {
 
 		private void OnClose()
 		{
+			campMain.m_panelChara.m_goCharaButtons.SetActive(false);
 			campMain.m_panelChara.gameObject.SetActive(false);
 			Fsm.Event("close");
 		}
@@ -384,6 +390,7 @@ namespace CampMainAction {
 		{
 			base.OnEnter();
 			// データの上書き
+			DMCamp.Instance.dataUnit.Save();
 
 			campMain.m_panelStatus.Initialize(DMCamp.Instance.dataUnit, DMCamp.Instance.masterChara);
 
@@ -405,7 +412,11 @@ namespace CampMainAction {
 
 		private IEnumerator reload()
 		{
-			yield return StartCoroutine(DMCamp.Instance.dataUnit.SpreadSheet(DMCamp.SS_TEST, "unit", () => { }));
+
+			if (false == DMCamp.Instance.dataUnit.Load())
+			{
+				yield return StartCoroutine(DMCamp.Instance.dataUnit.SpreadSheet(DMCamp.SS_TEST, "unit", () => { }));
+			}
 			PartyReset();
 			Finish();
 		}
@@ -423,11 +434,25 @@ namespace CampMainAction {
 			//campMain.m_panelStage.ShowList();
 			campMain.m_panelSkill.m_goControlRoot.SetActive(true);
 			campMain.m_panelSkill.SetupSettingSkill(DMCamp.Instance.dataSkill.list.FindAll(p => 0 < p.status), DMCamp.Instance.masterSkill.list);
-			campMain.m_panelSkill.SetupListSkill(DMCamp.Instance.masterSkill.list);
 
+			campMain.m_panelSkill.m_textBtnList.text = "スキル一覧";
 			campMain.m_panelSkill.m_textBtnEdit.text = "スキル編集";
 			campMain.m_panelSkill.m_textBtnClose.text = "閉じる";
 
+			campMain.m_panelSkill.m_btnList.interactable = true;
+			campMain.m_panelSkill.m_btnEdit.interactable = true;
+			campMain.m_panelSkill.m_btnClose.interactable = true;
+
+			campMain.m_panelSkill.m_btnList.gameObject.SetActive(true);
+			campMain.m_panelSkill.m_btnClose.gameObject.SetActive(true);
+			campMain.m_panelSkill.m_btnEdit.gameObject.SetActive(true);
+
+			campMain.m_panelSkill.ClearSkillList();
+
+			campMain.m_panelSkill.m_btnList.onClick.AddListener(()=>
+			{
+				Fsm.Event("list");
+			});
 			campMain.m_panelSkill.m_btnClose.onClick.AddListener(OnClose);
 			campMain.m_panelSkill.m_btnEdit.onClick.AddListener(() => {
 				Fsm.Event("edit");
@@ -443,8 +468,40 @@ namespace CampMainAction {
 		public override void OnExit()
 		{
 			base.OnExit();
+			campMain.m_panelSkill.m_btnList.onClick.RemoveListener(OnClose);
 			campMain.m_panelSkill.m_btnClose.onClick.RemoveListener(OnClose);
 			campMain.m_panelSkill.m_btnEdit.onClick.RemoveAllListeners();
+		}
+	}
+
+	[ActionCategory("CampMainAction")]
+	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
+	public class skill_list : CampMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			campMain.m_panelSkill.SetupListSkill(DMCamp.Instance.masterSkill.list);
+
+			campMain.m_panelSkill.m_textBtnList.text = "----";
+			campMain.m_panelSkill.m_textBtnEdit.text = "----";
+			campMain.m_panelSkill.m_textBtnClose.text = "閉じる";
+
+			campMain.m_panelSkill.m_btnList.interactable = false;
+			campMain.m_panelSkill.m_btnEdit.interactable = false;
+			campMain.m_panelSkill.m_btnClose.interactable = true;
+
+
+			campMain.m_panelSkill.m_btnClose.onClick.AddListener(()=>
+			{
+				Fsm.Event("close");
+			});
+		}
+		public override void OnExit()
+		{
+			base.OnExit();
+			campMain.m_panelSkill.m_btnClose.onClick.RemoveAllListeners();
 		}
 	}
 
@@ -459,8 +516,11 @@ namespace CampMainAction {
 			base.OnEnter();
 			campMain.m_panelSkill.Select(0);
 			campMain.m_panelSkill.SetupSettingSkill(DMCamp.Instance.dataSkill.list.FindAll(p => 0 < p.status), DMCamp.Instance.masterSkill.list);
+			campMain.m_panelSkill.SetupListSkill(DMCamp.Instance.masterSkill.list);
 
-			foreach( DataSkillParam data_skill in DMCamp.Instance.dataSkill.list)
+			campMain.m_panelSkill.m_btnList.gameObject.SetActive(false);
+
+			foreach ( DataSkillParam data_skill in DMCamp.Instance.dataSkill.list)
 			{
 				Debug.Log(string.Format("skill_id:{0} status:{1}", data_skill.skill_id, data_skill.status));
 			}
@@ -476,7 +536,6 @@ namespace CampMainAction {
 			}
 
 			campMain.m_panelSkill.m_textBtnClose.text = "キャンセル";
-			campMain.m_panelSkill.m_btnEdit.interactable = true;
 			campMain.m_panelSkill.m_btnEdit.onClick.AddListener(() => {
 				Fsm.Event("decide");
 			});
@@ -608,6 +667,7 @@ namespace CampMainAction {
 		{
 			base.OnEnter();
 			// データの上書き
+			DMCamp.Instance.dataSkill.Save();
 
 			campMain.m_panelStatus.SetupSkill(DMCamp.Instance.dataSkill.list.FindAll(p => 0 < p.status), DMCamp.Instance.masterSkill.list);
 
@@ -628,7 +688,10 @@ namespace CampMainAction {
 
 		private IEnumerator reload()
 		{
-			yield return StartCoroutine(DMCamp.Instance.dataSkill.SpreadSheet(DMCamp.SS_TEST, "skill", () => { }));
+			if (false == DMCamp.Instance.dataSkill.Load())
+			{
+				yield return StartCoroutine(DMCamp.Instance.dataSkill.SpreadSheet(DMCamp.SS_TEST, "skill", () => { }));
+			}
 			Finish();
 		}
 	}

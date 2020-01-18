@@ -10,6 +10,7 @@ public class PanelStage : MonoBehaviour {
 	public GameObject m_prefBanner;
 	public GameObject m_goContents;
 
+	public GameObject m_goPanelButtons;
 	public Button m_btnClose;
 
 	public class BannerStageHandler : UnityEvent<BannerStage>

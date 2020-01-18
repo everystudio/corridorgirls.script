@@ -54,9 +54,18 @@ public class DMCamp : DataManagerBase<DMCamp> {
 		yield return StartCoroutine(masterSkill.SpreadSheet(SS_ID, "skill", () => { }));
 
 		// data
-		yield return StartCoroutine(dataUnit.SpreadSheet(SS_TEST, "unit", () => { }));
+		dataUnit.SetSaveFilename("camp_unit");
+		dataSkill.SetSaveFilename("camp_skill");
+
+		if( false == dataUnit.Load())
+		{
+			yield return StartCoroutine(dataUnit.SpreadSheet(SS_TEST, "unit", () => { }));
+		}
+		if( false == dataSkill.Load())
+		{
+			yield return StartCoroutine(dataSkill.SpreadSheet(SS_TEST, "skill", () => { }));
+		}
 		yield return StartCoroutine(dataItem.SpreadSheet(SS_TEST, "item", () => { }));
-		yield return StartCoroutine(dataSkill.SpreadSheet(SS_TEST, "skill", () => { }));
 
 
 		int serial = 1;
