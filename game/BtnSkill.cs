@@ -33,7 +33,11 @@ public class BtnSkill : MonoBehaviour {
 		{
 			OnSkillButton.Invoke(this);
 		});
+	}
 
+	public void Cover( bool _bFlag)
+	{
+		m_imgSelectCover.gameObject.SetActive(_bFlag);
 	}
 
 }

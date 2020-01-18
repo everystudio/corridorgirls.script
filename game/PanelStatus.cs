@@ -44,6 +44,8 @@ public class PanelStatus : MonoBehaviour {
 	}
 	public void SetupSkill( List<DataSkillParam> _skill_list , List<MasterSkillParam> _master_list )
 	{
+		ClearSkill();
+
 		_skill_list.Sort((a, b) => a.status - b.status);
 
 		foreach(DataSkillParam data in _skill_list)

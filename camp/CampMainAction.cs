@@ -73,6 +73,20 @@ namespace CampMainAction {
 
 	[ActionCategory("CampMainAction")]
 	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
+	public class idle : CampMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			campMain.m_panelSkill.m_goControlRoot.SetActive(false);
+
+		}
+	}
+
+
+	[ActionCategory("CampMainAction")]
+	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
 	public class stage_top : CampMainActionBase
 	{
 		public FsmInt stage_id;
@@ -338,10 +352,10 @@ namespace CampMainAction {
 		{
 			base.OnEnter();
 
-			Debug.Log(chara_id.Value);
-			Debug.Log(exchange_chara_id.Value);
-			bool chara_a = DMCamp.Instance.dataUnit.IsPartyChara(chara_id.Value);
-			bool chara_b = DMCamp.Instance.dataUnit.IsPartyChara(exchange_chara_id.Value);
+			//Debug.Log(chara_id.Value);
+			//Debug.Log(exchange_chara_id.Value);
+			//bool chara_a = DMCamp.Instance.dataUnit.IsPartyChara(chara_id.Value);
+			//bool chara_b = DMCamp.Instance.dataUnit.IsPartyChara(exchange_chara_id.Value);
 
 			DataUnitParam unit_a = DMCamp.Instance.dataUnit.list.Find(p => p.chara_id == chara_id.Value && p.unit == "chara");
 			DataUnitParam unit_b = DMCamp.Instance.dataUnit.list.Find(p => p.chara_id == exchange_chara_id.Value && p.unit == "chara");
@@ -353,7 +367,7 @@ namespace CampMainAction {
 
 			foreach( DataUnitParam u in DMCamp.Instance.dataUnit.list.FindAll(p=>p.unit == "chara"))
 			{
-				Debug.Log(string.Format("chara_id={0} position={1}", u.chara_id, u.position));
+				//Debug.Log(string.Format("chara_id={0} position={1}", u.chara_id, u.position));
 			}
 
 			PartyReset();
@@ -407,11 +421,17 @@ namespace CampMainAction {
 			base.OnEnter();
 			campMain.m_panelSkill.gameObject.SetActive(true);
 			//campMain.m_panelStage.ShowList();
-
+			campMain.m_panelSkill.m_goControlRoot.SetActive(true);
 			campMain.m_panelSkill.SetupSettingSkill(DMCamp.Instance.dataSkill.list.FindAll(p => 0 < p.status), DMCamp.Instance.masterSkill.list);
 			campMain.m_panelSkill.SetupListSkill(DMCamp.Instance.masterSkill.list);
 
+			campMain.m_panelSkill.m_textBtnEdit.text = "スキル編集";
+			campMain.m_panelSkill.m_textBtnClose.text = "閉じる";
+
 			campMain.m_panelSkill.m_btnClose.onClick.AddListener(OnClose);
+			campMain.m_panelSkill.m_btnEdit.onClick.AddListener(() => {
+				Fsm.Event("edit");
+			});
 		}
 
 		private void OnClose()
@@ -424,10 +444,194 @@ namespace CampMainAction {
 		{
 			base.OnExit();
 			campMain.m_panelSkill.m_btnClose.onClick.RemoveListener(OnClose);
+			campMain.m_panelSkill.m_btnEdit.onClick.RemoveAllListeners();
 		}
-
 	}
 
+	[ActionCategory("CampMainAction")]
+	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
+	public class skill_edit : CampMainActionBase
+	{
+		public FsmInt skill_id;
+		public FsmBool is_change;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			campMain.m_panelSkill.Select(0);
+			campMain.m_panelSkill.SetupSettingSkill(DMCamp.Instance.dataSkill.list.FindAll(p => 0 < p.status), DMCamp.Instance.masterSkill.list);
+
+			foreach( DataSkillParam data_skill in DMCamp.Instance.dataSkill.list)
+			{
+				Debug.Log(string.Format("skill_id:{0} status:{1}", data_skill.skill_id, data_skill.status));
+			}
+
+			if (is_change.Value)
+			{
+				campMain.m_panelSkill.m_textBtnEdit.text = "決定";
+				campMain.m_panelSkill.m_btnEdit.interactable = true;
+			}
+			else {
+				campMain.m_panelSkill.m_textBtnEdit.text = "----";
+				campMain.m_panelSkill.m_btnEdit.interactable = false;
+			}
+
+			campMain.m_panelSkill.m_textBtnClose.text = "キャンセル";
+			campMain.m_panelSkill.m_btnEdit.interactable = true;
+			campMain.m_panelSkill.m_btnEdit.onClick.AddListener(() => {
+				Fsm.Event("decide");
+			});
+			campMain.m_panelSkill.m_btnClose.onClick.AddListener(() => {
+				Fsm.Event("cancel");
+			});
+
+			campMain.m_panelSkill.OnSetSkillId.AddListener(_select);
+			campMain.m_panelSkill.OnListSkillId.AddListener(_select);
+		}
+
+		private void _select( int _iSkillId)
+		{
+			skill_id.Value = _iSkillId;
+			Fsm.Event("select");
+		}
+		public override void OnExit()
+		{
+			base.OnExit();
+			campMain.m_panelSkill.m_btnEdit.onClick.RemoveAllListeners();
+			campMain.m_panelSkill.m_btnClose.onClick.RemoveAllListeners();
+
+			campMain.m_panelSkill.OnSetSkillId.RemoveAllListeners();
+			campMain.m_panelSkill.OnListSkillId.RemoveAllListeners();
+
+		}
+	}
+
+	[ActionCategory("CampMainAction")]
+	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
+	public class skill_select_exchange : CampMainActionBase
+	{
+		public FsmInt skill_id;
+		public FsmInt skill_id_exchange;
+
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			campMain.m_panelSkill.Select(skill_id.Value);
+
+			campMain.m_panelSkill.m_textBtnEdit.text = "----";
+			campMain.m_panelSkill.m_textBtnClose.text = "キャンセル";
+			campMain.m_panelSkill.m_btnEdit.interactable = false;
+			campMain.m_panelSkill.m_btnClose.onClick.AddListener(() => {
+				cancel();
+			});
+
+			campMain.m_panelSkill.OnSetSkillId.AddListener(_select);
+			campMain.m_panelSkill.OnListSkillId.AddListener(_select);
+		}
+
+		private void _select(int _iSkillId)
+		{
+			Debug.Log(skill_id.Value);
+			Debug.Log(_iSkillId);
+			if( _iSkillId == skill_id.Value)
+			{
+				cancel();
+			}
+			else
+			{
+				bool skill_a = campMain.m_panelSkill.IsSettingSkill(skill_id.Value);
+				bool skill_b = campMain.m_panelSkill.IsSettingSkill(_iSkillId);
+				if( skill_a == false && skill_b == false)
+				{
+					skill_id.Value = _iSkillId;
+					campMain.m_panelSkill.Select(skill_id.Value);
+				}
+				else
+				{
+					skill_id_exchange.Value = _iSkillId;
+					Fsm.Event("exchange");
+				}
+			}
+		}
+
+		private void cancel()
+		{
+			skill_id.Value = 0;
+			Fsm.Event("cancel");
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			campMain.m_panelSkill.m_btnEdit.onClick.RemoveAllListeners();
+			campMain.m_panelSkill.m_btnClose.onClick.RemoveAllListeners();
+
+			campMain.m_panelSkill.OnSetSkillId.RemoveAllListeners();
+			campMain.m_panelSkill.OnListSkillId.RemoveAllListeners();
+
+		}
+	}
+
+	[ActionCategory("CampMainAction")]
+	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
+	public class change_skill : CampMainActionBase
+	{
+		public FsmInt skill_id;
+		public FsmInt skill_id_exchange;
+
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			DataSkillParam skill_a = DMCamp.Instance.dataSkill.list.Find(p => p.skill_id == skill_id.Value);
+			DataSkillParam skill_b = DMCamp.Instance.dataSkill.list.Find(p => p.skill_id == skill_id_exchange.Value);
+
+			int temp_status = skill_a.status;
+			skill_a.status = skill_b.status;
+			skill_b.status = temp_status;
+
+			Debug.Log(string.Format("skill_id={0} skill_id_exchange{1}", skill_id.Value, skill_id_exchange.Value));
+
+			//skill_id.Value = 0;
+			//skill_id_exchange.Value = 0;
+
+			Finish();
+		}
+	}
+
+
+	[ActionCategory("CampMainAction")]
+	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
+	public class skill_save : CampMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			// データの上書き
+
+			campMain.m_panelStatus.SetupSkill(DMCamp.Instance.dataSkill.list.FindAll(p => 0 < p.status), DMCamp.Instance.masterSkill.list);
+
+			Finish();
+		}
+	}
+
+	[ActionCategory("CampMainAction")]
+	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
+	public class skill_reload : CampMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			StartCoroutine(reload());
+
+		}
+
+		private IEnumerator reload()
+		{
+			yield return StartCoroutine(DMCamp.Instance.dataSkill.SpreadSheet(DMCamp.SS_TEST, "skill", () => { }));
+			Finish();
+		}
+	}
 
 
 }
