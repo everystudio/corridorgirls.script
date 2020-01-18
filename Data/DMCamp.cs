@@ -57,11 +57,11 @@ public class DMCamp : DataManagerBase<DMCamp> {
 		dataUnit.SetSaveFilename("camp_unit");
 		dataSkill.SetSaveFilename("camp_skill");
 
-		if( false == dataUnit.Load())
+		if( false == dataUnit.LoadMulti())
 		{
 			yield return StartCoroutine(dataUnit.SpreadSheet(SS_TEST, "unit", () => { }));
 		}
-		if( false == dataSkill.Load())
+		if( false == dataSkill.LoadMulti())
 		{
 			yield return StartCoroutine(dataSkill.SpreadSheet(SS_TEST, "skill", () => { }));
 		}
