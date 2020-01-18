@@ -186,6 +186,8 @@ namespace CampMainAction {
 		{
 			base.OnEnter();
 
+			campMain.m_panelChara.m_goCharaButtons.SetActive(false);
+
 			campMain.m_panelChara.ShowList();
 
 			campMain.m_panelChara.OnListCharaId.AddListener((int _iCharaId) =>
@@ -221,6 +223,7 @@ namespace CampMainAction {
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			campMain.m_panelChara.m_goCharaButtons.SetActive(false);
 
 			campMain.m_partyHolder.Cover(0);
 			campMain.m_partyHolder.OnClickIcon.AddListener((CharaIcon _icon) =>
