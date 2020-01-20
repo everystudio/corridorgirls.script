@@ -11,6 +11,7 @@ public class Defines{
 
 	public const string STR_FORMAT_CHARA_TEXTURE = "chara{0:D3}01_mini";
 	public const string STR_FORMAT_FACE = "face_{0:D3}01";
+	public const string STR_FORMAT_FACEICON = "chara{0:000}01_00_faceicon";
 
 	public const string KEY_MP = "quest_mp";
 	public const string KEY_MP_MAX = "quest_mp_max";

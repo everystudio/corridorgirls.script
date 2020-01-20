@@ -23,6 +23,8 @@ public class PanelChara : MonoBehaviour {
 
 	public GameObject m_goCharaButtons;
 
+	public PanelCharaDetail m_panelCharaDetail;
+
 	void Start()
 	{
 		m_prefCharaIcon.SetActive(false);

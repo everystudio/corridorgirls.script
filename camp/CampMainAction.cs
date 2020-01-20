@@ -143,6 +143,9 @@ namespace CampMainAction {
 			campMain.m_panelDecideCheckBottom.gameObject.SetActive(false);
 			campMain.m_panelChara.CloseList();
 
+			campMain.m_panelChara.m_btnClose.gameObject.SetActive(true);
+			campMain.m_panelChara.m_btnEdit.gameObject.SetActive(true);
+			campMain.m_panelChara.m_btnList.gameObject.SetActive(true);
 
 			campMain.m_panelChara.m_btnClose.onClick.AddListener(OnClose);
 			campMain.m_panelChara.m_btnEdit.onClick.AddListener(OnEdit);
@@ -186,7 +189,11 @@ namespace CampMainAction {
 		{
 			base.OnEnter();
 
-			campMain.m_panelChara.m_goCharaButtons.SetActive(false);
+			campMain.m_panelChara.m_goCharaButtons.SetActive(true);
+			campMain.m_panelChara.m_btnClose.gameObject.SetActive(true);
+			campMain.m_panelChara.m_btnEdit.gameObject.SetActive(false);
+			campMain.m_panelChara.m_btnList.gameObject.SetActive(false);
+
 
 			campMain.m_panelChara.ShowList();
 
@@ -200,7 +207,12 @@ namespace CampMainAction {
 			{
 				Fsm.Event("close");
 				campMain.m_panelChara.CloseList();
+			});
 
+			campMain.m_panelChara.m_btnClose.onClick.AddListener(() =>
+			{
+				Fsm.Event("close");
+				campMain.m_panelChara.CloseList();
 			});
 		}
 
@@ -210,10 +222,52 @@ namespace CampMainAction {
 
 			// これあんまり使いたくないけど、ボタンのイベントは唯一でいく
 			// 逆にRemoveAllListenersを使わない場合はその必要性がある前提とする
+			campMain.m_panelChara.m_btnClose.onClick.RemoveAllListeners();
 			campMain.m_panelChara.OnListCharaId.RemoveAllListeners();
 			campMain.m_panelChara.m_btnListClose.onClick.RemoveAllListeners();
 		}
 	}
+
+	[ActionCategory("CampMainAction")]
+	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
+	public class chara_detail : CampMainActionBase
+	{
+		public FsmInt chara_id;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			campMain.m_panelChara.m_panelCharaDetail.gameObject.SetActive(true);
+
+			campMain.m_panelChara.m_panelCharaDetail.Show(
+				DMCamp.Instance.masterChara.list.Find(p=>p.chara_id == chara_id.Value ),
+				DMCamp.Instance.masterCard.list,
+				DMCamp.Instance.masterCharaCard.list,
+				DMCamp.Instance.masterCardSymbol.list
+				);
+
+			campMain.m_panelChara.m_btnListClose.onClick.AddListener(() =>
+			{
+				Fsm.Event("close");
+			});
+			campMain.m_panelChara.m_btnClose.onClick.AddListener(() =>
+			{
+				Fsm.Event("close");
+			});
+
+
+
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			campMain.m_panelChara.m_btnListClose.onClick.RemoveAllListeners();
+			campMain.m_panelChara.m_btnClose.onClick.RemoveAllListeners();
+			campMain.m_panelChara.m_panelCharaDetail.gameObject.SetActive(false);
+		}
+	}
+
 
 	[ActionCategory("CampMainAction")]
 	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
