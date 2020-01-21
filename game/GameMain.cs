@@ -21,7 +21,7 @@ public class GameMain : Singleton<GameMain> {
 
 	public GameObject m_goSkillButtonRoot;
 	public GameObject m_prefBtnSkill;
-	public List<BtnSkill> m_btnSkillList = new List<BtnSkill>();
+	//public List<BtnSkill> m_btnSkillList = new List<BtnSkill>();
 	public PanelSkillDetail m_panelSkillDetail;
 
 	public PanelStatus m_panelStatus;

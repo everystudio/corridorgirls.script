@@ -261,8 +261,10 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			foreach( BtnSkill btn in GameMain.Instance.m_btnSkillList)
+			//Debug.Log("SkillSelect");
+			foreach( BtnSkill btn in GameMain.Instance.m_panelStatus.m_btnSkillList)
 			{
+				//Debug.Log(btn.gameObject.name);
 				btn.OnSkillButton.AddListener(OnSkill);
 			}
 		}
@@ -278,7 +280,7 @@ namespace GameMainAction
 			base.OnExit();
 			if (GameMain.Instance != null)
 			{
-				foreach (BtnSkill btn in GameMain.Instance.m_btnSkillList)
+				foreach (BtnSkill btn in GameMain.Instance.m_panelStatus.m_btnSkillList)
 				{
 					btn.OnSkillButton.RemoveListener(OnSkill);
 				}
