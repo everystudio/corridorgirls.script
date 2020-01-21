@@ -27,6 +27,8 @@ public class GameMain : Singleton<GameMain> {
 	public PanelStatus m_panelStatus;
 	public PanelPlayerDeck m_panelPlayerDeck;
 
+	public PanelGameControlButtons m_panelGameControlButtons;
+
 
 	public GaugeMP gauge_mp;
 
@@ -59,16 +61,13 @@ public class GameMain : Singleton<GameMain> {
 		m_prefCorridor.SetActive(false);
 		m_bIsGoal = false;
 
-		m_panelStatus.m_btnDeck.onClick.AddListener(() =>
-		{
-			m_panelPlayerDeck.Show();
-		});
-
 		Card[] arr = m_goCardRoot.GetComponentsInChildren<Card>();
 		foreach (Card c in arr)
 		{
 			GameObject.Destroy(c.gameObject);
 		}
+
+		m_panelGameControlButtons.ShowButtonNum(0, null);
 	}
 
 	public void CardSetup(List<DataCardParam> _list)

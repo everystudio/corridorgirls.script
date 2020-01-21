@@ -26,7 +26,7 @@ public class PanelStatus : MonoBehaviour {
 
 		DataUnitParam left = _dataUnit.list.Find(p=>p.unit == "chara" && p.position == "left");
 		DataUnitParam right = _dataUnit.list.Find(p => p.unit == "chara" && p.position == "right");
-		DataUnitParam back = _dataUnit.list.Find(p => p.unit == "chara" && p.position == "back");
+		//DataUnitParam back = _dataUnit.list.Find(p => p.unit == "chara" && p.position == "back");
 
 		area_chara_left.Initialize(left, _masterChara.list.Find(p => p.chara_id == left.chara_id));
 		area_chara_right.Initialize(right, _masterChara.list.Find(p => p.chara_id == right.chara_id));
