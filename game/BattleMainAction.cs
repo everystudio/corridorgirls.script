@@ -97,6 +97,56 @@ namespace BattleMainAction
 
 	}
 
+	[ActionCategory("BattleMainAction")]
+	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
+	public class Idle : BattleMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			battleMain.gameMain.m_panelGameControlButtons.ShowButtonNum(0, null);
+
+			battleMain.gameMain.m_panelStatus.m_btnStatus.onClick.AddListener(() =>
+			{
+				Fsm.Event("status");
+			});
+			battleMain.gameMain.m_panelStatus.m_btnItem.onClick.AddListener(() =>
+			{
+				Fsm.Event("item");
+			});
+			battleMain.gameMain.m_panelStatus.m_btnDeck.onClick.AddListener(() =>
+			{
+				Fsm.Event("deck");
+				//m_panelPlayerDeck.Show();
+			});
+		}
+	}
+
+	[ActionCategory("BattleMainAction")]
+	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
+	public class ShowDeck : BattleMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			battleMain.gameMain.m_panelPlayerDeck.m_btnClose.gameObject.SetActive(false);
+			battleMain.gameMain.m_panelPlayerDeck.Show();
+
+			battleMain.gameMain.m_panelGameControlButtons.ShowButtonNum(1, new string[1] { "閉じる" });
+
+			battleMain.gameMain.m_panelGameControlButtons.OnClickButton.AddListener((int _iIndex) =>
+			{
+				Finish();
+			});
+		}
+		public override void OnExit()
+		{
+			base.OnExit();
+			battleMain.gameMain.m_panelPlayerDeck.Close();
+			battleMain.gameMain.m_panelGameControlButtons.OnClickButton.RemoveAllListeners();
+		}
+	}
+
 
 	[ActionCategory("BattleMainAction")]
 	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
