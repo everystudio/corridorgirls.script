@@ -12,6 +12,8 @@ public class BattleIcon : MonoBehaviour {
 
 	public int m_iDamageNum;
 
+	public const float POS_Z = -1.0f;
+
 	public class EventBattleIcon : UnityEvent<BattleIcon> {
 	}
 	public EventBattleIcon HitHandler = new EventBattleIcon();
@@ -51,7 +53,7 @@ public class BattleIcon : MonoBehaviour {
 				iTween.Hash(
 					"x", pos_x,
 					"y", pos_y,
-					"z", 0.0f,
+					"z", POS_Z,
 					"time", _fTime,
 					"oncomplete", "MoveCompleteHandler",
 					"oncompletetarget", gameObject,
