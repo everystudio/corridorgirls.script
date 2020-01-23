@@ -19,6 +19,12 @@ public class BattleIcon : MonoBehaviour {
 	public EventBattleIcon HitHandler = new EventBattleIcon();
 	public EventBattleIcon AttackHandler = new EventBattleIcon();
 
+	public UnityEvent OnOffsetFinished = new UnityEvent();
+	public void offset_end()
+	{
+		OnOffsetFinished.Invoke();
+	}
+
 	public MasterCardSymbolParam master_symbol;
 
 	public void Initialize(MasterCardSymbolParam _symbol , int _iIndex , bool _bIsLeft)
@@ -85,7 +91,7 @@ public class BattleIcon : MonoBehaviour {
 
 		DamageNum script = PrefabManager.Instance.MakeScript<DamageNum>(BattleMain.Instance.m_prefDamageNum, root);
 		//Debug.Log(script.gameObject.transform.localPosition);
-		script.gameObject.transform.localPosition = new Vector3(0.0f, -1.5f, 0.0f);
+		script.gameObject.transform.localPosition = new Vector3(0.0f, -1.5f, -1.5f);
 
 		Debug.LogError("damage固定");
 		m_iDamageNum = 12;

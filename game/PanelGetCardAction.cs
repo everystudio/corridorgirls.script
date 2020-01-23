@@ -26,7 +26,7 @@ namespace PanelGetCardAction {
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			panel.Initialize(stage_id.Value);
+			panel.Initialize(3,stage_id.Value);
 			Finish();
 		}
 	}

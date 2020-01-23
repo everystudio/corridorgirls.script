@@ -588,7 +588,7 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 			gameMain.panelGetCard.gameObject.SetActive(true);
-			gameMain.panelGetCard.Initialize(stage_id.Value);
+			gameMain.panelGetCard.Initialize( 3 , stage_id.Value);
 			gameMain.panelGetCard.OnSelectCardParam.AddListener(OnSelectCardParam);
 		}
 

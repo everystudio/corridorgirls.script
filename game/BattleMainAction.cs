@@ -198,21 +198,29 @@ namespace BattleMainAction
 	public class EnemyCard : BattleMainActionBase
 	{
 		public FsmInt enemy_card_id;
+
 		public override void OnEnter()
 		{
 			base.OnEnter();
 
-			if(battleMain.enemy_card!= null)
+			StartCoroutine(exe_main());
+		}
+
+		private IEnumerator exe_main()
+		{
+			if (battleMain.enemy_card != null)
 			{
 				GameObject.Destroy(battleMain.enemy_card.gameObject);
 				battleMain.enemy_card = null;
 			}
 
+			yield return new WaitForSeconds(1.5f);
+
 			battleMain.enemy_card = PrefabManager.Instance.MakeScript<Card>(
 				battleMain.m_prefCard, battleMain.m_goEnemyCardRoot);
 
 			Debug.Log(battleMain.dataCardEnemy.list.Count);
-			if( battleMain.dataCardEnemy.CardFill(2) == false)
+			if (battleMain.dataCardEnemy.CardFill(2) == false)
 			{
 				battleMain.dataCardEnemy.DeckShuffle();
 				if (battleMain.dataCardEnemy.CardFill(2) == false)
@@ -226,9 +234,11 @@ namespace BattleMainAction
 			select_enemy_card.status = (int)DataCard.STATUS.PLAY;
 			enemy_card_id.Value = select_enemy_card.card_id;
 			//MasterCardParam master_enemy_card = DataManagerGame.Instance.masterCard.list.Find(p => p.card_id == enemy_card_id.Value);
-			battleMain.enemy_card.Initialize(select_enemy_card , DataManagerGame.Instance.masterCardSymbol.list);
+			battleMain.enemy_card.Initialize(select_enemy_card, DataManagerGame.Instance.masterCardSymbol.list);
 
 			Finish();
+
+
 		}
 	}
 
@@ -321,14 +331,19 @@ namespace BattleMainAction
 		private float m_fTime;
 		private float move_time;
 
+		private int offset_num;
+		private int offset_count;
+
 		public override void OnEnter()
 		{
 			base.OnEnter();
 			move_time = 0.5f;
 			m_fTime = 0.0f;
+			offset_num = 0;
+			offset_count = 0;
 			//Debug.Log("SymbolOffset.OnEnter");
 
-			if( symbol_id_player_canceler.Value != 0)
+			if ( symbol_id_player_canceler.Value != 0)
 			{
 				BattleIcon player_icon_canceler = battleMain.player_icon_list.Find(p => p.master_symbol.card_symbol_id == symbol_id_player_canceler.Value);
 				if(player_icon_canceler != null)
@@ -357,6 +372,11 @@ namespace BattleMainAction
 				player_icon.m_animator.SetTrigger("break");
 				enemy_icon.m_animator.SetTrigger("break");
 
+				offset_num += 2;
+
+				player_icon.OnOffsetFinished.AddListener(OnIconOffsetFinished);
+				enemy_icon.OnOffsetFinished.AddListener(OnIconOffsetFinished);
+
 				List<BattleIcon> player_icon_list = battleMain.player_icon_list.FindAll(p => p.master_symbol.line == player_icon.master_symbol.line && p != player_icon);
 				List<BattleIcon> enemy_icon_list = battleMain.enemy_icon_list.FindAll(p => p.master_symbol.line == enemy_icon.master_symbol.line && p != enemy_icon);
 
@@ -382,10 +402,23 @@ namespace BattleMainAction
 			}
 		}
 
+		private void OnIconOffsetFinished()
+		{
+			offset_count += 1;
+
+			if( offset_num <= offset_count)
+			{
+				Finish();
+			}
+		}
+
 		public override void OnUpdate()
 		{
 			base.OnUpdate();
 			// 多分いらないと思うけど
+
+
+			/*
 			if (m_bMove)
 			{
 				m_fTime += Time.deltaTime;
@@ -394,6 +427,7 @@ namespace BattleMainAction
 					Fsm.Event("continue");
 				}
 			}
+			*/
 		}
 	}
 

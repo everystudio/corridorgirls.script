@@ -8,10 +8,26 @@ public class PanelGetCard : MonoBehaviour {
 	public Button m_btnDecide;
 	public List<Card> card_list = new List<Card>();
 
+	public GameObject m_goCardRoot;
+	public GameObject m_prefCard;
+
 	public UnityEventDataCardParam OnSelectCardParam = new UnityEventDataCardParam();
 
-	public void Initialize( int _iStageId)
+	public void Initialize( int _iNum , int _iStageId)
 	{
+
+		foreach( Card c in card_list)
+		{
+			Destroy(c.gameObject);
+		}
+		card_list.Clear();
+
+		for ( int i = 0; i < _iNum; i++)
+		{
+			Card c = PrefabManager.Instance.MakeScript<Card>(m_prefCard, m_goCardRoot);
+			card_list.Add(c);
+		}
+
 		int iCount = card_list.Count;
 
 		List<MasterStageCardParam> appear_card = DataManagerGame.Instance.masterStageCard.list.FindAll(p => p.stage_id == _iStageId);
