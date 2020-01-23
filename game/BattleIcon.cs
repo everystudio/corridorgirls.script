@@ -87,6 +87,7 @@ public class BattleIcon : MonoBehaviour {
 		//Debug.Log(script.gameObject.transform.localPosition);
 		script.gameObject.transform.localPosition = new Vector3(0.0f, -1.5f, 0.0f);
 
+		Debug.LogError("damage固定");
 		m_iDamageNum = 12;
 
 		HitHandler.Invoke(this);

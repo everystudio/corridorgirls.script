@@ -17,6 +17,6 @@ public class GaugeMP : MonoBehaviour {
 		{
 			energy_bar.SetValueCurrent(int.Parse(_strMp));
 		});
-
 	}
+	
 }
