@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class PanelGetCard : MonoBehaviour {
 
+	public int stage_id;
+
 	public Button m_btnDecide;
 	public List<Card> card_list = new List<Card>();
 
@@ -15,7 +17,7 @@ public class PanelGetCard : MonoBehaviour {
 
 	public void Initialize( int _iNum , int _iStageId)
 	{
-
+		Debug.Log(_iStageId);
 		foreach( Card c in card_list)
 		{
 			Destroy(c.gameObject);

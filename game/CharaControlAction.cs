@@ -118,6 +118,13 @@ namespace CharaControlAction {
 				target.master.y + 0.85f,
 				-1.0f);
 
+
+			Vector3 dir = target_position.Value - charaControl.gameObject.transform.localPosition;
+
+			charaControl.m_animator.SetFloat("x", dir.x);
+			charaControl.m_animator.SetFloat("y", dir.y);
+
+
 			Finish();
 		}
 

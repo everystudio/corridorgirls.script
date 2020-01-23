@@ -26,8 +26,22 @@ namespace PanelGetCardAction {
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			panel.Initialize(3,stage_id.Value);
-			Finish();
+		}
+
+		public override void OnUpdate()
+		{
+			base.OnUpdate();
+
+			if (panel.stage_id != 0)
+			{
+				stage_id.Value = panel.stage_id;
+
+				Debug.Log(stage_id.Value);
+				panel.Initialize(3, stage_id.Value);
+				Finish();
+			}
+
+
 		}
 	}
 
@@ -83,6 +97,7 @@ namespace PanelGetCardAction {
 
 				if( temp_serial == c.data_card.card_serial)
 				{
+					panel.stage_id = 0;
 					panel.OnSelectCardParam.Invoke(c.data_card);
 				}
 			}
