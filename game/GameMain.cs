@@ -32,6 +32,9 @@ public class GameMain : Singleton<GameMain> {
 	public PanelGameStatus m_panelGameStatus;
 	public PanelCameraScaler m_panelCameraScaler;
 
+	public GameObject m_goCoinRoot;
+	public TMPro.TextMeshProUGUI m_txtCoin;
+
 	public GaugeMP gauge_mp;
 
 	public bool m_bIsGoal;
@@ -160,6 +163,13 @@ public class GameMain : Singleton<GameMain> {
 		panelStatus.area_chara_left.Refresh();
 		panelStatus.area_chara_right.Refresh();
 	}
+
+	public void ShowCoin( bool _bFlag , int _iCoin)
+	{
+		m_goCoinRoot.SetActive(_bFlag);
+		m_txtCoin.text = _iCoin.ToString();
+	}
+
 
 
 }

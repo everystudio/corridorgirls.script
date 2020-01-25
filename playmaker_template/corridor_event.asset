@@ -224,14 +224,16 @@ MonoBehaviour:
         - CharaControlAction.CharaAnimWin
         - MessageControlAction.ShowMessage
         - HutongGames.PlayMaker.Actions.Wait
+        - GameMainAction.AddCoin
         customNames:
         - 
         - 
         - 
-        actionEnabled: 010101
-        actionIsOpen: 010101
-        actionStartIndex: 000000000000000001000000
-        actionHashCodes: 000000001322710048c01101
+        - 
+        actionEnabled: 01010101
+        actionIsOpen: 01010101
+        actionStartIndex: 00000000000000000100000004000000
+        actionHashCodes: 000000001322710048c01101e9ac1d02
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
@@ -259,7 +261,19 @@ MonoBehaviour:
           showInInspector: 0
           networkSync: 0
           value: 2
-        fsmIntParams: []
+        fsmIntParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 30
         fsmBoolParams: []
         fsmVector2Params: []
         fsmVector3Params: []
@@ -273,14 +287,16 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 120000000f0000001700000001000000
+        paramDataType: 120000000f00000017000000010000001000000010000000
         paramName:
         - message
         - time
         - finishEvent
         - realTime
-        paramDataPos: 00000000000000000000000000000000
-        paramByteDataSize: 00000000000000000000000001000000
+        - coin
+        - add
+        paramDataPos: 000000000000000000000000000000000000000001000000
+        paramByteDataSize: 000000000000000000000000010000000000000000000000
     - name: get_card
       description: 
       colorIndex: 0

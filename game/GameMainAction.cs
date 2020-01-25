@@ -162,6 +162,7 @@ namespace GameMainAction
 
 			int hand_card_num = DataManagerGame.Instance.dataCard.list.FindAll(p => p.status == (int)DataCard.STATUS.HAND).Count;
 			Debug.Log(hand_card_num);
+
 			if( hand_card_num <= card_fill_num.Value)
 			{
 				Fsm.Event("card_fill");
@@ -172,6 +173,48 @@ namespace GameMainAction
 			}
 		}
 	}
+
+	[ActionCategory("Common")]
+	[HutongGames.PlayMaker.Tooltip("Common")]
+	public class GetCoin : FsmStateAction
+	{
+		public FsmInt coin;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			coin.Value = DataManagerGame.Instance.user_data.ReadInt(Defines.KeyCoin);
+			Finish();
+		}
+	}
+	[ActionCategory("Common")]
+	[HutongGames.PlayMaker.Tooltip("Common")]
+	public class AddCoin : FsmStateAction
+	{
+		public FsmInt coin;
+		public FsmInt add;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			coin.Value = DataManagerGame.Instance.user_data.AddInt(Defines.KeyCoin, add.Value);
+			Finish();
+		}
+	}
+
+	[ActionCategory("Common")]
+	[HutongGames.PlayMaker.Tooltip("Common")]
+	public class ShowCoin : FsmStateAction
+	{
+		public FsmBool is_show;
+		public FsmInt coin;
+
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			GameMain.Instance.ShowCoin(is_show.Value, coin.Value);
+			Finish();
+		}
+	}
+
 
 	[ActionCategory("Common")]
 	[HutongGames.PlayMaker.Tooltip("Common")]
@@ -216,7 +259,6 @@ namespace GameMainAction
 		}
 
 	}
-
 
 
 	[ActionCategory("GameMainAction")]
