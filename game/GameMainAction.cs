@@ -22,6 +22,11 @@ namespace GameMainAction
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
 	public class DataWait : GameMainActionBase
 	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			gameMain.m_panelCameraScaler.gameObject.SetActive(false);
+		}
 		public override void OnUpdate()
 		{
 			base.OnUpdate();
@@ -153,6 +158,7 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			gameMain.m_panelCameraScaler.gameObject.SetActive(true);
 
 			int hand_card_num = DataManagerGame.Instance.dataCard.list.FindAll(p => p.status == (int)DataCard.STATUS.HAND).Count;
 			Debug.Log(hand_card_num);
@@ -476,6 +482,14 @@ namespace GameMainAction
 
 			gameMain.card_list_hand.Remove(selected_card);
 			gameMain.CardOrder();
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+
+			gameMain.m_panelCameraScaler.gameObject.SetActive(false);
+
 		}
 	}
 
