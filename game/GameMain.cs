@@ -29,6 +29,7 @@ public class GameMain : Singleton<GameMain> {
 
 	public PanelGameControlButtons m_panelGameControlButtons;
 
+	public PanelGameStatus m_panelGameStatus;
 
 	public GaugeMP gauge_mp;
 

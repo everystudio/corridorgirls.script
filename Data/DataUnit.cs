@@ -12,7 +12,7 @@ public class DataUnitParam : CsvDataParam
 	public int hp { get; set; }
 	public int hp_max { get; set; }
 	public int str { get; set; }
-	public int wis { get; set; }
+	public int magic { get; set; }
 	public int heal { get; set; }
 
 	public int turn { get; set; }

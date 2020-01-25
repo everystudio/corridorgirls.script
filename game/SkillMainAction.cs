@@ -147,8 +147,8 @@ namespace SkillMainAction {
 					case "str":
 						new_assist.str = effect.param;
 						break;
-					case "wis":
-						new_assist.wis = effect.param;
+					case "magic":
+						new_assist.magic = effect.param;
 						break;
 					case "heal":
 						new_assist.heal = effect.param;

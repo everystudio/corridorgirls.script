@@ -348,6 +348,31 @@ namespace GameMainAction
 
 	[ActionCategory("GameMainAction")]
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class ShowStatus : GameMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			gameMain.m_panelGameStatus.gameObject.SetActive(true);
+			gameMain.m_panelGameStatus.Show(DataManagerGame.Instance.dataUnit.list, DataManagerGame.Instance.masterChara.list);
+
+			gameMain.m_panelGameControlButtons.ShowButtonNum(1, new string[1] { "閉じる" });
+
+			gameMain.m_panelGameControlButtons.OnClickButton.AddListener((int _iIndex) =>
+			{
+				Finish();
+			});
+		}
+		public override void OnExit()
+		{
+			base.OnExit();
+			gameMain.m_panelGameStatus.gameObject.SetActive(false);
+			gameMain.m_panelGameControlButtons.OnClickButton.RemoveAllListeners();
+		}
+	}
+
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
 	public class SkillShow : GameMainActionBase
 	{
 		public FsmGameObject panel_skill_detail;
