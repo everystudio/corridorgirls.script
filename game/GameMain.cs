@@ -35,6 +35,8 @@ public class GameMain : Singleton<GameMain> {
 	public GameObject m_goCoinRoot;
 	public TMPro.TextMeshProUGUI m_txtCoin;
 
+	public PanelItemList m_panelItemList;
+
 	public GaugeMP gauge_mp;
 
 	public bool m_bIsGoal;

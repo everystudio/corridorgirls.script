@@ -418,6 +418,40 @@ namespace GameMainAction
 			gameMain.m_panelGameControlButtons.OnClickButton.RemoveAllListeners();
 		}
 	}
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class ShowItem : GameMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			gameMain.m_panelItemList.gameObject.SetActive(true);
+
+			gameMain.m_panelItemList.Show(
+				DataManagerGame.Instance.dataItem.list.FindAll(p=>p.status == (int)DataItem.STATUS.STANDBY),
+				DataManagerGame.Instance.masterItem.list
+				);
+			gameMain.m_panelItemList.OnSelectItem.AddListener((int _iSerial) =>
+			{
+				Debug.Log(_iSerial);
+			});
+
+			gameMain.m_panelGameControlButtons.ShowButtonNum(1, new string[1] { "閉じる" });
+
+			gameMain.m_panelGameControlButtons.OnClickButton.AddListener((int _iIndex) =>
+			{
+				Finish();
+			});
+		}
+		public override void OnExit()
+		{
+			base.OnExit();
+			gameMain.m_panelItemList.OnSelectItem.RemoveAllListeners();
+			gameMain.m_panelItemList.gameObject.SetActive(false);
+			gameMain.m_panelGameControlButtons.OnClickButton.RemoveAllListeners();
+		}
+	}
 
 	[ActionCategory("GameMainAction")]
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
