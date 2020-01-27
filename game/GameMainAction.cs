@@ -302,6 +302,60 @@ namespace GameMainAction
 		}
 	}
 
+	[ActionCategory("AgincAction")]
+	[HutongGames.PlayMaker.Tooltip("AgincAction")]
+	public class AgingCardSelect : GameMainActionBase
+	{
+		public FsmInt select_card_serial;
+
+
+		private int temp_select_card_serial;
+		private float time;
+
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			int iIndex = UtilRand.GetRand(gameMain.card_list_hand.Count);
+			temp_select_card_serial = gameMain.card_list_hand[iIndex].data_card.card_serial;
+
+			time = 0.0f;
+		}
+
+		public override void OnUpdate()
+		{
+			if (DataManagerGame.Instance.IsAging)
+			{
+				base.OnUpdate();
+				time += Time.deltaTime;
+
+				if (2.5f < time)
+				{
+					time -= 2.5f;
+					OnClickCard(temp_select_card_serial);
+				}
+			}
+		}
+
+		// これは普通のselectと同じ関数内容。
+		// OnEnterがオーバーライドしたくなかったので継承してない
+		private void OnClickCard(int arg0)
+		{
+			if (select_card_serial.Value == arg0)
+			{
+				Fsm.Event("select");
+			}
+			else {
+				select_card_serial.Value = arg0;
+				gameMain.CardSelectUp(select_card_serial.Value);
+
+				DataCardParam card = DataManagerGame.Instance.dataCard.list.Find(p => p.card_serial == select_card_serial.Value);
+				GameMain.Instance.SelectCharaId = card.chara_id;
+			}
+		}
+	}
+
+
 	[ActionCategory("Common")]
 	[HutongGames.PlayMaker.Tooltip("Common")]
 	public class SkillSelect : GameMainActionBase

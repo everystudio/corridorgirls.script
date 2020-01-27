@@ -50,6 +50,11 @@ namespace PanelGetCardAction {
 	public class idle : PanelGetCardActionBase
 	{
 		private int temp_serial;
+
+		private float aging_timer;
+		private int temp_serial_aging;
+
+
 		public override void OnEnter()
 		{
 			base.OnEnter();
@@ -59,8 +64,33 @@ namespace PanelGetCardAction {
 			{
 				c.OnClickCard.AddListener(OnClickCard);
 			}
+
+			aging_timer = 0.0f;
+			int aging_index = UtilRand.GetRand(panel.card_list.Count);
+			temp_serial_aging = panel.card_list[aging_index].data_card.card_serial;
+
 			panel.m_btnDecide.interactable = false;
 			panel.m_btnDecide.onClick.AddListener(OnDecide);
+		}
+
+		public override void OnUpdate()
+		{
+			if (DataManagerGame.Instance.IsAging)
+			{
+				base.OnUpdate();
+				aging_timer += Time.deltaTime;
+				if (2.5f < aging_timer)
+				{
+					aging_timer -= 2.5f;
+					if (panel.m_btnDecide.interactable)
+					{
+						OnDecide();
+					}
+					else {
+						OnClickCard(temp_serial_aging);
+					}
+				}
+			}
 		}
 
 		private void OnDecide()
@@ -80,10 +110,10 @@ namespace PanelGetCardAction {
 
 		private void select(int _iSerial)
 		{
-			//Debug.Log(_iSerial);
+			Debug.Log(_iSerial);
 			foreach (Card c in panel.card_list)
 			{
-				c.m_animator.SetBool("up", temp_serial == c.data_card.card_serial);
+				c.m_animator.SetBool("up", _iSerial == c.data_card.card_serial);
 				c.OnClickCard.AddListener(OnClickCard);
 			}
 		}

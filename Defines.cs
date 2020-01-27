@@ -8,6 +8,8 @@ public class Defines{
 	public const string KeyGem = "gem";
 	public const string KeyCoin = "coin";
 
+	public const string KEY_AGING = "aging";
+
 	public const float ICON_MOVE_TIME = 0.1f;
 
 	public const string STR_FORMAT_CHARA_TEXTURE = "chara{0:D3}01_mini";

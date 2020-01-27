@@ -49,10 +49,24 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 		StartCoroutine(init_network());
 	}
 
+	private bool m_bIsAging;
+	public bool IsAging
+	{
+		get
+		{
+			return m_bIsAging;
+		}
+	}
+
+	public bool GetAgingState()
+	{
+		m_bIsAging = config.HasKey(Defines.KEY_AGING);
+		return IsAging;
+	}
+
 
 	private IEnumerator init_network()
 	{
-
 		Debug.Log(config.ReadInt("stage_id"));
 
 		yield return StartCoroutine(masterStage.SpreadSheet(SS_ID, "stage", () => { }));
