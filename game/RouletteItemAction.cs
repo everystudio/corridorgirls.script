@@ -35,10 +35,13 @@ namespace RouletteItemAction {
 		float time = 0.0f;
 		public FsmFloat interval;
 
+		private float aging_timer;
+
 		public override void OnEnter()
 		{
 			base.OnEnter();
 			time = 0.0f;
+			aging_timer = 0.0f;
 
 			roulette.m_txtMessage.text = "ボタンでアイテム決定";
 		}
@@ -52,6 +55,18 @@ namespace RouletteItemAction {
 				time -= interval.Value;
 				roulette.ChangeActive();
 			}
+
+			#region エージング
+			if (DataManagerGame.Instance.IsAging)
+			{
+				aging_timer += Time.deltaTime;
+				if (5.0f < aging_timer)
+				{
+					Fsm.Event("auto");
+				}
+			}
+			#endregion
+
 		}
 	}
 
