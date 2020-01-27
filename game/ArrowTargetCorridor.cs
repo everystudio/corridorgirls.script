@@ -11,7 +11,7 @@ public class ArrowTargetCorridor : MonoBehaviour {
 
 	public bool m_bIsLock;
 
-	private DataCorridorParam m_next;
+	public DataCorridorParam m_next;
 
 	public void Initialize(DataCorridorParam _now , DataCorridorParam _next)
 	{

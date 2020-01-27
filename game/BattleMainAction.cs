@@ -153,9 +153,14 @@ namespace BattleMainAction
 	public class card_select_battle : BattleMainActionBase
 	{
 		public FsmInt select_card_serial;
+
+		private float aging_timer;
+
 		public override void OnEnter()
 		{
 			base.OnEnter();
+
+			aging_timer = 0.0f;
 
 			foreach (Card card in battleMain.gameMain.card_list_hand)
 			{
@@ -181,6 +186,30 @@ namespace BattleMainAction
 				battleMain.gameMain.SelectCharaId = card.chara_id;
 				Fsm.Event("touch");
 			}
+		}
+
+		public override void OnUpdate()
+		{
+			base.OnUpdate();
+
+			#region Aging
+			if (DataManagerGame.Instance.IsAging)
+			{
+				aging_timer += Time.deltaTime;
+				if (3.0f < aging_timer)
+				{
+					if (0 == select_card_serial.Value)
+					{
+						int index = UtilRand.GetRand(battleMain.gameMain.card_list_hand.Count);
+						OnClickCard(battleMain.gameMain.card_list_hand[index].data_card.card_serial);
+					}
+					else
+					{
+						OnClickCard(select_card_serial.Value);
+					}
+				}
+			}
+			#endregion
 		}
 		public override void OnExit()
 		{

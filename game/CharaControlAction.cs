@@ -164,9 +164,12 @@ namespace CharaControlAction {
 
 		private int m_iSelectedIndex;
 		private List<ArrowTargetCorridor> arrow_list = new List<ArrowTargetCorridor>();
+
+		private float aging_timer;
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			aging_timer = 0.0f;
 			target_corridor_index.Value = 0;
 
 			charaControl.m_btnGo.interactable = false;
@@ -194,6 +197,27 @@ namespace CharaControlAction {
 				arrow.SelectArrowIndex.AddListener(OnSelectArrowIndex);
 				arrow_list.Add(arrow);
 			}
+		}
+
+		public override void OnUpdate()
+		{
+			base.OnUpdate();
+			#region Aging
+			aging_timer += Time.deltaTime;
+			if( 3.0f < aging_timer)
+			{
+				aging_timer -= 3.0f;
+				if (target_corridor_index.Value == 0)
+				{
+					int aging_index = GetAgingIndex();
+					OnSelectArrowIndex(aging_index);
+				}
+				else
+				{
+					OnDecide();
+				}
+			}
+			#endregion
 		}
 
 		private void OnDecide()
@@ -237,6 +261,44 @@ namespace CharaControlAction {
 				iRet = e.key_item_id;
 			}
 			return iRet;
+		}
+
+		private bool CheckKeyItem(int _iCorridorIndex)
+		{
+			bool bOK = false;
+			int key_item_id = GetKeyItemId(_iCorridorIndex);
+			if (key_item_id == 0)
+			{
+				bOK = true;
+			}
+			else
+			{
+				DataItemParam item = DataManagerGame.Instance.dataItem.list.Find(p => p.item_id == key_item_id && p.status == (int)DataItem.STATUS.STANDBY);
+				if (item != null)
+				{
+					bOK = true;
+				}
+				else
+				{
+					Debug.Log("アイテムがないため進行出来ません");
+				}
+			}
+			return bOK;
+		}
+
+		private int GetAgingIndex()
+		{
+			for( int i = arrow_list.Count -1; 0 < i; i--)
+			{
+				int target_index = arrow_list[i].m_next.index;
+
+				if (CheckKeyItem(target_index))
+				{
+					return target_index;
+				}
+			}
+			// ここは来ないのでは？
+			return arrow_list[0].m_next.index;
 		}
 
 		private void OnSelectArrowIndex(int arg0)
