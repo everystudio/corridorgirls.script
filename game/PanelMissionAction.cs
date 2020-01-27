@@ -113,6 +113,9 @@ namespace PanelMissionAction {
 	{
 		public FsmInt mission_id;
 		public FsmString key;
+
+		private float aging_timer;
+
 		public override void OnEnter()
 		{
 			base.OnEnter();
@@ -121,6 +124,21 @@ namespace PanelMissionAction {
 
 			panelMission.m_btnYes.onClick.AddListener(OnYes);
 			panelMission.m_btnNo.onClick.AddListener(OnNo);
+		}
+
+		public override void OnUpdate()
+		{
+			base.OnUpdate();
+			#region Aging
+			if (DataManagerGame.Instance.IsAging)
+			{
+				aging_timer += Time.deltaTime;
+				if (2.5f < aging_timer)
+				{
+					OnYes();
+				}
+			}
+			#endregion
 		}
 
 		private void OnYes()
@@ -230,11 +248,13 @@ namespace PanelMissionAction {
 	[HutongGames.PlayMaker.Tooltip("PanelMissionAction")]
 	public class show_success : PanelMissionActionBase
 	{
+		private float aging_timer;
 		public override void OnEnter()
 		{
 			base.OnEnter();
 			panelMission.ShowSuccess();
 			panelMission.m_btnContinue.onClick.AddListener(OnContinue);
+			aging_timer = 0.0f;
 		}
 
 		private void OnContinue()
@@ -247,6 +267,21 @@ namespace PanelMissionAction {
 			Finish();
 		}
 
+		public override void OnUpdate()
+		{
+			base.OnUpdate();
+			#region Aging
+			if (DataManagerGame.Instance.IsAging)
+			{
+				aging_timer += Time.deltaTime;
+				if (2.0f < aging_timer)
+				{
+					OnContinue();
+				}
+			}
+			#endregion
+		}
+
 		public override void OnExit()
 		{
 			base.OnExit();
@@ -257,9 +292,11 @@ namespace PanelMissionAction {
 	[HutongGames.PlayMaker.Tooltip("PanelMissionAction")]
 	public class show_fail : PanelMissionActionBase
 	{
+		private float aging_timer;
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			aging_timer = 0.0f;
 			panelMission.ShowFail();
 			panelMission.m_btnContinue.onClick.AddListener(OnContinue);
 		}
@@ -273,6 +310,20 @@ namespace PanelMissionAction {
 				panelMission.prize_list.Add(p.param);
 			}
 			Finish();
+		}
+		public override void OnUpdate()
+		{
+			base.OnUpdate();
+			#region Aging
+			if (DataManagerGame.Instance.IsAging)
+			{
+				aging_timer += Time.deltaTime;
+				if (2.0f < aging_timer)
+				{
+					OnContinue();
+				}
+			}
+			#endregion
 		}
 
 		public override void OnExit()
@@ -409,9 +460,12 @@ namespace PanelMissionAction {
 	public class show_no_item : PanelMissionActionBase
 	{
 		public FsmInt mission_id;
+
+		private float aging_timer;
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			aging_timer = 0.0f;
 
 			MasterMissionDetailParam detail = panelMission.masterMissionDetailParamList.Find(p => p.type == "intro_no");
 			MasterItemParam item = DataManagerGame.Instance.masterItem.list.Find(p => p.item_id == panelMission.masterMissionParam.item_id);
@@ -420,6 +474,22 @@ namespace PanelMissionAction {
 			panelMission.ShowNoItem(message);
 			panelMission.m_btnContinue.onClick.AddListener(OnContinue);
 		}
+
+		public override void OnUpdate()
+		{
+			base.OnUpdate();
+			#region Aging
+			if (DataManagerGame.Instance.IsAging)
+			{
+				aging_timer += Time.deltaTime;
+				if (2.5f < aging_timer)
+				{
+					OnContinue();
+				}
+			}
+			#endregion
+		}
+
 		private void OnContinue()
 		{
 			Finish();

@@ -26,6 +26,7 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 			gameMain.m_panelCameraScaler.gameObject.SetActive(false);
+			gameMain.m_goCoinRoot.SetActive(false);
 		}
 		public override void OnUpdate()
 		{
@@ -159,6 +160,7 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 			gameMain.m_panelCameraScaler.gameObject.SetActive(true);
+			gameMain.m_goCoinRoot.SetActive(true);
 
 			int hand_card_num = DataManagerGame.Instance.dataCard.list.FindAll(p => p.status == (int)DataCard.STATUS.HAND).Count;
 			Debug.Log(hand_card_num);
@@ -619,6 +621,7 @@ namespace GameMainAction
 			base.OnExit();
 
 			gameMain.m_panelCameraScaler.gameObject.SetActive(false);
+			gameMain.m_goCoinRoot.SetActive(false);
 
 		}
 	}

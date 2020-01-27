@@ -37,8 +37,24 @@ public class DMCamp : DataManagerBase<DMCamp> {
 		StartCoroutine(init_network());
 	}
 
+	private bool m_bIsAging;
+	public bool IsAging
+	{
+		get
+		{
+			return m_bIsAging;
+		}
+	}
+
+	public bool GetAgingState()
+	{
+		m_bIsAging = config.HasKey(Defines.KEY_AGING);
+		return IsAging;
+	}
+
 	private IEnumerator init_network()
 	{
+		GetAgingState();
 		// master
 		yield return StartCoroutine(masterChara.SpreadSheet(SS_ID, "chara", () => { }));
 		yield return StartCoroutine(masterCharaCard.SpreadSheet(SS_ID, "chara_card", () => { }));

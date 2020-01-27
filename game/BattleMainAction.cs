@@ -356,8 +356,8 @@ namespace BattleMainAction
 		public FsmInt symbol_id_player_canceler;
 		public FsmInt symbol_id_enemy_canceler;
 
-		private bool m_bMove;
-		private float m_fTime;
+		//private bool m_bMove;
+		//private float m_fTime;
 		private float move_time;
 
 		private int offset_num;
@@ -367,7 +367,7 @@ namespace BattleMainAction
 		{
 			base.OnEnter();
 			move_time = 0.5f;
-			m_fTime = 0.0f;
+			//m_fTime = 0.0f;
 			offset_num = 0;
 			offset_count = 0;
 			//Debug.Log("SymbolOffset.OnEnter");
@@ -396,7 +396,7 @@ namespace BattleMainAction
 
 			if( player_icon != null && enemy_icon != null)
 			{
-				m_bMove = true;
+				//m_bMove = true;
 
 				player_icon.m_animator.SetTrigger("break");
 				enemy_icon.m_animator.SetTrigger("break");
@@ -426,7 +426,7 @@ namespace BattleMainAction
 			}
 			else
 			{
-				m_bMove = false;
+				//m_bMove = false;
 				Finish();
 			}
 		}

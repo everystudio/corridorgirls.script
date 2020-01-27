@@ -203,18 +203,21 @@ namespace CharaControlAction {
 		{
 			base.OnUpdate();
 			#region Aging
-			aging_timer += Time.deltaTime;
-			if( 3.0f < aging_timer)
+			if (DataManagerGame.Instance.IsAging)
 			{
-				aging_timer -= 3.0f;
-				if (target_corridor_index.Value == 0)
+				aging_timer += Time.deltaTime;
+				if (3.0f < aging_timer)
 				{
-					int aging_index = GetAgingIndex();
-					OnSelectArrowIndex(aging_index);
-				}
-				else
-				{
-					OnDecide();
+					aging_timer -= 3.0f;
+					if (target_corridor_index.Value == 0)
+					{
+						int aging_index = GetAgingIndex();
+						OnSelectArrowIndex(aging_index);
+					}
+					else
+					{
+						OnDecide();
+					}
 				}
 			}
 			#endregion

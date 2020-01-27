@@ -68,6 +68,7 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 	private IEnumerator init_network()
 	{
 		Debug.Log(config.ReadInt("stage_id"));
+		GetAgingState();
 
 		yield return StartCoroutine(masterStage.SpreadSheet(SS_ID, "stage", () => { }));
 		yield return StartCoroutine(masterCorridor.SpreadSheet(SS_ID, "corridor", () => { }));

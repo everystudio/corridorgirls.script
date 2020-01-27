@@ -75,12 +75,27 @@ namespace CampMainAction {
 	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
 	public class idle : CampMainActionBase
 	{
+		private float aging_timer;
 		public override void OnEnter()
 		{
 			base.OnEnter();
 
 			campMain.m_panelSkill.m_goControlRoot.SetActive(false);
+			aging_timer = 0.0f;
+		}
 
+		public override void OnUpdate()
+		{
+			base.OnUpdate();
+			#region Aging
+			if (DMCamp.Instance.IsAging) {
+				aging_timer += Time.deltaTime;
+				if (3.0f < aging_timer)
+				{
+					Fsm.Event("stage");
+				}
+			}
+			#endregion
 		}
 	}
 
@@ -90,9 +105,13 @@ namespace CampMainAction {
 	public class stage_top : CampMainActionBase
 	{
 		public FsmInt stage_id;
+		private float aging_timer;
+
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			aging_timer = 0.0f;
+
 			campMain.m_panelStage.gameObject.SetActive(true);
 
 			campMain.m_panelStage.m_goPanelButtons.SetActive(true);
@@ -102,9 +121,9 @@ namespace CampMainAction {
 			campMain.m_panelStage.m_btnClose.onClick.AddListener(OnClose);
 		}
 
-		private void OnBannerStage(BannerStage arg0)
+		private void OnBannerStage( int _iStageId)
 		{
-			stage_id.Value = arg0.m_masterStageParam.stage_id;
+			stage_id.Value = _iStageId;
 
 			DMCamp.Instance.config.WriteInt("stage_id", stage_id.Value);
 			DMCamp.Instance.config.Save();
@@ -112,11 +131,32 @@ namespace CampMainAction {
 			Fsm.Event("select");
 		}
 
+		private void OnBannerStage(BannerStage arg0)
+		{
+			OnBannerStage(arg0.m_masterStageParam.stage_id);
+		}
+
 		private void OnClose()
 		{
 			campMain.m_panelStage.m_goPanelButtons.SetActive(false);
 			campMain.m_panelStage.gameObject.SetActive(false);
 			Fsm.Event("close");
+		}
+
+		public override void OnUpdate()
+		{
+			base.OnUpdate();
+			#region Aging
+			if(DMCamp.Instance.IsAging)
+			{
+				aging_timer += Time.deltaTime;
+				if( 3.0f < aging_timer)
+				{
+					int iStageIndex = UtilRand.GetRand(DMCamp.Instance.masterStage.list.Count);
+					OnBannerStage(DMCamp.Instance.masterStage.list[iStageIndex].stage_id);
+				}
+			}
+			#endregion
 		}
 
 		public override void OnExit()
