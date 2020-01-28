@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Defines{
 
-	public const int CARD_SYMBOL_ATTACK = 1001;
 	public const string KeyGem = "gem";
 	public const string KeyCoin = "coin";
 
@@ -18,5 +17,9 @@ public class Defines{
 
 	public const string KEY_MP = "quest_mp";
 	public const string KEY_MP_MAX = "quest_mp_max";
+
+	public const int CARD_SYMBOL_ATTACK = 1001;
+	public const int CARD_SYMBOL_MAGIC = 3001;
+	public const int CARD_SYMBOL_HEAL = 5001;
 
 }

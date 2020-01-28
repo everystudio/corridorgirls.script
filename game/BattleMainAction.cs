@@ -153,6 +153,7 @@ namespace BattleMainAction
 	public class card_select_battle : BattleMainActionBase
 	{
 		public FsmInt select_card_serial;
+		public FsmInt select_chara_id;
 
 		private float aging_timer;
 
@@ -173,6 +174,9 @@ namespace BattleMainAction
 			{
 				Fsm.Event("select");
 				Card selected_card = battleMain.gameMain.card_list_hand.Find(p => p.data_card.card_serial == select_card_serial.Value);
+
+				select_chara_id.Value = selected_card.data_card.chara_id;
+
 				selected_card.data_card.status = (int)DataCard.STATUS.REMOVE;
 				selected_card.m_animator.SetBool("delete", true);
 				battleMain.gameMain.card_list_hand.Remove(selected_card);
@@ -465,6 +469,7 @@ namespace BattleMainAction
 	public class Attack : BattleMainActionBase
 	{
 		public FsmBool is_player;
+		public FsmInt select_chara_id;
 		public FsmInt symbol_id;
 
 		private float m_fTime;
@@ -480,55 +485,6 @@ namespace BattleMainAction
 			result_count = 0;
 
 			StartCoroutine(exe_attack());
-			/*
-			m_bNext = false;
-			m_fTime = 0.0f;
-
-			BattleIcon target_icon = null;
-			List<BattleIcon> target_list = null;
-			if (is_player.Value)
-			{
-				target_icon = battleMain.player_icon_list.Find(p => p.master_symbol.card_symbol_id == symbol_id.Value);
-				if (target_icon != null)
-				{
-					target_list = battleMain.player_icon_list.FindAll(p => p.master_symbol.line == target_icon.master_symbol.line && p != target_icon);
-				}
-			}
-			else
-			{
-				target_icon = battleMain.enemy_icon_list.Find(p => p.master_symbol.card_symbol_id == symbol_id.Value);
-				if (target_icon != null)
-				{
-					target_list = battleMain.enemy_icon_list.FindAll(p => p.master_symbol.line == target_icon.master_symbol.line && p != target_icon);
-				}
-			}
-
-			if( target_icon != null)
-			{
-				target_icon.m_animator.SetTrigger("attack");
-				if(is_player.Value)
-				{
-					battleMain.player_icon_list.Remove(target_icon);
-				}
-				else
-				{
-					battleMain.enemy_icon_list.Remove(target_icon);
-				}
-			}
-			if (target_list != null && 0 < target_list.Count)
-			{
-				m_bNext = true;
-				foreach (BattleIcon icon in target_list)
-				{
-					icon.move(Defines.ICON_MOVE_TIME, icon.index - 1, icon.master_symbol.line, icon.is_left);
-					icon.index -= 1;
-				}
-			}
-			else
-			{
-				Finish();
-			}
-			*/
 		}
 
 		private bool act_attack()
@@ -555,9 +511,6 @@ namespace BattleMainAction
 			if (target_icon != null)
 			{
 				target_icon.HitHandler.AddListener(OnHit);
-
-				//target_icon.AttackHandler.AddListener(OnAttackFinished);
-
 
 				target_icon.m_animator.SetTrigger("attack");
 				if (is_player.Value)
@@ -594,6 +547,40 @@ namespace BattleMainAction
 		private void OnHit(BattleIcon arg0)
 		{
 			int iDamage = 12;
+
+			int iSwing = UtilRand.GetRand(5) - 2;
+
+			if( is_player.Value)
+			{
+				DataUnitParam unit_chara = DataManagerGame.Instance.dataUnit.list.Find(p => p.chara_id == select_chara_id.Value);
+
+				switch( arg0.master_symbol.card_symbol_id)
+				{
+					case Defines.CARD_SYMBOL_ATTACK:
+						iDamage = unit_chara.str + iSwing;
+						break;
+					case Defines.CARD_SYMBOL_MAGIC:
+						iDamage = unit_chara.magic + iSwing;
+						break;
+					default:
+						break;
+				}
+			}
+			else
+			{
+				DataUnitParam unit_enemy = DataManagerGame.Instance.dataUnit.list.Find(p => p.unit == "enemy");
+				switch (arg0.master_symbol.card_symbol_id)
+				{
+					case Defines.CARD_SYMBOL_ATTACK:
+						iDamage = unit_enemy.str + iSwing;
+						break;
+					case Defines.CARD_SYMBOL_MAGIC:
+						iDamage = unit_enemy.str + iSwing;
+						break;
+					default:
+						break;
+				}
+			}
 			Debug.Log(iDamage);
 
 			battleMain.Damage(is_player.Value, iDamage, OnDamageFinished);
