@@ -812,18 +812,18 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 
-			gameMain.battleMain.gameObject.SetActive(true);
+			GameMain.Instance.battleMain.gameObject.SetActive(true);
 
-			gameMain.battleMain.IsBattleFinished = false;
+			GameMain.Instance.battleMain.IsBattleFinished = false;
 		}
 
 		public override void OnUpdate()
 		{
 			base.OnUpdate();
 
-			if(gameMain.battleMain.IsBattleFinished)
+			if(GameMain.Instance.battleMain.IsBattleFinished)
 			{
-				gameMain.battleMain.BattleClose();
+				GameMain.Instance.battleMain.BattleClose();
 				Finish();
 			}
 		}

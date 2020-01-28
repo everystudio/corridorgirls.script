@@ -409,6 +409,7 @@ namespace PanelMissionAction {
 					break;
 				case "battle":
 					event_name = "battle";
+					panelMission.m_goRoot.SetActive(false);
 					break;
 				case "item":
 					event_name = "item";
