@@ -698,8 +698,8 @@ MonoBehaviour:
       hideUnused: 0
       transitions:
       - fsmEvent:
-          name: FINISHED
-          isSystemEvent: 1
+          name: close
+          isSystemEvent: 0
           isGlobal: 0
         toState: idle
         linkStyle: 0
@@ -708,12 +708,14 @@ MonoBehaviour:
       actionData:
         actionNames:
         - HutongGames.PlayMaker.Actions.SetAnimatorBool
+        - CampMainAction.menu_top
         customNames:
         - 
-        actionEnabled: 01
-        actionIsOpen: 01
-        actionStartIndex: 00000000
-        actionHashCodes: 5f913504
+        - 
+        actionEnabled: 0101
+        actionIsOpen: 0101
+        actionStartIndex: 0000000005000000
+        actionHashCodes: 5f91350400000000
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams:

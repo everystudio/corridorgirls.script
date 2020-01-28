@@ -534,7 +534,7 @@ namespace GameMainAction
 
 		private void OnSkill()
 		{
-			Fsm.Event("skill");
+			Fsm.Event("use");
 		}
 
 		private void OnCancel()
@@ -562,6 +562,8 @@ namespace GameMainAction
 		public FsmInt skill_id;
 		public FsmGameObject panel_skill_detail;
 
+		public FsmInt move_num;
+
 		private MasterSkillParam masterSkillParam;
 		public override void OnEnter()
 		{
@@ -577,12 +579,20 @@ namespace GameMainAction
 			masterSkillParam = DataManagerGame.Instance.masterSkill.list.Find(p => p.skill_id == skill_id.Value);
 			DataManagerGame.Instance.dataQuest.AddInt(Defines.KEY_MP, -1 * masterSkillParam.mp);
 
-			Finish();
 		}
 
 		private void OnSkillFinished(bool arg0)
 		{
-			Finish();
+			if( 0 < SkillMain.Instance.move_num)
+			{
+				move_num.Value = SkillMain.Instance.move_num;
+				Fsm.Event("move");
+			}
+			else {
+				Finish();
+			}
+
+
 		}
 		public override void OnExit()
 		{
@@ -597,23 +607,31 @@ namespace GameMainAction
 	public class CharaMove : GameMainActionBase
 	{
 		public FsmInt select_card_serial;
+		public FsmInt move_num;
 
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			Card selected_card = gameMain.card_list_hand.Find(p => p.data_card.card_serial == select_card_serial.Value);
+			if (select_card_serial.Value != 0)
+			{
+				Card selected_card = null;
+				selected_card = gameMain.card_list_hand.Find(p => p.data_card.card_serial == select_card_serial.Value);
+
+				move_num.Value = selected_card.data_card.master.power;
+
+				selected_card.data_card.status = (int)DataCard.STATUS.REMOVE;
+				selected_card.m_animator.SetBool("delete", true);
+
+				gameMain.card_list_hand.Remove(selected_card);
+				gameMain.CardOrder();
+			}
+
 			//DataCardParam card = DataManagerGame.Instance.dataCard.list.Find(p => p.card_serial == select_card_serial.Value);
 
-			StartCoroutine(gameMain.chara_control.RequestMove(selected_card.data_card.master.power, () =>
+			StartCoroutine(gameMain.chara_control.RequestMove(move_num.Value, () =>
 			{
 				Finish();
 			}));
-
-			selected_card.data_card.status = (int)DataCard.STATUS.REMOVE;
-			selected_card.m_animator.SetBool("delete", true);
-
-			gameMain.card_list_hand.Remove(selected_card);
-			gameMain.CardOrder();
 		}
 
 		public override void OnExit()
@@ -622,7 +640,6 @@ namespace GameMainAction
 
 			gameMain.m_panelCameraScaler.gameObject.SetActive(false);
 			gameMain.m_goCoinRoot.SetActive(false);
-
 		}
 	}
 
@@ -866,7 +883,37 @@ namespace GameMainAction
 				Finish();
 			}
 		}
-
 	}
+
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class GameMenu : GameMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			gameMain.m_panelGameMenu.gameObject.SetActive(true);
+			gameMain.m_panelGameMenu.Show();
+
+			gameMain.m_panelGameControlButtons.ShowButtonNum(1, new string[1] { "閉じる" });
+
+			gameMain.m_panelGameControlButtons.OnClickButton.AddListener((int _iIndex) =>
+			{
+				Fsm.Event("close");
+			});
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			gameMain.m_panelGameMenu.gameObject.SetActive(false);
+			gameMain.m_panelGameControlButtons.OnClickButton.RemoveAllListeners();
+			gameMain.m_panelGameControlButtons.ShowButtonNum(0, null);
+		}
+	}
+
+
+
 
 }

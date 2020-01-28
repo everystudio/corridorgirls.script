@@ -26,13 +26,58 @@ public class PanelSkillDetail : MonoBehaviour {
 		m_imgSkillIcon.sprite = SpriteManager.Instance.Get(m_masterSkillParam.sprite_name);
 		m_txtMP.text = string.Format("MP:{0}", m_masterSkillParam.mp);
 
-		m_txtOutline.text = m_masterSkillParam.outline;
+		string strOutline = "";
+
+		bool bEnableMp = m_masterSkillParam.mp <= DataManagerGame.Instance.GetMp();
+
+		string strForMp = bEnableMp ? "" : "\n<color=red>MPが不足しています</color>";
+
+		bool bMatchSituation = true;
+
+		if( m_masterSkillParam.situation == "any")
+		{
+			strOutline = m_masterSkillParam.outline + strForMp;
+		}
+		else if(m_masterSkillParam.situation == "field")
+		{
+			strOutline = string.Format("{0}\n\nこのスキルはフィールドでのみ使用可能です{1}" , m_masterSkillParam.outline , strForMp);
+			if( _strSituation != "field")
+			{
+				Debug.Log("not use");
+				bMatchSituation = false;
+			}
+		}
+		else if(m_masterSkillParam.situation == "battle")
+		{
+			strOutline = string.Format("{0}\n\nこのスキルはバトル中のみ使用可能です{1}", m_masterSkillParam.outline, strForMp);
+			if (_strSituation != "battle")
+			{
+				Debug.Log("not use");
+				bMatchSituation = false;
+			}
+		}
+		else
+		{
+			strOutline = "スキルの設定不備です";
+		}
+
+		m_txtOutline.text = strOutline;
+
 		gameObject.SetActive(true);
 
 		m_strSituation = _strSituation;
 		m_bUsed = _bUsed;
 
 		m_btnUse.interactable = !m_bUsed;
+		if( bMatchSituation == false)
+		{
+			m_btnUse.interactable = bMatchSituation;
+		}
+		else if(bEnableMp == false)
+		{
+			m_btnUse.interactable = bEnableMp;
+		}
+
 	}
 
 }

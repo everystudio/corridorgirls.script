@@ -8,7 +8,9 @@ public class PanelDecideCheck : MonoBehaviour {
 
 	public TextMeshProUGUI m_txtMessage;
 
+	public TextMeshProUGUI m_txtLabelDecide;
 	public Button m_btnDecide;
+	public TextMeshProUGUI m_txtLabelCancel;
 	public Button m_btnCancel;
 
 	public GameObject m_goRoot;

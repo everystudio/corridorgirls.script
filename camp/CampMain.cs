@@ -17,6 +17,8 @@ public class CampMain : Singleton<CampMain> {
 
 	public PartyHolder m_partyHolder;
 
+	public PanelMenu m_panelMenu;
+
 	public override void Initialize()
 	{
 		base.Initialize();

@@ -10,9 +10,11 @@ namespace SkillMainAction {
 	[HutongGames.PlayMaker.Tooltip("SkillMainAction")]
 	public class SkillMainActionBase : FsmStateAction
 	{
+		protected SkillMain skllMain;
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			skllMain = Owner.GetComponent<SkillMain>();
 		}
 	}
 
@@ -27,6 +29,8 @@ namespace SkillMainAction {
 			base.OnEnter();
 			SkillMain.Instance.master_skill_param = null;
 			SkillMain.Instance.SkillRequest.AddListener(OnSkillRequest);
+
+			SkillMain.Instance.move_num = 0;
 		}
 
 		private void OnSkillRequest(int arg0)
@@ -83,7 +87,8 @@ namespace SkillMainAction {
 		{
 			base.OnEnter();
 			skill_type.Value = SkillMain.Instance.master_skill_effect_param_list[skill_index.Value].skill_type;
-			Finish();
+
+			Fsm.Event(skill_type.Value);
 		}
 
 	}
@@ -183,6 +188,23 @@ namespace SkillMainAction {
 
 			card_fill_num.Value = effect.param;
 
+			Finish();
+		}
+	}
+
+
+
+	[ActionCategory("SkillMainAction")]
+	[HutongGames.PlayMaker.Tooltip("SkillMainAction")]
+	public class skill_dice : SkillMainActionBase
+	{
+		public FsmInt skill_index;
+		private MasterSkillEffectParam effect;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			effect = SkillMain.Instance.master_skill_effect_param_list[skill_index.Value];
+			SkillMain.Instance.move_num += effect.param;
 			Finish();
 		}
 	}

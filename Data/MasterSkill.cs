@@ -7,6 +7,7 @@ public class MasterSkillParam : CsvDataParam
 	public int skill_id { get; set; }
 	public string name { get; set; }
 	public int mp { get; set; }
+	public string situation { get; set; }
 	public string sprite_name { get; set; }
 	public string outline { get; set; }
 

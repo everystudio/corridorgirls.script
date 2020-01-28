@@ -11,4 +11,6 @@ public class SkillMain : Singleton<SkillMain> {
 
 	public List<MasterSkillEffectParam> master_skill_effect_param_list = new List<MasterSkillEffectParam>();
 
+	public int move_num;
+
 }

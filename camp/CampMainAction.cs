@@ -794,4 +794,44 @@ namespace CampMainAction {
 	}
 
 
+
+	[ActionCategory("CampMainAction")]
+	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
+	public class menu_top : CampMainActionBase
+	{
+		private string label_cancel;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			campMain.m_panelMenu.gameObject.SetActive(true);
+
+			campMain.m_panelDecideCheckBottom.m_txtMessage.text = "メニュー/設定\n変更したい内容を選択してください";
+			campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(true);
+			campMain.m_panelDecideCheckBottom.gameObject.SetActive(true);
+
+			campMain.m_panelDecideCheckBottom.m_btnDecide.gameObject.SetActive(false);
+
+			label_cancel = campMain.m_panelDecideCheckBottom.m_txtLabelCancel.text;
+			campMain.m_panelDecideCheckBottom.m_txtLabelCancel.text = "Close";
+			campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.AddListener(() =>
+			{
+				Fsm.Event("close");
+			});
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			campMain.m_panelMenu.gameObject.SetActive(false);
+			campMain.m_panelDecideCheckBottom.m_btnDecide.gameObject.SetActive(true);
+			campMain.m_panelDecideCheckBottom.m_txtLabelCancel.text = label_cancel;
+			campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.RemoveAllListeners();
+			campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(false);
+			campMain.m_panelDecideCheckBottom.gameObject.SetActive(false);
+		}
+	}
+
+
+
 }

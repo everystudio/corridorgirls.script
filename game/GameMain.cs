@@ -36,6 +36,7 @@ public class GameMain : Singleton<GameMain> {
 	public TMPro.TextMeshProUGUI m_txtCoin;
 
 	public PanelItemList m_panelItemList;
+	public PanelGameMenu m_panelGameMenu;
 
 	public GaugeMP gauge_mp;
 

@@ -2118,7 +2118,7 @@ MonoBehaviour:
         actionEnabled: 0101
         actionIsOpen: 0101
         actionStartIndex: 0000000003000000
-        actionHashCodes: 27fbe10313791901
+        actionHashCodes: 27fbe103c383d904
         unityObjectParams: []
         fsmGameObjectParams:
         - useVariable: 1
@@ -2147,6 +2147,12 @@ MonoBehaviour:
           showInInspector: 0
           networkSync: 0
           value: 0
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
         fsmBoolParams:
         - useVariable: 1
           name: is_skill_used
@@ -2171,15 +2177,16 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 1100000011000000010000001000000013000000
+        paramDataType: 110000001100000001000000100000001300000010000000
         paramName:
         - boolVariable
         - boolValue
         - everyFrame
         - skill_id
         - panel_skill_detail
-        paramDataPos: 0000000001000000000000000000000000000000
-        paramByteDataSize: 0000000000000000010000000000000000000000
+        - move_num
+        paramDataPos: 000000000100000000000000000000000000000001000000
+        paramByteDataSize: 000000000000000001000000000000000000000000000000
     - name: State 6
       description: 
       colorIndex: 0

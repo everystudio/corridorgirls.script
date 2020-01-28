@@ -142,6 +142,10 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 		}
 	}
 
+	public int GetMp()
+	{
+		return DataManagerGame.Instance.dataQuest.ReadInt(Defines.KEY_MP);
+	}
 
 	public void MpHeal(int _iHeal)
 	{
