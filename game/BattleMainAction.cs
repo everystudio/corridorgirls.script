@@ -555,7 +555,10 @@ namespace BattleMainAction
 			if (target_icon != null)
 			{
 				target_icon.HitHandler.AddListener(OnHit);
-				target_icon.AttackHandler.AddListener(OnAttackFinished);
+
+				//target_icon.AttackHandler.AddListener(OnAttackFinished);
+
+
 				target_icon.m_animator.SetTrigger("attack");
 				if (is_player.Value)
 				{
@@ -583,9 +586,17 @@ namespace BattleMainAction
 			return bRet;
 		}
 
+		private void OnDamageFinished()
+		{
+			result_count += 1;
+		}
+
 		private void OnHit(BattleIcon arg0)
 		{
-			Debug.Log(arg0.m_iDamageNum);
+			int iDamage = 12;
+			Debug.Log(iDamage);
+
+			battleMain.Damage(is_player.Value, iDamage, OnDamageFinished);
 
 			// プレイヤー側の攻撃
 			if (arg0.is_left)
@@ -593,16 +604,15 @@ namespace BattleMainAction
 				DataUnitParam enemy = DataManagerGame.Instance.dataUnit.list.Find(p =>
 				p.unit == "enemy");
 				Debug.Log(enemy.hp);
-				enemy.hp -= arg0.m_iDamageNum;
+				enemy.hp -= iDamage;
 			}
 			else
 			{
-
 				DataUnitParam select_chara = DataManagerGame.Instance.dataUnit.list.Find(p =>
 				p.chara_id == GameMain.Instance.SelectCharaId &&
 				p.unit == "chara");
 
-				select_chara.hp -= arg0.m_iDamageNum;
+				select_chara.hp -= iDamage;
 				GameMain.Instance.CharaRefresh();
 			}
 			battleMain.HpRefresh();
@@ -643,6 +653,34 @@ namespace BattleMainAction
 			*/
 		}
 	}
+
+
+	[ActionCategory("BattleMainAction")]
+	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
+	public class AttackToEnemy : BattleMainActionBase
+	{
+		public FsmInt damage;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			battleMain.Damage(true, damage.Value, OnDamageFinished);
+
+		}
+
+		private void OnDamageFinished()
+		{
+			DataUnitParam enemy = DataManagerGame.Instance.dataUnit.list.Find(p =>
+			p.unit == "enemy");
+			Debug.Log(enemy.hp);
+			enemy.hp -= damage.Value;
+
+			battleMain.HpRefresh();
+
+			Finish();
+		}
+	}
+
+
 
 
 	[ActionCategory("BattleMainAction")]

@@ -210,6 +210,25 @@ namespace SkillMainAction {
 	}
 
 
+
+	[ActionCategory("SkillMainAction")]
+	[HutongGames.PlayMaker.Tooltip("SkillMainAction")]
+	public class skill_damage : SkillMainActionBase
+	{
+		public FsmInt skill_index;
+		private MasterSkillEffectParam effect;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			effect = SkillMain.Instance.master_skill_effect_param_list[skill_index.Value];
+
+			SkillMain.Instance.damage += effect.param;
+
+			Finish();
+		}
+	}
+
+
 	[ActionCategory("SkillMainAction")]
 	[HutongGames.PlayMaker.Tooltip("SkillMainAction")]
 	public class SkillFinished : SkillMainActionBase

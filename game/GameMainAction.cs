@@ -563,6 +563,7 @@ namespace GameMainAction
 		public FsmGameObject panel_skill_detail;
 
 		public FsmInt move_num;
+		public FsmInt damage;
 
 		private MasterSkillParam masterSkillParam;
 		public override void OnEnter()
@@ -587,6 +588,11 @@ namespace GameMainAction
 			{
 				move_num.Value = SkillMain.Instance.move_num;
 				Fsm.Event("move");
+			}
+			else if( 0 < SkillMain.Instance.damage)
+			{
+				damage.Value = SkillMain.Instance.damage;
+				Fsm.Event("damage");
 			}
 			else {
 				Finish();

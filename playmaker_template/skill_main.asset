@@ -200,8 +200,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 89
-        y: 397
+        x: 54
+        y: 462
         width: 100
         height: 64
       isBreakpoint: 0
@@ -833,7 +833,7 @@ MonoBehaviour:
         x: 61
         y: 289
         width: 144
-        height: 80
+        height: 96
       isBreakpoint: 0
       isSequence: 0
       hideUnused: 0
@@ -867,6 +867,14 @@ MonoBehaviour:
           isSystemEvent: 0
           isGlobal: 0
         toState: skill_dice
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      - fsmEvent:
+          name: damage
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: skill_damage
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
@@ -1231,26 +1239,36 @@ MonoBehaviour:
         - card_fill_num
         paramDataPos: 0000000001000000
         paramByteDataSize: 0000000000000000
-    - name: State 1
+    - name: skill_damage
       description: 
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 409
-        y: 708.1094
-        width: 100
-        height: 16
+        x: 308
+        y: 608.1094
+        width: 118
+        height: 32
       isBreakpoint: 0
       isSequence: 0
       hideUnused: 0
-      transitions: []
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: skill_effect_end
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
       actionData:
-        actionNames: []
-        customNames: []
-        actionEnabled: 
-        actionIsOpen: 
-        actionStartIndex: 
-        actionHashCodes: 
+        actionNames:
+        - SkillMainAction.skill_damage
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: dcbe4804
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
@@ -1266,7 +1284,13 @@ MonoBehaviour:
         fsmArrayParams: []
         fsmEnumParams: []
         fsmFloatParams: []
-        fsmIntParams: []
+        fsmIntParams:
+        - useVariable: 1
+          name: skill_effect_index
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
         fsmBoolParams: []
         fsmVector2Params: []
         fsmVector3Params: []
@@ -1279,17 +1303,18 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 
-        paramName: []
-        paramDataPos: 
-        paramByteDataSize: 
+        paramDataType: 10000000
+        paramName:
+        - skill_index
+        paramDataPos: 00000000
+        paramByteDataSize: 00000000
     - name: skill_dice
       description: 
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 302
-        y: 588
+        x: 312
+        y: 534
         width: 100
         height: 32
       isBreakpoint: 0
@@ -1360,6 +1385,9 @@ MonoBehaviour:
       isSystemEvent: 0
       isGlobal: 0
     - name: card_fill
+      isSystemEvent: 0
+      isGlobal: 0
+    - name: damage
       isSystemEvent: 0
       isGlobal: 0
     - name: deck

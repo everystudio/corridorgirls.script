@@ -89,19 +89,20 @@ public class BattleIcon : MonoBehaviour {
 			root = BattleMain.Instance.m_goBattleChara;
 		}
 
-		DamageNum script = PrefabManager.Instance.MakeScript<DamageNum>(BattleMain.Instance.m_prefDamageNum, root);
-		//Debug.Log(script.gameObject.transform.localPosition);
-		script.gameObject.transform.localPosition = new Vector3(0.0f, -1.5f, -1.5f);
+		//DamageNum script = PrefabManager.Instance.MakeScript<DamageNum>(BattleMain.Instance.m_prefDamageNum, root);
+		//script.gameObject.transform.localPosition = new Vector3(0.0f, -1.5f, -1.5f);
 
-		Debug.LogError("damage固定");
-		m_iDamageNum = 12;
 
+
+		//Debug.LogError("damage固定");
+		//m_iDamageNum = 12;
 		HitHandler.Invoke(this);
-
+		/*
 		script.Action(m_iDamageNum, () =>
 		{
 			AttackHandler.Invoke(this);
 		});
+		*/
 
 		//AttackHandler.Invoke(this);
 	}

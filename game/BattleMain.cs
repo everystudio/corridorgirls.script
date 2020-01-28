@@ -98,5 +98,32 @@ public class BattleMain : Singleton<BattleMain> {
 		override_sprite_chara.overrideTexture = TextureManager.Instance.Get(string.Format(Defines.STR_FORMAT_CHARA_TEXTURE, _iCharaId));
 	}
 
+	public UnityEvent OnDamageFinished = new UnityEvent();
+
+	public void Damage( bool _bIsPlayer , int _iDamage,Action _onFinished)
+	{
+		GameObject root = null;
+		if (_bIsPlayer)
+		{
+			root = BattleMain.Instance.m_goBattleEnemy;
+		}
+		else
+		{
+			root = BattleMain.Instance.m_goBattleChara;
+		}
+		DamageNum script = PrefabManager.Instance.MakeScript<DamageNum>(BattleMain.Instance.m_prefDamageNum, root);
+		//Debug.Log(script.gameObject.transform.localPosition);
+		script.gameObject.transform.localPosition = new Vector3(0.0f, -1.5f, -1.5f);
+
+		script.Action(_iDamage, () =>
+		{
+			_onFinished.Invoke();
+		});
+	}
+
+
+
+
+
 
 }

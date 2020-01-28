@@ -24,7 +24,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 62
-        y: 130
+        y: 178
         width: 100
         height: 32
       isBreakpoint: 0
@@ -93,7 +93,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 683
-        y: 679.33594
+        y: 727.33594
         width: 100
         height: 16
       isBreakpoint: 0
@@ -147,7 +147,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 229
-        y: 112
+        y: 160
         width: 100
         height: 48
       isBreakpoint: 0
@@ -258,7 +258,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 226
-        y: 211
+        y: 259
         width: 158
         height: 64
       isBreakpoint: 0
@@ -352,7 +352,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 60
-        y: 227
+        y: 275
         width: 112
         height: 32
       isBreakpoint: 0
@@ -415,26 +415,44 @@ MonoBehaviour:
         - enemy_card_id
         paramDataPos: 00000000
         paramByteDataSize: 00000000
-    - name: card_open
+    - name: skill_end
       description: 
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 746
-        y: 380
+        x: 771
+        y: 378
         width: 100
-        height: 16
+        height: 48
       isBreakpoint: 0
       isSequence: 0
       hideUnused: 0
-      transitions: []
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: player_card_select
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      - fsmEvent:
+          name: win
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: State 2
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
       actionData:
-        actionNames: []
-        customNames: []
-        actionEnabled: 
-        actionIsOpen: 
-        actionStartIndex: 
-        actionHashCodes: 
+        actionNames:
+        - BattleMainAction.ResultCheck
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 00000000
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
@@ -472,8 +490,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 409
-        y: 126
+        x: 400
+        y: 142
         width: 100
         height: 48
       isBreakpoint: 0
@@ -549,8 +567,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 574
-        y: 158
+        x: 576
+        y: 157
         width: 115
         height: 32
       isBreakpoint: 0
@@ -611,8 +629,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 578
-        y: 108
+        x: 580
+        y: 107
         width: 100
         height: 32
       isBreakpoint: 0
@@ -684,7 +702,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 585
-        y: 364
+        y: 412
         width: 118
         height: 32
       isBreakpoint: 0
@@ -746,7 +764,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 54.992188
-        y: 357
+        y: 405
         width: 119
         height: 32
       isBreakpoint: 0
@@ -806,7 +824,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 54
-        y: 476
+        y: 524
         width: 109
         height: 32
       isBreakpoint: 0
@@ -866,7 +884,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 778
-        y: 485
+        y: 533
         width: 112
         height: 48
       isBreakpoint: 0
@@ -936,7 +954,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 786
-        y: 593
+        y: 641
         width: 102
         height: 48
       isBreakpoint: 0
@@ -1006,7 +1024,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 82.91406
-        y: 610
+        y: 658
         width: 100
         height: 32
       isBreakpoint: 0
@@ -1066,7 +1084,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 216
-        y: 372
+        y: 420
         width: 100
         height: 48
       isBreakpoint: 0
@@ -1164,7 +1182,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 478
-        y: 426
+        y: 474
         width: 105
         height: 48
       isBreakpoint: 0
@@ -1248,7 +1266,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 197
-        y: 497
+        y: 545
         width: 100
         height: 48
       isBreakpoint: 0
@@ -1346,7 +1364,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 462
-        y: 547
+        y: 595
         width: 109
         height: 48
       isBreakpoint: 0
@@ -1430,7 +1448,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 624
-        y: 569
+        y: 617
         width: 109
         height: 48
       isBreakpoint: 0
@@ -1514,7 +1532,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 260
-        y: 633
+        y: 681
         width: 100
         height: 48
       isBreakpoint: 0
@@ -1584,7 +1602,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 436
-        y: 642
+        y: 690
         width: 100
         height: 32
       isBreakpoint: 0
@@ -1646,7 +1664,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 476
-        y: 266
+        y: 314
         width: 110
         height: 32
       isBreakpoint: 0
@@ -1715,7 +1733,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 346.96875
-        y: 399.03906
+        y: 447.03906
         width: 100
         height: 48
       isBreakpoint: 0
@@ -1813,7 +1831,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 622.96875
-        y: 451.03906
+        y: 499.03906
         width: 105
         height: 48
       isBreakpoint: 0
@@ -1897,7 +1915,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 328
-        y: 521
+        y: 569
         width: 100
         height: 48
       isBreakpoint: 0
@@ -1994,10 +2012,10 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 475
-        y: 211
+        x: 467
+        y: 217
         width: 101
-        height: 48
+        height: 64
       isBreakpoint: 0
       isSequence: 0
       hideUnused: 0
@@ -2014,6 +2032,14 @@ MonoBehaviour:
           name: skill
           isSystemEvent: 0
           isGlobal: 0
+        toState: skill_show
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      - fsmEvent:
+          name: use
+          isSystemEvent: 0
+          isGlobal: 0
         toState: skill_use
         linkStyle: 0
         linkConstraint: 0
@@ -2021,12 +2047,14 @@ MonoBehaviour:
       actionData:
         actionNames:
         - GameMainAction.SkillShow
+        - GameMainAction.SkillSelect
         customNames:
         - 
-        actionEnabled: 01
-        actionIsOpen: 01
-        actionStartIndex: 00000000
-        actionHashCodes: e1a04e03
+        - 
+        actionEnabled: 0101
+        actionIsOpen: 0101
+        actionStartIndex: 0000000004000000
+        actionHashCodes: e1a04e03dcbe4804
         unityObjectParams: []
         fsmGameObjectParams:
         - useVariable: 1
@@ -2061,6 +2089,12 @@ MonoBehaviour:
           showInInspector: 0
           networkSync: 0
           value: 0
+        - useVariable: 1
+          name: skill_id
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
         fsmBoolParams:
         - useVariable: 1
           name: is_skill_used
@@ -2079,23 +2113,24 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 13000000100000001200000011000000
+        paramDataType: 1300000010000000120000001100000010000000
         paramName:
         - panel_skill_detail
         - skill_id
         - situation
         - skill_used
-        paramDataPos: 00000000000000000000000000000000
-        paramByteDataSize: 00000000000000000000000000000000
+        - skill_id
+        paramDataPos: 0000000000000000000000000000000001000000
+        paramByteDataSize: 0000000000000000000000000000000000000000
     - name: skill_use
       description: 
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 614
-        y: 210
+        x: 626
+        y: 268
         width: 100
-        height: 32
+        height: 48
       isBreakpoint: 0
       isSequence: 0
       hideUnused: 0
@@ -2105,6 +2140,14 @@ MonoBehaviour:
           isSystemEvent: 1
           isGlobal: 0
         toState: player_card_select
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      - fsmEvent:
+          name: damage
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: State 5
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
@@ -2118,7 +2161,7 @@ MonoBehaviour:
         actionEnabled: 0101
         actionIsOpen: 0101
         actionStartIndex: 0000000003000000
-        actionHashCodes: 27fbe103c383d904
+        actionHashCodes: 27fbe103b2ef3200
         unityObjectParams: []
         fsmGameObjectParams:
         - useVariable: 1
@@ -2153,6 +2196,12 @@ MonoBehaviour:
           showInInspector: 0
           networkSync: 0
           value: 0
+        - useVariable: 1
+          name: damage
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
         fsmBoolParams:
         - useVariable: 1
           name: is_skill_used
@@ -2177,7 +2226,7 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 110000001100000001000000100000001300000010000000
+        paramDataType: 11000000110000000100000010000000130000001000000010000000
         paramName:
         - boolVariable
         - boolValue
@@ -2185,15 +2234,16 @@ MonoBehaviour:
         - skill_id
         - panel_skill_detail
         - move_num
-        paramDataPos: 000000000100000000000000000000000000000001000000
-        paramByteDataSize: 000000000000000001000000000000000000000000000000
+        - damage
+        paramDataPos: 00000000010000000000000000000000000000000100000002000000
+        paramByteDataSize: 00000000000000000100000000000000000000000000000000000000
     - name: State 6
       description: 
       colorIndex: 0
       position:
         serializedVersion: 2
         x: 454
-        y: 325
+        y: 373
         width: 100
         height: 32
       isBreakpoint: 0
@@ -2256,6 +2306,75 @@ MonoBehaviour:
         - card_serial
         paramDataPos: 00000000
         paramByteDataSize: 00000000
+    - name: State 5
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 775
+        y: 317
+        width: 100
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: skill_end
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - BattleMainAction.AttackToEnemy
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: dcbe4804
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams:
+        - useVariable: 1
+          name: damage
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 10000000
+        paramName:
+        - damage
+        paramDataPos: 00000000
+        paramByteDataSize: 00000000
     events:
     - name: FINISHED
       isSystemEvent: 1
@@ -2267,6 +2386,9 @@ MonoBehaviour:
       isSystemEvent: 0
       isGlobal: 0
     - name: continue
+      isSystemEvent: 0
+      isGlobal: 0
+    - name: damage
       isSystemEvent: 0
       isGlobal: 0
     - name: lose
@@ -2282,6 +2404,9 @@ MonoBehaviour:
       isSystemEvent: 0
       isGlobal: 0
     - name: touch
+      isSystemEvent: 0
+      isGlobal: 0
+    - name: use
       isSystemEvent: 0
       isGlobal: 0
     - name: win
@@ -2305,6 +2430,12 @@ MonoBehaviour:
         value: 0
       - useVariable: 1
         name: enemy_card_id
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
+      - useVariable: 1
+        name: damage
         tooltip: 
         showInInspector: 0
         networkSync: 0
@@ -2336,7 +2467,7 @@ MonoBehaviour:
       enumVariables: []
       categories:
       - 
-      variableCategoryIDs: 0000000000000000000000000000000000000000
+      variableCategoryIDs: 000000000000000000000000000000000000000000000000
     description: 
     docUrl: 
     showStateLabel: 0
