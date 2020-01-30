@@ -485,7 +485,7 @@ namespace GameMainAction
 
 			ItemMain.Instance.move = 0;
 
-			ItemMain.Instance.RequestShow.Invoke();
+			ItemMain.Instance.RequestShow.Invoke("field");
 
 			ItemMain.Instance.OnClose.AddListener(() =>
 			{

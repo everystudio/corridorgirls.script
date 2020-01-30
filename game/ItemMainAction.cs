@@ -33,6 +33,7 @@ namespace ItemMainAction
 	[HutongGames.PlayMaker.Tooltip("ItemMainAction")]
 	public class idle : ItemMainActionBase
 	{
+		public FsmString situation;
 		public override void OnEnter()
 		{
 			base.OnEnter();
@@ -42,8 +43,10 @@ namespace ItemMainAction
 
 			itemMain.OnClose.Invoke();
 
-			itemMain.RequestShow.AddListener(() =>
+			itemMain.RequestShow.AddListener((string _strSituation) =>
 			{
+				itemMain.situation = _strSituation;
+				situation.Value = _strSituation;
 				Fsm.Event("list");
 			});
 		}
@@ -99,11 +102,15 @@ namespace ItemMainAction
 		public FsmInt item_serial;
 		public FsmInt chara_id;
 
+		private bool m_bSituationAllow;
+
 		public override void OnEnter()
 		{
 			base.OnEnter();
 			DataItemParam data_item = DataManagerGame.Instance.dataItem.list.Find(p => p.serial == item_serial.Value);
 			MasterItemParam master_item = DataManagerGame.Instance.masterItem.list.Find(p => p.item_id == data_item.item_id);
+
+			m_bSituationAllow = master_item.CheckSituation(itemMain.situation);
 
 			itemMain.m_panelItemDetail.gameObject.SetActive(true);
 			itemMain.m_panelItemDetail.Initialize(master_item);
@@ -118,16 +125,17 @@ namespace ItemMainAction
 				GameMain.Instance.m_panelGameControlButtons.ShowButtonNum(
 					2,
 					new string[2] { "使う", "キャンセル" },
-					new bool[2] { true, true });
+					new bool[2] { m_bSituationAllow, true });
 
 				itemMain.m_panelItemDetail.m_partyHolder.Cover(icon.m_masterChara.chara_id);
 			});
 
 
+			// 見づらい2項演算子になってすまん
 			GameMain.Instance.m_panelGameControlButtons.ShowButtonNum(
 				2,
 				new string[2] { "使う", "キャンセル" },
-				new bool[2] { !itemMain.m_panelItemDetail.m_partyHolder.gameObject.activeSelf , true });
+				new bool[2] { m_bSituationAllow?!itemMain.m_panelItemDetail.m_partyHolder.gameObject.activeSelf:false , true });
 			GameMain.Instance.m_panelGameControlButtons.OnClickButton.AddListener((int _iIndex) =>
 			{
 				if (_iIndex == 0)
@@ -135,7 +143,7 @@ namespace ItemMainAction
 					Fsm.Event("use");
 				}
 				else {
-					Fsm.Event("close");
+					Fsm.Event("cancel");
 				}
 			});
 		}
@@ -143,6 +151,7 @@ namespace ItemMainAction
 		public override void OnExit()
 		{
 			base.OnExit();
+			itemMain.m_panelItemDetail.gameObject.SetActive(false);
 		}
 	}
 
@@ -281,6 +290,23 @@ namespace ItemMainAction
 	[HutongGames.PlayMaker.Tooltip("ItemMainAction")]
 	public class ItemKey : ItemMainActionBase
 	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			Finish();
+		}
+	}
+	[ActionCategory("ItemMainAction")]
+	[HutongGames.PlayMaker.Tooltip("ItemMainAction")]
+	public class ItemDamage : ItemMainActionBase
+	{
+		public FsmInt param;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			itemMain.damage = param.Value;
+			Finish();
+		}
 	}
 
 	[ActionCategory("ItemMainAction")]

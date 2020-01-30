@@ -23,8 +23,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 62
-        y: 178
+        x: 58.757812
+        y: 148.10156
         width: 100
         height: 32
       isBreakpoint: 0
@@ -92,8 +92,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 683
-        y: 727.33594
+        x: 731
+        y: 791.33594
         width: 100
         height: 16
       isBreakpoint: 0
@@ -146,8 +146,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 229
-        y: 160
+        x: 228.21875
+        y: 128.86719
         width: 100
         height: 48
       isBreakpoint: 0
@@ -257,10 +257,10 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 226
-        y: 259
+        x: 84.125
+        y: 233.63281
         width: 158
-        height: 64
+        height: 80
       isBreakpoint: 0
       isSequence: 0
       hideUnused: 0
@@ -289,17 +289,27 @@ MonoBehaviour:
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
+      - fsmEvent:
+          name: item
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: show_item
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
       actionData:
         actionNames:
         - BattleMainAction.card_select_battle
         - GameMainAction.SkillSelect
+        - BattleMainAction.Idle
         customNames:
         - 
         - 
-        actionEnabled: 0101
-        actionIsOpen: 0101
-        actionStartIndex: 0000000002000000
-        actionHashCodes: e9ac1d02dcbe4804
+        - 
+        actionEnabled: 010101
+        actionIsOpen: 010101
+        actionStartIndex: 000000000200000003000000
+        actionHashCodes: e9ac1d02dcbe480400000000
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
@@ -358,8 +368,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 60
-        y: 275
+        x: 378.73438
+        y: 174.36719
         width: 112
         height: 32
       isBreakpoint: 0
@@ -427,8 +437,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 771
-        y: 378
+        x: 819
+        y: 442
         width: 100
         height: 48
       isBreakpoint: 0
@@ -497,8 +507,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 400
-        y: 142
+        x: 532.14844
+        y: 127.9375
         width: 100
         height: 48
       isBreakpoint: 0
@@ -574,8 +584,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 576
-        y: 157
+        x: 687.4219
+        y: 155.14062
         width: 115
         height: 32
       isBreakpoint: 0
@@ -636,8 +646,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 580
-        y: 107
+        x: 687.7656
+        y: 101.46094
         width: 100
         height: 32
       isBreakpoint: 0
@@ -708,8 +718,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 585
-        y: 412
+        x: 268
+        y: 371
         width: 118
         height: 32
       isBreakpoint: 0
@@ -770,8 +780,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 54.992188
-        y: 405
+        x: 102.99219
+        y: 469
         width: 119
         height: 32
       isBreakpoint: 0
@@ -830,8 +840,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 54
-        y: 524
+        x: 102
+        y: 588
         width: 109
         height: 32
       isBreakpoint: 0
@@ -890,8 +900,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 778
-        y: 533
+        x: 826
+        y: 597
         width: 112
         height: 48
       isBreakpoint: 0
@@ -960,8 +970,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 786
-        y: 641
+        x: 834
+        y: 705
         width: 102
         height: 48
       isBreakpoint: 0
@@ -1030,8 +1040,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 82.91406
-        y: 658
+        x: 130.91406
+        y: 722
         width: 100
         height: 32
       isBreakpoint: 0
@@ -1090,8 +1100,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 216
-        y: 420
+        x: 264
+        y: 484
         width: 100
         height: 48
       isBreakpoint: 0
@@ -1188,8 +1198,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 478
-        y: 474
+        x: 526
+        y: 538
         width: 105
         height: 48
       isBreakpoint: 0
@@ -1279,8 +1289,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 197
-        y: 545
+        x: 245
+        y: 609
         width: 100
         height: 48
       isBreakpoint: 0
@@ -1377,8 +1387,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 462
-        y: 595
+        x: 510
+        y: 659
         width: 109
         height: 48
       isBreakpoint: 0
@@ -1468,8 +1478,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 624
-        y: 617
+        x: 672
+        y: 681
         width: 109
         height: 48
       isBreakpoint: 0
@@ -1559,8 +1569,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 260
-        y: 681
+        x: 308
+        y: 745
         width: 100
         height: 48
       isBreakpoint: 0
@@ -1629,8 +1639,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 436
-        y: 690
+        x: 484
+        y: 754
         width: 100
         height: 32
       isBreakpoint: 0
@@ -1691,8 +1701,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 476
-        y: 314
+        x: 277
+        y: 316
         width: 110
         height: 32
       isBreakpoint: 0
@@ -1760,8 +1770,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 346.96875
-        y: 447.03906
+        x: 394.96875
+        y: 511.03906
         width: 100
         height: 48
       isBreakpoint: 0
@@ -1858,8 +1868,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 622.96875
-        y: 499.03906
+        x: 670.96875
+        y: 563.03906
         width: 105
         height: 48
       isBreakpoint: 0
@@ -1949,8 +1959,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 328
-        y: 569
+        x: 376
+        y: 633
         width: 100
         height: 48
       isBreakpoint: 0
@@ -2047,8 +2057,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 467
-        y: 217
+        x: 413.70312
+        y: 229.3125
         width: 101
         height: 64
       isBreakpoint: 0
@@ -2162,8 +2172,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 626
-        y: 268
+        x: 577.65625
+        y: 260.0547
         width: 100
         height: 48
       isBreakpoint: 0
@@ -2277,8 +2287,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 454
-        y: 373
+        x: 83
+        y: 395
         width: 100
         height: 32
       isBreakpoint: 0
@@ -2346,8 +2356,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 775
-        y: 317
+        x: 738
+        y: 300
         width: 100
         height: 32
       isBreakpoint: 0
@@ -2410,6 +2420,83 @@ MonoBehaviour:
         - damage
         paramDataPos: 00000000
         paramByteDataSize: 00000000
+    - name: show_item
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 424
+        y: 361
+        width: 103
+        height: 48
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: player_card_select
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      - fsmEvent:
+          name: damage
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: State 5
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - BattleMainAction.ShowItem
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: dcbe4804
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams:
+        - useVariable: 1
+          name: damage
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 10000000
+        paramName:
+        - damage
+        paramDataPos: 00000000
+        paramByteDataSize: 00000000
     events:
     - name: FINISHED
       isSystemEvent: 1
@@ -2424,6 +2511,9 @@ MonoBehaviour:
       isSystemEvent: 0
       isGlobal: 0
     - name: damage
+      isSystemEvent: 0
+      isGlobal: 0
+    - name: item
       isSystemEvent: 0
       isGlobal: 0
     - name: lose

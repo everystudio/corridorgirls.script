@@ -5,12 +5,13 @@ using UnityEngine.Events;
 
 public class ItemMain : Singleton<ItemMain> {
 
-	public UnityEvent RequestShow = new UnityEvent();
+	public UnityEventString RequestShow = new UnityEventString();
 
 	public UnityEvent OnClose = new UnityEvent();
 
-
+	public string situation;
 	public int move;
+	public int damage;
 
 
 	public PanelItemList m_panelItemList;

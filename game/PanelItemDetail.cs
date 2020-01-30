@@ -18,9 +18,27 @@ public class PanelItemDetail : MonoBehaviour {
 	{
 		m_master = _master;
 		m_txtName.text = _master.name;
-		m_txtOutline.text = _master.outline;
 
-		if(m_master.range == 1)
+		string strOutline = "";
+		if ( _master.situation == "field")
+		{
+			strOutline = string.Format("{0}\n\n<color=red>このアイテムはフィールドでのみ使用可能です</color>", _master.outline);
+		}
+		else if (_master.situation == "battle")
+		{
+			strOutline = string.Format("{0}\n\n<color=red>このアイテムは戦闘中でのみ使用可能です</color>", _master.outline);
+		}
+		else if (_master.situation == "none")
+		{
+			strOutline = string.Format("{0}\n\n<color=red>このアイテムはここでは使用できません</color>", _master.outline);
+		}
+		else
+		{
+			strOutline = _master.outline;
+		}
+		m_txtOutline.text = strOutline;
+
+		if (m_master.range == 1)
 		{
 			m_partyHolder.gameObject.SetActive(true);
 			MasterCharaParam left = DataManagerGame.Instance.masterChara.list.Find(p => p.chara_id == (

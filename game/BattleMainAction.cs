@@ -147,6 +147,41 @@ namespace BattleMainAction
 		}
 	}
 
+	[ActionCategory("BattleMainAction")]
+	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
+	public class ShowItem : BattleMainActionBase
+	{
+		public FsmInt damage;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			ItemMain.Instance.damage = 0;
+
+			ItemMain.Instance.RequestShow.Invoke("battle");
+
+			ItemMain.Instance.OnClose.AddListener(() =>
+			{
+				Debug.Log(ItemMain.Instance.damage);
+				if (0 < ItemMain.Instance.damage)
+				{
+					damage.Value = ItemMain.Instance.damage;
+					Fsm.Event("damage");
+				}
+				else {
+					Finish();
+				}
+			});
+
+		}
+		public override void OnExit()
+		{
+			base.OnExit();
+			ItemMain.Instance.OnClose.RemoveAllListeners();
+		}
+	}
+
+
 
 	[ActionCategory("BattleMainAction")]
 	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
