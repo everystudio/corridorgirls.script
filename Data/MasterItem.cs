@@ -6,8 +6,8 @@ public class MasterItemParam : CsvDataParam
 	public int item_id { get; set; }
 	public string name { get; set; }
 	public string outline { get; set; }
-	public int type { get; set; }
-	public int type_sub { get; set; }
+	public string item_type { get; set; }
+	public string item_type_sub { get; set; }
 	public int range { get; set; }
 	public int turn { get; set; }
 	public int param { get; set; }

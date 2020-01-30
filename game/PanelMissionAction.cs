@@ -393,12 +393,7 @@ namespace PanelMissionAction {
 					bIsFinish = true;
 					foreach (DataUnitParam u in DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara"))
 					{
-						DataUnitParam add = new DataUnitParam();
-						add.chara_id = u.chara_id;
-						add.unit = "assist";
-						add.turn = 99999;       // なんかいいの欲しいね
-						add.str = 10;
-						DataManagerGame.Instance.dataUnit.list.Add(add);
+						DataManagerGame.Instance.dataUnit.AddAssist("skill", u.chara_id, "str", 10, 9999);
 					}
 					break;
 				case "mp_heal_30":
