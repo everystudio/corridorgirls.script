@@ -5,7 +5,7 @@ using UnityEngine;
 public class MasterCorridorEventParam : CsvDataParam
 {
 	public int corridor_event_id { get; set; }
-	public int type { get; set; }
+	public string corridor_type { get; set; }
 	public int sub_type { get; set; }
 	public string label { get; set; }
 	public int param { get; set; }

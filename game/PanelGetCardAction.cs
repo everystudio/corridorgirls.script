@@ -34,10 +34,10 @@ namespace PanelGetCardAction {
 
 			if (panel.stage_id != 0)
 			{
-				stage_id.Value = panel.stage_id;
+				//stage_id.Value = panel.stage_id;
+				//Debug.Log(stage_id.Value);
+				//panel.Initialize(3, stage_id.Value);
 
-				Debug.Log(stage_id.Value);
-				panel.Initialize(3, stage_id.Value);
 				Finish();
 			}
 

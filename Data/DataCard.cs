@@ -132,8 +132,24 @@ public class DataCard : CsvData< DataCardParam> {
 		}
 	}
 
+	public int GetNewSerial()
+	{
+		int iSerial = 1;
+		foreach( DataCardParam data in list)
+		{
+			if(iSerial <= data.card_serial)
+			{
+				iSerial = data.card_serial + 1;
+			}
+		}
+		return iSerial;
+	}
 
-
-
-
+	public void AddNewCard(DataCardParam arg0 , STATUS _eStatus)
+	{
+		int iSerial = GetNewSerial();
+		arg0.card_serial = iSerial;
+		arg0.status = (int)_eStatus;
+		list.Add(arg0);
+	}
 }

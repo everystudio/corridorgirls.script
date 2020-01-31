@@ -400,6 +400,9 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
+
+			GameCamera.Instance.RequestMoveStart.Invoke();
+
 			gameMain.m_panelGameControlButtons.ShowButtonNum(0, null);
 
 			gameMain.m_panelStatus.m_btnStatus.onClick.AddListener(() =>
@@ -423,6 +426,8 @@ namespace GameMainAction
 			gameMain.m_panelStatus.m_btnStatus.onClick.RemoveAllListeners();
 			gameMain.m_panelStatus.m_btnItem.onClick.RemoveAllListeners();
 			gameMain.m_panelStatus.m_btnDeck.onClick.RemoveAllListeners();
+
+			GameCamera.Instance.RequestMoveStop.Invoke();
 		}
 	}
 	[ActionCategory("GameMainAction")]
@@ -432,12 +437,12 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			gameMain.m_panelPlayerDeck.m_btnClose.gameObject.SetActive(false);
-			gameMain.m_panelPlayerDeck.Show();
+			GameMain.Instance.m_panelPlayerDeck.m_btnClose.gameObject.SetActive(false);
+			GameMain.Instance.m_panelPlayerDeck.Show();
 
-			gameMain.m_panelGameControlButtons.ShowButtonNum(1,new string[1]{ "閉じる"});
+			GameMain.Instance.m_panelGameControlButtons.ShowButtonNum(1,new string[1]{ "閉じる"});
 
-			gameMain.m_panelGameControlButtons.OnClickButton.AddListener((int _iIndex) =>
+			GameMain.Instance.m_panelGameControlButtons.OnClickButton.AddListener((int _iIndex) =>
 			{
 				Finish();
 			});
@@ -445,8 +450,8 @@ namespace GameMainAction
 		public override void OnExit()
 		{
 			base.OnExit();
-			gameMain.m_panelPlayerDeck.Close();
-			gameMain.m_panelGameControlButtons.OnClickButton.RemoveAllListeners();
+			GameMain.Instance.m_panelPlayerDeck.Close();
+			GameMain.Instance.m_panelGameControlButtons.OnClickButton.RemoveAllListeners();
 		}
 	}
 
@@ -616,6 +621,8 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			GameCamera.Instance.ResetPosition();
+
 			if (select_card_serial.Value != 0)
 			{
 				Card selected_card = null;
@@ -683,7 +690,8 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 			string event_name = "none";
-			switch ((MasterCorridorEvent.CORRIDOR_EVENT_TYPE)gameMain.chara_control.target_corridor.corridor_event.type)
+			/*
+			switch (gameMain.chara_control.target_corridor.corridor_event.corridor_type)
 			{
 				case MasterCorridorEvent.CORRIDOR_EVENT_TYPE.GOLD:
 					event_name = "gold";
@@ -722,7 +730,9 @@ namespace GameMainAction
 					event_name = "none";
 					break;
 			}
-			Fsm.Event(event_name);
+			*/
+
+			Fsm.Event(gameMain.chara_control.target_corridor.corridor_event.corridor_type);
 		}
 	}
 
@@ -781,13 +791,29 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 			gameMain.panelGetCard.gameObject.SetActive(true);
+
+
 			gameMain.panelGetCard.stage_id = stage_id.Value;
+
+			// ここ順番をうまく入れ替えしたい気がする
+			List<DataUnitParam> unit_chara_list = DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara" && p.position != "none");
+			int[] chara_id_arr = new int[unit_chara_list.Count];
+			for( int i = 0; i < chara_id_arr.Length; i++)
+			{
+				chara_id_arr[i] = unit_chara_list[i].chara_id;
+			}
+
+			gameMain.panelGetCard.Initialize(stage_id.Value, chara_id_arr);
+
 			gameMain.panelGetCard.OnSelectCardParam.AddListener(OnSelectCardParam);
 		}
 
 		private void OnSelectCardParam(DataCardParam arg0)
 		{
-			//Debug.LogWarning(string.Format("card:type={0} power={1}", (MasterCard.CARD_TYPE)arg0.card_type, arg0.power));
+			Debug.LogWarning(string.Format("card:label={0} power={1} chara_id={2}", arg0.master.label, arg0.master.power , arg0.chara_id));
+
+			DataManagerGame.Instance.dataCard.AddNewCard(arg0, DataCard.STATUS.DECK);
+
 			Finish();
 		}
 
@@ -856,6 +882,32 @@ namespace GameMainAction
 
 		}
 	}
+
+
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class PartyEdit : GameMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			gameMain.m_panelPartyEdit.gameObject.SetActive(true);
+
+			gameMain.m_panelPartyEdit.OnFinished.AddListener(() =>
+			{
+				Finish();
+			});
+		}
+		public override void OnExit()
+		{
+			base.OnExit();
+			gameMain.m_panelPartyEdit.gameObject.SetActive(false);
+			gameMain.m_panelPartyEdit.OnFinished.RemoveAllListeners();
+		}
+	}
+
+
 
 
 	[ActionCategory("GameMainAction")]

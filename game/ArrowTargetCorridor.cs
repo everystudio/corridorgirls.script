@@ -38,7 +38,7 @@ public class ArrowTargetCorridor : MonoBehaviour {
 		{
 			m_bIsLock = false;
 		}
-		else if(e != null && e.type == (int)MasterCorridorEvent.CORRIDOR_EVENT_TYPE.DOOR)
+		else if(e != null && e.corridor_type == MasterCorridorEvent.CORRIDOR_EVENT_TYPE.DOOR.ToString().ToLower())
 		{
 			m_bIsLock = true;
 			m_sprKey.sprite = SpriteManager.Instance.Get(e.sprite_name);

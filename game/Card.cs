@@ -91,6 +91,10 @@ public class Card : MonoBehaviour {
 	public void Initialize(DataCardParam _card , List<MasterCardSymbolParam> _master_card_symbol_list)
 	{
 		data_card = _card;
+		if(data_card.master == null)
+		{
+			Debug.Log(string.Format("card_id={0} serial={1}", data_card.card_id, data_card.card_serial));
+		}
 		Initialize(data_card.master , _master_card_symbol_list );
 	}
 
