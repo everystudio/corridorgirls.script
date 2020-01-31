@@ -77,9 +77,8 @@ public class BattleIcon : MonoBehaviour {
 	public void Hit()
 	{
 		//Debug.Log("hit");
-
+		/*
 		GameObject root = null;
-
 		if( is_left)
 		{
 			root = BattleMain.Instance.m_goBattleEnemy;
@@ -88,6 +87,7 @@ public class BattleIcon : MonoBehaviour {
 		{
 			root = BattleMain.Instance.m_goBattleChara;
 		}
+		*/
 
 		//DamageNum script = PrefabManager.Instance.MakeScript<DamageNum>(BattleMain.Instance.m_prefDamageNum, root);
 		//script.gameObject.transform.localPosition = new Vector3(0.0f, -1.5f, -1.5f);
