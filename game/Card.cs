@@ -123,6 +123,11 @@ public class Card : MonoBehaviour {
 				color = new Color(0.0f, 0.0f, 1.0f, 0.5f);
 				strMessage = "山札";
 				break;
+			case (int)DataCard.STATUS.NOTUSE:
+				color = new Color(0.0f, 0.0f, 0.0f, 0.5f);
+				strMessage = "バック";
+				break;
+
 			default:
 				color = new Color(0.0f, 0.0f, 0.0f, 0.5f);
 				strMessage = "";

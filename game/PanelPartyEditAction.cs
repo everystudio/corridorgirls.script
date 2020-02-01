@@ -118,6 +118,60 @@ namespace PanelPartyEditAction
 				if( _iIndex == 0)
 				{
 					DataManagerGame.Instance.dataUnit.Save();
+
+					int temp_left_id = DataManagerGame.Instance.dataUnit.list.Find(a => a.unit == "chara" && a.position == "left").chara_id;
+					int temp_right_id = DataManagerGame.Instance.dataUnit.list.Find(a => a.unit == "chara" && a.position == "right").chara_id;
+
+					List<int> party_chara_id_list = new List<int>();
+					party_chara_id_list.Add(temp_left_id);
+					party_chara_id_list.Add(temp_right_id);
+
+					List<int> remove_card_serial_list = new List<int>();
+
+					foreach ( DataCardParam card in DataManagerGame.Instance.dataCard.list)
+					{
+						bool bNotUse = true;
+
+						foreach( int chara_id in party_chara_id_list)
+						{
+							// パーティーメンバーのカードは使うので除外
+							if(card.chara_id == chara_id)
+							{
+								bNotUse = false;
+							}
+
+							if ( card.chara_id == chara_id && card.status == (int)DataCard.STATUS.NOTUSE)
+							{
+								card.status = (int)DataCard.STATUS.REMOVE;
+							}
+						}
+						if( bNotUse)
+						{
+							if (card.status == (int)DataCard.STATUS.HAND)
+							{
+								remove_card_serial_list.Add(card.card_serial);
+							}
+							card.status = (int)DataCard.STATUS.NOTUSE;
+						}
+					}
+
+					foreach( int iSerial in remove_card_serial_list)
+					{
+
+						Card selected_card = null;
+						selected_card = GameMain.Instance.card_list_hand.Find(p => p.data_card.card_serial == iSerial);
+
+						selected_card.data_card.status = (int)DataCard.STATUS.REMOVE;
+						selected_card.m_animator.SetBool("delete", true);
+
+						GameMain.Instance.card_list_hand.Remove(selected_card);
+					}
+					if( 0 < remove_card_serial_list.Count)
+					{
+						GameMain.Instance.CardOrder();
+					}
+
+
 					Fsm.Event("change");
 				}
 				else if( _iIndex == 1)

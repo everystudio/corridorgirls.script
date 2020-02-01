@@ -53,6 +53,7 @@ public class DataCard : CsvData< DataCardParam> {
 		HAND,
 		PLAY		,
 		REMOVE		,
+		NOTUSE		,
 		MAX			,
 	}
 

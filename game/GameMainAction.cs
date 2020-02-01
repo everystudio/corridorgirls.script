@@ -69,7 +69,8 @@ namespace GameMainAction
 
 			int serial = 1;
 
-			List<DataUnitParam> unit_param_list = DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara" && (p.position == "left" || p.position == "right"));
+			List<DataUnitParam> unit_param_list = DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara" && (p.position == "left" || p.position == "right" || p.position == "back"));
+
 			foreach (DataUnitParam unit in unit_param_list)
 			{
 				List<MasterCharaCardParam> card_list = DataManagerGame.Instance.masterCharaCard.list.FindAll(p => p.chara_id == unit.chara_id);
@@ -81,6 +82,10 @@ namespace GameMainAction
 					dc.card_id = c.card_id;
 					dc.card_serial = serial;
 					dc.status = (int)DataCard.STATUS.DECK;
+					if( unit.position == "back")
+					{
+						dc.status = (int)DataCard.STATUS.NOTUSE;
+					}
 					serial += 1;
 
 					DataManagerGame.Instance.dataCard.list.Add(dc);
