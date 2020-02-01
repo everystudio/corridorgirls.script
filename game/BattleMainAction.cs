@@ -762,6 +762,102 @@ namespace BattleMainAction
 
 	[ActionCategory("BattleMainAction")]
 	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
+	public class CheckCharaDead : BattleMainActionBase
+	{
+		// 戦闘に参加したキャラだけ調べる
+		public FsmInt select_chara_id;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			bool bIsDead = false;
+			DataUnitParam battle_chara = DataManagerGame.Instance.dataUnit.list.Find(p => p.chara_id == select_chara_id.Value);
+
+			if(battle_chara.hp <= 0)
+			{
+				bIsDead = true;
+				// カードをロスト
+				bool bIsHand = false;
+				Debug.Log(select_chara_id.Value);
+				foreach( DataCardParam card in DataManagerGame.Instance.dataCard.list.FindAll(p=>p.chara_id == select_chara_id.Value)){
+					if( card.status == (int)DataCard.STATUS.HAND)
+					{
+						Card selected_card = null;
+						selected_card = GameMain.Instance.card_list_hand.Find(p => p.data_card.card_serial == card.card_serial);
+						selected_card.m_animator.SetBool("delete", true);
+
+						GameMain.Instance.card_list_hand.Remove(selected_card);
+
+						bIsHand = true;
+					}
+					card.status = (int)DataCard.STATUS.NOTUSE;
+				}
+				if(bIsHand)
+				{
+					GameMain.Instance.CardOrder();
+				}
+
+				List<DataUnitParam> back_chara_list = DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara" && p.position == "back");
+
+				bool bChangeMember = false;
+				foreach( DataUnitParam back_unit in back_chara_list)
+				{
+					// 選手交代
+					if (0 < back_unit.hp)
+					{
+						back_unit.position = battle_chara.position;
+						battle_chara.position = "back";
+						foreach (DataCardParam card in DataManagerGame.Instance.dataCard.list.FindAll(p => p.chara_id == back_unit.chara_id))
+						{
+							card.status = (int)DataCard.STATUS.REMOVE;
+						}
+						bChangeMember = true;
+
+						DataUnitParam other = DataManagerGame.Instance.dataUnit.list.Find(p => p.unit == "chara" && (p.position == "left" || p.position == "right") && p.chara_id != back_unit.chara_id);
+						if (other != null)
+						{
+							battleMain.gameMain.SelectCharaId = other.chara_id;
+						}
+						break;
+					}
+				}
+				if (bChangeMember)
+				{
+					Debug.Log("メンバー交代");
+					GameMain.Instance.panelStatus.Initialize(DataManagerGame.Instance.dataUnit, DataManagerGame.Instance.masterChara);
+				}
+				else
+				{
+					// 交代メンバーがいない場合はもう片方のキャラに変更
+					DataUnitParam other = DataManagerGame.Instance.dataUnit.list.Find(p => p.unit == "chara" && (p.position == "left" || p.position == "right") && p.chara_id != select_chara_id.Value && 0 < p.hp);
+					if (other != null)
+					{
+						battleMain.gameMain.SelectCharaId = other.chara_id;
+					}
+
+				}
+			}
+
+			if(bIsDead == true)
+			{
+				if (DataManagerGame.Instance.dataUnit.IsAliveParty())
+				{
+					Fsm.Event("dead");
+				}
+				else
+				{
+					Fsm.Event("gameover");
+				}
+			}
+			else
+			{
+				Fsm.Event("continue");
+			}
+		}
+	}
+
+	[ActionCategory("BattleMainAction")]
+	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
 	public class ResultCheck : BattleMainActionBase
 	{
 		public override void OnEnter()

@@ -92,8 +92,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 731
-        y: 791.33594
+        x: 787
+        y: 804.33594
         width: 100
         height: 16
       isBreakpoint: 0
@@ -437,8 +437,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 819
-        y: 442
+        x: 757
+        y: 368
         width: 100
         height: 48
       isBreakpoint: 0
@@ -718,8 +718,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 268
-        y: 371
+        x: 243
+        y: 364
         width: 118
         height: 32
       isBreakpoint: 0
@@ -780,8 +780,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 102.99219
-        y: 469
+        x: 66.99219
+        y: 412
         width: 119
         height: 32
       isBreakpoint: 0
@@ -840,8 +840,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 102
-        y: 588
+        x: 261
+        y: 419
         width: 109
         height: 32
       isBreakpoint: 0
@@ -900,8 +900,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 826
-        y: 597
+        x: 80
+        y: 568
         width: 112
         height: 48
       isBreakpoint: 0
@@ -912,7 +912,7 @@ MonoBehaviour:
           name: FINISHED
           isSystemEvent: 1
           isGlobal: 0
-        toState: magic_start
+        toState: p_offset 2
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
@@ -970,8 +970,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 834
-        y: 705
+        x: 289
+        y: 574.0156
         width: 102
         height: 48
       isBreakpoint: 0
@@ -982,7 +982,7 @@ MonoBehaviour:
           name: FINISHED
           isSystemEvent: 1
           isGlobal: 0
-        toState: result
+        toState: State 4
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
@@ -1040,8 +1040,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 130.91406
-        y: 722
+        x: 582.91406
+        y: 585
         width: 100
         height: 32
       isBreakpoint: 0
@@ -1100,8 +1100,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 264
-        y: 484
+        x: 70.99219
+        y: 453
         width: 100
         height: 48
       isBreakpoint: 0
@@ -1120,7 +1120,7 @@ MonoBehaviour:
           name: FINISHED
           isSystemEvent: 1
           isGlobal: 0
-        toState: p_offset 2
+        toState: p_p_attack
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
@@ -1198,8 +1198,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 526
-        y: 538
+        x: 75
+        y: 510
         width: 105
         height: 48
       isBreakpoint: 0
@@ -1218,7 +1218,7 @@ MonoBehaviour:
           name: FINISHED
           isSystemEvent: 1
           isGlobal: 0
-        toState: e_p_attack
+        toState: physics_end
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
@@ -1289,8 +1289,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 245
-        y: 609
+        x: 272
+        y: 462
         width: 100
         height: 48
       isBreakpoint: 0
@@ -1309,7 +1309,7 @@ MonoBehaviour:
           name: FINISHED
           isSystemEvent: 1
           isGlobal: 0
-        toState: State 4
+        toState: m_p_attack
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
@@ -1387,8 +1387,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 510
-        y: 659
+        x: 274
+        y: 519
         width: 109
         height: 48
       isBreakpoint: 0
@@ -1407,7 +1407,7 @@ MonoBehaviour:
           name: FINISHED
           isSystemEvent: 1
           isGlobal: 0
-        toState: m_e_attack
+        toState: magic_end
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
@@ -1478,8 +1478,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 672
-        y: 681
+        x: 310
+        y: 687
         width: 109
         height: 48
       isBreakpoint: 0
@@ -1498,7 +1498,7 @@ MonoBehaviour:
           name: FINISHED
           isSystemEvent: 1
           isGlobal: 0
-        toState: magic_end
+        toState: check_dead_2
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
@@ -1569,8 +1569,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 308
-        y: 745
+        x: 608
+        y: 639
         width: 100
         height: 48
       isBreakpoint: 0
@@ -1639,8 +1639,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 484
-        y: 754
+        x: 657
+        y: 723
         width: 100
         height: 32
       isBreakpoint: 0
@@ -1770,8 +1770,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 394.96875
-        y: 511.03906
+        x: 91.96875
+        y: 626.03906
         width: 100
         height: 48
       isBreakpoint: 0
@@ -1790,7 +1790,7 @@ MonoBehaviour:
           name: FINISHED
           isSystemEvent: 1
           isGlobal: 0
-        toState: p_p_attack
+        toState: e_p_attack
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
@@ -1868,8 +1868,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 670.96875
-        y: 563.03906
+        x: 99.96875
+        y: 683.03906
         width: 105
         height: 48
       isBreakpoint: 0
@@ -1888,7 +1888,7 @@ MonoBehaviour:
           name: FINISHED
           isSystemEvent: 1
           isGlobal: 0
-        toState: physics_end
+        toState: check_dead_1
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
@@ -1959,8 +1959,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 376
-        y: 633
+        x: 302
+        y: 631
         width: 100
         height: 48
       isBreakpoint: 0
@@ -1979,7 +1979,7 @@ MonoBehaviour:
           name: FINISHED
           isSystemEvent: 1
           isGlobal: 0
-        toState: m_p_attack
+        toState: m_e_attack
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
@@ -2287,8 +2287,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 83
-        y: 395
+        x: 78
+        y: 341
         width: 100
         height: 32
       isBreakpoint: 0
@@ -2497,6 +2497,228 @@ MonoBehaviour:
         - damage
         paramDataPos: 00000000
         paramByteDataSize: 00000000
+    - name: check_dead_1
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 104
+        y: 742
+        width: 127
+        height: 64
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: continue
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: magic_start
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      - fsmEvent:
+          name: gameover
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: State 7
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      - fsmEvent:
+          name: dead
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: turn_end
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - BattleMainAction.CheckCharaDead
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: dcbe4804
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams:
+        - useVariable: 1
+          name: select_chara_id
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 10000000
+        paramName:
+        - select_chara_id
+        paramDataPos: 00000000
+        paramByteDataSize: 00000000
+    - name: State 7
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 759
+        y: 676
+        width: 100
+        height: 16
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions: []
+      actionData:
+        actionNames: []
+        customNames: []
+        actionEnabled: 
+        actionIsOpen: 
+        actionStartIndex: 
+        actionHashCodes: 
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: check_dead_2
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 314.76562
+        y: 745.7969
+        width: 127
+        height: 64
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: continue
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: turn_end
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      - fsmEvent:
+          name: gameover
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: State 7
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      - fsmEvent:
+          name: dead
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: turn_end
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - BattleMainAction.CheckCharaDead
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: dcbe4804
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams:
+        - useVariable: 1
+          name: select_chara_id
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 10000000
+        paramName:
+        - select_chara_id
+        paramDataPos: 00000000
+        paramByteDataSize: 00000000
     events:
     - name: FINISHED
       isSystemEvent: 1
@@ -2511,6 +2733,12 @@ MonoBehaviour:
       isSystemEvent: 0
       isGlobal: 0
     - name: damage
+      isSystemEvent: 0
+      isGlobal: 0
+    - name: dead
+      isSystemEvent: 0
+      isGlobal: 0
+    - name: gameover
       isSystemEvent: 0
       isGlobal: 0
     - name: item

@@ -48,6 +48,11 @@ public class DataUnit : CsvData<DataUnitParam> {
 		return unit != null;
 	}
 
+	public bool IsAliveParty()
+	{
+		return 0 < list.FindAll(p => p.unit == "chara" && p.position != "none").Count;
+	}
+
 	public void AddAssist( string _strAssistType , int _iCharaId, string _strType, int _iParam , int _iTurn)
 	{
 		DataUnitParam add = new DataUnitParam();

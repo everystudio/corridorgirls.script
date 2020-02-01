@@ -126,7 +126,8 @@ public class DataCard : CsvData< DataCardParam> {
 	{
 		foreach( DataCardParam card in list)
 		{
-			if( card.status != (int)STATUS.HAND)
+			// 捨札だけがシャッフル対象
+			if( card.status == (int)STATUS.REMOVE )
 			{
 				card.status = (int)STATUS.DECK;
 			}

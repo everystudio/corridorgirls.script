@@ -432,7 +432,10 @@ namespace GameMainAction
 			gameMain.m_panelStatus.m_btnItem.onClick.RemoveAllListeners();
 			gameMain.m_panelStatus.m_btnDeck.onClick.RemoveAllListeners();
 
-			GameCamera.Instance.RequestMoveStop.Invoke();
+			if (GameCamera.Instance != null)
+			{
+				GameCamera.Instance.RequestMoveStop.Invoke();
+			}
 		}
 	}
 	[ActionCategory("GameMainAction")]
@@ -694,7 +697,7 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			string event_name = "none";
+			//string event_name = "none";
 			/*
 			switch (gameMain.chara_control.target_corridor.corridor_event.corridor_type)
 			{
@@ -736,6 +739,7 @@ namespace GameMainAction
 					break;
 			}
 			*/
+			Debug.Log(gameMain.chara_control.target_corridor.corridor_event.corridor_type);
 
 			Fsm.Event(gameMain.chara_control.target_corridor.corridor_event.corridor_type);
 		}
