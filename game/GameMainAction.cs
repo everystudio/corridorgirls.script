@@ -656,8 +656,10 @@ namespace GameMainAction
 		public override void OnExit()
 		{
 			base.OnExit();
-
-			gameMain.m_panelCameraScaler.gameObject.SetActive(false);
+			if (gameMain.m_panelCameraScaler != null)
+			{
+				gameMain.m_panelCameraScaler.gameObject.SetActive(false);
+			}
 			gameMain.m_goCoinRoot.SetActive(false);
 		}
 	}
