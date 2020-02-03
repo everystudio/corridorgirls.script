@@ -92,6 +92,8 @@ namespace BattleMainAction
 			DataUnitParam enemy = DataUnit.MakeUnit(master_enemy);
 			DataManagerGame.Instance.dataUnit.list.Add(enemy);
 
+			battleMain.m_sprEnemy.sprite = SpriteManager.Instance.Get(master_enemy.sprite_name);
+
 			int iSerial = 1;
 			foreach( MasterCharaCardParam cc in DataManagerGame.Instance.masterCharaCard.list.FindAll(p=>p.chara_id == enemy_chara_id.Value))
 			{
@@ -675,7 +677,7 @@ namespace BattleMainAction
 						break;
 				}
 			}
-			Debug.Log(iDamage);
+			//Debug.Log(iDamage);
 
 			battleMain.Damage(is_player.Value, iDamage, OnDamageFinished);
 
@@ -684,7 +686,7 @@ namespace BattleMainAction
 			{
 				DataUnitParam enemy = DataManagerGame.Instance.dataUnit.list.Find(p =>
 				p.unit == "enemy");
-				Debug.Log(enemy.hp);
+				//Debug.Log(enemy.hp);
 				enemy.hp -= iDamage;
 			}
 			else

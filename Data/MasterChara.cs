@@ -13,6 +13,10 @@ public class MasterCharaParam : CsvDataParam
 	public int magic { get; set; }
 	public int heal { get; set; }
 	public int luck { get; set; }
+
+	public string texture_name { get; set; }
+	public string sprite_name { get; set; }
+
 }
 
 public class MasterChara : CsvData<MasterCharaParam> {

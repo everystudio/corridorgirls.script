@@ -103,7 +103,7 @@ public class DataCard : CsvData< DataCardParam> {
 		}
 
 		int select_count = iAdd <= deck_card ? iAdd : deck_card;
-		Debug.Log(string.Format("fill={0} deck_card={1} add={2} select_count={3}", _iFillNum, deck_card, iAdd, select_count));
+		//Debug.Log(string.Format("fill={0} deck_card={1} add={2} select_count={3}", _iFillNum, deck_card, iAdd, select_count));
 
 		for ( int i = 0; i < select_count; i++)
 		{

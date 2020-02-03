@@ -45,7 +45,7 @@ public class CharaIcon : MonoBehaviour {
 	{
 		if (m_masterChara != null)
 		{
-			Debug.Log(string.Format("chara_id={0} _iCharaId={1}", m_masterChara.chara_id, _iCharaId));
+			//Debug.Log(string.Format("chara_id={0} _iCharaId={1}", m_masterChara.chara_id, _iCharaId));
 			Cover(m_masterChara.chara_id == _iCharaId);
 		}
 		else
@@ -56,7 +56,7 @@ public class CharaIcon : MonoBehaviour {
 
 	public void Cover( bool _bShow)
 	{
-		Debug.Log(_bShow);
+		//Debug.Log(_bShow);
 		m_imgCover.gameObject.SetActive(_bShow);
 	}
 	
