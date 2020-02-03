@@ -859,25 +859,44 @@ namespace GameMainAction
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
 	public class Battle : GameMainActionBase
 	{
+		public FsmInt stage_id;
+
 		public override void OnEnter()
 		{
 			base.OnEnter();
 
 			GameMain.Instance.battleMain.gameObject.SetActive(true);
 
-			GameMain.Instance.battleMain.IsBattleFinished = false;
+			GameMain.Instance.battleMain.OnBattleFinished.AddListener((bool _bFlag) =>
+			{
+				Finish();
+			});
+
+			List<MasterStageEnemyParam> appear_enemy_list = DataManagerGame.Instance.masterStageEnemy.list.FindAll(p => p.stage_id == stage_id.Value);
+
+
+			int[] enemy_prob = new int[appear_enemy_list.Count];
+			for (int i = 0; i < appear_enemy_list.Count; i++)
+			{
+				enemy_prob[i] = appear_enemy_list[i].prob;
+			}
+
+			int index = UtilRand.GetIndex(enemy_prob);
+
+			// chara_id = enemy_idです
+			GameMain.Instance.battleMain.RequestBattle.Invoke(appear_enemy_list[index].enemy_id);
 		}
 
-		public override void OnUpdate()
+		public override void OnExit()
 		{
-			base.OnUpdate();
-
-			if(GameMain.Instance.battleMain.IsBattleFinished)
+			base.OnExit();
+			if (GameMain.Instance.battleMain != null)
 			{
+				GameMain.Instance.battleMain.OnBattleFinished.RemoveAllListeners();
 				GameMain.Instance.battleMain.BattleClose();
-				Finish();
 			}
 		}
+
 	}
 
 	[ActionCategory("GameMainAction")]

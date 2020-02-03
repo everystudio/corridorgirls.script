@@ -53,6 +53,22 @@ public class DataUnit : CsvData<DataUnitParam> {
 		return 0 < list.FindAll(p => p.unit == "chara" && p.position != "none").Count;
 	}
 
+	public static DataUnitParam MakeUnit( MasterCharaParam _base)
+	{
+		DataUnitParam ret = new DataUnitParam();
+		ret.chara_id = _base.chara_id;
+		ret.unit = _base.unit;
+
+		ret.hp = _base.hp_max;
+		ret.hp_max = _base.hp_max;
+
+		ret.str = _base.str;
+		ret.magic = _base.magic;
+		ret.heal = _base.heal;
+
+		return ret;
+	}
+
 	public void AddAssist( string _strAssistType , int _iCharaId, string _strType, int _iParam , int _iTurn)
 	{
 		DataUnitParam add = new DataUnitParam();

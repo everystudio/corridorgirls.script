@@ -7,7 +7,7 @@ using System;
 
 public class BattleMain : MonoBehaviour {
 
-	public bool IsBattleFinished;
+	public GameObject m_goRoot;
 
 	public GameMain gameMain;
 	public Animator m_animator;
@@ -44,24 +44,30 @@ public class BattleMain : MonoBehaviour {
 
 	public DataCard dataCardEnemy = new DataCard();
 
+	public UnityEventInt RequestBattle = new UnityEventInt();
+	public UnityEventBool OnBattleFinished = new UnityEventBool();
+
 	public UnityEvent OnOpeningEnd = new UnityEvent();
 
 	public void Opening()
 	{
+		m_goRoot.SetActive(true);
 		m_goPanelEnemyInfo.SetActive(true);
 		HpRefresh();
+		m_animator.Play("standby");
 		m_animator.SetTrigger("opening");
 	}
 
 	public void OpeningEnd()
 	{
+		Debug.LogWarning("OpeningEnd");
 		OnOpeningEnd.Invoke();
 	}
 
 	public void BattleClose()
 	{
+		m_goRoot.SetActive(false);
 		m_goPanelEnemyInfo.SetActive(false);
-		gameObject.SetActive(false);
 	}
 
 

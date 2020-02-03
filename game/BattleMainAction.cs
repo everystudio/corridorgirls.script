@@ -18,13 +18,50 @@ namespace BattleMainAction
 			battleMain = Owner.GetComponent<BattleMain>();
 		}
 	}
+	[ActionCategory("BattleMainAction")]
+	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
+	public class startup : BattleMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+		}
 
+		public override void OnUpdate()
+		{
+			base.OnUpdate();
+			if(DataManagerGame.Instance.Initialized)
+			{
+				Finish();
+			}
+		}
+	}
+	[ActionCategory("BattleMainAction")]
+	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
+	public class wait : BattleMainActionBase
+	{
+		public FsmInt enemy_chara_id;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			battleMain.RequestBattle.AddListener((int _enemy_id)=>{
+				enemy_chara_id.Value = _enemy_id;
+				Debug.Log(string.Format("enemy:chara_id={0}", enemy_chara_id.Value));
+				Finish();
+			});
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			battleMain.RequestBattle.RemoveAllListeners();
+		}
+	}
 
 	[ActionCategory("BattleMainAction")]
 	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
 	public class opening : BattleMainActionBase
 	{
-
 		public FsmInt enemy_chara_id;
 		public override void OnEnter()
 		{
@@ -41,14 +78,19 @@ namespace BattleMainAction
 				GameObject.Destroy(battleMain.enemy_card.gameObject);
 				battleMain.enemy_card = null;
 			}
-
-
 			battleMain.dataCardEnemy.list.Clear();
 			// 敵のデッキデータ
 			//Debug.LogWarning(DataManagerGame.Instance.masterCharaCard.list.FindAll(p => p.chara_id == enemy_chara_id.Value).Count);
 
-			DataUnitParam enemy = DataManagerGame.Instance.dataUnit.list.Find(p => p.unit == "enemy");
-			enemy.hp = enemy.hp_max;
+
+
+
+			// 敵は１体消して新規に追加
+			DataManagerGame.Instance.dataUnit.list.RemoveAll(p => p.unit == "enemy");
+
+			MasterCharaParam master_enemy = DataManagerGame.Instance.masterChara.list.Find(p => p.chara_id == enemy_chara_id.Value);
+			DataUnitParam enemy = DataUnit.MakeUnit(master_enemy);
+			DataManagerGame.Instance.dataUnit.list.Add(enemy);
 
 			int iSerial = 1;
 			foreach( MasterCharaCardParam cc in DataManagerGame.Instance.masterCharaCard.list.FindAll(p=>p.chara_id == enemy_chara_id.Value))
@@ -62,12 +104,7 @@ namespace BattleMainAction
 				battleMain.dataCardEnemy.list.Add(add);
 
 				iSerial += 1;
-
 			}
-
-
-
-
 			battleMain.OnOpeningEnd.AddListener(() =>
 			{
 				battleMain.OnOpeningEnd.RemoveAllListeners();
@@ -906,7 +943,8 @@ namespace BattleMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			battleMain.IsBattleFinished = true;
+			battleMain.OnBattleFinished.Invoke(true);
+			Finish();
 		}
 	}
 

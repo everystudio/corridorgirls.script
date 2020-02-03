@@ -27,6 +27,7 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 	public MasterStageItem masterStageItem = new MasterStageItem();
 	public MasterStageCard masterStageCard = new MasterStageCard();
 	public MasterStageMission masterStageMission = new MasterStageMission();
+	public MasterStageEnemy masterStageEnemy = new MasterStageEnemy();
 
 	public MasterSkill masterSkill = new MasterSkill();
 	public MasterSkillEffect masterSkillEffect = new MasterSkillEffect();
@@ -91,7 +92,7 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 		yield return StartCoroutine(masterStageItem.SpreadSheet(SS_ID, "stage_item" , ()=> { }));
 		yield return StartCoroutine(masterStageCard.SpreadSheet(SS_ID, "stage_card" , ()=> { }));
 		yield return StartCoroutine(masterStageMission.SpreadSheet(SS_ID, "stage_mission" , ()=> { }));
-
+		yield return StartCoroutine(masterStageEnemy.SpreadSheet(SS_ID, "stage_enemy" , ()=> { }));
 
 		yield return StartCoroutine(masterSkill.SpreadSheet(SS_ID, "skill" , ()=> { }));
 		yield return StartCoroutine(masterSkillEffect.SpreadSheet(SS_ID, "skill_effect" , ()=> { }));
