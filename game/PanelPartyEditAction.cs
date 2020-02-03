@@ -69,9 +69,12 @@ namespace PanelPartyEditAction
 		public FsmInt chara_id_left;
 		public FsmInt chara_id_right;
 
+		private float aging_timer;
+
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			aging_timer = 0.0f;
 
 			panel.m_partyHolder.OnClickIcon.AddListener((CharaIcon _icon) =>
 			{
@@ -213,6 +216,23 @@ namespace PanelPartyEditAction
 			Fsm.Event("cancel");
 		}
 
+		public override void OnUpdate()
+		{
+			base.OnUpdate();
+			Debug.Log(aging_timer);
+
+			#region エージング
+			if (DataManagerGame.Instance.IsAging)
+			{
+				aging_timer += Time.deltaTime;
+				if (5.0f < aging_timer)
+				{
+					StartCoroutine(cancel());
+					aging_timer = -1000.0f;
+				}
+			}
+			#endregion
+		}
 
 		public override void OnExit()
 		{

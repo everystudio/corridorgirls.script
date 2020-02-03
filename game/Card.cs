@@ -86,6 +86,13 @@ public class Card : MonoBehaviour {
 		}
 		m_txtType.text = _master.label;
 		m_txtPower.text = _master.power.ToString();
+#if UNITY_EDITOR
+		// デバッグ用
+		if( 0 < data_card.card_serial)
+		{
+			m_txtPower.text = string.Format("{0}:{1}", data_card.card_serial, _master.power);
+		}
+#endif
 	}
 
 	public void Initialize(DataCardParam _card , List<MasterCardSymbolParam> _master_card_symbol_list)

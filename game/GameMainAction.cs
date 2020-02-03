@@ -682,8 +682,24 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			Card selected_card = GameMain.Instance.card_list_hand.Find(p => p.data_card.card_serial == card_serial.Value);
-			DataManagerGame.Instance.MpHeal(selected_card.data_card.master.power);
+			// ここのシリアルは手札じゃなくてもOK
+			//Card selected_card = GameMain.Instance.card_list_hand.Find(p => p.data_card.card_serial == card_serial.Value);
+			DataCardParam selected_card = DataManagerGame.Instance.dataCard.list.Find(p => p.card_serial == card_serial.Value);
+			if(selected_card == null)
+			{
+				foreach( Card dc in GameMain.Instance.card_list_hand)
+				{
+					Debug.Log(dc.data_card.card_serial);
+				}
+				Debug.Log(card_serial.Value);
+			}
+			else if (selected_card.master == null)
+			{
+				Debug.Log(selected_card.card_id);
+			}
+
+			DataManagerGame.Instance.MpHeal(selected_card.master.power);
+
 			Finish();
 		}
 	}

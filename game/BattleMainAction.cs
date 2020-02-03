@@ -47,6 +47,9 @@ namespace BattleMainAction
 			// 敵のデッキデータ
 			//Debug.LogWarning(DataManagerGame.Instance.masterCharaCard.list.FindAll(p => p.chara_id == enemy_chara_id.Value).Count);
 
+			DataUnitParam enemy = DataManagerGame.Instance.dataUnit.list.Find(p => p.unit == "enemy");
+			enemy.hp = enemy.hp_max;
+
 			int iSerial = 1;
 			foreach( MasterCharaCardParam cc in DataManagerGame.Instance.masterCharaCard.list.FindAll(p=>p.chara_id == enemy_chara_id.Value))
 			{
@@ -205,6 +208,25 @@ namespace BattleMainAction
 		}
 		private void OnClickCard(int arg0)
 		{
+			bool notexist = true;
+			foreach (Card dc in GameMain.Instance.card_list_hand)
+			{
+				if (dc.data_card.card_serial == arg0)
+				{
+					notexist = false;
+				}
+			}
+			if (notexist)
+			{
+				Debug.Log(arg0);
+				foreach (Card dc in GameMain.Instance.card_list_hand)
+				{
+					Debug.Log(dc.data_card.card_serial);
+				}
+			}
+
+
+
 			if (select_card_serial.Value == arg0)
 			{
 				Fsm.Event("select");
