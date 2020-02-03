@@ -118,7 +118,7 @@ namespace SkillMainAction {
 			foreach (DataUnitParam unit in DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara")){
 				unit.HpHeal(effect.param);
 			}
-			BattleMain.Instance.HpRefresh();
+			GameMain.Instance.battleMain.HpRefresh();
 			GameMain.Instance.CharaRefresh();
 
 			Finish();
@@ -165,7 +165,7 @@ namespace SkillMainAction {
 				DataManagerGame.Instance.dataUnit.list.Add(new_assist);
 			}
 
-			BattleMain.Instance.HpRefresh();
+			GameMain.Instance.battleMain.HpRefresh();
 			GameMain.Instance.CharaRefresh();
 
 			Finish();

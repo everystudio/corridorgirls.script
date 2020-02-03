@@ -376,7 +376,7 @@ namespace PanelMissionAction {
 					{
 						u.HpHeal(30);
 					}
-					BattleMain.Instance.HpRefresh();
+					GameMain.Instance.battleMain.HpRefresh();
 					GameMain.Instance.CharaRefresh();
 					bIsFinish = true;
 					break;
@@ -386,7 +386,7 @@ namespace PanelMissionAction {
 					{
 						u.TrapDamage(20);
 					}
-					BattleMain.Instance.HpRefresh();
+					GameMain.Instance.battleMain.HpRefresh();
 					GameMain.Instance.CharaRefresh();
 					break;
 				case "str_buff_10":
@@ -399,7 +399,7 @@ namespace PanelMissionAction {
 				case "mp_heal_30":
 					DataManagerGame.Instance.MpHeal(30);
 					bIsFinish = true;
-					BattleMain.Instance.HpRefresh();
+					GameMain.Instance.battleMain.HpRefresh();
 					GameMain.Instance.CharaRefresh();
 					break;
 				case "battle":

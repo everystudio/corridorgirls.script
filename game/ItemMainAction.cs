@@ -216,7 +216,7 @@ namespace ItemMainAction
 					DataUnitParam unit = DataManagerGame.Instance.dataUnit.list.Find(p => p.unit == "chara" && p.chara_id == chara_id.Value);
 					unit.HpHeal(param.Value);
 				}
-				BattleMain.Instance.HpRefresh();
+				GameMain.Instance.battleMain.HpRefresh();
 				GameMain.Instance.CharaRefresh();
 			}
 			else if( item_type_sub.Value == "mp")

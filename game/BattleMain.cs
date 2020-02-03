@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using System;
 
-public class BattleMain : Singleton<BattleMain> {
+public class BattleMain : MonoBehaviour {
 
 	public bool IsBattleFinished;
 
@@ -105,13 +105,13 @@ public class BattleMain : Singleton<BattleMain> {
 		GameObject root = null;
 		if (_bIsPlayer)
 		{
-			root = BattleMain.Instance.m_goBattleEnemy;
+			root = m_goBattleEnemy;
 		}
 		else
 		{
-			root = BattleMain.Instance.m_goBattleChara;
+			root = m_goBattleChara;
 		}
-		DamageNum script = PrefabManager.Instance.MakeScript<DamageNum>(BattleMain.Instance.m_prefDamageNum, root);
+		DamageNum script = PrefabManager.Instance.MakeScript<DamageNum>(m_prefDamageNum, root);
 		//Debug.Log(script.gameObject.transform.localPosition);
 		script.gameObject.transform.localPosition = new Vector3(0.0f, -1.5f, -1.5f);
 

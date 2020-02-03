@@ -219,7 +219,7 @@ namespace PanelPartyEditAction
 		public override void OnUpdate()
 		{
 			base.OnUpdate();
-			Debug.Log(aging_timer);
+			//Debug.Log(aging_timer);
 
 			#region エージング
 			if (DataManagerGame.Instance.IsAging)
