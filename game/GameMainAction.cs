@@ -890,10 +890,13 @@ namespace GameMainAction
 		public override void OnExit()
 		{
 			base.OnExit();
-			if (GameMain.Instance.battleMain != null)
+			if (GameMain.Instance != null)
 			{
-				GameMain.Instance.battleMain.OnBattleFinished.RemoveAllListeners();
-				GameMain.Instance.battleMain.BattleClose();
+				if (GameMain.Instance.battleMain != null)
+				{
+					GameMain.Instance.battleMain.OnBattleFinished.RemoveAllListeners();
+					GameMain.Instance.battleMain.BattleClose();
+				}
 			}
 		}
 

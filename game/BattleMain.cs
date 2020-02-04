@@ -12,6 +12,12 @@ public class BattleMain : MonoBehaviour {
 	public GameMain gameMain;
 	public Animator m_animator;
 
+	public Animator m_animChara;
+	public AnimCharaReciver m_animReciverChara;
+
+	public Animator m_animEnemy;
+	public AnimCharaReciver m_animReciverEnemy;
+
 	public GameObject m_goPanelEnemyInfo;
 
 	public Button m_btnShowEnemyDeck;

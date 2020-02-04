@@ -677,17 +677,19 @@ namespace BattleMainAction
 			result_count += 1;
 		}
 
-		private void OnHit(BattleIcon arg0)
+		private IEnumerator DamageEffectAppear(BattleIcon arg0)
 		{
-			int iDamage = 12;
+			// この微妙なずらし作業がしたかっただけ
+			yield return new WaitForSeconds(0.5f);
 
+			int iDamage = 12;
 			int iSwing = UtilRand.GetRand(5) - 2;
 
-			if( is_player.Value)
+			if (is_player.Value)
 			{
 				DataUnitParam unit_chara = DataManagerGame.Instance.dataUnit.list.Find(p => p.chara_id == select_chara_id.Value);
 
-				switch( arg0.master_symbol.card_symbol_id)
+				switch (arg0.master_symbol.card_symbol_id)
 				{
 					case Defines.CARD_SYMBOL_ATTACK:
 						iDamage = unit_chara.str + iSwing;
@@ -708,11 +710,12 @@ namespace BattleMainAction
 						iDamage = unit_enemy.str + iSwing;
 						break;
 					case Defines.CARD_SYMBOL_MAGIC:
-						iDamage = unit_enemy.str + iSwing;
+						iDamage = unit_enemy.magic + iSwing;
 						break;
 					default:
 						break;
 				}
+				battleMain.m_animChara.SetBool("damage", true);
 			}
 			//Debug.Log(iDamage);
 
@@ -736,6 +739,19 @@ namespace BattleMainAction
 				GameMain.Instance.CharaRefresh();
 			}
 			battleMain.HpRefresh();
+		}
+
+		private void OnHit(BattleIcon arg0)
+		{
+			// アニメーションのタイミングを合わせるために階層で呼び出してます
+			if (is_player.Value)
+			{
+			}
+			else
+			{
+				battleMain.m_animChara.SetBool("damage", true);
+			}
+			StartCoroutine(DamageEffectAppear(arg0));
 		}
 
 		private void OnAttackFinished(BattleIcon arg0)
@@ -874,6 +890,63 @@ namespace BattleMainAction
 			if(battle_chara.hp <= 0)
 			{
 				bIsDead = true;
+
+				battleMain.m_animReciverChara.OnDeadFinished.AddListener(() =>
+				{
+					List<DataUnitParam> back_chara_list = DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara" && p.position == "back");
+
+					bool bChangeMember = false;
+					foreach (DataUnitParam back_unit in back_chara_list)
+					{
+						// 選手交代
+						if (0 < back_unit.hp)
+						{
+							back_unit.position = battle_chara.position;
+							battle_chara.position = "back";
+							foreach (DataCardParam card in DataManagerGame.Instance.dataCard.list.FindAll(p => p.chara_id == back_unit.chara_id))
+							{
+								card.status = (int)DataCard.STATUS.REMOVE;
+							}
+							bChangeMember = true;
+
+							DataUnitParam other = DataManagerGame.Instance.dataUnit.list.Find(p => p.unit == "chara" && (p.position == "left" || p.position == "right") && p.chara_id != back_unit.chara_id);
+							if (other != null)
+							{
+								battleMain.m_animChara.Play("idle");
+								battleMain.gameMain.SelectCharaId = other.chara_id;
+								battleMain.HpRefresh();
+							}
+							break;
+						}
+					}
+					if (bChangeMember)
+					{
+						Debug.Log("メンバー交代");
+						GameMain.Instance.panelStatus.Initialize(DataManagerGame.Instance.dataUnit, DataManagerGame.Instance.masterChara);
+					}
+					else
+					{
+						// 交代メンバーがいない場合はもう片方のキャラに変更
+						DataUnitParam other = DataManagerGame.Instance.dataUnit.list.Find(p => p.unit == "chara" && (p.position == "left" || p.position == "right") && p.chara_id != select_chara_id.Value && 0 < p.hp);
+						if (other != null)
+						{
+							battleMain.m_animChara.Play("idle");
+							battleMain.gameMain.SelectCharaId = other.chara_id;
+							battleMain.HpRefresh();
+						}
+					}
+					if (DataManagerGame.Instance.dataUnit.IsAliveParty())
+					{
+						Fsm.Event("dead");
+					}
+					else
+					{
+						Fsm.Event("gameover");
+					}
+				});
+
+				battleMain.m_animChara.SetTrigger("down");
+
 				// カードをロスト
 				bool bIsHand = false;
 				Debug.Log(select_chara_id.Value);
@@ -895,59 +968,15 @@ namespace BattleMainAction
 					GameMain.Instance.CardOrder();
 				}
 
-				List<DataUnitParam> back_chara_list = DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara" && p.position == "back");
-
-				bool bChangeMember = false;
-				foreach( DataUnitParam back_unit in back_chara_list)
-				{
-					// 選手交代
-					if (0 < back_unit.hp)
-					{
-						back_unit.position = battle_chara.position;
-						battle_chara.position = "back";
-						foreach (DataCardParam card in DataManagerGame.Instance.dataCard.list.FindAll(p => p.chara_id == back_unit.chara_id))
-						{
-							card.status = (int)DataCard.STATUS.REMOVE;
-						}
-						bChangeMember = true;
-
-						DataUnitParam other = DataManagerGame.Instance.dataUnit.list.Find(p => p.unit == "chara" && (p.position == "left" || p.position == "right") && p.chara_id != back_unit.chara_id);
-						if (other != null)
-						{
-							battleMain.gameMain.SelectCharaId = other.chara_id;
-							battleMain.HpRefresh();
-						}
-						break;
-					}
-				}
-				if (bChangeMember)
-				{
-					Debug.Log("メンバー交代");
-					GameMain.Instance.panelStatus.Initialize(DataManagerGame.Instance.dataUnit, DataManagerGame.Instance.masterChara);
-				}
-				else
-				{
-					// 交代メンバーがいない場合はもう片方のキャラに変更
-					DataUnitParam other = DataManagerGame.Instance.dataUnit.list.Find(p => p.unit == "chara" && (p.position == "left" || p.position == "right") && p.chara_id != select_chara_id.Value && 0 < p.hp);
-					if (other != null)
-					{
-						battleMain.gameMain.SelectCharaId = other.chara_id;
-						battleMain.HpRefresh();
-					}
-
-				}
 			}
 
-			if(bIsDead == true)
+			// ダメージ後にフラグを戻してない場合ここを経由してないことになる
+			// ダウンしててもこっちのフラグは戻してOK
+			battleMain.m_animChara.SetBool("damage", false);
+
+			if (bIsDead == true)
 			{
-				if (DataManagerGame.Instance.dataUnit.IsAliveParty())
-				{
-					Fsm.Event("dead");
-				}
-				else
-				{
-					Fsm.Event("gameover");
-				}
+				// アニメーション終了で反応するように変更
 			}
 			else
 			{
