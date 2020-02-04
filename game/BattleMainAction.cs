@@ -135,6 +135,20 @@ namespace BattleMainAction
 				GameObject.Destroy(c.gameObject);
 			}
 
+			// バトルカードを消すタイミングはここでいいのかなんか不安
+			// アイコンが出た後はすぐに消えてもいいのでは？
+			// とりあえず証拠としてターン開始まで出しっぱなしにする
+			if (battleMain.player_card != null)
+			{
+				GameObject.Destroy(battleMain.player_card.gameObject);
+				battleMain.player_card = null;
+			}
+			if (battleMain.enemy_card != null)
+			{
+				GameObject.Destroy(battleMain.enemy_card.gameObject);
+				battleMain.enemy_card = null;
+			}
+
 			int hand_card_num = DataManagerGame.Instance.dataCard.list.FindAll(p => p.status == (int)DataCard.STATUS.HAND).Count;
 			Debug.Log(hand_card_num);
 			if (hand_card_num <= card_fill_num.Value)
@@ -347,12 +361,6 @@ namespace BattleMainAction
 
 		private IEnumerator exe_main()
 		{
-			if (battleMain.enemy_card != null)
-			{
-				GameObject.Destroy(battleMain.enemy_card.gameObject);
-				battleMain.enemy_card = null;
-			}
-
 			yield return new WaitForSeconds(1.5f);
 
 			battleMain.enemy_card = PrefabManager.Instance.MakeScript<Card>(
