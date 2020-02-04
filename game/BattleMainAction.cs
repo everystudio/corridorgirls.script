@@ -207,6 +207,15 @@ namespace BattleMainAction
 				//m_panelPlayerDeck.Show();
 			});
 		}
+		public override void OnExit()
+		{
+			base.OnExit();
+
+			battleMain.gameMain.m_panelStatus.m_btnStatus.onClick.RemoveAllListeners();
+			battleMain.gameMain.m_panelStatus.m_btnItem.onClick.RemoveAllListeners();
+			battleMain.gameMain.m_panelStatus.m_btnDeck.onClick.RemoveAllListeners();
+
+		}
 	}
 
 	[ActionCategory("BattleMainAction")]

@@ -168,7 +168,7 @@ namespace GameMainAction
 			gameMain.m_goCoinRoot.SetActive(true);
 
 			int hand_card_num = DataManagerGame.Instance.dataCard.list.FindAll(p => p.status == (int)DataCard.STATUS.HAND).Count;
-			Debug.Log(hand_card_num);
+			//Debug.Log(hand_card_num);
 
 			if( hand_card_num <= card_fill_num.Value)
 			{
@@ -473,12 +473,12 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			gameMain.m_panelGameStatus.gameObject.SetActive(true);
-			gameMain.m_panelGameStatus.Show(DataManagerGame.Instance.dataUnit.list, DataManagerGame.Instance.masterChara.list);
+			GameMain.Instance.m_panelGameStatus.gameObject.SetActive(true);
+			GameMain.Instance.m_panelGameStatus.Show(DataManagerGame.Instance.dataUnit.list, DataManagerGame.Instance.masterChara.list);
 
-			gameMain.m_panelGameControlButtons.ShowButtonNum(1, new string[1] { "閉じる" });
+			GameMain.Instance.m_panelGameControlButtons.ShowButtonNum(1, new string[1] { "閉じる" });
 
-			gameMain.m_panelGameControlButtons.OnClickButton.AddListener((int _iIndex) =>
+			GameMain.Instance.m_panelGameControlButtons.OnClickButton.AddListener((int _iIndex) =>
 			{
 				Finish();
 			});
@@ -486,8 +486,8 @@ namespace GameMainAction
 		public override void OnExit()
 		{
 			base.OnExit();
-			gameMain.m_panelGameStatus.gameObject.SetActive(false);
-			gameMain.m_panelGameControlButtons.OnClickButton.RemoveAllListeners();
+			GameMain.Instance.m_panelGameStatus.gameObject.SetActive(false);
+			GameMain.Instance.m_panelGameControlButtons.OnClickButton.RemoveAllListeners();
 		}
 	}
 	[ActionCategory("GameMainAction")]
@@ -694,13 +694,13 @@ namespace GameMainAction
 			{
 				foreach( Card dc in GameMain.Instance.card_list_hand)
 				{
-					Debug.Log(dc.data_card.card_serial);
+					//Debug.Log(dc.data_card.card_serial);
 				}
-				Debug.Log(card_serial.Value);
+				//Debug.Log(card_serial.Value);
 			}
 			else if (selected_card.master == null)
 			{
-				Debug.Log(selected_card.card_id);
+				//Debug.Log(selected_card.card_id);
 			}
 
 			DataManagerGame.Instance.MpHeal(selected_card.master.power);
@@ -760,7 +760,7 @@ namespace GameMainAction
 					break;
 			}
 			*/
-			Debug.Log(gameMain.chara_control.target_corridor.corridor_event.corridor_type);
+			//Debug.Log(gameMain.chara_control.target_corridor.corridor_event.corridor_type);
 
 			Fsm.Event(gameMain.chara_control.target_corridor.corridor_event.corridor_type);
 		}
