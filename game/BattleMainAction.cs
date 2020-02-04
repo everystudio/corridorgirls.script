@@ -124,6 +124,16 @@ namespace BattleMainAction
 		{
 			base.OnEnter();
 
+			BattleIcon[] arr = battleMain.m_goBattleChara.GetComponentsInChildren<BattleIcon>();
+			foreach (BattleIcon c in arr)
+			{
+				GameObject.Destroy(c.gameObject);
+			}
+			arr = battleMain.m_goBattleEnemy.GetComponentsInChildren<BattleIcon>();
+			foreach (BattleIcon c in arr)
+			{
+				GameObject.Destroy(c.gameObject);
+			}
 
 			int hand_card_num = DataManagerGame.Instance.dataCard.list.FindAll(p => p.status == (int)DataCard.STATUS.HAND).Count;
 			Debug.Log(hand_card_num);
@@ -348,7 +358,7 @@ namespace BattleMainAction
 			battleMain.enemy_card = PrefabManager.Instance.MakeScript<Card>(
 				battleMain.m_prefCard, battleMain.m_goEnemyCardRoot);
 
-			Debug.Log(battleMain.dataCardEnemy.list.Count);
+			//Debug.Log(battleMain.dataCardEnemy.list.Count);
 			if (battleMain.dataCardEnemy.CardFill(2) == false)
 			{
 				battleMain.dataCardEnemy.DeckShuffle();
