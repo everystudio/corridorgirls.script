@@ -69,6 +69,10 @@ namespace BattleMainAction
 
 			battleMain.Opening();
 
+			battleMain.m_animChara.Play("idle");
+			battleMain.m_animEnemy.Play("idle");
+
+
 			if (battleMain.player_card != null)
 			{
 				GameObject.Destroy(battleMain.player_card.gameObject);
@@ -715,7 +719,6 @@ namespace BattleMainAction
 					default:
 						break;
 				}
-				battleMain.m_animChara.SetBool("damage", true);
 			}
 			//Debug.Log(iDamage);
 
@@ -746,6 +749,7 @@ namespace BattleMainAction
 			// アニメーションのタイミングを合わせるために階層で呼び出してます
 			if (is_player.Value)
 			{
+				battleMain.m_animEnemy.SetBool("damage", true);
 			}
 			else
 			{
@@ -995,12 +999,19 @@ namespace BattleMainAction
 
 			DataUnitParam enemy = DataManagerGame.Instance.dataUnit.list.Find(p => p.unit == "enemy");
 
-			if( enemy.hp <= 0)
+			if (enemy.hp <= 0)
 			{
-				Fsm.Event("win");
+
+				battleMain.m_animReciverEnemy.OnDeadFinished.AddListener(() =>
+				{
+					Fsm.Event("win");
+				});
+				battleMain.m_animEnemy.SetTrigger("down");
+				battleMain.m_animEnemy.SetBool("damage", false);
 			}
 			else
 			{
+				battleMain.m_animEnemy.SetBool("damage", false);
 				Finish();
 			}
 		}
