@@ -458,8 +458,11 @@ namespace GameMainAction
 		public override void OnExit()
 		{
 			base.OnExit();
-			GameMain.Instance.m_panelPlayerDeck.Close();
-			GameMain.Instance.m_panelGameControlButtons.OnClickButton.RemoveAllListeners();
+			if (GameMain.Instance != null)
+			{
+				GameMain.Instance.m_panelPlayerDeck.Close();
+				GameMain.Instance.m_panelGameControlButtons.OnClickButton.RemoveAllListeners();
+			}
 		}
 	}
 

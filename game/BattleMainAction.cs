@@ -309,8 +309,6 @@ namespace BattleMainAction
 				}
 			}
 
-
-
 			if (select_card_serial.Value == arg0)
 			{
 				Fsm.Event("select");
@@ -318,7 +316,7 @@ namespace BattleMainAction
 
 				select_chara_id.Value = selected_card.data_card.chara_id;
 
-				selected_card.data_card.status = (int)DataCard.STATUS.REMOVE;
+				selected_card.data_card.status = (int)DataCard.STATUS.PLAY;
 				selected_card.m_animator.SetBool("delete", true);
 				battleMain.gameMain.card_list_hand.Remove(selected_card);
 				battleMain.gameMain.CardOrder();
@@ -374,6 +372,7 @@ namespace BattleMainAction
 	public class EnemyCard : BattleMainActionBase
 	{
 		public FsmInt enemy_card_id;
+		public FsmInt enemy_card_serial;
 
 		public override void OnEnter()
 		{
@@ -403,6 +402,7 @@ namespace BattleMainAction
 
 			select_enemy_card.status = (int)DataCard.STATUS.PLAY;
 			enemy_card_id.Value = select_enemy_card.card_id;
+			enemy_card_serial.Value = select_enemy_card.card_serial;
 			//MasterCardParam master_enemy_card = DataManagerGame.Instance.masterCard.list.Find(p => p.card_id == enemy_card_id.Value);
 			battleMain.enemy_card.Initialize(select_enemy_card, DataManagerGame.Instance.masterCardSymbol.list);
 
@@ -1012,6 +1012,33 @@ namespace BattleMainAction
 			else
 			{
 				battleMain.m_animEnemy.SetBool("damage", false);
+				Finish();
+			}
+		}
+	}
+	[ActionCategory("BattleMainAction")]
+	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
+	public class TurnEnd : BattleMainActionBase
+	{
+		public FsmInt select_card_serial;
+		public FsmInt enemy_card_serial;
+
+		public FsmBool is_win;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			DataCardParam card = DataManagerGame.Instance.dataCard.list.Find(p => p.card_serial == select_card_serial.Value);
+			card.status = (int)DataCard.STATUS.REMOVE;
+
+			DataCardParam select_enemy_card = battleMain.dataCardEnemy.list.Find(p => p.card_serial == enemy_card_serial.Value);
+			select_enemy_card.status = (int)DataCard.STATUS.REMOVE;
+
+			if (is_win.Value) {
+				Fsm.Event("win");
+			}
+			else
+			{
 				Finish();
 			}
 		}
