@@ -68,6 +68,7 @@ namespace BattleMainAction
 			base.OnEnter();
 
 			battleMain.Opening();
+
 			if (battleMain.player_card != null)
 			{
 				GameObject.Destroy(battleMain.player_card.gameObject);
@@ -79,6 +80,18 @@ namespace BattleMainAction
 				battleMain.enemy_card = null;
 			}
 			battleMain.dataCardEnemy.list.Clear();
+
+			BattleIcon[] arr = battleMain.m_goBattleChara.GetComponentsInChildren<BattleIcon>();
+			foreach (BattleIcon c in arr)
+			{
+				GameObject.Destroy(c.gameObject);
+			}
+			arr = battleMain.m_goBattleEnemy.GetComponentsInChildren<BattleIcon>();
+			foreach (BattleIcon c in arr)
+			{
+				GameObject.Destroy(c.gameObject);
+			}
+
 			// 敵のデッキデータ
 			//Debug.LogWarning(DataManagerGame.Instance.masterCharaCard.list.FindAll(p => p.chara_id == enemy_chara_id.Value).Count);
 
@@ -107,6 +120,10 @@ namespace BattleMainAction
 
 				iSerial += 1;
 			}
+
+			battleMain.HpRefresh();
+
+
 			battleMain.OnOpeningEnd.AddListener(() =>
 			{
 				battleMain.OnOpeningEnd.RemoveAllListeners();
@@ -308,6 +325,8 @@ namespace BattleMainAction
 				DataCardParam card = DataManagerGame.Instance.dataCard.list.Find(p => p.card_serial == select_card_serial.Value);
 
 				battleMain.gameMain.SelectCharaId = card.chara_id;
+				battleMain.HpRefresh();
+
 				Fsm.Event("touch");
 			}
 		}
@@ -896,6 +915,7 @@ namespace BattleMainAction
 						if (other != null)
 						{
 							battleMain.gameMain.SelectCharaId = other.chara_id;
+							battleMain.HpRefresh();
 						}
 						break;
 					}
@@ -912,6 +932,7 @@ namespace BattleMainAction
 					if (other != null)
 					{
 						battleMain.gameMain.SelectCharaId = other.chara_id;
+						battleMain.HpRefresh();
 					}
 
 				}

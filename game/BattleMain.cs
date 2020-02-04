@@ -73,24 +73,21 @@ public class BattleMain : MonoBehaviour {
 
 	public void HpRefresh()
 	{
-		if(GameMain.Instance.SelectCharaId == 0)
+		if(GameMain.Instance.SelectCharaId != 0)
 		{
-			return;
+			DataUnitParam select_chara = DataManagerGame.Instance.dataUnit.list.Find(p =>
+			p.chara_id == GameMain.Instance.SelectCharaId &&
+			p.unit == "chara");
+			if (select_chara != null && hp_bar_chara != null)
+			{
+				hp_bar_chara.SetValueMax(select_chara.hp_max);
+				hp_bar_chara.SetValueCurrent(select_chara.hp);
+			}
 		}
-
-		DataUnitParam select_chara = DataManagerGame.Instance.dataUnit.list.Find(p =>
-		p.chara_id == GameMain.Instance.SelectCharaId &&
-		p.unit == "chara");
-
 
 		DataUnitParam enemy = DataManagerGame.Instance.dataUnit.list.Find(p =>
 		p.unit == "enemy");
 
-		if (select_chara != null && hp_bar_chara != null)
-		{
-			hp_bar_chara.SetValueMax(select_chara.hp_max);
-			hp_bar_chara.SetValueCurrent(select_chara.hp);
-		}
 		if (enemy != null && hp_bar_enemy != null)
 		{
 			hp_bar_enemy.SetValueMax(enemy.hp_max);
