@@ -14,6 +14,7 @@ public class DataUnitParam : CsvDataParam
 	public int str { get; set; }
 	public int magic { get; set; }
 	public int heal { get; set; }
+	public int luck { get; set; }
 
 	public string assist_type { get; set; }
 	public int turn { get; set; }
@@ -34,6 +35,17 @@ public class DataUnitParam : CsvDataParam
 		{
 			hp = 1;
 		}
+	}
+
+	public void CopyParams(MasterCharaParam _master)
+	{
+		hp_max = _master.hp_max;
+		hp = hp_max;
+
+		str = _master.str;
+		magic = _master.magic;
+		heal = _master.heal;
+		luck = _master.luck;
 	}
 
 }

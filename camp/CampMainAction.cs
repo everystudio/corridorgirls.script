@@ -833,5 +833,26 @@ namespace CampMainAction {
 	}
 
 
+	[ActionCategory("CampMainAction")]
+	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
+	public class standby_goto_stage : CampMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			List<DataUnitParam> party_members = DMCamp.Instance.dataUnit.list.FindAll(p => p.unit == "chara" && p.position != "none");
+			foreach( DataUnitParam unit in party_members)
+			{
+				unit.CopyParams(DMCamp.Instance.masterChara.list.Find(p => p.chara_id == unit.chara_id));
+			}
+			DMCamp.Instance.dataUnit.Save();
+
+			Finish();
+		}
+	}
+
+
+
 
 }

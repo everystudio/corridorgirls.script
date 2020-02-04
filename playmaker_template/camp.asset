@@ -24,7 +24,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 66
-        y: 180
+        y: 164
         width: 100
         height: 32
       isBreakpoint: 0
@@ -194,7 +194,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 266
-        y: 352
+        y: 336
         width: 100
         height: 80
       isBreakpoint: 0
@@ -359,7 +359,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 395
-        y: 131.99219
+        y: 115.99219
         width: 100
         height: 48
       isBreakpoint: 0
@@ -370,7 +370,7 @@ MonoBehaviour:
           name: select
           isSystemEvent: 0
           isGlobal: 0
-        toState: goto_game
+        toState: standby_goto_stage
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
@@ -463,7 +463,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 427
-        y: 309
+        y: 293
         width: 100
         height: 64
       isBreakpoint: 0
@@ -568,7 +568,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 382
-        y: 594
+        y: 578
         width: 100
         height: 64
       isBreakpoint: 0
@@ -690,7 +690,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 105
-        y: 510
+        y: 494
         width: 100
         height: 32
       isBreakpoint: 0
@@ -778,8 +778,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 558
-        y: 109.953125
+        x: 627
+        y: 160.90625
         width: 104
         height: 16
       isBreakpoint: 0
@@ -867,7 +867,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 592
-        y: 256
+        y: 240
         width: 100
         height: 64
       isBreakpoint: 0
@@ -952,7 +952,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 729
-        y: 345
+        y: 329
         width: 141
         height: 48
       isBreakpoint: 0
@@ -1036,7 +1036,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 740
-        y: 261
+        y: 245
         width: 137
         height: 32
       isBreakpoint: 0
@@ -1112,7 +1112,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 540
-        y: 654
+        y: 638
         width: 100
         height: 64
       isBreakpoint: 0
@@ -1204,7 +1204,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 686
-        y: 680
+        y: 664
         width: 177
         height: 48
       isBreakpoint: 0
@@ -1288,7 +1288,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 711
-        y: 624
+        y: 608
         width: 113
         height: 32
       isBreakpoint: 0
@@ -1381,7 +1381,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 554
-        y: 415
+        y: 399
         width: 100
         height: 48
       isBreakpoint: 0
@@ -1458,7 +1458,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 704
-        y: 451
+        y: 435
         width: 113
         height: 48
       isBreakpoint: 0
@@ -1535,7 +1535,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 460
-        y: 202
+        y: 186
         width: 100
         height: 32
       isBreakpoint: 0
@@ -1597,7 +1597,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 64
-        y: 242
+        y: 226
         width: 100
         height: 32
       isBreakpoint: 0
@@ -1684,7 +1684,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 446
-        y: 250
+        y: 234
         width: 106
         height: 32
       isBreakpoint: 0
@@ -1746,7 +1746,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 554
-        y: 584
+        y: 568
         width: 108
         height: 32
       isBreakpoint: 0
@@ -1808,7 +1808,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 547
-        y: 743
+        y: 727
         width: 100
         height: 32
       isBreakpoint: 0
@@ -1870,7 +1870,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 537
-        y: 528
+        y: 512
         width: 100
         height: 32
       isBreakpoint: 0
@@ -1888,6 +1888,68 @@ MonoBehaviour:
       actionData:
         actionNames:
         - CampMainAction.skill_list
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 00000000
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
+    - name: standby_goto_stage
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 562
+        y: 116
+        width: 165
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: goto_game
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - CampMainAction.standby_goto_stage
         customNames:
         - 
         actionEnabled: 01
