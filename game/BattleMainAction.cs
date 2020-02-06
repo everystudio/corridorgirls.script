@@ -976,7 +976,10 @@ namespace BattleMainAction
 
 						bIsHand = true;
 					}
-					card.status = (int)DataCard.STATUS.NOTUSE;
+					if (card.status != (int)DataCard.STATUS.PLAY)
+					{
+						card.status = (int)DataCard.STATUS.NOTUSE;
+					}
 				}
 				if(bIsHand)
 				{
@@ -1039,11 +1042,30 @@ namespace BattleMainAction
 		{
 			base.OnEnter();
 
-			DataCardParam card = DataManagerGame.Instance.dataCard.list.Find(p => p.card_serial == select_card_serial.Value);
-			card.status = (int)DataCard.STATUS.REMOVE;
+			if (select_card_serial.Value != 0)
+			{
+				DataCardParam card = DataManagerGame.Instance.dataCard.list.Find(p => p.card_serial == select_card_serial.Value);
+				DataUnitParam play_chara = DataManagerGame.Instance.dataUnit.list.Find(p => p.chara_id == card.chara_id && p.unit == "chara" && 0 < p.hp);
 
-			DataCardParam select_enemy_card = battleMain.dataCardEnemy.list.Find(p => p.card_serial == enemy_card_serial.Value);
-			select_enemy_card.status = (int)DataCard.STATUS.REMOVE;
+				Debug.Log((DataCard.STATUS)card.status);
+				Debug.Log(play_chara);
+				if (play_chara != null)
+				{
+					card.status = (int)DataCard.STATUS.REMOVE;
+				}
+				else
+				{
+					if (card.status != (int)DataCard.STATUS.NOTUSE)
+					{
+						card.status = (int)DataCard.STATUS.NOTUSE;
+					}
+				}
+			}
+			if (enemy_card_serial.Value != 0)
+			{
+				DataCardParam select_enemy_card = battleMain.dataCardEnemy.list.Find(p => p.card_serial == enemy_card_serial.Value);
+				select_enemy_card.status = (int)DataCard.STATUS.REMOVE;
+			}
 
 			if (is_win.Value) {
 				Fsm.Event("win");

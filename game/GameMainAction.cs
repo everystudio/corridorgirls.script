@@ -842,7 +842,20 @@ namespace GameMainAction
 		{
 			Debug.LogWarning(string.Format("card:label={0} power={1} chara_id={2}", arg0.master.label, arg0.master.power , arg0.chara_id));
 
-			DataManagerGame.Instance.dataCard.AddNewCard(arg0, DataCard.STATUS.DECK);
+			DataUnitParam add_unit = DataManagerGame.Instance.dataUnit.list.Find(p => p.chara_id == arg0.chara_id);
+
+			DataCard.STATUS add_status = DataCard.STATUS.NONE;
+
+			if( add_unit.position == "left" || add_unit.position == "right")
+			{
+				add_status = DataCard.STATUS.DECK;
+			}
+			else
+			{
+				add_status = DataCard.STATUS.NOTUSE;
+			}
+
+			DataManagerGame.Instance.dataCard.AddNewCard(arg0, add_status);
 
 			Finish();
 		}
