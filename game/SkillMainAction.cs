@@ -109,15 +109,35 @@ namespace SkillMainAction {
 	public class skill_heal : SkillMainActionBase
 	{
 		public FsmInt skill_index;
+		public FsmInt chara_id;
+
 		private MasterSkillEffectParam effect;
 		public override void OnEnter()
 		{
 			base.OnEnter();
 			effect = SkillMain.Instance.master_skill_effect_param_list[skill_index.Value];
-
-			foreach (DataUnitParam unit in DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara")){
-				unit.HpHeal(effect.param);
+			
+			if( effect.skill_type_sub == "hp")
+			{
+				if (chara_id.Value == 0)
+				{
+					foreach (DataUnitParam unit in DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara"))
+					{
+						unit.HpHeal(effect.param);
+					}
+				}
 			}
+			else if( effect.skill_type_sub == "tension")
+			{
+				if (chara_id.Value == 0)
+				{
+					foreach (DataUnitParam unit in DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara"))
+					{
+						DataManagerGame.Instance.dataUnit.AddTension(unit.chara_id, effect.param, DataManagerGame.Instance.masterChara.list);
+					}
+				}
+			}
+
 			GameMain.Instance.battleMain.HpRefresh();
 			GameMain.Instance.CharaRefresh();
 

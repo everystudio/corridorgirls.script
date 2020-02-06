@@ -173,7 +173,7 @@ namespace PanelMissionAction {
 
 			MasterItemParam item = DataManagerGame.Instance.masterItem.list.Find(p => p.item_id == panelMission.masterMissionParam.item_id);
 
-			string message = string.Format(detail.param, item.name);
+			string message = string.Format(detail.message, item.name);
 
 			panelMission.ShowMessageTwoButton(message);
 
@@ -262,7 +262,7 @@ namespace PanelMissionAction {
 			panelMission.prize_list.Clear();
 			foreach ( MasterMissionDetailParam p in panelMission.masterMissionDetailParamList.FindAll(p => p.type == "prize_success"))
 			{
-				panelMission.prize_list.Add(p.param);
+				panelMission.prize_list.Add(p);
 			}
 			Finish();
 		}
@@ -307,7 +307,7 @@ namespace PanelMissionAction {
 			panelMission.prize_list.Clear();
 			foreach (MasterMissionDetailParam p in panelMission.masterMissionDetailParamList.FindAll(p => p.type == "prize_fail"))
 			{
-				panelMission.prize_list.Add(p.param);
+				panelMission.prize_list.Add(p);
 			}
 			Finish();
 		}
@@ -338,7 +338,9 @@ namespace PanelMissionAction {
 	public class next_prize_check : PanelMissionActionBase
 	{
 		public FsmInt prize_index;
-		public FsmString prize;
+		public FsmString prize_type;
+		public FsmString prize_type_sub;
+		public FsmInt param;
 
 		public override void OnEnter()
 		{
@@ -350,7 +352,9 @@ namespace PanelMissionAction {
 			}
 			else
 			{
-				prize.Value = panelMission.prize_list[prize_index.Value];
+				prize_type.Value = panelMission.prize_list[prize_index.Value].prize_type;
+				prize_type_sub.Value = panelMission.prize_list[prize_index.Value].prize_type_sub;
+				param.Value = panelMission.prize_list[prize_index.Value].param;
 				Fsm.Event("prize");
 			}
 
@@ -362,53 +366,74 @@ namespace PanelMissionAction {
 	[HutongGames.PlayMaker.Tooltip("PanelMissionAction")]
 	public class result_prize : PanelMissionActionBase
 	{
-		public FsmString prize;
+		public FsmString prize_type;
+		public FsmString prize_type_sub;
+		public FsmInt param;
+
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			Debug.Log(prize.Value);
+			Debug.Log(prize_type.Value);
+			Debug.Log(prize_type_sub.Value);
+			Debug.Log(param.Value);
+
 			bool bIsFinish = false;
 			string event_name = "";
-			switch( prize.Value)
+			switch(prize_type.Value)
 			{
-				case "hp_heal_30":
-					foreach( DataUnitParam u in DataManagerGame.Instance.dataUnit.list.FindAll(p=>p.unit == "chara"))
+				case "heal":
+					if( prize_type_sub.Value == "hp")
 					{
-						u.HpHeal(30);
+						foreach (DataUnitParam u in DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara"))
+						{
+							u.HpHeal(param.Value);
+						}
+						GameMain.Instance.battleMain.HpRefresh();
+						GameMain.Instance.CharaRefresh();
+						bIsFinish = true;
 					}
-					GameMain.Instance.battleMain.HpRefresh();
-					GameMain.Instance.CharaRefresh();
-					bIsFinish = true;
+					else if( prize_type_sub.Value == "mp")
+					{
+						DataManagerGame.Instance.MpHeal(30);
+						bIsFinish = true;
+						GameMain.Instance.battleMain.HpRefresh();
+						GameMain.Instance.CharaRefresh();
+					}
+					else if( prize_type_sub.Value == "tension")
+					{
+						foreach (DataUnitParam u in DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara"))
+						{
+							DataManagerGame.Instance.dataUnit.AddTension(u.chara_id, param.Value, DataManagerGame.Instance.masterChara.list);
+						}
+						GameMain.Instance.battleMain.HpRefresh();
+						GameMain.Instance.CharaRefresh();
+						bIsFinish = true;
+					}
 					break;
-				case "hp_damage_20":
+				case "buff":
 					bIsFinish = true;
 					foreach (DataUnitParam u in DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara"))
 					{
-						u.TrapDamage(20);
+						DataManagerGame.Instance.dataUnit.AddAssist("skill", u.chara_id, prize_type_sub.Value, param.Value, 9999);
 					}
-					GameMain.Instance.battleMain.HpRefresh();
-					GameMain.Instance.CharaRefresh();
 					break;
-				case "str_buff_10":
+				case "damage":
 					bIsFinish = true;
 					foreach (DataUnitParam u in DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara"))
 					{
-						DataManagerGame.Instance.dataUnit.AddAssist("skill", u.chara_id, "str", 10, 9999);
+						u.TrapDamage(param.Value);
 					}
-					break;
-				case "mp_heal_30":
-					DataManagerGame.Instance.MpHeal(30);
-					bIsFinish = true;
 					GameMain.Instance.battleMain.HpRefresh();
 					GameMain.Instance.CharaRefresh();
+					break;
+				case "item":
+					event_name = "item";
 					break;
 				case "battle":
 					event_name = "battle";
 					panelMission.m_goRoot.SetActive(false);
 					break;
-				case "item":
-					event_name = "item";
-					break;
+
 				case "":
 				case "none":
 				default:
@@ -465,7 +490,7 @@ namespace PanelMissionAction {
 
 			MasterMissionDetailParam detail = panelMission.masterMissionDetailParamList.Find(p => p.type == "intro_no");
 			MasterItemParam item = DataManagerGame.Instance.masterItem.list.Find(p => p.item_id == panelMission.masterMissionParam.item_id);
-			string message = string.Format(detail.param, item.name);
+			string message = string.Format(detail.message, item.name);
 
 			panelMission.ShowNoItem(message);
 			panelMission.m_btnContinue.onClick.AddListener(OnContinue);

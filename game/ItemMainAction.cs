@@ -223,6 +223,22 @@ namespace ItemMainAction
 			{
 				DataManagerGame.Instance.MpHeal(param.Value);
 			}
+			else if( item_type_sub.Value == "tension")
+			{
+				if (chara_id.Value == 0)
+				{
+					foreach (DataUnitParam unit in DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara"))
+					{
+						DataManagerGame.Instance.dataUnit.AddTension(unit.chara_id, param.Value, DataManagerGame.Instance.masterChara.list);
+					}
+				}
+				else
+				{
+					DataUnitParam unit = DataManagerGame.Instance.dataUnit.list.Find(p => p.unit == "chara" && p.chara_id == chara_id.Value);
+					DataManagerGame.Instance.dataUnit.AddTension(unit.chara_id, param.Value, DataManagerGame.Instance.masterChara.list);
+				}
+				GameMain.Instance.CharaRefresh();
+			}
 			else
 			{
 				Debug.LogError(item_type_sub.Value);

@@ -852,7 +852,11 @@ namespace CampMainAction {
 			{
 				MasterCharaParam master = DMCamp.Instance.masterChara.list.Find(p => p.chara_id == unit.chara_id);
 				DMCamp.Instance.dataUnitGame.list.Add(DataUnit.MakeUnit(master,unit.position, unit.tension));
-				DMCamp.Instance.dataUnitGame.list.Add(DataUnit.MakeTension(master, unit.tension));
+
+				DataUnitParam unit_tension = new DataUnitParam();
+
+				unit_tension.BuildTension(master, unit.tension);
+				DMCamp.Instance.dataUnitGame.list.Add(unit_tension);
 			}
 			DMCamp.Instance.dataUnitCamp.Save();
 			DMCamp.Instance.dataUnitGame.Save();

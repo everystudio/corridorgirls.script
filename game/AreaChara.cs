@@ -29,6 +29,7 @@ public class AreaChara : MonoBehaviour {
 	{
 		hp.SetValueMax(unit_param.hp_max);
 		hp.SetValueCurrent(unit_param.hp);
+		tension.SetValueCurrent(unit_param.tension);
 	}
 
 }

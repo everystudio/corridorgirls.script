@@ -49,6 +49,26 @@ public class DataUnitParam : CsvDataParam
 		luck = _master.luck;
 	}
 
+
+	public void BuildTension(MasterCharaParam _base, int _iTension)
+	{
+		chara_id = _base.chara_id;
+		unit = "tension";
+
+		hp = 0;
+		hp_max = 0;
+
+		tension = _iTension;
+
+		// テンションは60が基準
+		float fSwing = (_iTension - 60) * 0.005f;
+
+		str = (int)(_base.str * fSwing);
+		magic = (int)(_base.magic * fSwing);
+		heal = (int)(_base.heal * fSwing);
+		return;
+	}
+
 }
 
 public class DataUnit : CsvData<DataUnitParam> {
@@ -66,6 +86,37 @@ public class DataUnit : CsvData<DataUnitParam> {
 		return 0 < list.FindAll(p => p.unit == "chara" && p.position != "none" && 0 < p.hp).Count;
 	}
 
+	public void AddTension( int _iCharaId , int _iAdd , List<MasterCharaParam> _master_chara_list )
+	{
+		DataUnitParam unit_chara = list.Find(p => p.chara_id == _iCharaId && p.unit == "chara");
+		DataUnitParam unit_tension = list.Find(p => p.chara_id == _iCharaId && p.unit == "tension");
+		MasterCharaParam master_chara = _master_chara_list.Find(p => p.chara_id == _iCharaId);
+
+		if( unit_chara == null )
+		{
+			Debug.LogError("unit_chara");
+		}
+		else if(unit_tension == null)
+		{
+			Debug.LogError("unit_tension");
+		}
+		else if(master_chara == null)
+		{
+			Debug.LogError("master_chara");
+		}
+
+		unit_chara.tension += _iAdd;
+		if(100 < unit_chara.tension)
+		{
+			unit_chara.tension = 100;
+		}
+		else if(unit_chara.tension < 0)
+		{
+			unit_chara.tension = 0;
+		}
+		unit_tension.BuildTension(master_chara, unit_chara.tension);
+	}
+
 	public static DataUnitParam MakeUnit( MasterCharaParam _base, string _strPosition, int _iTension )
 	{
 		DataUnitParam ret = new DataUnitParam();
@@ -81,27 +132,6 @@ public class DataUnit : CsvData<DataUnitParam> {
 		ret.str = _base.str;
 		ret.magic = _base.magic;
 		ret.heal = _base.heal;
-
-		return ret;
-	}
-
-	public static DataUnitParam MakeTension(MasterCharaParam _base, int _iTension)
-	{
-		DataUnitParam ret = new DataUnitParam();
-		ret.chara_id = _base.chara_id;
-		ret.unit = "tension";
-
-		ret.hp = 0;
-		ret.hp_max = 0;
-
-		ret.tension = _iTension;
-
-		// テンションは60が基準
-		float fSwing = (_iTension - 60) * 0.005f;
-
-		ret.str = (int)((float)_base.str * fSwing);
-		ret.magic = (int)((float)_base.magic * fSwing);
-		ret.heal = (int)((float)_base.heal*fSwing);
 
 		return ret;
 	}

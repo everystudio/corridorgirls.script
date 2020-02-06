@@ -565,7 +565,7 @@ MonoBehaviour:
         actionEnabled: 01
         actionIsOpen: 01
         actionStartIndex: 00000000
-        actionHashCodes: d191dc00
+        actionHashCodes: f60de100
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
@@ -577,7 +577,13 @@ MonoBehaviour:
         layoutOptionParams: []
         fsmStringParams:
         - useVariable: 1
-          name: prize
+          name: prize_type
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
+        - useVariable: 1
+          name: prize_type_sub
           tooltip: 
           showInInspector: 0
           networkSync: 0
@@ -594,6 +600,12 @@ MonoBehaviour:
           showInInspector: 0
           networkSync: 0
           value: 0
+        - useVariable: 1
+          name: prize_param
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
         fsmBoolParams: []
         fsmVector2Params: []
         fsmVector3Params: []
@@ -606,12 +618,14 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 1000000012000000
+        paramDataType: 10000000120000001200000010000000
         paramName:
         - prize_index
-        - prize
-        paramDataPos: 0000000000000000
-        paramByteDataSize: 0000000000000000
+        - prize_type
+        - prize_type_sub
+        - param
+        paramDataPos: 00000000000000000100000001000000
+        paramByteDataSize: 00000000000000000000000000000000
     - name: result_prize
       description: 
       colorIndex: 0
@@ -657,7 +671,7 @@ MonoBehaviour:
         actionEnabled: 01
         actionIsOpen: 01
         actionStartIndex: 00000000
-        actionHashCodes: 13227100
+        actionHashCodes: 952e1a00
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
@@ -669,7 +683,13 @@ MonoBehaviour:
         layoutOptionParams: []
         fsmStringParams:
         - useVariable: 1
-          name: prize
+          name: prize_type
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
+        - useVariable: 1
+          name: prize_type_sub
           tooltip: 
           showInInspector: 0
           networkSync: 0
@@ -679,7 +699,13 @@ MonoBehaviour:
         fsmArrayParams: []
         fsmEnumParams: []
         fsmFloatParams: []
-        fsmIntParams: []
+        fsmIntParams:
+        - useVariable: 1
+          name: prize_param
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
         fsmBoolParams: []
         fsmVector2Params: []
         fsmVector3Params: []
@@ -692,11 +718,13 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 12000000
+        paramDataType: 120000001200000010000000
         paramName:
-        - prize
-        paramDataPos: 00000000
-        paramByteDataSize: 00000000
+        - prize_type
+        - prize_type_sub
+        - param
+        paramDataPos: 000000000100000000000000
+        paramByteDataSize: 000000000000000000000000
     - name: item
       description: 
       colorIndex: 0
@@ -1297,10 +1325,28 @@ MonoBehaviour:
         showInInspector: 0
         networkSync: 0
         value: 0
+      - useVariable: 1
+        name: prize_param
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
       boolVariables: []
       stringVariables:
       - useVariable: 1
         name: prize
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 
+      - useVariable: 1
+        name: prize_type
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 
+      - useVariable: 1
+        name: prize_type_sub
         tooltip: 
         showInInspector: 0
         networkSync: 0
@@ -1318,7 +1364,7 @@ MonoBehaviour:
       enumVariables: []
       categories:
       - 
-      variableCategoryIDs: 000000000000000000000000
+      variableCategoryIDs: 000000000000000000000000000000000000000000000000
     description: 
     docUrl: 
     showStateLabel: 0
