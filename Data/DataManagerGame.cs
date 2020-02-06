@@ -111,7 +111,7 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 
 		//dataCard.SetSaveFilename("data_card");
 		//dataCard.LoadMulti("data_card");
-		dataUnit.SetSaveFilename("camp_unit");
+		dataUnit.SetSaveFilename(Defines.FILENAME_UNIT_GAME);
 		dataSkill.SetSaveFilename("camp_skill");
 
 		if (false == dataUnit.LoadMulti())

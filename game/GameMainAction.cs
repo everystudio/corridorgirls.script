@@ -872,7 +872,15 @@ namespace GameMainAction
 
 			GameMain.Instance.battleMain.OnBattleFinished.AddListener((bool _bFlag) =>
 			{
-				Finish();
+				if(_bFlag)
+				{
+					Finish();
+				}
+				else
+				{
+					GameMain.Instance.m_bIsGameover = true;
+					Fsm.Event("gameover");
+				}
 			});
 
 			List<MasterStageEnemyParam> appear_enemy_list = DataManagerGame.Instance.masterStageEnemy.list.FindAll(p => p.stage_id == stage_id.Value);
@@ -986,6 +994,10 @@ namespace GameMainAction
 			if (gameMain.m_bIsGoal)
 			{
 				Fsm.Event("goal");
+			}
+			else if (gameMain.m_bIsGameover)
+			{
+				Fsm.Event("gameover");
 			}
 			else {
 				Finish();

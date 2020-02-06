@@ -24,7 +24,8 @@ public class DMCamp : DataManagerBase<DMCamp> {
 
 
 	public DataCard dataCard = new DataCard();
-	public DataUnit dataUnit = new DataUnit();
+	public DataUnit dataUnitCamp = new DataUnit();
+	public DataUnit dataUnitGame = new DataUnit();
 	public DataItem dataItem = new DataItem();
 	public DataSkill dataSkill = new DataSkill();
 
@@ -70,12 +71,13 @@ public class DMCamp : DataManagerBase<DMCamp> {
 		yield return StartCoroutine(masterSkill.SpreadSheet(SS_ID, "skill", () => { }));
 
 		// data
-		dataUnit.SetSaveFilename("camp_unit");
+		dataUnitCamp.SetSaveFilename(Defines.FILENAME_UNIT_CAMP);
+		dataUnitGame.SetSaveFilename(Defines.FILENAME_UNIT_GAME);
 		dataSkill.SetSaveFilename("camp_skill");
 
-		if( false == dataUnit.LoadMulti())
+		if( false == dataUnitCamp.LoadMulti())
 		{
-			yield return StartCoroutine(dataUnit.SpreadSheet(SS_TEST, "unit", () => { }));
+			yield return StartCoroutine(dataUnitCamp.SpreadSheet(SS_TEST, "unit", () => { }));
 		}
 		if( false == dataSkill.LoadMulti())
 		{
@@ -85,7 +87,7 @@ public class DMCamp : DataManagerBase<DMCamp> {
 
 
 		int serial = 1;
-		List<DataUnitParam> unit_param_list = dataUnit.list.FindAll(p => p.unit == "chara" && (p.position == "left" || p.position == "right"));
+		List<DataUnitParam> unit_param_list = dataUnitCamp.list.FindAll(p => p.unit == "chara" && (p.position == "left" || p.position == "right"));
 		foreach (DataUnitParam unit in unit_param_list)
 		{
 			List<MasterCharaCardParam> card_list = masterCharaCard.list.FindAll(p => p.chara_id == unit.chara_id);

@@ -17,22 +17,22 @@ namespace CampMainAction {
 		public void PartyReset()
 		{
 			MasterCharaParam left = DMCamp.Instance.masterChara.list.Find(p => p.chara_id == (
-			DMCamp.Instance.dataUnit.list.Find(a => a.unit == "chara" && a.position == "left").chara_id
+			DMCamp.Instance.dataUnitCamp.list.Find(a => a.unit == "chara" && a.position == "left").chara_id
 			));
 			MasterCharaParam right = DMCamp.Instance.masterChara.list.Find(p => p.chara_id == (
-			DMCamp.Instance.dataUnit.list.Find(a => a.unit == "chara" && a.position == "right").chara_id
+			DMCamp.Instance.dataUnitCamp.list.Find(a => a.unit == "chara" && a.position == "right").chara_id
 			));
 			MasterCharaParam back = DMCamp.Instance.masterChara.list.Find(p => p.chara_id == (
-			DMCamp.Instance.dataUnit.list.Find(a => a.unit == "chara" && a.position == "back").chara_id
+			DMCamp.Instance.dataUnitCamp.list.Find(a => a.unit == "chara" && a.position == "back").chara_id
 			));
 
 			Debug.Log(left);
 			Debug.Log(right);
 			Debug.Log(back);
 
-			Debug.Log(DMCamp.Instance.dataUnit.list.Find(a => a.unit == "chara" && a.position == "left").chara_id);
-			Debug.Log(DMCamp.Instance.dataUnit.list.Find(a => a.unit == "chara" && a.position == "right").chara_id);
-			Debug.Log(DMCamp.Instance.dataUnit.list.Find(a => a.unit == "chara" && a.position == "back").chara_id);
+			Debug.Log(DMCamp.Instance.dataUnitCamp.list.Find(a => a.unit == "chara" && a.position == "left").chara_id);
+			Debug.Log(DMCamp.Instance.dataUnitCamp.list.Find(a => a.unit == "chara" && a.position == "right").chara_id);
+			Debug.Log(DMCamp.Instance.dataUnitCamp.list.Find(a => a.unit == "chara" && a.position == "back").chara_id);
 
 			Debug.Log(campMain);
 			Debug.Log(campMain.m_partyHolder);
@@ -64,7 +64,7 @@ namespace CampMainAction {
 			base.OnUpdate();
 			if(DMCamp.Instance.Initialized)
 			{
-				campMain.m_panelStatus.Initialize(DMCamp.Instance.dataUnit, DMCamp.Instance.masterChara);
+				campMain.m_panelStatus.Initialize(DMCamp.Instance.dataUnitCamp, DMCamp.Instance.masterChara);
 				campMain.m_panelStatus.SetupSkill(DMCamp.Instance.dataSkill.list.FindAll(p => 0 < p.status), DMCamp.Instance.masterSkill.list);
 				Finish();
 			}
@@ -279,7 +279,10 @@ namespace CampMainAction {
 
 			campMain.m_panelChara.m_panelCharaDetail.gameObject.SetActive(true);
 
+			DataUnitParam data_unit = DMCamp.Instance.dataUnitCamp.list.Find(p => p.chara_id == chara_id.Value && p.unit == "chara");
+
 			campMain.m_panelChara.m_panelCharaDetail.Show(
+				data_unit,
 				DMCamp.Instance.masterChara.list.Find(p=>p.chara_id == chara_id.Value ),
 				DMCamp.Instance.masterCard.list,
 				DMCamp.Instance.masterCharaCard.list,
@@ -413,8 +416,8 @@ namespace CampMainAction {
 			}
 			else
 			{
-				bool chara_a = DMCamp.Instance.dataUnit.IsPartyChara(chara_id.Value);
-				bool chara_b = DMCamp.Instance.dataUnit.IsPartyChara(_iCharaId);
+				bool chara_a = DMCamp.Instance.dataUnitCamp.IsPartyChara(chara_id.Value);
+				bool chara_b = DMCamp.Instance.dataUnitCamp.IsPartyChara(_iCharaId);
 
 				if (chara_a == false && chara_b == false)
 				{
@@ -460,15 +463,15 @@ namespace CampMainAction {
 			//bool chara_a = DMCamp.Instance.dataUnit.IsPartyChara(chara_id.Value);
 			//bool chara_b = DMCamp.Instance.dataUnit.IsPartyChara(exchange_chara_id.Value);
 
-			DataUnitParam unit_a = DMCamp.Instance.dataUnit.list.Find(p => p.chara_id == chara_id.Value && p.unit == "chara");
-			DataUnitParam unit_b = DMCamp.Instance.dataUnit.list.Find(p => p.chara_id == exchange_chara_id.Value && p.unit == "chara");
+			DataUnitParam unit_a = DMCamp.Instance.dataUnitCamp.list.Find(p => p.chara_id == chara_id.Value && p.unit == "chara");
+			DataUnitParam unit_b = DMCamp.Instance.dataUnitCamp.list.Find(p => p.chara_id == exchange_chara_id.Value && p.unit == "chara");
 
 			string chara_a_position = unit_a.position;
 			string chara_b_position = unit_b.position;
 			unit_a.position = chara_b_position;
 			unit_b.position = chara_a_position;
 
-			foreach( DataUnitParam u in DMCamp.Instance.dataUnit.list.FindAll(p=>p.unit == "chara"))
+			foreach( DataUnitParam u in DMCamp.Instance.dataUnitCamp.list.FindAll(p=>p.unit == "chara"))
 			{
 				//Debug.Log(string.Format("chara_id={0} position={1}", u.chara_id, u.position));
 			}
@@ -487,9 +490,9 @@ namespace CampMainAction {
 		{
 			base.OnEnter();
 			// データの上書き
-			DMCamp.Instance.dataUnit.Save();
+			DMCamp.Instance.dataUnitCamp.Save();
 
-			campMain.m_panelStatus.Initialize(DMCamp.Instance.dataUnit, DMCamp.Instance.masterChara);
+			campMain.m_panelStatus.Initialize(DMCamp.Instance.dataUnitCamp, DMCamp.Instance.masterChara);
 
 
 			Finish();
@@ -510,9 +513,9 @@ namespace CampMainAction {
 		private IEnumerator reload()
 		{
 
-			if (false == DMCamp.Instance.dataUnit.Load())
+			if (false == DMCamp.Instance.dataUnitCamp.Load())
 			{
-				yield return StartCoroutine(DMCamp.Instance.dataUnit.SpreadSheet(DMCamp.SS_TEST, "unit", () => { }));
+				yield return StartCoroutine(DMCamp.Instance.dataUnitCamp.SpreadSheet(DMCamp.SS_TEST, "unit", () => { }));
 			}
 			PartyReset();
 			Finish();
@@ -841,12 +844,18 @@ namespace CampMainAction {
 		{
 			base.OnEnter();
 
-			List<DataUnitParam> party_members = DMCamp.Instance.dataUnit.list.FindAll(p => p.unit == "chara" && p.position != "none");
-			foreach( DataUnitParam unit in party_members)
+			List<DataUnitParam> party_members = DMCamp.Instance.dataUnitCamp.list.FindAll(p => p.unit == "chara" && p.position != "none");
+
+			DMCamp.Instance.dataUnitGame.list.Clear();
+
+			foreach ( DataUnitParam unit in party_members)
 			{
-				unit.CopyParams(DMCamp.Instance.masterChara.list.Find(p => p.chara_id == unit.chara_id));
+				MasterCharaParam master = DMCamp.Instance.masterChara.list.Find(p => p.chara_id == unit.chara_id);
+				DMCamp.Instance.dataUnitGame.list.Add(DataUnit.MakeUnit(master,unit.position, unit.tension));
+				DMCamp.Instance.dataUnitGame.list.Add(DataUnit.MakeTension(master, unit.tension));
 			}
-			DMCamp.Instance.dataUnit.Save();
+			DMCamp.Instance.dataUnitCamp.Save();
+			DMCamp.Instance.dataUnitGame.Save();
 
 			Finish();
 		}

@@ -106,7 +106,9 @@ namespace BattleMainAction
 			DataManagerGame.Instance.dataUnit.list.RemoveAll(p => p.unit == "enemy");
 
 			MasterCharaParam master_enemy = DataManagerGame.Instance.masterChara.list.Find(p => p.chara_id == enemy_chara_id.Value);
-			DataUnitParam enemy = DataUnit.MakeUnit(master_enemy);
+
+			// 敵にこっそりテンションを入れるならここ
+			DataUnitParam enemy = DataUnit.MakeUnit(master_enemy, "enemy", 60);
 			DataManagerGame.Instance.dataUnit.list.Add(enemy);
 
 			battleMain.m_sprEnemy.sprite = SpriteManager.Instance.Get(master_enemy.sprite_name);
@@ -1057,10 +1059,11 @@ namespace BattleMainAction
 	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
 	public class BattleFinish : BattleMainActionBase
 	{
+		public FsmBool battle_result;
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			battleMain.OnBattleFinished.Invoke(true);
+			battleMain.OnBattleFinished.Invoke(battle_result.Value);
 			Finish();
 		}
 	}

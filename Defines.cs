@@ -9,6 +9,9 @@ public class Defines{
 
 	public const string KEY_AGING = "aging";
 
+	public const string FILENAME_UNIT_CAMP = "unit_camp";
+	public const string FILENAME_UNIT_GAME = "unit_game";
+
 	public const float ICON_MOVE_TIME = 0.1f;
 
 	public const string STR_FORMAT_CHARA_TEXTURE = "chara{0:D3}01_mini";

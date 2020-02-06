@@ -51,7 +51,7 @@ public class PanelChara : MonoBehaviour {
 			//Debug.Log(string.Format("id:{0} name:{1} unit:{2}", p.chara_id, p.name, p.unit));
 		}
 
-		foreach (MasterCharaParam p in DMCamp.Instance.masterChara.list.FindAll(p=>p.unit == "player"))
+		foreach (MasterCharaParam p in DMCamp.Instance.masterChara.list.FindAll(p=>p.unit == "chara"))
 		{
 			CharaIcon icon = PrefabManager.Instance.MakeScript<CharaIcon>(m_prefCharaIcon, m_goCharaListContents);
 			icon.Initialize(p);

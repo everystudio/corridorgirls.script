@@ -13,10 +13,12 @@ public class PanelCharaDetail : MonoBehaviour {
 	public TextMeshProUGUI m_txtMAG;
 	public TextMeshProUGUI m_txtHEAL;
 
+	public EnergyBar m_barTension;
+
 	public GameObject m_prefCard;
 	public GameObject m_goCardRoot;
 
-	public void Show( MasterCharaParam _masterChara , List<MasterCardParam> _master_card_list , List<MasterCharaCardParam> _chara_card_list , List<MasterCardSymbolParam> _symbol_list)
+	public void Show(DataUnitParam _dataChara ,  MasterCharaParam _masterChara , List<MasterCardParam> _master_card_list , List<MasterCharaCardParam> _chara_card_list , List<MasterCardSymbolParam> _symbol_list)
 	{
 		m_imgIcon.sprite = SpriteManager.Instance.Get(string.Format(Defines.STR_FORMAT_FACEICON, _masterChara.chara_id));
 		m_txtCharaName.text = _masterChara.name;
@@ -24,6 +26,8 @@ public class PanelCharaDetail : MonoBehaviour {
 		m_txtSTR.text = _masterChara.str.ToString();
 		m_txtMAG.text = _masterChara.magic.ToString();
 		m_txtHEAL.text = _masterChara.heal.ToString();
+
+		m_barTension.SetValueCurrent(_dataChara.tension);
 
 		Card[] arr = m_goCardRoot.GetComponentsInChildren<Card>();
 		foreach (Card c in arr)

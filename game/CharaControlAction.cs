@@ -358,6 +358,16 @@ namespace CharaControlAction {
 			GameMain.Instance.chara_control.m_animator.SetTrigger("win");
 		}
 	}
+	[ActionCategory("CharaControlAction")]
+	[HutongGames.PlayMaker.Tooltip("CharaControlAction")]
+	public class CharaAnimDown : CharaControlActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			GameMain.Instance.chara_control.m_animator.SetTrigger("down");
+		}
+	}
 
 
 }

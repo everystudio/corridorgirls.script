@@ -54,7 +54,7 @@ public class PanelPlayerDeck : MonoBehaviour {
 	}
 	public void ShowCamp()
 	{
-		show2(false ,DMCamp.Instance.dataUnit.list, DMCamp.Instance.dataCard.list, DMCamp.Instance.masterCard.list, DMCamp.Instance.masterCardSymbol.list);
+		show2(false ,DMCamp.Instance.dataUnitCamp.list, DMCamp.Instance.dataCard.list, DMCamp.Instance.masterCard.list, DMCamp.Instance.masterCardSymbol.list);
 	}
 
 	public void Close()

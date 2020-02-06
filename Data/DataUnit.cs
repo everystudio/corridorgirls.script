@@ -11,6 +11,7 @@ public class DataUnitParam : CsvDataParam
 	public string position { get; set; }
 	public int hp { get; set; }
 	public int hp_max { get; set; }
+	public int tension { get; set; }
 	public int str { get; set; }
 	public int magic { get; set; }
 	public int heal { get; set; }
@@ -62,10 +63,10 @@ public class DataUnit : CsvData<DataUnitParam> {
 
 	public bool IsAliveParty()
 	{
-		return 0 < list.FindAll(p => p.unit == "chara" && p.position != "none").Count;
+		return 0 < list.FindAll(p => p.unit == "chara" && p.position != "none" && 0 < p.hp).Count;
 	}
 
-	public static DataUnitParam MakeUnit( MasterCharaParam _base)
+	public static DataUnitParam MakeUnit( MasterCharaParam _base, string _strPosition, int _iTension )
 	{
 		DataUnitParam ret = new DataUnitParam();
 		ret.chara_id = _base.chara_id;
@@ -74,9 +75,33 @@ public class DataUnit : CsvData<DataUnitParam> {
 		ret.hp = _base.hp_max;
 		ret.hp_max = _base.hp_max;
 
+		ret.tension = _iTension;
+		ret.position = _strPosition;
+
 		ret.str = _base.str;
 		ret.magic = _base.magic;
 		ret.heal = _base.heal;
+
+		return ret;
+	}
+
+	public static DataUnitParam MakeTension(MasterCharaParam _base, int _iTension)
+	{
+		DataUnitParam ret = new DataUnitParam();
+		ret.chara_id = _base.chara_id;
+		ret.unit = "tension";
+
+		ret.hp = 0;
+		ret.hp_max = 0;
+
+		ret.tension = _iTension;
+
+		// テンションは60が基準
+		float fSwing = (_iTension - 60) * 0.005f;
+
+		ret.str = (int)((float)_base.str * fSwing);
+		ret.magic = (int)((float)_base.magic * fSwing);
+		ret.heal = (int)((float)_base.heal*fSwing);
 
 		return ret;
 	}

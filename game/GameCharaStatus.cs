@@ -8,6 +8,7 @@ public class GameCharaStatus : MonoBehaviour {
 
 	public Image m_imgFaceIcon;
 	public EnergyBar m_barHp;
+	public EnergyBar m_barTension;
 
 	public TextMeshProUGUI m_txtAttack;
 	public TextMeshProUGUI m_txtMagic;
@@ -17,13 +18,14 @@ public class GameCharaStatus : MonoBehaviour {
 
 	public void Initialize(DataUnitParam _unit , MasterCharaParam _master_chara , List<DataUnitParam> _unit_list )
 	{
-		List<DataUnitParam> assist_list = _unit_list.FindAll(p => p.chara_id == _unit.chara_id && p.unit == "assist");
+		List<DataUnitParam> assist_list = _unit_list.FindAll(p => p.chara_id == _unit.chara_id && (p.unit == "assist" || p.unit == "tension"));
 
 		m_imgFaceIcon.sprite = SpriteManager.Instance.Get(string.Format(Defines.STR_FORMAT_FACEICON, _master_chara.chara_id));
 
 		m_barHp.SetValueMax(_unit.hp_max);
 		m_barHp.SetValueCurrent(_unit.hp);
 
+		m_barTension.SetValueCurrent(_unit.tension);
 
 		int iAttack = _unit.str;
 		int iMagic = _unit.magic;
