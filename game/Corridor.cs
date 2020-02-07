@@ -13,7 +13,15 @@ public class Corridor : MonoBehaviour {
 	{
 		data_param = _data;
 
-		transform.localPosition = new Vector3(data_param.master.x, data_param.master.y, 0.0f);
+		if (data_param.master != null)
+		{
+			transform.localPosition = new Vector3(data_param.master.x, data_param.master.y, 0.0f);
+		}
+		else
+		{
+			transform.localPosition = new Vector3(data_param.x, data_param.y, 0.0f);
+
+		}
 		//Debug.Log(_data);
 		//Debug.Log(_data.corridor_event);
 		m_txtLabel.text = _data.corridor_event.label;

@@ -39,7 +39,14 @@ public class CharaControl : MonoBehaviour {
 	{
 		target_corridor = _data;
 
-		transform.localPosition = new Vector3(target_corridor.master.x, target_corridor.master.y + 0.85f, -1.0f);
+		if (target_corridor.master != null)
+		{
+			transform.localPosition = new Vector3(target_corridor.master.x, target_corridor.master.y + 0.85f, -1.0f);
+		}
+		else
+		{
+			transform.localPosition = new Vector3(target_corridor.x, target_corridor.y + 0.85f, -1.0f);
+		}
 	}
 
 	public IEnumerator RequestMove( int _iPower , Action _onFinished )

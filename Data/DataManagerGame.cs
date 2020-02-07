@@ -24,6 +24,7 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 	public MasterCharaCard masterCharaCard = new MasterCharaCard();
 
 	public MasterItem masterItem = new MasterItem();
+	public MasterStageEvent masterStageEvent = new MasterStageEvent();
 	public MasterStageItem masterStageItem = new MasterStageItem();
 	public MasterStageCard masterStageCard = new MasterStageCard();
 	public MasterStageMission masterStageMission = new MasterStageMission();
@@ -89,6 +90,7 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 		yield return StartCoroutine(masterCharaCard.SpreadSheet(SS_ID, "chara_card", () => { }));
 
 		yield return StartCoroutine(masterItem.SpreadSheet(SS_ID, "item" , ()=> { }));
+		yield return StartCoroutine(masterStageEvent.SpreadSheet(SS_ID, "stage_event" , ()=> { }));
 		yield return StartCoroutine(masterStageItem.SpreadSheet(SS_ID, "stage_item" , ()=> { }));
 		yield return StartCoroutine(masterStageCard.SpreadSheet(SS_ID, "stage_card" , ()=> { }));
 		yield return StartCoroutine(masterStageMission.SpreadSheet(SS_ID, "stage_mission" , ()=> { }));

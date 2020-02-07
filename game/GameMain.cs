@@ -43,6 +43,8 @@ public class GameMain : Singleton<GameMain> {
 	public bool m_bIsGoal;
 	public bool m_bIsGameover;
 
+	public List<Corridor> corridor_list = new List<Corridor>();
+
 	public UnityEventInt CharaIdHandler = new UnityEventInt();
 	public int SelectCharaId
 	{

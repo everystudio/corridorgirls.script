@@ -137,10 +137,24 @@ namespace GameMainAction
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
 	public class CreateDungeon : GameMainActionBase
 	{
+		public FsmInt stage_id;
+		public FsmInt wave;
+
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			DataManagerGame.Instance.dataCorridor.Create(DataManagerGame.Instance.masterCorridor.list.FindAll(p => p.stage_id == 1));
+			//DataManagerGame.Instance.dataCorridor.Create(DataManagerGame.Instance.masterCorridor.list.FindAll(p => p.stage_id == 1));
+			// ここでフラグを落とすのもなんか不自然な気がするけど
+			gameMain.m_bIsGoal = false;
+
+
+			foreach( Corridor c in gameMain.corridor_list)
+			{
+				GameObject.Destroy(c.gameObject);
+			}
+			gameMain.corridor_list.Clear();
+
+			DataManagerGame.Instance.dataCorridor.BuildDungeon(DataManagerGame.Instance.masterStage.list.Find(p => p.stage_id == stage_id.Value), wave.Value);
 
 			foreach (DataCorridorParam param in DataManagerGame.Instance.dataCorridor.list)
 			{
@@ -148,6 +162,8 @@ namespace GameMainAction
 
 				Corridor corr = PrefabManager.Instance.MakeScript<Corridor>(gameMain.m_prefCorridor, gameMain.m_goStageRoot);
 				corr.Initialize(param);
+
+				gameMain.corridor_list.Add(corr);
 				//obj.transform.localPosition = new Vector3(param.master.x, param.master.y, 0.0f);
 			}
 			gameMain.chara_control.SetCorridor(DataManagerGame.Instance.dataCorridor.list.Find(p => p.index == 1));
@@ -1017,6 +1033,31 @@ namespace GameMainAction
 			}
 		}
 	}
+
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class CheckNextWave : GameMainActionBase
+	{
+		public FsmInt stage_id;
+		public FsmInt wave;
+
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			MasterStageParam master_stage = DataManagerGame.Instance.masterStage.list.Find(p => p.stage_id == stage_id.Value);
+
+			if( master_stage.total_wave <= wave.Value)
+			{
+				Finish();
+			}
+			else
+			{
+				Fsm.Event("next");
+			}
+		}
+	}
+
 
 	[ActionCategory("GameMainAction")]
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]

@@ -66,9 +66,17 @@ namespace CharaControlAction {
 			base.OnEnter();
 			charaControl.m_eStatus = CharaControl.STATUS.MOVE;
 
-			MasterCorridorEventParam corridor_event = DataManagerGame.Instance.masterCorridorEvent.list.Find(p => p.corridor_event_id == charaControl.target_corridor.master.corridor_event_id);
+			MasterCorridorEventParam corridor_event = null;
+			if (charaControl.target_corridor.master != null)
+			{
+				corridor_event = DataManagerGame.Instance.masterCorridorEvent.list.Find(p => p.corridor_event_id == charaControl.target_corridor.master.corridor_event_id);
+			}
+			else
+			{
+				corridor_event = DataManagerGame.Instance.masterCorridorEvent.list.Find(p => p.corridor_event_id == charaControl.target_corridor.corridor_event.corridor_event_id);
+			}
 
-			if(corridor_event.label == "BOSS")
+			if (corridor_event.label == "BOSS")
 			{
 				// ボスは一時停止
 				Fsm.Event("end");
@@ -81,10 +89,17 @@ namespace CharaControlAction {
 			else if ( 0 < move_num.Value)
 			{
 
-				if(charaControl.target_corridor.master.IsSingle())
+				if(charaControl.target_corridor.IsSingle())
 				{
 					// 明日はここから
-					target_corridor_index.Value = charaControl.target_corridor.master.next_index;
+					if( charaControl.target_corridor.master != null)
+					{
+						target_corridor_index.Value = charaControl.target_corridor.master.next_index;
+					}
+					else
+					{
+						target_corridor_index.Value = charaControl.target_corridor.next_index;
+					}
 
 					//Debug.Log(move_num.Value + ":" + target_corridor_index.Value);
 					Fsm.Event("move");
@@ -113,10 +128,20 @@ namespace CharaControlAction {
 			base.OnEnter();
 			DataCorridorParam target = DataManagerGame.Instance.dataCorridor.list.Find(p => p.index == target_corridor_index.Value);
 
-			target_position.Value = new Vector3(
-				target.master.x,
-				target.master.y + 0.85f,
-				-1.0f);
+			if (target.master != null)
+			{
+				target_position.Value = new Vector3(
+					target.master.x,
+					target.master.y + 0.85f,
+					-1.0f);
+			}
+			else
+			{
+				target_position.Value = new Vector3(
+					target.x,
+					target.y + 0.85f,
+					-1.0f);
+			}
 
 
 			Vector3 dir = target_position.Value - charaControl.gameObject.transform.localPosition;
