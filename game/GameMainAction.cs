@@ -803,12 +803,14 @@ namespace GameMainAction
 	public class GetItem : GameMainActionBase
 	{
 		public FsmInt stage_id;
+		public FsmInt wave;
+
 		public FsmInt item_id;
 		public override void OnEnter()
 		{
 			base.OnEnter();
 
-			gameMain.rouletteItem.Initialize(stage_id.Value, 0);
+			gameMain.rouletteItem.Initialize(stage_id.Value, wave.Value);
 			gameMain.rouletteItem.gameObject.SetActive(true);
 			gameMain.rouletteItem.OnSelectedItemId.AddListener(OnSelectedItemId);
 		}
@@ -833,6 +835,8 @@ namespace GameMainAction
 	public class GetCard : GameMainActionBase
 	{
 		public FsmInt stage_id;
+		public FsmInt wave;
+
 		public override void OnEnter()
 		{
 			base.OnEnter();
@@ -849,7 +853,7 @@ namespace GameMainAction
 				chara_id_arr[i] = unit_chara_list[i].chara_id;
 			}
 
-			gameMain.panelGetCard.Initialize(stage_id.Value, chara_id_arr);
+			gameMain.panelGetCard.Initialize(stage_id.Value, wave.Value, chara_id_arr);
 
 			gameMain.panelGetCard.OnSelectCardParam.AddListener(OnSelectCardParam);
 		}
@@ -892,6 +896,7 @@ namespace GameMainAction
 	public class Battle : GameMainActionBase
 	{
 		public FsmInt stage_id;
+		public FsmInt wave;
 
 		public override void OnEnter()
 		{
@@ -912,8 +917,7 @@ namespace GameMainAction
 				}
 			});
 
-			List<MasterStageEnemyParam> appear_enemy_list = DataManagerGame.Instance.masterStageEnemy.list.FindAll(p => p.stage_id == stage_id.Value);
-
+			List<MasterStageEnemyParam> appear_enemy_list = DataManagerGame.Instance.masterStageEnemy.list.FindAll(p => p.stage_id == stage_id.Value && p.wave == wave.Value);
 
 			int[] enemy_prob = new int[appear_enemy_list.Count];
 			for (int i = 0; i < appear_enemy_list.Count; i++)
@@ -947,12 +951,13 @@ namespace GameMainAction
 	public class Mission : GameMainActionBase
 	{
 		public FsmInt stage_id;
+		public FsmInt wave;
 		public override void OnEnter()
 		{
 			base.OnEnter();
 			PanelMission.Instance.OnFinished.AddListener(OnFinished);
 
-			MasterStageMissionParam m = DataManagerGame.Instance.masterStageMission.Select(stage_id.Value);
+			MasterStageMissionParam m = DataManagerGame.Instance.masterStageMission.Select(stage_id.Value, wave.Value);
 
 			PanelMission.Instance.RequestMission(m.mission_id);
 		}
@@ -968,7 +973,6 @@ namespace GameMainAction
 			{
 				PanelMission.Instance.OnFinished.RemoveListener(OnFinished);
 			}
-
 		}
 	}
 

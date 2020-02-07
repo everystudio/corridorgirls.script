@@ -15,7 +15,7 @@ public class PanelGetCard : MonoBehaviour {
 
 	public UnityEventDataCardParam OnSelectCardParam = new UnityEventDataCardParam();
 
-	public void Initialize( int _iStageId , int[] _iCharaIdArr )
+	public void Initialize( int _iStageId , int _iWave , int[] _iCharaIdArr )
 	{
 		Debug.Log(_iStageId);
 		foreach( Card c in card_list)
@@ -30,7 +30,11 @@ public class PanelGetCard : MonoBehaviour {
 			card_list.Add(c);
 		}
 
-		List<MasterStageCardParam> appear_card = DataManagerGame.Instance.masterStageCard.list.FindAll(p => p.stage_id == _iStageId);
+		List<MasterStageCardParam> appear_card = DataManagerGame.Instance.masterStageCard.list.FindAll(p => p.stage_id == _iStageId && p.wave == _iWave);
+		if(appear_card.Count == 0)
+		{
+			appear_card = DataManagerGame.Instance.masterStageCard.list.FindAll(p => p.stage_id == _iStageId && p.wave == 0);
+		}
 
 		int[] item_prob = new int[appear_card.Count];
 		for (int i = 0; i < appear_card.Count; i++)

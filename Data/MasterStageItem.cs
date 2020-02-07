@@ -6,6 +6,7 @@ public class MasterStageItemParam : CsvDataParam
 {
 	public int item_id { get; set; }
 	public int stage_id { get; set; }
+	public int wave { get; set; }
 	public int prob { get; set; }
 
 }

@@ -8,11 +8,7 @@ public class MasterStageParam : CsvDataParam
 	public string stage_name { get; set; }
 
 	public string outline { get; set; }
-
-	public int length { get; set; }
 	public int total_wave { get; set; }
-
-
 }
 
 public class MasterStage : CsvData<MasterStageParam> {

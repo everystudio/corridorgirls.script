@@ -12,12 +12,15 @@ public class RouletteItem : MonoBehaviour {
 
 	public TextMeshProUGUI m_txtMessage;
 
-	public void Initialize(int _iStageId , int _iCorridorIndex)
+	public void Initialize(int _iStageId , int _iWave)
 	{
 		int iItemCount = banner_list.Count;
 
-		List<MasterStageItemParam> appear_item = DataManagerGame.Instance.masterStageItem.list.FindAll(p => p.stage_id == _iStageId);
-
+		List<MasterStageItemParam> appear_item = DataManagerGame.Instance.masterStageItem.list.FindAll(p => p.stage_id == _iStageId && p.wave == _iWave);
+		if( appear_item.Count == 0)
+		{
+			appear_item = DataManagerGame.Instance.masterStageItem.list.FindAll(p => p.stage_id == _iStageId && p.wave == 0);
+		}
 
 		int[] item_prob = new int[appear_item.Count];
 		for( int i = 0; i < appear_item.Count; i++)

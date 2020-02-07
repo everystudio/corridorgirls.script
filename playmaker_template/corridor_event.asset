@@ -334,7 +334,7 @@ MonoBehaviour:
         actionEnabled: 01
         actionIsOpen: 01
         actionStartIndex: 00000000
-        actionHashCodes: dcbe4804
+        actionHashCodes: e9ac1d02
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
@@ -357,6 +357,12 @@ MonoBehaviour:
           showInInspector: 1
           networkSync: 0
           value: 0
+        - useVariable: 1
+          name: wave
+          tooltip: 
+          showInInspector: 1
+          networkSync: 0
+          value: 0
         fsmBoolParams: []
         fsmVector2Params: []
         fsmVector3Params: []
@@ -369,11 +375,12 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 10000000
+        paramDataType: 1000000010000000
         paramName:
         - stage_id
-        paramDataPos: 00000000
-        paramByteDataSize: 00000000
+        - wave
+        paramDataPos: 0000000001000000
+        paramByteDataSize: 0000000000000000
     - name: heal
       description: 
       colorIndex: 0
@@ -486,7 +493,7 @@ MonoBehaviour:
         actionEnabled: 01
         actionIsOpen: 01
         actionStartIndex: 00000000
-        actionHashCodes: e9ac1d02
+        actionHashCodes: 81209901
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
@@ -509,6 +516,12 @@ MonoBehaviour:
           showInInspector: 1
           networkSync: 0
           value: 0
+        - useVariable: 1
+          name: wave
+          tooltip: 
+          showInInspector: 1
+          networkSync: 0
+          value: 0
         - useVariable: 0
           name: 
           tooltip: 
@@ -527,12 +540,13 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 1000000010000000
+        paramDataType: 100000001000000010000000
         paramName:
         - stage_id
+        - wave
         - item_id
-        paramDataPos: 0000000001000000
-        paramByteDataSize: 0000000000000000
+        paramDataPos: 000000000100000002000000
+        paramByteDataSize: 000000000000000000000000
     - name: State 1
       description: 
       colorIndex: 0
@@ -651,7 +665,7 @@ MonoBehaviour:
         actionEnabled: 01
         actionIsOpen: 01
         actionStartIndex: 00000000
-        actionHashCodes: dcbe4804
+        actionHashCodes: e9ac1d02
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
@@ -674,6 +688,12 @@ MonoBehaviour:
           showInInspector: 1
           networkSync: 0
           value: 0
+        - useVariable: 1
+          name: wave
+          tooltip: 
+          showInInspector: 1
+          networkSync: 0
+          value: 0
         fsmBoolParams: []
         fsmVector2Params: []
         fsmVector3Params: []
@@ -686,11 +706,12 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 10000000
+        paramDataType: 1000000010000000
         paramName:
         - stage_id
-        paramDataPos: 00000000
-        paramByteDataSize: 00000000
+        - wave
+        paramDataPos: 0000000001000000
+        paramByteDataSize: 0000000000000000
     - name: mission
       description: 
       colorIndex: 0
@@ -728,7 +749,7 @@ MonoBehaviour:
         actionEnabled: 01
         actionIsOpen: 01
         actionStartIndex: 00000000
-        actionHashCodes: dcbe4804
+        actionHashCodes: e9ac1d02
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
@@ -751,6 +772,12 @@ MonoBehaviour:
           showInInspector: 1
           networkSync: 0
           value: 0
+        - useVariable: 1
+          name: wave
+          tooltip: 
+          showInInspector: 1
+          networkSync: 0
+          value: 0
         fsmBoolParams: []
         fsmVector2Params: []
         fsmVector3Params: []
@@ -763,11 +790,12 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 10000000
+        paramDataType: 1000000010000000
         paramName:
         - stage_id
-        paramDataPos: 00000000
-        paramByteDataSize: 00000000
+        - wave
+        paramDataPos: 0000000001000000
+        paramByteDataSize: 0000000000000000
     - name: goal
       description: 
       colorIndex: 0
@@ -1074,6 +1102,12 @@ MonoBehaviour:
         showInInspector: 1
         networkSync: 0
         value: 0
+      - useVariable: 1
+        name: wave
+        tooltip: 
+        showInInspector: 1
+        networkSync: 0
+        value: 0
       boolVariables: []
       stringVariables: []
       vector2Variables: []
@@ -1089,7 +1123,7 @@ MonoBehaviour:
       enumVariables: []
       categories:
       - 
-      variableCategoryIDs: 00000000
+      variableCategoryIDs: 0000000000000000
     description: "GameMain\u304C\u4F7F\u3044\u307E\u3059"
     docUrl: 
     showStateLabel: 0
