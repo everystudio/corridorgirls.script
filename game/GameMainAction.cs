@@ -918,6 +918,10 @@ namespace GameMainAction
 			});
 
 			List<MasterStageEnemyParam> appear_enemy_list = DataManagerGame.Instance.masterStageEnemy.list.FindAll(p => p.stage_id == stage_id.Value && p.wave == wave.Value);
+			if(appear_enemy_list.Count == 0)
+			{
+				appear_enemy_list = DataManagerGame.Instance.masterStageEnemy.list.FindAll(p => p.stage_id == stage_id.Value && p.wave == 0);
+			}
 
 			int[] enemy_prob = new int[appear_enemy_list.Count];
 			for (int i = 0; i < appear_enemy_list.Count; i++)
