@@ -97,7 +97,7 @@ public class DataCorridor : CsvData<DataCorridorParam> {
 			list.Add(cor);
 			last = cor;
 		}
-
+		/*
 		#region 分布チェック用
 		int[] log_event = new int[10];
 		for ( int i = 0; i < 10000; i++)
@@ -130,6 +130,7 @@ public class DataCorridor : CsvData<DataCorridorParam> {
 			Debug.Log(log_event[i]);
 		}
 		#endregion
+		*/
 
 		// ゴール
 		last.corridor_event = DataManagerGame.Instance.masterCorridorEvent.list.Find(p => p.corridor_event_id == 2);
