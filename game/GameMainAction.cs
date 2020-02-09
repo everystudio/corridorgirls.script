@@ -825,6 +825,7 @@ namespace GameMainAction
 	public class GetPrize : GameMainActionBase
 	{
 		public FsmString show_message;
+		public FsmInt prize_add_num;
 		public override void OnEnter()
 		{
 			base.OnEnter();
@@ -847,6 +848,8 @@ namespace GameMainAction
 				default:
 					break;
 			}
+
+			prize_add_num.Value = corridor_event.param;
 			Fsm.Event(gameMain.chara_control.target_corridor.corridor_event.sub_type);
 
 		}

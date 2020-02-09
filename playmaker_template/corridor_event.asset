@@ -24,7 +24,7 @@ MonoBehaviour:
       position:
         serializedVersion: 2
         x: 61
-        y: 126
+        y: 142
         width: 114
         height: 176
       isBreakpoint: 0
@@ -32,10 +32,10 @@ MonoBehaviour:
       hideUnused: 0
       transitions:
       - fsmEvent:
-          name: gold
+          name: prize
           isSystemEvent: 0
           isGlobal: 0
-        toState: add_gold
+        toState: State 3
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
@@ -157,8 +157,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 718
-        y: 579
+        x: 673
+        y: 682
         width: 100
         height: 16
       isBreakpoint: 0
@@ -211,8 +211,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 361
-        y: 106
+        x: 498
+        y: 110.86719
         width: 100
         height: 32
       isBreakpoint: 0
@@ -252,12 +252,12 @@ MonoBehaviour:
         fsmPropertyParams: []
         layoutOptionParams: []
         fsmStringParams:
-        - useVariable: 0
-          name: 
+        - useVariable: 1
+          name: show_message
           tooltip: 
           showInInspector: 0
           networkSync: 0
-          value: "30\u30B4\u30FC\u30EB\u30C9\u3092\u624B\u306B\u5165\u308C\u307E\u3057\u305F"
+          value: 
         fsmObjectParams: []
         fsmVarParams: []
         fsmArrayParams: []
@@ -276,12 +276,12 @@ MonoBehaviour:
           showInInspector: 0
           networkSync: 0
           value: 0
-        - useVariable: 0
-          name: 
+        - useVariable: 1
+          name: prize_add_num
           tooltip: 
           showInInspector: 0
           networkSync: 0
-          value: 30
+          value: 0
         fsmBoolParams: []
         fsmVector2Params: []
         fsmVector3Params: []
@@ -310,8 +310,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 338
-        y: 171
+        x: 293
+        y: 274
         width: 100
         height: 32
       isBreakpoint: 0
@@ -386,8 +386,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 365
-        y: 331
+        x: 320
+        y: 434
         width: 100
         height: 32
       isBreakpoint: 0
@@ -469,8 +469,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 345
-        y: 245
+        x: 300
+        y: 348
         width: 100
         height: 32
       isBreakpoint: 0
@@ -552,8 +552,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 484
-        y: 216
+        x: 439
+        y: 319
         width: 100
         height: 32
       isBreakpoint: 0
@@ -633,8 +633,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 439
-        y: 404
+        x: 394
+        y: 507
         width: 100
         height: 48
       isBreakpoint: 0
@@ -645,7 +645,7 @@ MonoBehaviour:
           name: FINISHED
           isSystemEvent: 1
           isGlobal: 0
-        toState: add_gold 2
+        toState: battle_win
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
@@ -717,8 +717,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 310
-        y: 439
+        x: 265
+        y: 542
         width: 100
         height: 48
       isBreakpoint: 0
@@ -801,8 +801,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 326
-        y: 529
+        x: 281
+        y: 632
         width: 100
         height: 32
       isBreakpoint: 0
@@ -858,14 +858,14 @@ MonoBehaviour:
         paramName: []
         paramDataPos: 
         paramByteDataSize: 
-    - name: add_gold 2
+    - name: battle_win
       description: 
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 559
-        y: 479.23438
-        width: 104
+        x: 514
+        y: 582.2344
+        width: 101
         height: 32
       isBreakpoint: 0
       isSequence: 0
@@ -946,8 +946,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 245
-        y: 598
+        x: 250
+        y: 677
         width: 100
         height: 32
       isBreakpoint: 0
@@ -1008,8 +1008,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 243
-        y: 654
+        x: 248
+        y: 733
         width: 100
         height: 16
       isBreakpoint: 0
@@ -1055,6 +1055,403 @@ MonoBehaviour:
         paramName: []
         paramDataPos: 
         paramByteDataSize: 
+    - name: State 3
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 252
+        y: 140.98438
+        width: 100
+        height: 80
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: gold
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: add_gold
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      - fsmEvent:
+          name: gem
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: add_gem
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      - fsmEvent:
+          name: mana
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: add_mana
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      - fsmEvent:
+          name: food
+          isSystemEvent: 0
+          isGlobal: 0
+        toState: add_mana 2
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - GameMainAction.GetPrize
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 6513a701
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 1
+          name: show_message
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams:
+        - useVariable: 1
+          name: prize_add_num
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 1200000010000000
+        paramName:
+        - show_message
+        - prize_add_num
+        paramDataPos: 0000000000000000
+        paramByteDataSize: 0000000000000000
+    - name: add_gem
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 495
+        y: 150.16406
+        width: 100
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Finish
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - CharaControlAction.CharaAnimWin
+        - MessageControlAction.ShowMessage
+        - HutongGames.PlayMaker.Actions.Wait
+        - GameMainAction.AddGem
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 01010101
+        actionIsOpen: 01010101
+        actionStartIndex: 00000000000000000100000004000000
+        actionHashCodes: 000000001322710048c01101e9ac1d02
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 1
+          name: show_message
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 2
+        fsmIntParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
+        - useVariable: 1
+          name: prize_add_num
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams:
+        - FINISHED
+        byteData: 00
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 120000000f00000017000000010000001000000010000000
+        paramName:
+        - message
+        - time
+        - finishEvent
+        - realTime
+        - gem
+        - add
+        paramDataPos: 000000000000000000000000000000000000000001000000
+        paramByteDataSize: 000000000000000000000000010000000000000000000000
+    - name: add_mana
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 495
+        y: 192.60938
+        width: 100
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Finish
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - CharaControlAction.CharaAnimWin
+        - MessageControlAction.ShowMessage
+        - HutongGames.PlayMaker.Actions.Wait
+        - GameMainAction.AddMana
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 01010101
+        actionIsOpen: 01010101
+        actionStartIndex: 00000000000000000100000004000000
+        actionHashCodes: 000000001322710048c01101e9ac1d02
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 1
+          name: show_message
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 2
+        fsmIntParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
+        - useVariable: 1
+          name: prize_add_num
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams:
+        - FINISHED
+        byteData: 00
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 120000000f00000017000000010000001000000010000000
+        paramName:
+        - message
+        - time
+        - finishEvent
+        - realTime
+        - mana
+        - add
+        paramDataPos: 000000000000000000000000000000000000000001000000
+        paramByteDataSize: 000000000000000000000000010000000000000000000000
+    - name: add_mana 2
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 489
+        y: 236.92188
+        width: 112
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Finish
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - CharaControlAction.CharaAnimWin
+        - MessageControlAction.ShowMessage
+        - HutongGames.PlayMaker.Actions.Wait
+        - GameMainAction.AddFood
+        customNames:
+        - 
+        - 
+        - 
+        - 
+        actionEnabled: 01010101
+        actionIsOpen: 01010101
+        actionStartIndex: 00000000000000000100000004000000
+        actionHashCodes: 000000001322710048c01101e9ac1d02
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 1
+          name: show_message
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 2
+        fsmIntParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
+        - useVariable: 1
+          name: prize_add_num
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams:
+        - FINISHED
+        byteData: 00
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 120000000f00000017000000010000001000000010000000
+        paramName:
+        - message
+        - time
+        - finishEvent
+        - realTime
+        - food
+        - add
+        paramDataPos: 000000000000000000000000000000000000000001000000
+        paramByteDataSize: 000000000000000000000000010000000000000000000000
     events:
     - name: FINISHED
       isSystemEvent: 1
@@ -1065,7 +1462,13 @@ MonoBehaviour:
     - name: card
       isSystemEvent: 0
       isGlobal: 0
+    - name: food
+      isSystemEvent: 0
+      isGlobal: 0
     - name: gameover
+      isSystemEvent: 0
+      isGlobal: 0
+    - name: gem
       isSystemEvent: 0
       isGlobal: 0
     - name: goal
@@ -1080,6 +1483,9 @@ MonoBehaviour:
     - name: item
       isSystemEvent: 0
       isGlobal: 0
+    - name: mana
+      isSystemEvent: 0
+      isGlobal: 0
     - name: mission
       isSystemEvent: 0
       isGlobal: 0
@@ -1087,6 +1493,9 @@ MonoBehaviour:
       isSystemEvent: 0
       isGlobal: 0
     - name: party
+      isSystemEvent: 0
+      isGlobal: 0
+    - name: prize
       isSystemEvent: 0
       isGlobal: 0
     - name: shop
@@ -1108,8 +1517,20 @@ MonoBehaviour:
         showInInspector: 1
         networkSync: 0
         value: 0
+      - useVariable: 1
+        name: prize_add_num
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 0
       boolVariables: []
-      stringVariables: []
+      stringVariables:
+      - useVariable: 1
+        name: show_message
+        tooltip: 
+        showInInspector: 0
+        networkSync: 0
+        value: 
       vector2Variables: []
       vector3Variables: []
       colorVariables: []
@@ -1123,7 +1544,7 @@ MonoBehaviour:
       enumVariables: []
       categories:
       - 
-      variableCategoryIDs: 0000000000000000
+      variableCategoryIDs: 00000000000000000000000000000000
     description: "GameMain\u304C\u4F7F\u3044\u307E\u3059"
     docUrl: 
     showStateLabel: 0
