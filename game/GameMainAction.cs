@@ -222,6 +222,45 @@ namespace GameMainAction
 			Finish();
 		}
 	}
+	[ActionCategory("Common")]
+	[HutongGames.PlayMaker.Tooltip("Common")]
+	public class AddGem : FsmStateAction
+	{
+		public FsmInt gem;
+		public FsmInt add;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			gem.Value = DataManagerGame.Instance.user_data.AddInt(Defines.KeyGem, add.Value);
+			Finish();
+		}
+	}
+	[ActionCategory("Common")]
+	[HutongGames.PlayMaker.Tooltip("Common")]
+	public class AddMana : FsmStateAction
+	{
+		public FsmInt mana;
+		public FsmInt add;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			mana.Value = DataManagerGame.Instance.user_data.AddInt(Defines.KeyMana, add.Value);
+			Finish();
+		}
+	}
+	[ActionCategory("Common")]
+	[HutongGames.PlayMaker.Tooltip("Common")]
+	public class AddFood : FsmStateAction
+	{
+		public FsmInt food;
+		public FsmInt add;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			food.Value = DataManagerGame.Instance.user_data.AddInt(Defines.KeyFood, add.Value);
+			Finish();
+		}
+	}
 
 	[ActionCategory("Common")]
 	[HutongGames.PlayMaker.Tooltip("Common")]
@@ -780,6 +819,40 @@ namespace GameMainAction
 
 			Fsm.Event(gameMain.chara_control.target_corridor.corridor_event.corridor_type);
 		}
+	}
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class GetPrize : GameMainActionBase
+	{
+		public FsmString show_message;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			MasterCorridorEventParam corridor_event = gameMain.chara_control.target_corridor.corridor_event;
+			switch (corridor_event.sub_type)
+			{
+				case "gold":
+					show_message.Value = string.Format("ゴールドを{0}手に入れた", corridor_event.param);
+					break;
+				case "gem":
+					show_message.Value = string.Format("ジェムを{0}手に入れた", corridor_event.param);
+					break;
+				case "food":
+					show_message.Value = string.Format("食料を{0}手に入れた", corridor_event.param);
+					break;
+				case "mana":
+					show_message.Value = string.Format("マナを{0}手に入れた", corridor_event.param);
+					break;
+
+				default:
+					break;
+			}
+			Fsm.Event(gameMain.chara_control.target_corridor.corridor_event.sub_type);
+
+		}
+
+
+
 	}
 
 	[ActionCategory("GameMainAction")]

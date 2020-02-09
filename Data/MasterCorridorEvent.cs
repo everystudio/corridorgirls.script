@@ -6,7 +6,7 @@ public class MasterCorridorEventParam : CsvDataParam
 {
 	public int corridor_event_id { get; set; }
 	public string corridor_type { get; set; }
-	public int sub_type { get; set; }
+	public string sub_type { get; set; }
 	public string label { get; set; }
 	public int param { get; set; }
 	public string sprite_name { get; set; }
