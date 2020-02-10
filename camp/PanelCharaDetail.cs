@@ -37,6 +37,8 @@ public class PanelCharaDetail : MonoBehaviour {
 
 		foreach ( MasterCharaCardParam p in _chara_card_list.FindAll(p=>p.chara_id == _masterChara.chara_id))
 		{
+
+			Debug.Log(p.card_id);
 			Card c = PrefabManager.Instance.MakeScript<Card>(m_prefCard, m_goCardRoot);
 
 			DataCardParam data_card = new DataCardParam();
