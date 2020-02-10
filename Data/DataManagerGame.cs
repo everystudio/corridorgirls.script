@@ -30,9 +30,12 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 	public MasterStageCard masterStageCard = new MasterStageCard();
 	public MasterStageMission masterStageMission = new MasterStageMission();
 	public MasterStageEnemy masterStageEnemy = new MasterStageEnemy();
+	public MasterStageBattleBonus masterStageBattleBonus = new MasterStageBattleBonus();
 
 	public MasterSkill masterSkill = new MasterSkill();
 	public MasterSkillEffect masterSkillEffect = new MasterSkillEffect();
+
+	public MasterBattleBonus masterBattleBonus = new MasterBattleBonus();
 
 	public MasterMission masterMission = new MasterMission();
 	public MasterMissionDetail masterMissionDetail = new MasterMissionDetail();
@@ -97,9 +100,12 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 		yield return StartCoroutine(masterStageCard.SpreadSheet(SS_ID, "stage_card" , ()=> { }));
 		yield return StartCoroutine(masterStageMission.SpreadSheet(SS_ID, "stage_mission" , ()=> { }));
 		yield return StartCoroutine(masterStageEnemy.SpreadSheet(SS_ID, "stage_enemy" , ()=> { }));
-
+		yield return StartCoroutine(masterStageBattleBonus.SpreadSheet(SS_ID, "stage_bb" , ()=> { }));
+		
 		yield return StartCoroutine(masterSkill.SpreadSheet(SS_ID, "skill" , ()=> { }));
 		yield return StartCoroutine(masterSkillEffect.SpreadSheet(SS_ID, "skill_effect" , ()=> { }));
+
+		yield return StartCoroutine(masterBattleBonus.SpreadSheet(SS_ID, "bb", () => { }));
 
 		yield return StartCoroutine(masterMission.SpreadSheet(SS_ID, "mission" , ()=> { }));
 		yield return StartCoroutine(masterMissionDetail.SpreadSheet(SS_ID, "mission_detail" , ()=> { }));

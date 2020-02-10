@@ -541,8 +541,11 @@ namespace GameMainAction
 		public override void OnExit()
 		{
 			base.OnExit();
-			GameMain.Instance.m_panelGameStatus.gameObject.SetActive(false);
-			GameMain.Instance.m_panelGameControlButtons.OnClickButton.RemoveAllListeners();
+			if (GameMain.Instance != null)
+			{
+				GameMain.Instance.m_panelGameStatus.gameObject.SetActive(false);
+				GameMain.Instance.m_panelGameControlButtons.OnClickButton.RemoveAllListeners();
+			}
 		}
 	}
 	[ActionCategory("GameMainAction")]
@@ -1023,8 +1026,110 @@ namespace GameMainAction
 				}
 			}
 		}
+	}
+
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class BattlePrizeCreate : GameMainActionBase
+	{
+		public FsmInt prize_num;
+		public FsmInt stage_id;
+		public FsmInt wave;
+
+		public FsmInt select_prize_index;
+
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			select_prize_index.Value = 0;
+
+			GameMain.Instance.m_panelBattlePrize.gameObject.SetActive(true);
+
+			List<DataUnitParam> unit_chara_list = DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara" && p.position != "none");
+			int[] chara_id_arr = new int[unit_chara_list.Count];
+			for (int i = 0; i < chara_id_arr.Length; i++)
+			{
+				chara_id_arr[i] = unit_chara_list[i].chara_id;
+			}
+			GameMain.Instance.m_panelBattlePrize.Initialize(prize_num.Value, stage_id.Value, wave.Value, chara_id_arr);
+
+
+			GameMain.Instance.m_panelGameControlButtons.ShowButtonNum(
+				3,
+				new string[3] { "決定","ステータス", "受け取らず" },
+				new bool[3] { false,true, true });
+			Finish();
+		}
+	}
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class BattlePrizeIdle : GameMainActionBase
+	{
+		public FsmInt select_prize_index;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			GameMain.Instance.m_panelBattlePrize.Select(select_prize_index.Value );
+
+			GameMain.Instance.m_panelBattlePrize.OnClickHolder.AddListener((int _iHolderIndex) =>
+			{
+				GameMain.Instance.m_panelBattlePrize.Select(_iHolderIndex);
+				select_prize_index.Value = _iHolderIndex;
+
+				GameMain.Instance.m_panelGameControlButtons.ShowButtonNum(
+					3,
+					new string[3] { "決定","ステータス", "受け取らず" },
+					new bool[3] { true,true, true });
+			});
+
+
+			GameMain.Instance.m_panelGameControlButtons.ShowButtonNum(
+				3,
+				new string[3] { "決定", "ステータス", "受け取らず" },
+				new bool[3] { select_prize_index.Value != 0 ? true : false, true, true });
+
+
+			GameMain.Instance.m_panelGameControlButtons.OnClickButton.AddListener((int _iIndex) =>
+			{
+				if (_iIndex == 0)
+				{
+					BattleBonusHolder bbholder = GameMain.Instance.m_panelBattlePrize.GetBBHolder(select_prize_index.Value);
+
+					for (int i = 0; i < bbholder.chara_id_list.Count; i++)
+					{
+						DataManagerGame.Instance.dataUnit.AddAssist("bb",
+							bbholder.chara_id_list[i],
+							bbholder.battle_bonus_list[i].field,
+							bbholder.battle_bonus_list[i].param,
+							0);
+					}
+				}
+
+				if (_iIndex == 1)
+				{
+					Fsm.Event("status");
+				}
+				else {
+					GameMain.Instance.m_panelBattlePrize.gameObject.SetActive(false);
+					GameMain.Instance.m_panelGameControlButtons.ShowButtonNum(0, null);
+
+					Finish();
+				}
+
+			});
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			GameMain.Instance.m_panelBattlePrize.OnClickHolder.RemoveAllListeners();
+			GameMain.Instance.m_panelGameControlButtons.OnClickButton.RemoveAllListeners();
+		}
 
 	}
+
+
 
 	[ActionCategory("GameMainAction")]
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]

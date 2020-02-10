@@ -38,6 +38,8 @@ public class GameMain : Singleton<GameMain> {
 	public PanelGameMenu m_panelGameMenu;
 	public PanelPartyEdit m_panelPartyEdit;
 
+	public PanelBattlePrize m_panelBattlePrize;
+
 	public GaugeMP gauge_mp;
 
 	public bool m_bIsGoal;

@@ -18,7 +18,7 @@ public class GameCharaStatus : MonoBehaviour {
 
 	public void Initialize(DataUnitParam _unit , MasterCharaParam _master_chara , List<DataUnitParam> _unit_list )
 	{
-		List<DataUnitParam> assist_list = _unit_list.FindAll(p => p.chara_id == _unit.chara_id && (p.unit == "assist" || p.unit == "tension"));
+		List<DataUnitParam> assist_list = _unit_list.FindAll(p => p.chara_id == _unit.chara_id && (p.unit == "assist" || p.unit == "tension" || p.unit == "bb"));
 
 		m_imgFaceIcon.sprite = SpriteManager.Instance.Get(string.Format(Defines.STR_FORMAT_FACEICON, _master_chara.chara_id));
 
