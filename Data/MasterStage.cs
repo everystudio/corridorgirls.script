@@ -9,6 +9,9 @@ public class MasterStageParam : CsvDataParam
 
 	public string outline { get; set; }
 	public int total_wave { get; set; }
+
+	public string thumb { get; set; }
+	public string bgname { get; set; }
 }
 
 public class MasterStage : CsvData<MasterStageParam> {

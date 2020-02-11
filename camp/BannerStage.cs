@@ -21,6 +21,8 @@ public class BannerStage : MonoBehaviour {
 	{
 		m_masterStageParam = _master;
 
+		m_imgThumb.sprite = SpriteManager.Instance.Get(_master.thumb);
+
 		m_txtName.text = _master.stage_name;
 		m_txtOutline.text = _master.outline;
 

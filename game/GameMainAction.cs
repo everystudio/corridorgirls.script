@@ -44,11 +44,23 @@ namespace GameMainAction
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
 	public class Startup : GameMainActionBase
 	{
+
+		public FsmInt stage_id;
 		public override void OnEnter()
 		{
 			base.OnEnter();
 
 			gameMain.gauge_mp.Setup();
+
+			stage_id.Value = DataManagerGame.Instance.config.ReadInt("stage_id");
+
+			MasterStageParam master_stage = DataManagerGame.Instance.masterStage.list.Find(p => p.stage_id == stage_id.Value);
+
+			Debug.Log(master_stage.stage_name);
+			Debug.Log(master_stage.bgname);
+			gameMain.m_backgroundControl.mat.mainTexture = TextureManager.Instance.Get(master_stage.bgname);
+
+
 
 			Finish();
 		}

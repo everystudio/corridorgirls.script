@@ -40,6 +40,7 @@ public class GameMain : Singleton<GameMain> {
 
 	public PanelBattlePrize m_panelBattlePrize;
 
+	public BackgroundControl m_backgroundControl;
 	public GaugeMP gauge_mp;
 
 	public bool m_bIsGoal;
