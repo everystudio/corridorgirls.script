@@ -54,7 +54,7 @@ public class GameCamera : Singleton<GameCamera> {
 	public void OnSwipe(HedgehogTeam.EasyTouch.Gesture _a)
 	{
 		//Debug.Log(string.Format("x={0} y={1}", _a.deltaPosition.x, _a.deltaPosition.y));
-		m_Camera.transform.localPosition += new Vector3(_a.deltaPosition.x * -1.0f, _a.deltaPosition.y * -1.0f, 0.0f) * scale;
+		m_Camera.transform.localPosition += new Vector3(_a.deltaPosition.x * -1.0f, _a.deltaPosition.y * -0.0f, 0.0f) * scale;
 
 	}
 
