@@ -529,6 +529,7 @@ namespace BattleMainAction
 				BattleIcon player_icon_canceler = battleMain.player_icon_list.Find(p => p.master_symbol.card_symbol_id == symbol_id_player_canceler.Value);
 				if(player_icon_canceler != null)
 				{
+					Debug.Log("find canceler player");
 					Finish();
 					return;
 				}
@@ -538,6 +539,7 @@ namespace BattleMainAction
 				BattleIcon enemy_icon_canceler = battleMain.enemy_icon_list.Find(p => p.master_symbol.card_symbol_id == symbol_id_enemy_canceler.Value);
 				if (enemy_icon_canceler != null)
 				{
+					Debug.Log("find canceler enemy");
 					Finish();
 					return;
 				}
@@ -589,7 +591,8 @@ namespace BattleMainAction
 
 			if( offset_num <= offset_count)
 			{
-				Finish();
+				Fsm.Event("continue");
+//				Finish();
 			}
 		}
 
