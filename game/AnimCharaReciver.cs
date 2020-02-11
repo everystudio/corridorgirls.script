@@ -9,7 +9,7 @@ public class AnimCharaReciver : MonoBehaviour {
 
 	public void DeadFinishedHandler()
 	{
-		Debug.Log("DeadFinishedHandler");
+		//Debug.Log("DeadFinishedHandler");
 		OnDeadFinished.Invoke();
 	}
 

@@ -1067,11 +1067,14 @@ namespace GameMainAction
 	public class BattlePrizeIdle : GameMainActionBase
 	{
 		public FsmInt select_prize_index;
+
+		private float aging_timer;
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			GameMain.Instance.m_panelBattlePrize.Select(select_prize_index.Value );
+			aging_timer = 0.0f;
 
+			GameMain.Instance.m_panelBattlePrize.Select(select_prize_index.Value );
 			GameMain.Instance.m_panelBattlePrize.OnClickHolder.AddListener((int _iHolderIndex) =>
 			{
 				GameMain.Instance.m_panelBattlePrize.Select(_iHolderIndex);
@@ -1116,8 +1119,28 @@ namespace GameMainAction
 
 					Finish();
 				}
-
 			});
+		}
+
+		public override void OnUpdate()
+		{
+			base.OnUpdate();
+			if (DataManagerGame.Instance.IsAging)
+			{
+				aging_timer += Time.deltaTime;
+				if( 2.0f < aging_timer)
+				{
+					if( select_prize_index.Value == 0)
+					{
+						GameMain.Instance.m_panelBattlePrize.OnClickHolder.Invoke(1);
+					}
+					else
+					{
+						GameMain.Instance.m_panelGameControlButtons.OnClickButton.Invoke(0);
+					}
+					aging_timer = 0.0f;
+				}
+			}
 		}
 
 		public override void OnExit()

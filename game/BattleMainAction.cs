@@ -173,7 +173,7 @@ namespace BattleMainAction
 			}
 
 			int hand_card_num = DataManagerGame.Instance.dataCard.list.FindAll(p => p.status == (int)DataCard.STATUS.HAND).Count;
-			Debug.Log(hand_card_num);
+			//Debug.Log(hand_card_num);
 			if (hand_card_num <= card_fill_num.Value)
 			{
 				Fsm.Event("card_fill");
@@ -1047,8 +1047,8 @@ namespace BattleMainAction
 				DataCardParam card = DataManagerGame.Instance.dataCard.list.Find(p => p.card_serial == select_card_serial.Value);
 				DataUnitParam play_chara = DataManagerGame.Instance.dataUnit.list.Find(p => p.chara_id == card.chara_id && p.unit == "chara" && 0 < p.hp);
 
-				Debug.Log((DataCard.STATUS)card.status);
-				Debug.Log(play_chara);
+				//Debug.Log((DataCard.STATUS)card.status);
+				//Debug.Log(play_chara);
 				if (play_chara != null)
 				{
 					card.status = (int)DataCard.STATUS.REMOVE;
