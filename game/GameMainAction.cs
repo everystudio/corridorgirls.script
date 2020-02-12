@@ -327,7 +327,7 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 
-			gameMain.m_iCountDeck += 1;
+			GameMain.Instance.m_iCountDeck += 1;
 
 			DataManagerGame.Instance.dataCard.DeckShuffle();
 
