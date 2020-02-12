@@ -160,7 +160,7 @@ namespace SkillMainAction {
 
 			foreach (DataUnitParam unit in chara_list)
 			{
-				DataManagerGame.Instance.dataUnit.AddAssist("skill", "スキル", unit.chara_id, effect.field, effect.param, effect.turn);
+				DataManagerGame.Instance.dataUnit.AddAssist(unit,"skill", "スキル", unit.chara_id, effect.field, effect.param, effect.turn);
 			}
 
 			GameMain.Instance.battleMain.HpRefresh();

@@ -29,7 +29,7 @@ public class GameCharaStatus : MonoBehaviour {
 			OnClick.Invoke(m_iCharaid);
 		});
 
-		List<DataUnitParam> assist_list = _unit_list.FindAll(p => p.chara_id == _unit.chara_id && (p.unit == "assist" || p.unit == "tension" || p.unit == "bb"));
+		//List<DataUnitParam> assist_list = _unit_list.FindAll(p => p.chara_id == _unit.chara_id && (p.unit == "assist" || p.unit == "tension" || p.unit == "bb"));
 
 		m_imgFaceIcon.sprite = SpriteManager.Instance.Get(string.Format(Defines.STR_FORMAT_FACEICON, _master_chara.chara_id));
 
@@ -40,6 +40,7 @@ public class GameCharaStatus : MonoBehaviour {
 		int iAttack = _unit.str;
 		int iMagic = _unit.magic;
 		int iHeal = _unit.heal;
+		/*
 		foreach( DataUnitParam assist in assist_list)
 		{
 			iHPMax += assist.hp_max;
@@ -47,6 +48,7 @@ public class GameCharaStatus : MonoBehaviour {
 			iMagic += assist.magic;
 			iHeal += assist.heal;
 		}
+		*/
 
 		m_barHp.SetValueMax(iHPMax);
 		m_barHp.SetValueCurrent(_unit.hp);

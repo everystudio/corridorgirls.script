@@ -20,6 +20,7 @@ public class DataUnitParam : CsvDataParam
 	public string assist_type { get; set; }
 	public string assist_name { get; set; }
 	public int turn { get; set; }
+	public bool assist_set { get; set; }
 
 	public void HpHeal(int _iHeal)
 	{
@@ -72,6 +73,78 @@ public class DataUnitParam : CsvDataParam
 		return;
 	}
 
+	public void BuildAssist(DataUnitParam _assist)
+	{
+		if (_assist.chara_id != chara_id)
+		{
+			Debug.LogError("not equal chara_id");
+		}
+		if (_assist.unit != "assist")
+		{
+			Debug.LogError("not unit type is assist");
+		}
+
+		if (_assist.assist_set == false)
+		{
+			// 最大値が増える場合はhpも増やす
+			hp_max += _assist.hp_max;
+			if (0 < _assist.hp_max)
+			{
+				hp += _assist.hp_max;
+			}
+			else if (_assist.hp_max < 0)
+			{
+				if (hp_max < hp)
+				{
+					hp = hp_max;
+				}
+			}
+
+			str += _assist.str;
+			magic += _assist.magic;
+			heal += _assist.heal;
+			luck += _assist.luck;
+			_assist.assist_set = true;
+		}
+	}
+
+	public void BuildAssist(List<DataUnitParam> _list)
+	{
+		foreach (DataUnitParam unit in _list)
+		{
+			BuildAssist(unit);
+		}
+	}
+	public void RemoveAssist(DataUnitParam _assist)
+	{
+		if (_assist.chara_id != chara_id)
+		{
+			Debug.LogError("not equal chara_id");
+			return;
+		}
+		if (_assist.unit != "assist")
+		{
+			Debug.LogError("not unit type is assist");
+			return;
+		}
+		if( _assist.assist_set == false)
+		{
+			Debug.LogError("not set");
+		}
+
+		hp -= _assist.hp_max;
+		if( hp_max < hp)
+		{
+			hp = hp_max;
+		}
+		str -= _assist.str;
+		magic -= _assist.magic;
+		heal -= _assist.heal;
+		luck -= _assist.luck;
+		_assist.assist_set = false;
+
+	}
+
 }
 
 public class DataUnit : CsvData<DataUnitParam> {
@@ -117,7 +190,12 @@ public class DataUnit : CsvData<DataUnitParam> {
 		{
 			unit_chara.tension = 0;
 		}
+
+		unit_chara.RemoveAssist(unit_tension);
 		unit_tension.BuildTension(master_chara, unit_chara.tension);
+		unit_chara.BuildAssist(unit_tension);
+
+
 	}
 
 	public static DataUnitParam MakeUnit( MasterCharaParam _base, string _strPosition, int _iTension )
@@ -138,8 +216,13 @@ public class DataUnit : CsvData<DataUnitParam> {
 
 		return ret;
 	}
+	public void AddAssist(DataUnitParam _unit , string _strAssistType, string _strAssistName, int _iCharaId, string _strType, int _iParam, int _iTurn)
+	{
+		DataUnitParam assist = AddAssist(_strAssistType, _strAssistName, _iCharaId, _strType, _iParam, _iTurn);
+		_unit.BuildAssist(assist);
+	}
 
-	public void AddAssist( string _strAssistType,string _strAssistName , int _iCharaId, string _strType, int _iParam , int _iTurn)
+	private DataUnitParam AddAssist( string _strAssistType,string _strAssistName , int _iCharaId, string _strType, int _iParam , int _iTurn)
 	{
 		DataUnitParam add = new DataUnitParam();
 		add.chara_id = _iCharaId;
@@ -168,6 +251,8 @@ public class DataUnit : CsvData<DataUnitParam> {
 				break;
 		}
 		list.Add(add);
+
+		return add;
 	}
 
 }

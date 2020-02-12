@@ -51,6 +51,10 @@ public class GameMain : Singleton<GameMain> {
 
 	public List<Corridor> corridor_list = new List<Corridor>();
 
+	// これがゲーム中使うキャラ
+	public List<DataUnitParam> party_chara_list = new List<DataUnitParam>();
+
+
 	public UnityEventInt CharaIdHandler = new UnityEventInt();
 	public int SelectCharaId
 	{

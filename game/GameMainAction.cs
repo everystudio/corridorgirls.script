@@ -55,11 +55,19 @@ namespace GameMainAction
 
 			MasterStageParam master_stage = DataManagerGame.Instance.masterStage.list.Find(p => p.stage_id == stage_id.Value);
 
-			Debug.Log(master_stage.stage_name);
-			Debug.Log(master_stage.bgname);
+			//Debug.Log(master_stage.stage_name);
+			//Debug.Log(master_stage.bgname);
 			gameMain.m_backgroundControl.mat.mainTexture = TextureManager.Instance.Get(master_stage.bgname);
 
 
+			// テンションのみだろうけどセット
+			List<DataUnitParam> unit_param_list = DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara" && (p.position == "left" || p.position == "right" || p.position == "back"));
+			foreach(DataUnitParam unit in unit_param_list)
+			{
+				Debug.Log(string.Format("chara_id={0} str={1}", unit.chara_id, unit.str));
+				unit.BuildAssist(DataManagerGame.Instance.dataUnit.list.FindAll(p => p.chara_id == unit.chara_id && p.unit == "assist"));
+				Debug.Log(string.Format("chara_id={0} str={1}", unit.chara_id, unit.str));
+			}
 
 			Finish();
 		}
@@ -1105,12 +1113,17 @@ namespace GameMainAction
 
 					for (int i = 0; i < bbholder.chara_id_list.Count; i++)
 					{
-						DataManagerGame.Instance.dataUnit.AddAssist("bb","バトルボーナス",
+						DataUnitParam unit_chara = DataManagerGame.Instance.dataUnit.list.Find(p => p.chara_id == bbholder.chara_id_list[i] && p.unit == "chara");
+
+						DataManagerGame.Instance.dataUnit.AddAssist(unit_chara , "bb","バトルボーナス",
 							bbholder.chara_id_list[i],
 							bbholder.battle_bonus_list[i].field,
 							bbholder.battle_bonus_list[i].param,
 							999);
 					}
+					GameMain.Instance.battleMain.HpRefresh();
+					GameMain.Instance.CharaRefresh();
+
 				}
 
 				if (_iIndex == 1)

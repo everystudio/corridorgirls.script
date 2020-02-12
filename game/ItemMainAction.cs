@@ -268,13 +268,15 @@ namespace ItemMainAction
 
 			if( chara_id.Value != 0)
 			{
-				DataManagerGame.Instance.dataUnit.AddAssist("item", masterItem.name, chara_id.Value, item_type_sub.Value, param.Value, turn.Value);
+				DataUnitParam unit_chara = DataManagerGame.Instance.dataUnit.list.Find(p => p.chara_id == chara_id.Value && p.unit == "chara");
+
+				DataManagerGame.Instance.dataUnit.AddAssist(unit_chara,"item", masterItem.name, chara_id.Value, item_type_sub.Value, param.Value, turn.Value);
 			}
 			else
 			{
 				foreach( DataUnitParam unit in DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara"))
 				{
-					DataManagerGame.Instance.dataUnit.AddAssist("item", masterItem.name, unit.chara_id, item_type_sub.Value, param.Value, turn.Value);
+					DataManagerGame.Instance.dataUnit.AddAssist(unit,"item", masterItem.name, unit.chara_id, item_type_sub.Value, param.Value, turn.Value);
 				}
 			}
 			Finish();
