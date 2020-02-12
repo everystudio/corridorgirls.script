@@ -100,6 +100,7 @@ namespace ItemMainAction
 	public class UseCheck : ItemMainActionBase
 	{
 		public FsmInt item_serial;
+		public FsmInt item_id;
 		public FsmInt chara_id;
 
 		private bool m_bSituationAllow;
@@ -109,6 +110,7 @@ namespace ItemMainAction
 			base.OnEnter();
 			DataItemParam data_item = DataManagerGame.Instance.dataItem.list.Find(p => p.serial == item_serial.Value);
 			MasterItemParam master_item = DataManagerGame.Instance.masterItem.list.Find(p => p.item_id == data_item.item_id);
+			item_id.Value = master_item.item_id;
 
 			m_bSituationAllow = master_item.CheckSituation(itemMain.situation);
 
@@ -252,6 +254,7 @@ namespace ItemMainAction
 	[HutongGames.PlayMaker.Tooltip("ItemMainAction")]
 	public class ItemBuff : ItemMainActionBase
 	{
+		public FsmInt item_id;
 		public FsmInt chara_id;
 		public FsmString item_type_sub;
 		public FsmInt param;
@@ -261,15 +264,17 @@ namespace ItemMainAction
 		{
 			base.OnEnter();
 
+			MasterItemParam masterItem = DataManagerGame.Instance.masterItem.list.Find(p => p.item_id == item_id.Value);
+
 			if( chara_id.Value != 0)
 			{
-				DataManagerGame.Instance.dataUnit.AddAssist("item", chara_id.Value, item_type_sub.Value, param.Value, turn.Value);
+				DataManagerGame.Instance.dataUnit.AddAssist("item", masterItem.name, chara_id.Value, item_type_sub.Value, param.Value, turn.Value);
 			}
 			else
 			{
 				foreach( DataUnitParam unit in DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara"))
 				{
-					DataManagerGame.Instance.dataUnit.AddAssist("item", unit.chara_id, item_type_sub.Value, param.Value, turn.Value);
+					DataManagerGame.Instance.dataUnit.AddAssist("item", masterItem.name, unit.chara_id, item_type_sub.Value, param.Value, turn.Value);
 				}
 			}
 			Finish();

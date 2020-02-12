@@ -18,6 +18,7 @@ public class DataUnitParam : CsvDataParam
 	public int luck { get; set; }
 
 	public string assist_type { get; set; }
+	public string assist_name { get; set; }
 	public int turn { get; set; }
 
 	public void HpHeal(int _iHeal)
@@ -53,7 +54,9 @@ public class DataUnitParam : CsvDataParam
 	public void BuildTension(MasterCharaParam _base, int _iTension)
 	{
 		chara_id = _base.chara_id;
-		unit = "tension";
+		unit = "assist";
+		assist_type = "tension";
+		assist_name = "テンション";
 
 		hp = 0;
 		hp_max = 0;
@@ -136,11 +139,12 @@ public class DataUnit : CsvData<DataUnitParam> {
 		return ret;
 	}
 
-	public void AddAssist( string _strAssistType , int _iCharaId, string _strType, int _iParam , int _iTurn)
+	public void AddAssist( string _strAssistType,string _strAssistName , int _iCharaId, string _strType, int _iParam , int _iTurn)
 	{
 		DataUnitParam add = new DataUnitParam();
 		add.chara_id = _iCharaId;
 		add.unit = "assist";
+		add.assist_name = _strAssistName;
 		add.turn = _iTurn;       // なんかいいの欲しいね
 		add.assist_type = _strAssistType;
 

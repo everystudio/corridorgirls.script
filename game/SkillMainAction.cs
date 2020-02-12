@@ -160,29 +160,7 @@ namespace SkillMainAction {
 
 			foreach (DataUnitParam unit in chara_list)
 			{
-				DataUnitParam new_assist = new DataUnitParam();
-
-				new_assist.chara_id = unit.chara_id;
-				new_assist.unit = "assist";
-				switch(effect.field)
-				{
-					case "hp_max":
-						new_assist.hp_max = effect.param;
-						break;
-					case "str":
-						new_assist.str = effect.param;
-						break;
-					case "magic":
-						new_assist.magic = effect.param;
-						break;
-					case "heal":
-						new_assist.heal = effect.param;
-						break;
-					default:
-						break;
-				}
-
-				DataManagerGame.Instance.dataUnit.list.Add(new_assist);
+				DataManagerGame.Instance.dataUnit.AddAssist("skill", "スキル", unit.chara_id, effect.field, effect.param, effect.turn);
 			}
 
 			GameMain.Instance.battleMain.HpRefresh();

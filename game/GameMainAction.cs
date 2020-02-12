@@ -551,6 +551,7 @@ namespace GameMainAction
 			{
 				Finish();
 			});
+
 		}
 		public override void OnExit()
 		{
@@ -1119,11 +1120,11 @@ namespace GameMainAction
 
 					for (int i = 0; i < bbholder.chara_id_list.Count; i++)
 					{
-						DataManagerGame.Instance.dataUnit.AddAssist("bb",
+						DataManagerGame.Instance.dataUnit.AddAssist("bb","バトルボーナス",
 							bbholder.chara_id_list[i],
 							bbholder.battle_bonus_list[i].field,
 							bbholder.battle_bonus_list[i].param,
-							0);
+							999);
 					}
 				}
 
