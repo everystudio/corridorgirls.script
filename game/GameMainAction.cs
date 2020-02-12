@@ -1297,6 +1297,11 @@ namespace GameMainAction
 				{
 					data_stage.best_reload = GameMain.Instance.m_iCountDeck;
 				}
+
+				DataManagerGame.Instance.gameData.AddInt(Defines.KeyFood, PrizeList.Instance.m_iFood);
+				DataManagerGame.Instance.gameData.AddInt(Defines.KeyMana, PrizeList.Instance.m_iMana);
+				DataManagerGame.Instance.gameData.AddInt(Defines.KeyGem, PrizeList.Instance.m_iGem);
+
 				DataManagerGame.Instance.dataStage.Save();
 			}
 
