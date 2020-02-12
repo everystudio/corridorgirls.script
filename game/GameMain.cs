@@ -46,6 +46,9 @@ public class GameMain : Singleton<GameMain> {
 	public bool m_bIsGoal;
 	public bool m_bIsGameover;
 
+	public int m_iCountCardPlay;
+	public int m_iCountDeck;
+
 	public List<Corridor> corridor_list = new List<Corridor>();
 
 	public UnityEventInt CharaIdHandler = new UnityEventInt();

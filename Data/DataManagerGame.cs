@@ -13,6 +13,8 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 
 	public TextAssetHolder data_holder;
 
+	public CsvKvs gameData = new CsvKvs();
+
 	public MasterStage masterStage = new MasterStage();
 	public MasterCorridor masterCorridor = new MasterCorridor();
 	public MasterCorridorEvent masterCorridorEvent = new MasterCorridorEvent();
@@ -46,6 +48,7 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 	public DataUnit dataUnit = new DataUnit();
 	public DataItem dataItem = new DataItem();
 	public DataSkill dataSkill = new DataSkill();
+	public DataStage dataStage = new DataStage();
 
 	public bool Initialized = false;
 
@@ -74,6 +77,10 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 	private IEnumerator init_network()
 	{
 		Debug.Log(config.ReadInt("stage_id"));
+
+		gameData.SetSaveFilename(Defines.FILENAME_GAMEDATA);
+		gameData.Load();
+
 		GetAgingState();
 
 		yield return StartCoroutine(masterStage.SpreadSheet(SS_ID, "stage", () => { }));
@@ -135,7 +142,11 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 		yield return StartCoroutine(dataQuest.SpreadSheet(SS_TEST, "quest", () => { }));
 		yield return StartCoroutine(dataItem.SpreadSheet(SS_TEST, "item", () => { }));
 
-
+		dataStage.SetSaveFilename(Defines.FILENAME_DATA_STAGE);
+		if( false == dataStage.LoadMulti())
+		{
+			Debug.LogError("no data stage");
+		}
 
 		Initialized = true;
 

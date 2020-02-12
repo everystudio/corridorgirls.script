@@ -327,6 +327,8 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 
+			gameMain.m_iCountDeck += 1;
+
 			DataManagerGame.Instance.dataCard.DeckShuffle();
 
 			Finish();
@@ -757,6 +759,10 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
+
+			// プレイ回数はここで良いはず？
+			GameMain.Instance.m_iCountCardPlay += 1;
+
 			// ここのシリアルは手札じゃなくてもOK
 			//Card selected_card = GameMain.Instance.card_list_hand.Find(p => p.data_card.card_serial == card_serial.Value);
 			DataCardParam selected_card = DataManagerGame.Instance.dataCard.list.Find(p => p.card_serial == card_serial.Value);
@@ -1282,6 +1288,37 @@ namespace GameMainAction
 		}
 	}
 
+
+
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class SaveResult : GameMainActionBase
+	{
+		public FsmInt stage_id;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			if( gameMain.m_bIsGoal)
+			{
+				DataStageParam data_stage = DataManagerGame.Instance.dataStage.list.Find(p => p.stage_id == stage_id.Value);
+				data_stage.clear_count += 1;
+				if( GameMain.Instance.m_iCountCardPlay < data_stage.best_play)
+				{
+					data_stage.best_play = GameMain.Instance.m_iCountCardPlay;
+				}
+				if (GameMain.Instance.m_iCountDeck < data_stage.best_reload)
+				{
+					data_stage.best_reload = GameMain.Instance.m_iCountDeck;
+				}
+				DataManagerGame.Instance.dataStage.Save();
+			}
+
+
+
+			Finish();
+		}
+	}
 
 	[ActionCategory("GameMainAction")]
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]

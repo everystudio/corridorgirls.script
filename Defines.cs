@@ -11,8 +11,15 @@ public class Defines{
 
 	public const string KEY_AGING = "aging";
 
+
+
+
+	public const string FILENAME_GAMEDATA = "game_data";
+
 	public const string FILENAME_UNIT_CAMP = "unit_camp";
 	public const string FILENAME_UNIT_GAME = "unit_game";
+
+	public const string FILENAME_DATA_STAGE = "data_stage";
 
 	public const float ICON_MOVE_TIME = 0.1f;
 

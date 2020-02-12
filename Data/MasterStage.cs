@@ -9,9 +9,17 @@ public class MasterStageParam : CsvDataParam
 
 	public string outline { get; set; }
 	public int total_wave { get; set; }
+	public int total_length { get; set; }
 
 	public string thumb { get; set; }
 	public string bgname { get; set; }
+
+	public int boss_chara_id { get; set; }
+	public int food_rate { get; set; }
+
+	public int challenge_reload { get; set; }
+	public int challenge_play { get; set; }
+
 }
 
 public class MasterStage : CsvData<MasterStageParam> {

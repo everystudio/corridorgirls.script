@@ -7,6 +7,8 @@ public class DMCamp : DataManagerBase<DMCamp> {
 	public static readonly string SS_ID = "1NVMQClQVzejSE3nE3qsgNA2wMSEdM2l892afiGYj83c";
 	public static readonly string SS_TEST = "1bPRYINRf64UOumP6ExJGBb4pHN4qPlM-fUJk7VGAEpg";
 
+	public CsvKvs gameData = new CsvKvs();
+
 	public MasterStage masterStage = new MasterStage();
 
 	public MasterChara masterChara = new MasterChara();
@@ -28,6 +30,7 @@ public class DMCamp : DataManagerBase<DMCamp> {
 	public DataUnit dataUnitGame = new DataUnit();
 	public DataItem dataItem = new DataItem();
 	public DataSkill dataSkill = new DataSkill();
+	public DataStage dataStage = new DataStage();
 
 	[HideInInspector]
 	public bool Initialized = false;
@@ -56,6 +59,13 @@ public class DMCamp : DataManagerBase<DMCamp> {
 	private IEnumerator init_network()
 	{
 		GetAgingState();
+
+		gameData.SetSaveFilename(Defines.FILENAME_GAMEDATA);
+		if( false == gameData.Load())
+		{
+			// なんか初期化する必要あるなら
+		}
+
 		// master
 		yield return StartCoroutine(masterChara.SpreadSheet(SS_ID, "chara", () => { }));
 		yield return StartCoroutine(masterCharaCard.SpreadSheet(SS_ID, "chara_card", () => { }));
@@ -85,6 +95,11 @@ public class DMCamp : DataManagerBase<DMCamp> {
 		}
 		yield return StartCoroutine(dataItem.SpreadSheet(SS_TEST, "item", () => { }));
 
+		dataStage.SetSaveFilename(Defines.FILENAME_DATA_STAGE);
+		if( false == dataStage.LoadMulti())
+		{
+			// まだデータなし
+		}
 
 		int serial = 1;
 		List<DataUnitParam> unit_param_list = dataUnitCamp.list.FindAll(p => p.unit == "chara" && (p.position == "left" || p.position == "right"));

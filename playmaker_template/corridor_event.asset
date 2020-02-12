@@ -1730,6 +1730,9 @@ MonoBehaviour:
     - name: shop
       isSystemEvent: 0
       isGlobal: 0
+    - name: status
+      isSystemEvent: 0
+      isGlobal: 0
     globalTransitions: []
     variables:
       floatVariables: []

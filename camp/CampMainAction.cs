@@ -99,7 +99,6 @@ namespace CampMainAction {
 		}
 	}
 
-
 	[ActionCategory("CampMainAction")]
 	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
 	public class stage_top : CampMainActionBase
@@ -138,7 +137,6 @@ namespace CampMainAction {
 
 		private void OnClose()
 		{
-			campMain.m_panelStage.m_goPanelButtons.SetActive(false);
 			campMain.m_panelStage.gameObject.SetActive(false);
 			Fsm.Event("close");
 		}
@@ -162,10 +160,73 @@ namespace CampMainAction {
 		public override void OnExit()
 		{
 			base.OnExit();
+			campMain.m_panelStage.m_goPanelButtons.SetActive(false);
 			campMain.m_panelStage.OnBannerStage.RemoveListener(OnBannerStage);
 			campMain.m_panelStage.m_btnClose.onClick.RemoveListener(OnClose);
 		}
 	}
+
+	[ActionCategory("CampMainAction")]
+	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
+	public class stage_check : CampMainActionBase
+	{
+		public FsmInt stage_id;
+		public FsmInt play_cost;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			campMain.m_panelStageCheck.gameObject.SetActive(true);
+			play_cost.Value = campMain.m_panelStageCheck.Initialize(stage_id.Value);
+
+			int food_num = DMCamp.Instance.gameData.ReadInt(Defines.KeyFood);
+
+			if(play_cost.Value <= food_num)
+			{
+				campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(true);
+				campMain.m_panelDecideCheckBottom.m_txtMessage.text = "探索を開始します";
+				campMain.m_panelDecideCheckBottom.m_txtLabelDecide.text = "はい";
+				campMain.m_panelDecideCheckBottom.m_btnDecide.onClick.AddListener(() =>
+				{
+					Fsm.Event("decide");
+				});
+
+				campMain.m_panelDecideCheckBottom.m_txtLabelCancel.text = "戻る";
+				campMain.m_panelDecideCheckBottom.gameObject.SetActive(true);
+				campMain.m_panelDecideCheckBottom.m_btnCancel.interactable = true;
+				campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.AddListener(() =>
+				{
+					Fsm.Event("cancel");
+				});
+
+			}
+			else
+			{
+				campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(true);
+				campMain.m_panelDecideCheckBottom.m_txtMessage.text = "<color=red>食料が足りません</color>";
+				campMain.m_panelDecideCheckBottom.m_txtLabelDecide.text = "はい";
+				campMain.m_panelDecideCheckBottom.m_btnDecide.interactable = false;
+
+				campMain.m_panelDecideCheckBottom.m_txtLabelCancel.text = "戻る";
+				campMain.m_panelDecideCheckBottom.gameObject.SetActive(true);
+				campMain.m_panelDecideCheckBottom.m_btnCancel.interactable = true;
+				campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.AddListener(() =>
+				{
+					Fsm.Event("cancel");
+				});
+
+			}
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			campMain.m_panelStageCheck.gameObject.SetActive(false);
+
+			campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(false);
+			campMain.m_panelDecideCheckBottom.m_btnDecide.interactable = true;
+		}
+	}
+
 
 	[ActionCategory("CampMainAction")]
 	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
@@ -840,14 +901,15 @@ namespace CampMainAction {
 	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
 	public class standby_goto_stage : CampMainActionBase
 	{
+		public FsmInt stage_id;
+		public FsmInt play_cost;
 		public override void OnEnter()
 		{
 			base.OnEnter();
 
+			// 出撃メンバーの調整など
 			List<DataUnitParam> party_members = DMCamp.Instance.dataUnitCamp.list.FindAll(p => p.unit == "chara" && p.position != "none");
-
 			DMCamp.Instance.dataUnitGame.list.Clear();
-
 			foreach ( DataUnitParam unit in party_members)
 			{
 				MasterCharaParam master = DMCamp.Instance.masterChara.list.Find(p => p.chara_id == unit.chara_id);
@@ -860,6 +922,28 @@ namespace CampMainAction {
 			}
 			DMCamp.Instance.dataUnitCamp.Save();
 			DMCamp.Instance.dataUnitGame.Save();
+
+			// ステージ挑戦回数など
+			DataStageParam data_stage = DMCamp.Instance.dataStage.list.Find(p => p.stage_id == stage_id.Value);
+			if(data_stage == null)
+			{
+				data_stage = new DataStageParam();
+				data_stage.stage_id = stage_id.Value;
+				data_stage.clear_count = 0;
+				data_stage.best_play = 99999;
+				data_stage.best_reload = 99999;
+				data_stage.challange_count = 1;
+				DMCamp.Instance.dataStage.list.Add(data_stage);
+			}
+			else
+			{
+				data_stage.challange_count += 1;
+			}
+			DMCamp.Instance.dataStage.Save();
+
+			// プレイ用コストの消化
+			DMCamp.Instance.gameData.AddInt(Defines.KeyFood, -1 * play_cost.Value);
+			DMCamp.Instance.gameData.Save();
 
 			Finish();
 		}
