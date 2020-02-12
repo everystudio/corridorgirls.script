@@ -177,12 +177,6 @@ public class GameMain : Singleton<GameMain> {
 		panelStatus.area_chara_right.Refresh();
 	}
 
-	public void ShowCoin( bool _bFlag , int _iCoin)
-	{
-		m_goCoinRoot.SetActive(_bFlag);
-		m_txtCoin.text = _iCoin.ToString();
-	}
-
 
 
 }

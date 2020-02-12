@@ -26,7 +26,6 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 			gameMain.m_panelCameraScaler.gameObject.SetActive(false);
-			gameMain.m_goCoinRoot.SetActive(false);
 		}
 		public override void OnUpdate()
 		{
@@ -193,7 +192,6 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 			gameMain.m_panelCameraScaler.gameObject.SetActive(true);
-			gameMain.m_goCoinRoot.SetActive(true);
 
 			int hand_card_num = DataManagerGame.Instance.dataCard.list.FindAll(p => p.status == (int)DataCard.STATUS.HAND).Count;
 			//Debug.Log(hand_card_num);
@@ -231,6 +229,7 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 			coin.Value = DataManagerGame.Instance.user_data.AddInt(Defines.KeyCoin, add.Value);
+			PrizeList.Instance.m_iGold = coin.Value;
 			Finish();
 		}
 	}
@@ -244,6 +243,7 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 			gem.Value = DataManagerGame.Instance.user_data.AddInt(Defines.KeyGem, add.Value);
+			PrizeList.Instance.m_iGem = gem.Value;
 			Finish();
 		}
 	}
@@ -257,6 +257,7 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 			mana.Value = DataManagerGame.Instance.user_data.AddInt(Defines.KeyMana, add.Value);
+			PrizeList.Instance.m_iMana = mana.Value;
 			Finish();
 		}
 	}
@@ -270,25 +271,10 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 			food.Value = DataManagerGame.Instance.user_data.AddInt(Defines.KeyFood, add.Value);
+			PrizeList.Instance.m_iFood = food.Value;
 			Finish();
 		}
 	}
-
-	[ActionCategory("Common")]
-	[HutongGames.PlayMaker.Tooltip("Common")]
-	public class ShowCoin : FsmStateAction
-	{
-		public FsmBool is_show;
-		public FsmInt coin;
-
-		public override void OnEnter()
-		{
-			base.OnEnter();
-			GameMain.Instance.ShowCoin(is_show.Value, coin.Value);
-			Finish();
-		}
-	}
-
 
 	[ActionCategory("Common")]
 	[HutongGames.PlayMaker.Tooltip("Common")]
@@ -736,7 +722,6 @@ namespace GameMainAction
 			{
 				gameMain.m_panelCameraScaler.gameObject.SetActive(false);
 			}
-			gameMain.m_goCoinRoot.SetActive(false);
 		}
 	}
 
