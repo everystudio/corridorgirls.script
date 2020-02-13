@@ -1048,7 +1048,7 @@ namespace CampMainAction {
 			campMain.m_panelDecideCheckBottom.m_btnDecide.onClick.AddListener(() =>
 			{
 				MasterCampShopParam buy_shop = DMCamp.Instance.masterCampShop.list.Find(p => p.campitem_id == select_campitem_id.Value);
-				MasterCampItemParam bun_item = DMCamp.Instance.masterCampItem.list.Find(p => p.campitem_id == select_campitem_id.Value);
+				//MasterCampItemParam bun_item = DMCamp.Instance.masterCampItem.list.Find(p => p.campitem_id == select_campitem_id.Value);
 
 				DataCampItemParam add_item = new DataCampItemParam();
 				add_item.campitem_id = select_campitem_id.Value;

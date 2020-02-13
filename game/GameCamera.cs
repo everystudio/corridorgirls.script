@@ -22,6 +22,7 @@ public class GameCamera : Singleton<GameCamera> {
 	{
 		if (!is_swiping)
 		{
+			is_swiping = true;
 			quickSwipe.onSwipeAction.AddListener(OnSwipe);
 		}
 	}
@@ -29,6 +30,7 @@ public class GameCamera : Singleton<GameCamera> {
 	{
 		if (is_swiping)
 		{
+			is_swiping = false;
 			quickSwipe.onSwipeAction.RemoveListener(OnSwipe);
 		}
 	}
