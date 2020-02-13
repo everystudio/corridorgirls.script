@@ -40,11 +40,15 @@ public class GameMain : Singleton<GameMain> {
 	public BackgroundControl m_backgroundControl;
 	public GaugeMP gauge_mp;
 
-	public bool m_bIsGoal;
-	public bool m_bIsGameover;
+	[HideInInspector] public bool m_bIsGoal;
+	[HideInInspector] public bool m_bIsGameover;
 
-	public int m_iCountCardPlay;
-	public int m_iCountDeck;
+	[HideInInspector] public int m_iCountCardPlay;
+	[HideInInspector] public int m_iCountDeck;
+
+	[HideInInspector] public int now_wave;
+	[HideInInspector] public int total_wave;
+	[HideInInspector] public int total_turn;
 
 	public List<Corridor> corridor_list = new List<Corridor>();
 

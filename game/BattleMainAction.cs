@@ -146,6 +146,7 @@ namespace BattleMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			GameMain.Instance.total_turn += 1;
 
 			BattleIcon[] arr = battleMain.m_goBattleChara.GetComponentsInChildren<BattleIcon>();
 			foreach (BattleIcon c in arr)

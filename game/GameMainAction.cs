@@ -168,14 +168,18 @@ namespace GameMainAction
 			// ここでフラグを落とすのもなんか不自然な気がするけど
 			gameMain.m_bIsGoal = false;
 
+			MasterStageParam master_stage = DataManagerGame.Instance.masterStage.list.Find(p => p.stage_id == stage_id.Value);
 
-			foreach( Corridor c in gameMain.corridor_list)
+			gameMain.total_wave = master_stage.total_wave;
+			gameMain.now_wave = wave.Value;
+
+			foreach ( Corridor c in gameMain.corridor_list)
 			{
 				GameObject.Destroy(c.gameObject);
 			}
 			gameMain.corridor_list.Clear();
 
-			DataManagerGame.Instance.dataCorridor.BuildDungeon(DataManagerGame.Instance.masterStage.list.Find(p => p.stage_id == stage_id.Value), wave.Value);
+			DataManagerGame.Instance.dataCorridor.BuildDungeon(master_stage , wave.Value);
 
 			foreach (DataCorridorParam param in DataManagerGame.Instance.dataCorridor.list)
 			{
@@ -201,6 +205,7 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			GameMain.Instance.total_turn += 1;
 
 			int hand_card_num = DataManagerGame.Instance.dataCard.list.FindAll(p => p.status == (int)DataCard.STATUS.HAND).Count;
 			//Debug.Log(hand_card_num);
@@ -1345,13 +1350,23 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 
-			gameMain.m_panelGameMenu.gameObject.SetActive(true);
-			gameMain.m_panelGameMenu.Show();
+			PrizeList.Instance.m_bMenu = true;
 
-			gameMain.m_panelGameControlButtons.ShowButtonNum(1, new string[1] { "閉じる" });
+			GameMain.Instance.m_panelGameMenu.gameObject.SetActive(true);
+			GameMain.Instance.m_panelGameMenu.Show();
 
-			gameMain.m_panelGameControlButtons.OnClickButton.AddListener((int _iIndex) =>
+			GameMain.Instance.m_panelGameMenu.m_bannerRetire.m_btn.onClick.AddListener(() =>
 			{
+				Fsm.Event("retire");
+			});
+
+
+			GameMain.Instance.m_panelGameControlButtons.ShowButtonNum(1, new string[1] { "閉じる" });
+
+			GameMain.Instance.m_panelGameControlButtons.OnClickButton.AddListener((int _iIndex) =>
+			{
+				GameMain.Instance.m_panelGameMenu.gameObject.SetActive(false);
+				PrizeList.Instance.m_bMenu = false;
 				Fsm.Event("close");
 			});
 		}
@@ -1359,10 +1374,51 @@ namespace GameMainAction
 		public override void OnExit()
 		{
 			base.OnExit();
-			gameMain.m_panelGameMenu.gameObject.SetActive(false);
-			gameMain.m_panelGameControlButtons.OnClickButton.RemoveAllListeners();
-			gameMain.m_panelGameControlButtons.ShowButtonNum(0, null);
+			GameMain.Instance.m_panelGameControlButtons.OnClickButton.RemoveAllListeners();
+			GameMain.Instance.m_panelGameControlButtons.ShowButtonNum(0, null);
+
+
+			// 各ボタンのイベント削除
+			GameMain.Instance.m_panelGameMenu.m_bannerRetire.m_btn.onClick.RemoveAllListeners();
 		}
+	}
+
+
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class RetireCheck : GameMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			GameMain.Instance.m_panelGameMenu.m_goRetireAttention.SetActive(true);
+
+			GameMain.Instance.m_panelGameControlButtons.ShowButtonNum(2, new string[2] { "キャンセル","あきらめる" });
+
+			GameMain.Instance.m_panelGameControlButtons.OnClickButton.AddListener((int _iIndex) =>
+			{
+				if (_iIndex == 0)
+				{
+					GameMain.Instance.m_panelGameMenu.m_goRetireAttention.SetActive(false);
+					Fsm.Event("cancel");
+				}
+				else
+				{
+					GameMain.Instance.m_panelGameMenu.gameObject.SetActive(false);
+					Fsm.Event("retire");
+				}
+			});
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			GameMain.Instance.m_panelGameMenu.m_goRetireAttention.SetActive(false);
+			GameMain.Instance.m_panelGameControlButtons.OnClickButton.RemoveAllListeners();
+		}
+
+
+
 	}
 
 
