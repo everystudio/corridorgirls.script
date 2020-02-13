@@ -112,6 +112,7 @@ namespace CampMainAction {
 			aging_timer = 0.0f;
 
 			campMain.m_panelStage.gameObject.SetActive(true);
+			campMain.m_panelStageCheck.gameObject.SetActive(false);
 
 			campMain.m_panelStage.m_goPanelButtons.SetActive(true);
 			campMain.m_panelStage.OnBannerStage.AddListener(OnBannerStage);
@@ -190,11 +191,19 @@ namespace CampMainAction {
 					Fsm.Event("decide");
 				});
 
+				campMain.m_panelDecideCheckBottom.m_txtLabelOther.text = "アイテムを\n持ち込む";
+				campMain.m_panelDecideCheckBottom.m_btnOther.gameObject.SetActive(true);
+				campMain.m_panelDecideCheckBottom.m_btnOther.onClick.AddListener(() =>
+				{
+					Fsm.Event("item");
+				});
+
 				campMain.m_panelDecideCheckBottom.m_txtLabelCancel.text = "戻る";
 				campMain.m_panelDecideCheckBottom.gameObject.SetActive(true);
 				campMain.m_panelDecideCheckBottom.m_btnCancel.interactable = true;
 				campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.AddListener(() =>
 				{
+					campMain.m_panelStageCheck.gameObject.SetActive(false);
 					Fsm.Event("cancel");
 				});
 
@@ -211,6 +220,7 @@ namespace CampMainAction {
 				campMain.m_panelDecideCheckBottom.m_btnCancel.interactable = true;
 				campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.AddListener(() =>
 				{
+					campMain.m_panelStageCheck.gameObject.SetActive(false);
 					Fsm.Event("cancel");
 				});
 
@@ -220,10 +230,78 @@ namespace CampMainAction {
 		public override void OnExit()
 		{
 			base.OnExit();
-			campMain.m_panelStageCheck.gameObject.SetActive(false);
+
+
+			campMain.m_panelDecideCheckBottom.m_btnOther.gameObject.SetActive(false);
 
 			campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(false);
 			campMain.m_panelDecideCheckBottom.m_btnDecide.interactable = true;
+		}
+	}
+	[ActionCategory("CampMainAction")]
+	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
+	public class stage_camp_item : CampMainActionBase
+	{
+		public FsmInt play_mana;
+		private int mana;
+
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			mana = DMCamp.Instance.gameData.ReadInt(Defines.KeyMana);
+			campMain.m_panelCampItem.gameObject.SetActive(true);
+			campMain.m_panelCampItem.Initialize(DMCamp.Instance.dataCampItem.list);
+
+			campMain.m_panelCampItem.OnChangeTotalMana.AddListener((int _iTotalMana) =>
+			{
+				play_mana.Value = _iTotalMana;
+				_show_decide(play_mana.Value <= mana);
+			});
+			play_mana.Value = campMain.m_panelCampItem.m_iTotalMana;
+
+
+			campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(false);
+
+
+			campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(true);
+			campMain.m_panelDecideCheckBottom.m_txtLabelDecide.text = "はい";
+
+			campMain.m_panelDecideCheckBottom.m_btnDecide.onClick.AddListener(() =>
+			{
+				Fsm.Event("decide");
+			});
+
+			campMain.m_panelDecideCheckBottom.m_txtLabelCancel.text = "戻る";
+			campMain.m_panelDecideCheckBottom.gameObject.SetActive(true);
+			campMain.m_panelDecideCheckBottom.m_btnCancel.interactable = true;
+			campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.RemoveAllListeners();
+			campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.AddListener(() =>
+			{
+				campMain.m_panelCampItem.gameObject.SetActive(false);
+				Fsm.Event("cancel");
+			});
+
+		}
+
+		private void _show_decide(bool v)
+		{
+			campMain.m_panelDecideCheckBottom.m_btnDecide.interactable = v;
+			if (v)
+			{
+				campMain.m_panelDecideCheckBottom.m_txtMessage.text = "持ち込むアイテムは\n以上でよろしいでしょうか？";
+			}
+			else
+			{
+				campMain.m_panelDecideCheckBottom.m_txtMessage.text = "<color=red>マナが足りません</color>";
+			}
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+
+			campMain.m_panelCampItem.OnChangeTotalMana.RemoveAllListeners();
 		}
 	}
 
@@ -903,6 +981,7 @@ namespace CampMainAction {
 	{
 		public FsmInt stage_id;
 		public FsmInt play_cost;
+		public FsmInt play_mana;
 		public override void OnEnter()
 		{
 			base.OnEnter();
@@ -943,6 +1022,8 @@ namespace CampMainAction {
 
 			// プレイ用コストの消化
 			DMCamp.Instance.gameData.AddInt(Defines.KeyFood, -1 * play_cost.Value);
+			DMCamp.Instance.gameData.AddInt(Defines.KeyMana, -1 * play_mana.Value);
+
 			DMCamp.Instance.gameData.Save();
 
 			Finish();

@@ -13,6 +13,9 @@ public class PanelDecideCheck : MonoBehaviour {
 	public TextMeshProUGUI m_txtLabelCancel;
 	public Button m_btnCancel;
 
+	public TextMeshProUGUI m_txtLabelOther;
+	public Button m_btnOther;
+
 	public GameObject m_goRoot;
 
 	public void SetMessage(string _strMessage)

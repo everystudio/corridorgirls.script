@@ -8,6 +8,7 @@ public class CampMain : Singleton<CampMain> {
 
 	public PanelStage m_panelStage;
 	public PanelStageCheck m_panelStageCheck;
+	public PanelCampItem m_panelCampItem;
 
 	public PanelChara m_panelChara;
 	public PanelSkill m_panelSkill;

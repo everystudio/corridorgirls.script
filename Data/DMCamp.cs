@@ -25,12 +25,18 @@ public class DMCamp : DataManagerBase<DMCamp> {
 	public MasterSkill masterSkill = new MasterSkill();
 
 
+	public MasterCampItem masterCampItem = new MasterCampItem();
+	public MasterCampShop masterCampShop = new MasterCampShop();
+
+
 	public DataCard dataCard = new DataCard();
 	public DataUnit dataUnitCamp = new DataUnit();
 	public DataUnit dataUnitGame = new DataUnit();
 	public DataItem dataItem = new DataItem();
 	public DataSkill dataSkill = new DataSkill();
 	public DataStage dataStage = new DataStage();
+
+	public DataCampItem dataCampItem = new DataCampItem();
 
 	[HideInInspector]
 	public bool Initialized = false;
@@ -79,7 +85,8 @@ public class DMCamp : DataManagerBase<DMCamp> {
 		yield return StartCoroutine(masterStageCard.SpreadSheet(SS_ID, "stage_card", () => { }));
 
 		yield return StartCoroutine(masterSkill.SpreadSheet(SS_ID, "skill", () => { }));
-
+		yield return StartCoroutine(masterCampItem.SpreadSheet(SS_ID, "campitem", () => { }));
+		
 		// data
 		dataUnitCamp.SetSaveFilename(Defines.FILENAME_UNIT_CAMP);
 		dataUnitGame.SetSaveFilename(Defines.FILENAME_UNIT_GAME);
@@ -94,6 +101,11 @@ public class DMCamp : DataManagerBase<DMCamp> {
 			yield return StartCoroutine(dataSkill.SpreadSheet(SS_TEST, "skill", () => { }));
 		}
 		yield return StartCoroutine(dataItem.SpreadSheet(SS_TEST, "item", () => { }));
+
+		if( false == dataCampItem.LoadMulti())
+		{
+			yield return StartCoroutine(dataCampItem.SpreadSheet(SS_TEST, "campitem", () => { }));
+		}
 
 		dataStage.SetSaveFilename(Defines.FILENAME_DATA_STAGE);
 		if( false == dataStage.LoadMulti())
