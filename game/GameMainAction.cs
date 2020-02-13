@@ -26,6 +26,8 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 			gameMain.m_panelCameraScaler.gameObject.SetActive(false);
+
+			PanelLogMessage.Instance.AddMessage("データ準備中");
 		}
 		public override void OnUpdate()
 		{
@@ -64,9 +66,9 @@ namespace GameMainAction
 			List<DataUnitParam> unit_param_list = DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara" && (p.position == "left" || p.position == "right" || p.position == "back"));
 			foreach(DataUnitParam unit in unit_param_list)
 			{
-				Debug.Log(string.Format("chara_id={0} str={1}", unit.chara_id, unit.str));
+				//Debug.Log(string.Format("chara_id={0} str={1}", unit.chara_id, unit.str));
 				unit.BuildAssist(DataManagerGame.Instance.dataUnit.list.FindAll(p => p.chara_id == unit.chara_id && p.unit == "assist"));
-				Debug.Log(string.Format("chara_id={0} str={1}", unit.chara_id, unit.str));
+				//Debug.Log(string.Format("chara_id={0} str={1}", unit.chara_id, unit.str));
 			}
 
 			Finish();
@@ -199,12 +201,12 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			gameMain.m_panelCameraScaler.gameObject.SetActive(true);
 
 			int hand_card_num = DataManagerGame.Instance.dataCard.list.FindAll(p => p.status == (int)DataCard.STATUS.HAND).Count;
 			//Debug.Log(hand_card_num);
+			PanelLogMessage.Instance.AddMessage("行動を開始してください");
 
-			if( hand_card_num <= card_fill_num.Value)
+			if ( hand_card_num <= card_fill_num.Value)
 			{
 				Fsm.Event("card_fill");
 			}
@@ -293,6 +295,8 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 
+			PanelLogMessage.Instance.AddMessage("手札にカードを補充します");
+
 			List<DataCardParam> add_list = new List<DataCardParam>();
 			bool bResult = DataManagerGame.Instance.dataCard.CardFill(fill_num.Value, ref add_list);
 
@@ -321,6 +325,9 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 
+			PanelLogMessage.Instance.AddMessage("山札がなくなりました");
+			PanelLogMessage.Instance.AddMessage("デッキリロードを行います");
+			
 			GameMain.Instance.m_iCountDeck += 1;
 
 			DataManagerGame.Instance.dataCard.DeckShuffle();
@@ -508,6 +515,8 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			PanelLogMessage.Instance.AddMessage("現在のデッキを表示します");
+
 			GameMain.Instance.m_panelPlayerDeck.m_btnClose.gameObject.SetActive(false);
 			GameMain.Instance.m_panelPlayerDeck.Show();
 
@@ -536,6 +545,9 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			PanelLogMessage.Instance.AddMessage("ステータスを表示します");
+
+
 			GameMain.Instance.m_panelGameStatus.gameObject.SetActive(true);
 			GameMain.Instance.m_panelGameStatus.Show(DataManagerGame.Instance.dataUnit.list, DataManagerGame.Instance.masterChara.list);
 
@@ -565,6 +577,7 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			PanelLogMessage.Instance.AddMessage("所持アイテムを表示します");
 
 			ItemMain.Instance.move = 0;
 

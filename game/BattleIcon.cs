@@ -18,6 +18,8 @@ public class BattleIcon : MonoBehaviour {
 	}
 	public EventBattleIcon HitHandler = new EventBattleIcon();
 	public EventBattleIcon AttackHandler = new EventBattleIcon();
+	public EventBattleIcon HealHandler = new EventBattleIcon();
+
 
 	public UnityEvent OnOffsetFinished = new UnityEvent();
 	public void offset_end()
@@ -72,6 +74,10 @@ public class BattleIcon : MonoBehaviour {
 	public void MoveCompleteHandler()
 	{
 		//Debug.Log("MoveCompleteHandler");
+	}
+	public void AnimHeal1()
+	{
+		HealHandler.Invoke(this);
 	}
 
 	public void Hit()

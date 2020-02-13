@@ -37,6 +37,7 @@ public class BattleMain : MonoBehaviour {
 	public SpriteRenderer m_sprPlayer;
 	public SpriteRenderer m_sprEnemy;
 	public GameObject m_prefDamageNum;
+	public GameObject m_prefHealNum;
 
 	public List<BattleIcon> player_icon_list = new List<BattleIcon>();
 	public List<BattleIcon> enemy_icon_list = new List<BattleIcon>();
@@ -130,6 +131,27 @@ public class BattleMain : MonoBehaviour {
 		});
 	}
 
+
+	public void Heal(bool _bIsPlayer, int _iHeal, Action _onFinished)
+	{
+		GameObject root = null;
+		if (_bIsPlayer)
+		{
+			root = m_goBattleChara;
+		}
+		else
+		{
+			root = m_goBattleEnemy;
+		}
+		DamageNum script = PrefabManager.Instance.MakeScript<DamageNum>(m_prefHealNum, root);
+		//Debug.Log(script.gameObject.transform.localPosition);
+		script.gameObject.transform.localPosition = new Vector3(0.0f, -1.5f, -1.5f);
+
+		script.Action(_iHeal, () =>
+		{
+			_onFinished.Invoke();
+		});
+	}
 
 
 

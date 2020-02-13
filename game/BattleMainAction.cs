@@ -615,6 +615,157 @@ namespace BattleMainAction
 		}
 	}
 
+
+	[ActionCategory("BattleMainAction")]
+	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
+	public class Heal : BattleMainActionBase
+	{
+		private int heal_count;
+		private int heal_result;
+
+		public FsmBool is_player;
+		public FsmInt select_chara_id;
+		public FsmInt symbol_id;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			heal_count = 1;
+			heal_result = 0;
+			StartCoroutine(exe_heal());
+		}
+
+		private IEnumerator exe_heal()
+		{
+			while (act_heal())
+			{
+				heal_count += 1;
+				yield return new WaitForSeconds(0.3f);
+			}
+			heal_result += 1;
+		}
+
+		public bool act_heal() {
+			BattleIcon target_icon = null;
+			List<BattleIcon> target_line_list = null;
+			List<BattleIcon> target_icon_list = null;
+
+			bool bExist = false;
+
+			if (is_player.Value)
+			{
+				target_icon_list = battleMain.player_icon_list;
+			}
+			else
+			{
+				target_icon_list = battleMain.enemy_icon_list;
+			}
+
+			target_icon = target_icon_list.Find(p => p.master_symbol.card_symbol_id == symbol_id.Value);
+			//Debug.Log(target_icon);
+			if (target_icon != null)
+			{
+				target_line_list = target_icon_list.FindAll(p => p.master_symbol.line == target_icon.master_symbol.line && p != target_icon);
+			}
+
+			if (target_icon != null)
+			{
+				bExist = true;
+				target_icon.HealHandler.AddListener(OnHeal);
+				target_icon.m_animator.SetTrigger("heal");
+				target_icon_list.Remove(target_icon);
+			}
+
+			if (target_line_list != null && 0 < target_line_list.Count)
+			{
+				foreach (BattleIcon icon in target_line_list)
+				{
+					icon.move(Defines.ICON_MOVE_TIME, icon.index - 1, icon.master_symbol.line, icon.is_left);
+					icon.index -= 1;
+				}
+			}
+			return bExist;
+		}
+
+		public override void OnUpdate()
+		{
+			base.OnUpdate();
+
+			if (heal_count == heal_result)
+			{
+				Finish();
+			}
+		}
+
+
+		private void OnHeal(BattleIcon arg0)
+		{
+			// アニメーションのタイミングを合わせるために階層で呼び出してます
+			if (is_player.Value)
+			{
+				battleMain.m_animChara.SetBool("win_loop", true);
+			}
+			else
+			{
+			}
+			StartCoroutine(HealEffectAppear(arg0));
+		}
+
+		private IEnumerator HealEffectAppear(BattleIcon arg0)
+		{
+			// この微妙なずらし作業がしたかっただけ
+			yield return new WaitForSeconds(0.5f);
+
+			int iHeal = 12;
+			int iSwing = UtilRand.GetRand(5) - 2;
+
+			if (is_player.Value)
+			{
+				DataUnitParam unit_chara = DataManagerGame.Instance.dataUnit.list.Find(p => p.chara_id == select_chara_id.Value && p.unit == "chara");
+				iHeal = unit_chara.heal + iSwing;
+			}
+			else
+			{
+				DataUnitParam unit_enemy = DataManagerGame.Instance.dataUnit.list.Find(p => p.unit == "enemy");
+				iHeal = unit_enemy.heal + iSwing;
+			}
+			//Debug.Log(iDamage);
+
+			battleMain.Heal(is_player.Value, iHeal, OnHealFinished);
+
+			// プレイヤー側の攻撃
+			if (arg0.is_left)
+			{
+				DataUnitParam unit_chara = DataManagerGame.Instance.dataUnit.list.Find(p => p.chara_id == select_chara_id.Value && p.unit == "chara");
+				unit_chara.HpHeal(iHeal);
+				GameMain.Instance.CharaRefresh();
+			}
+			else
+			{
+				DataUnitParam unit_enemy = DataManagerGame.Instance.dataUnit.list.Find(p => p.unit == "enemy");
+				unit_enemy.HpHeal(iHeal);
+			}
+			battleMain.HpRefresh();
+		}
+
+		private void OnHealFinished()
+		{
+			heal_result += 1;
+		}
+		public override void OnExit()
+		{
+			base.OnExit();
+			if (is_player.Value)
+			{
+				battleMain.m_animChara.SetBool("win_loop", false);
+			}
+			else
+			{
+			}
+		}
+	}
+
+
+
 	[ActionCategory("BattleMainAction")]
 	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
 	public class Attack : BattleMainActionBase
@@ -705,7 +856,7 @@ namespace BattleMainAction
 
 			if (is_player.Value)
 			{
-				DataUnitParam unit_chara = DataManagerGame.Instance.dataUnit.list.Find(p => p.chara_id == select_chara_id.Value);
+				DataUnitParam unit_chara = DataManagerGame.Instance.dataUnit.list.Find(p => p.chara_id == select_chara_id.Value && p.unit == "chara");
 
 				switch (arg0.master_symbol.card_symbol_id)
 				{

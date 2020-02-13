@@ -17,7 +17,7 @@ public class PanelGetCard : MonoBehaviour {
 
 	public void Initialize( int _iStageId , int _iWave , int[] _iCharaIdArr )
 	{
-		Debug.Log(_iStageId);
+		//Debug.Log(_iStageId);
 		foreach( Card c in card_list)
 		{
 			Destroy(c.gameObject);

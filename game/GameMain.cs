@@ -32,9 +32,6 @@ public class GameMain : Singleton<GameMain> {
 	public PanelGameStatus m_panelGameStatus;
 	public PanelCameraScaler m_panelCameraScaler;
 
-	public GameObject m_goCoinRoot;
-	public TMPro.TextMeshProUGUI m_txtCoin;
-
 	public PanelGameMenu m_panelGameMenu;
 	public PanelPartyEdit m_panelPartyEdit;
 
