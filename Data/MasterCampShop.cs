@@ -6,7 +6,7 @@ public class MasterCampShopParam : CsvDataParam
 {
 	public int campitem_id { get; set; }
 	public int gem { get; set; }
-
+	public string shop_message { get; set; }
 }
 
 public class MasterCampShop : CsvData<MasterCampShopParam> {

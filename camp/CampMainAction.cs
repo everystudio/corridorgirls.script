@@ -936,6 +936,147 @@ namespace CampMainAction {
 	}
 
 
+	[ActionCategory("CampMainAction")]
+	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
+	public class shop_top : CampMainActionBase
+	{
+		public FsmBool flag;
+		public FsmInt select_campitem_id;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(true);
+
+			campMain.m_panelDecideCheckBottom.m_txtMessage.text = "アイテムを選択してください";
+			campMain.m_panelDecideCheckBottom.m_txtLabelDecide.text = "購入";
+			campMain.m_panelDecideCheckBottom.m_txtLabelCancel.text = "閉じる";
+			campMain.m_panelDecideCheckBottom.m_btnDecide.onClick.RemoveAllListeners();
+			campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.RemoveAllListeners();
+			campMain.m_panelDecideCheckBottom.m_btnDecide.interactable = false;
+			campMain.m_panelDecideCheckBottom.m_btnDecide.onClick.AddListener(() =>
+			{
+				Fsm.Event("buy");
+			});
+			campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.AddListener(() =>
+			{
+
+				// 使う人が使う前に上げてほしいんだけどね！
+				campMain.m_panelDecideCheckBottom.m_btnDecide.interactable = true;
+				campMain.m_panelDecideCheckBottom.m_btnDecide.gameObject.SetActive(true);
+				campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(false);
+
+				campMain.m_panelShop.gameObject.SetActive(false);
+				Fsm.Event("close");
+			});
+
+
+			campMain.m_panelShop.gameObject.SetActive(true);
+			campMain.m_panelShop.Initialize(flag.Value ? PanelShop.LIST_TYPE.SHOP_LIST : PanelShop.LIST_TYPE.PURCHASED_LIST);
+
+			if (flag.Value)
+			{
+				campMain.m_panelShop.Message("ようこそ！ジェムで購入できる便利なアイテムですよ");
+				campMain.m_panelDecideCheckBottom.m_btnDecide.gameObject.SetActive(true);
+			}
+			else
+			{
+				campMain.m_panelShop.Message("お買い上げ済みのアイテムです");
+				campMain.m_panelDecideCheckBottom.m_btnDecide.gameObject.SetActive(false);
+			}
+			campMain.m_panelShop.OnClickBanner.AddListener((BannerCampShop _shop) =>
+			{
+				campMain.m_panelShop.Message(_shop.m_masterCampShop.shop_message);
+				campMain.m_panelShop.Select(_shop.m_masterCampItem.campitem_id);
+				if ( flag.Value)
+				{
+					select_campitem_id.Value = _shop.m_masterCampItem.campitem_id;
+
+					int check_gem = DMCamp.Instance.gameData.ReadInt(Defines.KeyGem);
+
+					bool buy_ok = _shop.m_masterCampShop.gem <= check_gem;
+
+					campMain.m_panelDecideCheckBottom.m_btnDecide.interactable = buy_ok;
+					if (buy_ok == false)
+					{
+						campMain.m_panelDecideCheckBottom.m_txtMessage.text = "<color=red>ジェムが足りません</color>";
+					}
+					else
+					{
+						campMain.m_panelDecideCheckBottom.m_txtMessage.text = "アイテムを選択してください";
+					}
+				}
+				else
+				{
+
+				}
+			});
+
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			campMain.m_panelDecideCheckBottom.m_btnDecide.onClick.RemoveAllListeners();
+			campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.RemoveAllListeners();
+			campMain.m_panelShop.OnClickBanner.RemoveAllListeners();
+		}
+	}
+	[ActionCategory("CampMainAction")]
+	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
+	public class shop_buy_check : CampMainActionBase
+	{
+		public FsmInt select_campitem_id;
+
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			MasterCampShopParam shop = DMCamp.Instance.masterCampShop.list.Find(p => p.campitem_id == select_campitem_id.Value);
+			MasterCampItemParam item = DMCamp.Instance.masterCampItem.list.Find(p => p.campitem_id == select_campitem_id.Value);
+
+			int gem = DMCamp.Instance.gameData.ReadInt(Defines.KeyGem);
+
+			campMain.m_panelShop.m_goPanelBuyCheck.SetActive(true);
+			campMain.m_panelShop.m_txtBuyCheckMessage.text = string.Format("{0}\nを購入します", item.name);
+			campMain.m_panelShop.m_txtBuyCheckGem.text = string.Format("{0} → <color=red>{1}</color>", gem, gem - shop.gem);
+			campMain.m_panelDecideCheckBottom.m_txtLabelDecide.text = "購入";
+			campMain.m_panelDecideCheckBottom.m_txtLabelCancel.text = "閉じる";
+			campMain.m_panelDecideCheckBottom.m_btnDecide.onClick.RemoveAllListeners();
+			campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.RemoveAllListeners();
+			campMain.m_panelDecideCheckBottom.m_btnDecide.interactable = true;
+			campMain.m_panelDecideCheckBottom.m_btnDecide.onClick.AddListener(() =>
+			{
+				MasterCampShopParam buy_shop = DMCamp.Instance.masterCampShop.list.Find(p => p.campitem_id == select_campitem_id.Value);
+				MasterCampItemParam bun_item = DMCamp.Instance.masterCampItem.list.Find(p => p.campitem_id == select_campitem_id.Value);
+
+				DataCampItemParam add_item = new DataCampItemParam();
+				add_item.campitem_id = select_campitem_id.Value;
+				add_item.is_take = false;
+				DMCamp.Instance.dataCampItem.list.Add(add_item);
+
+				DMCamp.Instance.gameData.AddInt(Defines.KeyGem, -1 * buy_shop.gem);
+
+				Fsm.Event("buy");
+			});
+			campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.AddListener(() =>
+			{
+				Fsm.Event("cancel");
+			});
+
+
+
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			campMain.m_panelShop.m_goPanelBuyCheck.SetActive(false);
+		}
+	}
+
+
+
 
 	[ActionCategory("CampMainAction")]
 	[HutongGames.PlayMaker.Tooltip("CampMainAction")]

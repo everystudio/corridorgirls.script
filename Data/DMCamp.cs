@@ -86,6 +86,7 @@ public class DMCamp : DataManagerBase<DMCamp> {
 
 		yield return StartCoroutine(masterSkill.SpreadSheet(SS_ID, "skill", () => { }));
 		yield return StartCoroutine(masterCampItem.SpreadSheet(SS_ID, "campitem", () => { }));
+		yield return StartCoroutine(masterCampShop.SpreadSheet(SS_ID, "campshop", () => { }));
 		
 		// data
 		dataUnitCamp.SetSaveFilename(Defines.FILENAME_UNIT_CAMP);
