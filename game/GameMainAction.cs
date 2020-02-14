@@ -1350,6 +1350,29 @@ namespace GameMainAction
 	}
 
 
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class ShowResult : GameMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			gameMain.m_panelResult.gameObject.SetActive(true);
+			StartCoroutine(gameMain.m_panelResult.show(
+				PrizeList.Instance.m_iFood,
+				PrizeList.Instance.m_iMana,
+				PrizeList.Instance.m_iGem));
+
+			gameMain.m_panelResult.m_btn.onClick.AddListener(() =>
+			{
+				gameMain.m_panelResult.gameObject.SetActive(false);
+				gameMain.m_panelResult.m_btn.onClick.RemoveAllListeners();
+				Finish();
+			});
+		}
+
+	}
 
 	[ActionCategory("GameMainAction")]
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
