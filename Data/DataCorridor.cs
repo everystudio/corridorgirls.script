@@ -133,7 +133,17 @@ public class DataCorridor : CsvData<DataCorridorParam> {
 		*/
 
 		// ゴール
+
+
 		last.corridor_event = DataManagerGame.Instance.masterCorridorEvent.list.Find(p => p.corridor_event_id == 2);
+		if(_master.total_wave == _iWave)
+		{
+			last.corridor_event.label = "BOSS";
+		}
+		else
+		{
+			last.corridor_event.label = "NEXT";
+		}
 
 
 

@@ -168,6 +168,8 @@ namespace GameMainAction
 			// ここでフラグを落とすのもなんか不自然な気がするけど
 			gameMain.m_bIsGoal = false;
 
+			gameMain.m_fadeScreen.Open();
+
 			MasterStageParam master_stage = DataManagerGame.Instance.masterStage.list.Find(p => p.stage_id == stage_id.Value);
 
 			gameMain.total_wave = master_stage.total_wave;
@@ -193,8 +195,20 @@ namespace GameMainAction
 			}
 			gameMain.chara_control.SetCorridor(DataManagerGame.Instance.dataCorridor.list.Find(p => p.index == 1));
 
-			Finish();
+			if (gameMain.m_fadeScreen.is_open)
+			{
+				Finish();
+			}
+			else
+			{
+				gameMain.m_fadeScreen.OnOpen.AddListener(() =>
+				{
+					gameMain.m_fadeScreen.OnOpen.RemoveAllListeners();
+					Finish();
+				});
+			}
 		}
+
 	}
 
 	[ActionCategory("GameMainAction")]
@@ -1348,6 +1362,26 @@ namespace GameMainAction
 			}
 		}
 	}
+
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class NextWave : GameMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			gameMain.m_fadeScreen.Close();
+		}
+		public override void OnUpdate()
+		{
+			base.OnUpdate();
+			if(gameMain.m_fadeScreen.is_open == false)
+			{
+				Finish();
+			}
+		}
+	}
+
 
 
 	[ActionCategory("GameMainAction")]

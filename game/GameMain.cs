@@ -38,6 +38,7 @@ public class GameMain : Singleton<GameMain> {
 	public PanelBattlePrize m_panelBattlePrize;
 	public PanelResult m_panelResult;
 
+	public FadeScreen m_fadeScreen;
 
 	public BackgroundControl m_backgroundControl;
 	public GaugeMP gauge_mp;
