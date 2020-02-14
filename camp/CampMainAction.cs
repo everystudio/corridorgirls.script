@@ -88,6 +88,12 @@ namespace CampMainAction {
 			campMain.m_infoHeaderCamp.SetMana(DMCamp.Instance.gameData.ReadInt(Defines.KeyMana));
 			campMain.m_infoHeaderCamp.SetGem(DMCamp.Instance.gameData.ReadInt(Defines.KeyGem));
 
+			campMain.m_panelStatus.m_btnDeck.onClick.AddListener(() =>
+			{
+				Fsm.Event("deck");
+			});
+
+
 		}
 
 		public override void OnUpdate()
@@ -103,7 +109,46 @@ namespace CampMainAction {
 			}
 			#endregion
 		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			campMain.m_panelStatus.m_btnDeck.onClick.RemoveAllListeners();
+		}
 	}
+
+	[ActionCategory("CampMainAction")]
+	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
+	public class show_deck : CampMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			campMain.m_panelPlayerDeck.ShowCamp();
+
+			campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(true);
+			campMain.m_panelDecideCheckBottom.m_txtMessage.text = "現在のデッキが表示されます";
+			campMain.m_panelDecideCheckBottom.m_txtLabelDecide.text = "閉じる";
+			campMain.m_panelDecideCheckBottom.m_btnDecide.onClick.RemoveAllListeners();
+			campMain.m_panelDecideCheckBottom.m_btnDecide.onClick.AddListener(() =>
+			{
+				Fsm.Event("close");
+			});
+			campMain.m_panelDecideCheckBottom.m_btnCancel.gameObject.SetActive(false);
+			campMain.m_panelDecideCheckBottom.m_btnOther.gameObject.SetActive(false);
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			campMain.m_panelPlayerDeck.Close();
+			campMain.m_panelDecideCheckBottom.m_btnCancel.gameObject.SetActive(true);
+			campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(false);
+			campMain.m_panelDecideCheckBottom.m_btnDecide.onClick.RemoveAllListeners();
+		}
+
+	}
+
 
 	[ActionCategory("CampMainAction")]
 	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
@@ -205,7 +250,7 @@ namespace CampMainAction {
 				});
 
 				campMain.m_panelDecideCheckBottom.m_txtLabelCancel.text = "戻る";
-				campMain.m_panelDecideCheckBottom.gameObject.SetActive(true);
+				campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(true);
 				campMain.m_panelDecideCheckBottom.m_btnCancel.interactable = true;
 				campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.AddListener(() =>
 				{
@@ -222,7 +267,7 @@ namespace CampMainAction {
 				campMain.m_panelDecideCheckBottom.m_btnDecide.interactable = false;
 
 				campMain.m_panelDecideCheckBottom.m_txtLabelCancel.text = "戻る";
-				campMain.m_panelDecideCheckBottom.gameObject.SetActive(true);
+				campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(true);
 				campMain.m_panelDecideCheckBottom.m_btnCancel.interactable = true;
 				campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.AddListener(() =>
 				{
@@ -279,7 +324,7 @@ namespace CampMainAction {
 			});
 
 			campMain.m_panelDecideCheckBottom.m_txtLabelCancel.text = "戻る";
-			campMain.m_panelDecideCheckBottom.gameObject.SetActive(true);
+			campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(true);
 			campMain.m_panelDecideCheckBottom.m_btnCancel.interactable = true;
 			campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.RemoveAllListeners();
 			campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.AddListener(() =>
@@ -325,7 +370,7 @@ namespace CampMainAction {
 			PartyReset();
 
 			// 非表示にする
-			campMain.m_panelDecideCheckBottom.gameObject.SetActive(false);
+			campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(false);
 			campMain.m_panelChara.CloseList();
 
 			campMain.m_panelChara.m_btnClose.gameObject.SetActive(true);
@@ -481,7 +526,7 @@ namespace CampMainAction {
 				Fsm.Event("decide");
 			});
 
-			campMain.m_panelDecideCheckBottom.gameObject.SetActive(true);
+			campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(true);
 			campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.AddListener(() =>
 			{
 				Fsm.Event("cancel");
@@ -1097,7 +1142,7 @@ namespace CampMainAction {
 
 			campMain.m_panelDecideCheckBottom.m_txtMessage.text = "メニュー/設定\n変更したい内容を選択してください";
 			campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(true);
-			campMain.m_panelDecideCheckBottom.gameObject.SetActive(true);
+			campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(true);
 
 			campMain.m_panelDecideCheckBottom.m_btnDecide.gameObject.SetActive(false);
 
@@ -1117,7 +1162,7 @@ namespace CampMainAction {
 			campMain.m_panelDecideCheckBottom.m_txtLabelCancel.text = label_cancel;
 			campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.RemoveAllListeners();
 			campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(false);
-			campMain.m_panelDecideCheckBottom.gameObject.SetActive(false);
+			campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(false);
 		}
 	}
 

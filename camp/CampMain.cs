@@ -29,11 +29,6 @@ public class CampMain : Singleton<CampMain> {
 	public override void Initialize()
 	{
 		base.Initialize();
-
-		m_panelStatus.m_btnDeck.onClick.AddListener(() =>
-		{
-			m_panelPlayerDeck.ShowCamp();
-		});
 	}
 
 

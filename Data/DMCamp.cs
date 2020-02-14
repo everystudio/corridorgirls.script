@@ -115,7 +115,7 @@ public class DMCamp : DataManagerBase<DMCamp> {
 		}
 
 		int serial = 1;
-		List<DataUnitParam> unit_param_list = dataUnitCamp.list.FindAll(p => p.unit == "chara" && (p.position == "left" || p.position == "right"));
+		List<DataUnitParam> unit_param_list = dataUnitCamp.list.FindAll(p => p.unit == "chara" && p.position != "none");
 		foreach (DataUnitParam unit in unit_param_list)
 		{
 			List<MasterCharaCardParam> card_list = masterCharaCard.list.FindAll(p => p.chara_id == unit.chara_id);
