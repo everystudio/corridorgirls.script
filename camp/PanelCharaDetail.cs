@@ -12,6 +12,7 @@ public class PanelCharaDetail : MonoBehaviour {
 	public TextMeshProUGUI m_txtSTR;
 	public TextMeshProUGUI m_txtMAG;
 	public TextMeshProUGUI m_txtHEAL;
+	public TextMeshProUGUI m_txtFood;
 
 	public EnergyBar m_barTension;
 
@@ -26,6 +27,7 @@ public class PanelCharaDetail : MonoBehaviour {
 		m_txtSTR.text = _masterChara.str.ToString();
 		m_txtMAG.text = _masterChara.magic.ToString();
 		m_txtHEAL.text = _masterChara.heal.ToString();
+		m_txtFood.text = _masterChara.food.ToString();
 
 		m_barTension.SetValueCurrent(_dataChara.tension);
 
