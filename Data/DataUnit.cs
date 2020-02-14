@@ -190,8 +190,10 @@ public class DataUnit : CsvData<DataUnitParam> {
 		{
 			unit_chara.tension = 0;
 		}
-
-		unit_chara.RemoveAssist(unit_tension);
+		if (unit_tension != null)
+		{
+			unit_chara.RemoveAssist(unit_tension);
+		}
 		unit_tension.BuildTension(master_chara, unit_chara.tension);
 		unit_chara.BuildAssist(unit_tension);
 

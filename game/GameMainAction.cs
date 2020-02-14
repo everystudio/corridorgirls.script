@@ -1010,9 +1010,7 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-
 			GameMain.Instance.battleMain.gameObject.SetActive(true);
-
 			GameMain.Instance.battleMain.OnBattleFinished.AddListener((bool _bFlag) =>
 			{
 				if(_bFlag)
@@ -1057,6 +1055,52 @@ namespace GameMainAction
 			}
 		}
 	}
+
+
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class BossBattle : GameMainActionBase
+	{
+		public FsmInt stage_id;
+
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			GameMain.Instance.battleMain.gameObject.SetActive(true);
+			GameMain.Instance.battleMain.OnBattleFinished.AddListener((bool _bFlag) =>
+			{
+				if (_bFlag)
+				{
+					Finish();
+				}
+				else
+				{
+					GameMain.Instance.m_bIsGameover = true;
+					Fsm.Event("gameover");
+				}
+			});
+
+			// ステージデータ
+			MasterStageParam master_stage = DataManagerGame.Instance.masterStage.list.Find(p => p.stage_id == stage_id.Value);
+
+			// chara_id = enemy_idです
+			GameMain.Instance.battleMain.RequestBattle.Invoke(master_stage.boss_chara_id);
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			if (GameMain.Instance != null)
+			{
+				if (GameMain.Instance.battleMain != null)
+				{
+					GameMain.Instance.battleMain.OnBattleFinished.RemoveAllListeners();
+					GameMain.Instance.battleMain.BattleClose();
+				}
+			}
+		}
+	}
+
 
 	[ActionCategory("GameMainAction")]
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
