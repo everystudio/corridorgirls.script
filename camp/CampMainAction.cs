@@ -237,6 +237,7 @@ namespace CampMainAction {
 				campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(true);
 				campMain.m_panelDecideCheckBottom.m_txtMessage.text = "探索を開始します";
 				campMain.m_panelDecideCheckBottom.m_txtLabelDecide.text = "はい";
+				campMain.m_panelDecideCheckBottom.m_btnDecide.interactable = true;
 				campMain.m_panelDecideCheckBottom.m_btnDecide.onClick.AddListener(() =>
 				{
 					Fsm.Event("decide");
