@@ -82,6 +82,12 @@ namespace CampMainAction {
 
 			campMain.m_panelSkill.m_goControlRoot.SetActive(false);
 			aging_timer = 0.0f;
+
+
+			campMain.m_infoHeaderCamp.SetFood(DMCamp.Instance.gameData.ReadInt(Defines.KeyFood));
+			campMain.m_infoHeaderCamp.SetMana(DMCamp.Instance.gameData.ReadInt(Defines.KeyMana));
+			campMain.m_infoHeaderCamp.SetGem(DMCamp.Instance.gameData.ReadInt(Defines.KeyGem));
+
 		}
 
 		public override void OnUpdate()

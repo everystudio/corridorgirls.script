@@ -24,6 +24,8 @@ public class CampMain : Singleton<CampMain> {
 
 	public PanelMenu m_panelMenu;
 
+	public InfoHeaderCamp m_infoHeaderCamp;
+
 	public override void Initialize()
 	{
 		base.Initialize();

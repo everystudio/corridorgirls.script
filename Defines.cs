@@ -12,7 +12,13 @@ public class Defines{
 	public const string KEY_AGING = "aging";
 
 
+	public const int BUY_FOOD_FROM_GEM = 100;
+	public const int BUY_FOOD_COST_GEM = 10;
 
+	public const int BUY_MANA_FROM_GEM = 100;
+	public const int BUY_MANA_COST_GEM = 10;
+
+	public const int ADD_GEM_FROM_UNITYADS = 10;
 
 	public const string FILENAME_GAMEDATA = "game_data";
 
