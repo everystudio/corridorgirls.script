@@ -19,14 +19,19 @@ public class AreaChara : MonoBehaviour {
 		master_chara = _masterCharaParam;
 		m_imgChara.sprite = SpriteManager.Instance.Get(string.Format("chara{0:000}01_00_faceicon", master_chara.chara_id));
 
-		hp.SetValueMax(unit_param.hp_max);
-		hp.SetValueCurrent(unit_param.hp);
-
-		tension.SetValueCurrent(unit_param.tension);
+		Refresh();
 	}
 
 	public void Refresh()
 	{
+		if(unit_param.hp <= 0)
+		{
+			m_imgChara.material = MaterialManager.Instance.Get("grayscale");
+		}
+		else
+		{
+			m_imgChara.material = null;
+		}
 		hp.SetValueMax(unit_param.hp_max);
 		hp.SetValueCurrent(unit_param.hp);
 		tension.SetValueCurrent(unit_param.tension);
