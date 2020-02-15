@@ -23,11 +23,11 @@ public class PanelCharaDetail : MonoBehaviour {
 	{
 		m_imgIcon.sprite = SpriteManager.Instance.Get(string.Format(Defines.STR_FORMAT_FACEICON, _masterChara.chara_id));
 		m_txtCharaName.text = _masterChara.name;
-		m_txtHP.text = _masterChara.hp_max.ToString();
-		m_txtSTR.text = _masterChara.str.ToString();
-		m_txtMAG.text = _masterChara.magic.ToString();
-		m_txtHEAL.text = _masterChara.heal.ToString();
-		m_txtFood.text = _masterChara.food.ToString();
+		m_txtHP.text = _dataChara.hp_max.ToString();
+		m_txtSTR.text = _dataChara.str.ToString();
+		m_txtMAG.text = _dataChara.magic.ToString();
+		m_txtHEAL.text = _dataChara.heal.ToString();
+		m_txtFood.text = _dataChara.food.ToString();
 
 		m_barTension.SetValueCurrent(_dataChara.tension);
 
@@ -40,7 +40,7 @@ public class PanelCharaDetail : MonoBehaviour {
 		foreach ( MasterCharaCardParam p in _chara_card_list.FindAll(p=>p.chara_id == _masterChara.chara_id))
 		{
 
-			Debug.Log(p.card_id);
+			//Debug.Log(p.card_id);
 			Card c = PrefabManager.Instance.MakeScript<Card>(m_prefCard, m_goCardRoot);
 
 			DataCardParam data_card = new DataCardParam();

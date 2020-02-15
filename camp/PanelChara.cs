@@ -18,6 +18,7 @@ public class PanelChara : MonoBehaviour {
 	public GameObject m_prefCharaIcon;
 	public GameObject m_goCharaListContents;
 
+	public Image m_imgListBg;
 	public Button m_btnListClose;
 
 	// リストで押されたキャラIDを返す

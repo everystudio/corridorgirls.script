@@ -369,6 +369,7 @@ namespace CampMainAction {
 			base.OnEnter();
 			campMain.m_panelChara.gameObject.SetActive(true);
 			//campMain.m_panelChara.ShowList();
+			campMain.m_panelChara.m_imgListBg.color = Color.yellow;
 
 			PartyReset();
 
@@ -488,6 +489,10 @@ namespace CampMainAction {
 
 			campMain.m_panelChara.m_panelCharaDetail.gameObject.SetActive(true);
 
+			campMain.m_panelChara.m_btnClose.gameObject.SetActive(true);
+			campMain.m_panelChara.m_btnEdit.gameObject.SetActive(false);
+			campMain.m_panelChara.m_btnList.gameObject.SetActive(false);
+
 			DataUnitParam data_unit = DMCamp.Instance.dataUnitCamp.list.Find(p => p.chara_id == chara_id.Value && p.unit == "chara");
 
 			campMain.m_panelChara.m_panelCharaDetail.Show(
@@ -529,6 +534,8 @@ namespace CampMainAction {
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			campMain.m_panelChara.m_imgListBg.color = Color.green;
+
 			campMain.m_panelChara.m_goCharaButtons.SetActive(false);
 
 			campMain.m_partyHolder.Cover(0);
@@ -699,11 +706,12 @@ namespace CampMainAction {
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			campMain.m_panelChara.m_imgListBg.color = Color.red;
 			campMain.m_panelChara.list_title.SetMessage("強化したいキャラを選択してください");
 
 			campMain.m_panelChara.m_goCharaButtons.SetActive(true);
 			campMain.m_panelChara.m_btnClose.gameObject.SetActive(true);
-			campMain.m_panelChara.m_btnEdit.gameObject.SetActive(true);
+			campMain.m_panelChara.m_btnEdit.gameObject.SetActive(false);
 			campMain.m_panelChara.m_btnList.gameObject.SetActive(true);
 			campMain.m_panelChara.m_txtClose.text = "戻る";
 			campMain.m_panelChara.m_txtEdit.text = "パーティ編成";
