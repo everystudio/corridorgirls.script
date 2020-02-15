@@ -362,6 +362,8 @@ namespace CampMainAction {
 	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
 	public class chara_top : CampMainActionBase
 	{
+		public FsmInt chara_id;
+
 		public override void OnEnter()
 		{
 			base.OnEnter();
@@ -372,18 +374,33 @@ namespace CampMainAction {
 
 			// 非表示にする
 			campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(false);
-			campMain.m_panelChara.CloseList();
 
+			campMain.m_panelChara.list_title.SetMessage("キャラタップで詳細表示");
+
+			campMain.m_panelChara.m_goCharaButtons.SetActive(true);
 			campMain.m_panelChara.m_btnClose.gameObject.SetActive(true);
 			campMain.m_panelChara.m_btnEdit.gameObject.SetActive(true);
 			campMain.m_panelChara.m_btnList.gameObject.SetActive(true);
-
+			campMain.m_panelChara.m_txtClose.text = "閉じる";
+			campMain.m_panelChara.m_txtEdit.text = "パーティ編成";
+			campMain.m_panelChara.m_txtList.text = "キャラ強化";
 			campMain.m_panelChara.m_btnClose.onClick.AddListener(OnClose);
 			campMain.m_panelChara.m_btnEdit.onClick.AddListener(OnEdit);
 			campMain.m_panelChara.m_btnList.onClick.AddListener(OnList);
 
+			campMain.m_panelChara.ShowList();
 
-			campMain.m_panelChara.m_goCharaButtons.SetActive(true);
+			campMain.m_panelChara.OnListCharaId.AddListener((int _iCharaId) =>
+			{
+				chara_id.Value = _iCharaId;
+				Fsm.Event("chara");
+			});
+
+			campMain.m_partyHolder.OnClickIcon.AddListener((CharaIcon _icon) =>
+			{
+				chara_id.Value = _icon.m_masterChara.chara_id;
+				Fsm.Event("chara");
+			});
 		}
 
 		private void OnEdit()
@@ -393,7 +410,7 @@ namespace CampMainAction {
 
 		private void OnList()
 		{
-			Fsm.Event("chara");
+			Fsm.Event("levelup");
 		}
 
 		private void OnClose()
@@ -406,6 +423,7 @@ namespace CampMainAction {
 		public override void OnExit()
 		{
 			base.OnExit();
+			campMain.m_partyHolder.OnClickIcon.RemoveAllListeners();
 			campMain.m_panelChara.m_btnClose.onClick.RemoveListener(OnClose);
 			campMain.m_panelChara.m_btnEdit.onClick.RemoveListener(OnEdit);
 			campMain.m_panelChara.m_btnList.onClick.RemoveListener(OnList);
@@ -672,6 +690,202 @@ namespace CampMainAction {
 			Finish();
 		}
 	}
+
+	[ActionCategory("CampMainAction")]
+	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
+	public class chara_levelup_top : CampMainActionBase
+	{
+		public FsmInt chara_id;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			campMain.m_panelChara.list_title.SetMessage("強化したいキャラを選択してください");
+
+			campMain.m_panelChara.m_goCharaButtons.SetActive(true);
+			campMain.m_panelChara.m_btnClose.gameObject.SetActive(true);
+			campMain.m_panelChara.m_btnEdit.gameObject.SetActive(true);
+			campMain.m_panelChara.m_btnList.gameObject.SetActive(true);
+			campMain.m_panelChara.m_txtClose.text = "戻る";
+			campMain.m_panelChara.m_txtEdit.text = "パーティ編成";
+			campMain.m_panelChara.m_txtList.text = "キャラ一覧";
+			campMain.m_panelChara.m_btnClose.onClick.AddListener(()=>
+			{
+				Fsm.Event("cancel");
+			});
+			campMain.m_panelChara.m_btnEdit.onClick.AddListener(()=>
+			{
+				Fsm.Event("edit");
+			});
+			campMain.m_panelChara.m_btnList.onClick.AddListener(()=>
+			{
+				Fsm.Event("cancel");
+			});
+
+			campMain.m_panelChara.OnListCharaId.AddListener((int _iCharaId) =>
+			{
+				select_chara(_iCharaId);
+			});
+			campMain.m_partyHolder.OnClickIcon.AddListener((CharaIcon _icon) =>
+			{
+				select_chara(_icon.m_masterChara.chara_id);
+			});
+		}
+
+		private void select_chara(int _iCharaId)
+		{
+			chara_id.Value = _iCharaId;
+			Fsm.Event("levelup");
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			campMain.m_panelChara.m_btnClose.onClick.RemoveAllListeners();
+			campMain.m_panelChara.m_btnEdit.onClick.RemoveAllListeners();
+			campMain.m_panelChara.m_btnList.onClick.RemoveAllListeners();
+
+			campMain.m_panelChara.OnListCharaId.RemoveAllListeners();
+			campMain.m_partyHolder.OnClickIcon.RemoveAllListeners();
+		}
+	}
+	[ActionCategory("CampMainAction")]
+	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
+	public class chara_levelup : CampMainActionBase
+	{
+		public FsmInt chara_id;
+		public FsmInt levelup_num;
+		public FsmInt need_mana;
+
+		public FsmInt level_cap;
+
+		private DataUnitParam data_unit;
+		private MasterCharaParam master_chara;
+
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			data_unit = DMCamp.Instance.dataUnitCamp.list.Find(p => p.chara_id == chara_id.Value);
+			master_chara = DMCamp.Instance.masterChara.list.Find(p => p.chara_id == chara_id.Value);
+
+			if(data_unit.level < level_cap.Value)
+			{
+				levelup_num.Value = 1;
+			}
+			else
+			{
+				levelup_num.Value = 0;
+			}
+
+			// プラマイボタン
+			campMain.m_panelChara.m_panelCharaLevelup.m_btnPlus.onClick.AddListener(() =>
+			{
+				levelup_num.Value += 1;
+				check_data();
+			});
+			campMain.m_panelChara.m_panelCharaLevelup.m_btnMinus.onClick.AddListener(() =>
+			{
+				levelup_num.Value -= 1;
+				check_data();
+			});
+			campMain.m_panelChara.m_panelCharaLevelup.Initialize(data_unit, master_chara);
+
+			campMain.m_panelChara.m_txtList.text = "強化する";
+			campMain.m_panelChara.m_txtClose.text = "戻る";
+
+			campMain.m_panelChara.m_btnList.onClick.AddListener(() =>
+			{
+				Fsm.Event("levelup");
+			});
+			campMain.m_panelChara.m_btnClose.onClick.AddListener(() =>
+			{
+				campMain.m_panelChara.m_panelCharaLevelup.Close();
+				Fsm.Event("cancel");
+			});
+			campMain.m_panelChara.m_btnEdit.gameObject.SetActive(false);
+
+			//campMain.m_panelChara.m_panelCharaLevelup.SetTargetLevel(levelup_num.Value, data_unit, master_chara);
+			check_data();
+		}
+
+		private void check_data()
+		{
+			campMain.m_panelChara.m_panelCharaLevelup.m_btnPlus.interactable = true;
+			campMain.m_panelChara.m_panelCharaLevelup.m_btnMinus.interactable = true;
+
+			if (levelup_num.Value <= 1)
+			{
+				campMain.m_panelChara.m_panelCharaLevelup.m_btnMinus.interactable = false;
+			}
+			
+			if( level_cap.Value <= levelup_num.Value + data_unit.level)
+			{
+				campMain.m_panelChara.m_panelCharaLevelup.m_btnPlus.interactable = false;
+
+			}
+			campMain.m_panelChara.m_panelCharaLevelup.SetTargetLevel(levelup_num.Value, data_unit, master_chara);
+
+
+			need_mana.Value = 0;
+			// for文イコール系
+			for( int level = data_unit.level + 1 ; level <= data_unit.level + levelup_num.Value; level++)
+			{
+				MasterLevelupParam levelup_param = DMCamp.Instance.masterLevelup.list.Find(p => p.level == level);
+				need_mana.Value += levelup_param.mana;
+			}
+			if (need_mana.Value <= DMCamp.Instance.gameData.ReadInt(Defines.KeyMana))
+			{
+				campMain.m_panelChara.m_panelCharaLevelup.m_txtNeedMana.text = string.Format("消費マナ\n<color=#0FF>{0}</color>", need_mana);
+				campMain.m_panelChara.m_btnList.interactable = true;
+
+			}
+			else
+			{
+				campMain.m_panelChara.m_panelCharaLevelup.m_txtNeedMana.text = string.Format("マナが足りません\n<color=#F00>{0}</color>", need_mana);
+				campMain.m_panelChara.m_btnList.interactable = false;
+			}
+		}
+		public override void OnExit()
+		{
+			base.OnExit();
+			campMain.m_panelChara.m_panelCharaLevelup.m_btnPlus.onClick.RemoveAllListeners();
+			campMain.m_panelChara.m_panelCharaLevelup.m_btnMinus.onClick.RemoveAllListeners();
+
+			campMain.m_panelChara.m_btnClose.onClick.RemoveAllListeners();
+			campMain.m_panelChara.m_btnEdit.onClick.RemoveAllListeners();
+			campMain.m_panelChara.m_btnList.onClick.RemoveAllListeners();
+		}
+	}
+	[ActionCategory("CampMainAction")]
+	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
+	public class exe_levelup : CampMainActionBase
+	{
+		public FsmInt chara_id;
+		public FsmInt levelup_num;
+		public FsmInt need_mana;
+
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			DataUnitParam data_unit = DMCamp.Instance.dataUnitCamp.list.Find(p => p.chara_id == chara_id.Value);
+			MasterCharaParam master_chara = DMCamp.Instance.masterChara.list.Find(p => p.chara_id == chara_id.Value);
+
+			master_chara.BuildLevel(data_unit, data_unit.level + levelup_num.Value, data_unit.tension);
+
+
+			DMCamp.Instance.gameData.AddInt(Defines.KeyMana, -1 * need_mana.Value);
+
+			campMain.m_infoHeaderCamp.AddMana(-1 * need_mana.Value);
+
+
+			campMain.m_panelStatus.Initialize(DMCamp.Instance.dataUnitCamp, DMCamp.Instance.masterChara);
+
+			Finish();			
+
+		}
+
+	}
+
 
 	[ActionCategory("CampMainAction")]
 	[HutongGames.PlayMaker.Tooltip("CampMainAction")]

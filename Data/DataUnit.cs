@@ -7,6 +7,7 @@ using System;
 public class DataUnitParam : CsvDataParam
 {
 	public int chara_id { get; set; }
+	public int level { get; set; }
 	public string unit { get; set; }
 	public string position { get; set; }
 	public int hp { get; set; }
@@ -16,6 +17,7 @@ public class DataUnitParam : CsvDataParam
 	public int magic { get; set; }
 	public int heal { get; set; }
 	public int luck { get; set; }
+	public int food { get; set; }
 
 	public string assist_type { get; set; }
 	public string assist_name { get; set; }

@@ -91,6 +91,12 @@ public class LogMessageLine : MonoBehaviour
 		m_fDeltaTime = 0.0f;
 	}
 
+	public void SetMessage( string _message)
+	{
+		LogMessageLine.MessageData data = new LogMessageLine.MessageData(_message);
+		SetMessage(data);
+	}
+
 	void Update()
 	{
 		if (message_data == null || m_ilength == message_data.index)

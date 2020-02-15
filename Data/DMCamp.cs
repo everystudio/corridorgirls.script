@@ -27,7 +27,7 @@ public class DMCamp : DataManagerBase<DMCamp> {
 
 	public MasterCampItem masterCampItem = new MasterCampItem();
 	public MasterCampShop masterCampShop = new MasterCampShop();
-
+	public MasterLevelup masterLevelup = new MasterLevelup();
 
 	public DataCard dataCard = new DataCard();
 	public DataUnit dataUnitCamp = new DataUnit();
@@ -87,6 +87,7 @@ public class DMCamp : DataManagerBase<DMCamp> {
 		yield return StartCoroutine(masterSkill.SpreadSheet(SS_ID, "skill", () => { }));
 		yield return StartCoroutine(masterCampItem.SpreadSheet(SS_ID, "campitem", () => { }));
 		yield return StartCoroutine(masterCampShop.SpreadSheet(SS_ID, "campshop", () => { }));
+		yield return StartCoroutine(masterLevelup.SpreadSheet(SS_ID, "levelup", () => { }));
 		
 		// data
 		dataUnitCamp.SetSaveFilename(Defines.FILENAME_UNIT_CAMP);

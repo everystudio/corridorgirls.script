@@ -3,12 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
 public class PanelChara : MonoBehaviour {
 
 	public Button m_btnClose;
 	public Button m_btnEdit;
 	public Button m_btnList;
+
+	public TextMeshProUGUI m_txtClose;
+	public TextMeshProUGUI m_txtEdit;
+	public TextMeshProUGUI m_txtList;
 
 	public GameObject m_goCharaListRoot;
 	public GameObject m_prefCharaIcon;
@@ -24,11 +28,14 @@ public class PanelChara : MonoBehaviour {
 	public GameObject m_goCharaButtons;
 
 	public PanelCharaDetail m_panelCharaDetail;
+	public LogMessageLine list_title;
+
+	public PanelCharaLevelup m_panelCharaLevelup;
 
 	void Start()
 	{
 		m_prefCharaIcon.SetActive(false);
-		m_goCharaListRoot.SetActive(false);
+		//m_goCharaListRoot.SetActive(false);
 	}
 
 	public void ShowList()
