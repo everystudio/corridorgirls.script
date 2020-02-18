@@ -26,6 +26,7 @@ namespace CampMainAction {
 			DMCamp.Instance.dataUnitCamp.list.Find(a => a.unit == "chara" && a.position == "back").chara_id
 			));
 
+			/*
 			Debug.Log(left);
 			Debug.Log(right);
 			Debug.Log(back);
@@ -36,6 +37,7 @@ namespace CampMainAction {
 
 			Debug.Log(campMain);
 			Debug.Log(campMain.m_partyHolder);
+			*/
 			campMain.m_partyHolder.Initialize(left, right, back);
 		}
 

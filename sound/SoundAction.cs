@@ -106,6 +106,54 @@ namespace SoundAction {
 
 
 
+	[ActionCategory("SoundAction")]
+	[HutongGames.PlayMaker.Tooltip("SoundAction")]
+	public class SetVolumeCamp : FsmStateAction
+	{
+		public FsmGameObject panel_volume;
+
+		public FsmGameObject sound_volume_slider_bgm;
+		public FsmGameObject sound_volume_slider_se;
+
+		private float fBGM;
+		private float fSE;
+
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			panel_volume.Value.SetActive(true);
+			fBGM = DMCamp.Instance.user_data.ReadFloat(Defines.KEY_SOUNDVOLUME_BGM);
+			fSE = DMCamp.Instance.user_data.ReadFloat(Defines.KEY_SOUNDVOLUME_SE);
+
+			CampMain.Instance.m_panelDecideCheckBottom.m_goRoot.SetActive(true);
+			CampMain.Instance.m_panelDecideCheckBottom.m_txtMessage.text = "音量調整を行えます";
+			CampMain.Instance.m_panelDecideCheckBottom.m_txtLabelDecide.text = "セットする";
+			CampMain.Instance.m_panelDecideCheckBottom.m_txtLabelCancel.text = "キャンセル";
+			CampMain.Instance.m_panelDecideCheckBottom.m_btnDecide.onClick.RemoveAllListeners();
+			CampMain.Instance.m_panelDecideCheckBottom.m_btnDecide.onClick.AddListener(() =>
+			{
+				SEControl.Instance.Play("cursor_01");
+				Finish();
+			});
+			CampMain.Instance.m_panelDecideCheckBottom.m_btnCancel.gameObject.SetActive(true);
+			CampMain.Instance.m_panelDecideCheckBottom.m_btnCancel.onClick.AddListener(() =>
+			{
+				DMCamp.Instance.user_data.Write(Defines.KEY_SOUNDVOLUME_BGM, fBGM.ToString());
+				DMCamp.Instance.user_data.Write(Defines.KEY_SOUNDVOLUME_SE, fSE.ToString());
+				SEControl.Instance.Play("cancel_01");
+				Finish();
+			});
+
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			panel_volume.Value.SetActive(false);
+
+		}
+	}
+
 
 
 }

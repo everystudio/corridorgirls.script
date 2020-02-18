@@ -37,6 +37,8 @@ public class DMCamp : DataManagerBase<DMCamp> {
 	public DataStage dataStage = new DataStage();
 
 	public DataCampItem dataCampItem = new DataCampItem();
+	[SerializeField]
+	private UnityEngine.Audio.AudioMixer mixer;
 
 	[HideInInspector]
 	public bool Initialized = false;
@@ -47,6 +49,20 @@ public class DMCamp : DataManagerBase<DMCamp> {
 		StartCoroutine(init_network());
 	}
 
+	void Start()
+	{
+		Debug.Log("start");
+		// こっちで間に合うというかこのタイミングじゃないとボリューム調整が効かない
+		//mixer.SetFloat("BGM", user_data.ReadFloat(Defines.KEY_SOUNDVOLUME_BGM));
+		//mixer.SetFloat("SE", user_data.ReadFloat(Defines.KEY_SOUNDVOLUME_SE));
+
+		// スタートより早くセットすると何者かに上書きされます。死ね
+		mixer.SetFloat("BGM", Mathf.Lerp(Defines.SOUND_VOLME_MIN, Defines.SOUND_VOLUME_MAX, user_data.ReadFloat(Defines.KEY_SOUNDVOLUME_BGM)));
+		mixer.SetFloat("SE", Mathf.Lerp(Defines.SOUND_VOLME_MIN, Defines.SOUND_VOLUME_MAX, user_data.ReadFloat(Defines.KEY_SOUNDVOLUME_SE)));
+
+
+		BGMControl.Instance.Play();
+	}
 	private bool m_bIsAging;
 	public bool IsAging
 	{
@@ -71,6 +87,18 @@ public class DMCamp : DataManagerBase<DMCamp> {
 		{
 			// なんか初期化する必要あるなら
 		}
+		if (!user_data.HasKey(Defines.KEY_SOUNDVOLUME_BGM))
+		{
+			Debug.Log("not haskey:Defines.KEY_SOUNDVOLUME_BGM");
+			user_data.WriteFloat(Defines.KEY_SOUNDVOLUME_BGM, 0.8f);
+		}
+		if (!user_data.HasKey(Defines.KEY_SOUNDVOLUME_SE))
+		{
+			Debug.Log("not haskey:Defines.KEY_SOUNDVOLUME_SE");
+			user_data.WriteFloat(Defines.KEY_SOUNDVOLUME_SE, 0.8f);
+		}
+
+
 
 		// master
 		yield return StartCoroutine(masterChara.SpreadSheet(SS_ID, "chara", () => { }));
