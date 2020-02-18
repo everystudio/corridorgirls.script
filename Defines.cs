@@ -53,4 +53,13 @@ public class Defines{
 	public const string KEY_SOUNDVOLUME_BGM = "volume_bgm";
 	public const string KEY_SOUNDVOLUME_SE = "volume_se";
 
+	public const string KEY_SOUNDSE_DECIDE = "cursor_01";
+	public const string KEY_SOUNDSE_CANCEL = "cancel_01";
+
+	public const string KEY_SOUNDSE_PLUS = "cursor_04";
+	public const string KEY_SOUNDSE_MINUS = "cancel_02";
+
+	public const string KEY_SOUNDSE_CASH = "se_cash";
+
+
 }

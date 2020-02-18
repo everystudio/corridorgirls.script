@@ -53,6 +53,7 @@ public class SoundVolumeSlider : MonoBehaviour {
 		if (is_camp)
 		{
 			slider.value = DMCamp.Instance.user_data.ReadFloat(key_name);
+			Debug.Log(slider.value);
 		}
 		else {
 			slider.value = DataManagerGame.Instance.user_data.ReadFloat(key_name);

@@ -149,7 +149,10 @@ namespace SoundAction {
 		public override void OnExit()
 		{
 			base.OnExit();
-			panel_volume.Value.SetActive(false);
+			if (panel_volume != null)
+			{
+				panel_volume.Value.SetActive(false);
+			}
 
 		}
 	}

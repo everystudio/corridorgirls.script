@@ -157,12 +157,18 @@ namespace CampMainAction {
 	public class stage_top : CampMainActionBase
 	{
 		public FsmInt stage_id;
+		public FsmBool is_idle;
 		private float aging_timer;
 
 		public override void OnEnter()
 		{
 			base.OnEnter();
 			aging_timer = 0.0f;
+
+			if(is_idle.Value == false)
+			{
+			}
+			is_idle.Value = true;
 
 			campMain.m_panelStage.gameObject.SetActive(true);
 			campMain.m_panelStageCheck.gameObject.SetActive(false);
@@ -191,6 +197,7 @@ namespace CampMainAction {
 
 		private void OnClose()
 		{
+			SEControl.Instance.Play(Defines.KEY_SOUNDSE_CANCEL);
 			campMain.m_panelStage.gameObject.SetActive(false);
 			Fsm.Event("close");
 		}
@@ -242,6 +249,7 @@ namespace CampMainAction {
 				campMain.m_panelDecideCheckBottom.m_btnDecide.interactable = true;
 				campMain.m_panelDecideCheckBottom.m_btnDecide.onClick.AddListener(() =>
 				{
+					SEControl.Instance.Play(Defines.KEY_SOUNDSE_DECIDE);
 					Fsm.Event("decide");
 				});
 
@@ -249,6 +257,7 @@ namespace CampMainAction {
 				campMain.m_panelDecideCheckBottom.m_btnOther.gameObject.SetActive(true);
 				campMain.m_panelDecideCheckBottom.m_btnOther.onClick.AddListener(() =>
 				{
+					SEControl.Instance.Play(Defines.KEY_SOUNDSE_DECIDE);
 					Fsm.Event("item");
 				});
 
@@ -258,6 +267,7 @@ namespace CampMainAction {
 				campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.AddListener(() =>
 				{
 					campMain.m_panelStageCheck.gameObject.SetActive(false);
+					SEControl.Instance.Play(Defines.KEY_SOUNDSE_CANCEL);
 					Fsm.Event("cancel");
 				});
 
@@ -275,6 +285,7 @@ namespace CampMainAction {
 				campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.AddListener(() =>
 				{
 					campMain.m_panelStageCheck.gameObject.SetActive(false);
+					SEControl.Instance.Play(Defines.KEY_SOUNDSE_CANCEL);
 					Fsm.Event("cancel");
 				});
 
@@ -323,6 +334,7 @@ namespace CampMainAction {
 
 			campMain.m_panelDecideCheckBottom.m_btnDecide.onClick.AddListener(() =>
 			{
+				SEControl.Instance.Play(Defines.KEY_SOUNDSE_DECIDE);
 				Fsm.Event("decide");
 			});
 
@@ -333,6 +345,7 @@ namespace CampMainAction {
 			campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.AddListener(() =>
 			{
 				campMain.m_panelCampItem.gameObject.SetActive(false);
+				SEControl.Instance.Play(Defines.KEY_SOUNDSE_CANCEL);
 				Fsm.Event("cancel");
 			});
 
@@ -395,12 +408,14 @@ namespace CampMainAction {
 
 			campMain.m_panelChara.OnListCharaId.AddListener((int _iCharaId) =>
 			{
+				SEControl.Instance.Play(Defines.KEY_SOUNDSE_DECIDE);
 				chara_id.Value = _iCharaId;
 				Fsm.Event("chara");
 			});
 
 			campMain.m_partyHolder.OnClickIcon.AddListener((CharaIcon _icon) =>
 			{
+				SEControl.Instance.Play(Defines.KEY_SOUNDSE_DECIDE);
 				chara_id.Value = _icon.m_masterChara.chara_id;
 				Fsm.Event("chara");
 			});
@@ -408,16 +423,19 @@ namespace CampMainAction {
 
 		private void OnEdit()
 		{
+			SEControl.Instance.Play(Defines.KEY_SOUNDSE_DECIDE);
 			Fsm.Event("edit");
 		}
 
 		private void OnList()
 		{
+			SEControl.Instance.Play(Defines.KEY_SOUNDSE_DECIDE);
 			Fsm.Event("levelup");
 		}
 
 		private void OnClose()
 		{
+			SEControl.Instance.Play(Defines.KEY_SOUNDSE_CANCEL);
 			campMain.m_panelChara.m_goCharaButtons.SetActive(false);
 			campMain.m_panelChara.gameObject.SetActive(false);
 			Fsm.Event("close");
@@ -452,17 +470,20 @@ namespace CampMainAction {
 			campMain.m_panelChara.OnListCharaId.AddListener((int _iCharaId) =>
 			{
 				chara_id.Value = _iCharaId;
+				SEControl.Instance.Play(Defines.KEY_SOUNDSE_DECIDE);
 				Fsm.Event("chara");
 			});
 			campMain.m_panelChara.m_btnListClose.gameObject.SetActive(true);
 			campMain.m_panelChara.m_btnListClose.onClick.AddListener(() =>
 			{
+				SEControl.Instance.Play(Defines.KEY_SOUNDSE_CANCEL);
 				Fsm.Event("close");
 				campMain.m_panelChara.CloseList();
 			});
 
 			campMain.m_panelChara.m_btnClose.onClick.AddListener(() =>
 			{
+				SEControl.Instance.Play(Defines.KEY_SOUNDSE_CANCEL);
 				Fsm.Event("close");
 				campMain.m_panelChara.CloseList();
 			});
@@ -507,10 +528,12 @@ namespace CampMainAction {
 
 			campMain.m_panelChara.m_btnListClose.onClick.AddListener(() =>
 			{
+				SEControl.Instance.Play(Defines.KEY_SOUNDSE_CANCEL);
 				Fsm.Event("close");
 			});
 			campMain.m_panelChara.m_btnClose.onClick.AddListener(() =>
 			{
+				SEControl.Instance.Play(Defines.KEY_SOUNDSE_CANCEL);
 				Fsm.Event("close");
 			});
 
@@ -551,12 +574,14 @@ namespace CampMainAction {
 
 			campMain.m_panelDecideCheckBottom.m_btnDecide.onClick.AddListener(() =>
 			{
+				SEControl.Instance.Play(Defines.KEY_SOUNDSE_DECIDE);
 				Fsm.Event("decide");
 			});
 
 			campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(true);
 			campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.AddListener(() =>
 			{
+				SEControl.Instance.Play(Defines.KEY_SOUNDSE_CANCEL);
 				Fsm.Event("cancel");
 			});
 
@@ -573,6 +598,7 @@ namespace CampMainAction {
 		private void select_chara(int _iCharaId)
 		{
 			chara_id.Value = _iCharaId;
+			SEControl.Instance.Play(Defines.KEY_SOUNDSE_PLUS);
 			Fsm.Event("chara");
 		}
 
@@ -606,6 +632,7 @@ namespace CampMainAction {
 
 			campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.AddListener(() =>
 			{
+				SEControl.Instance.Play(Defines.KEY_SOUNDSE_CANCEL);
 				Fsm.Event("cancel");
 			});
 
@@ -629,6 +656,7 @@ namespace CampMainAction {
 			Debug.Log(_iCharaId);
 			if (chara_id.Value == _iCharaId)
 			{
+				SEControl.Instance.Play(Defines.KEY_SOUNDSE_MINUS);
 				Debug.Log("cancel");
 				Fsm.Event("cancel");
 			}
@@ -641,11 +669,13 @@ namespace CampMainAction {
 				{
 					Debug.Log("not_party");
 					chara_id.Value = _iCharaId;
+					SEControl.Instance.Play(Defines.KEY_SOUNDSE_CANCEL);
 
 					CoverChara(chara_id.Value);
 				}
 				else
 				{
+					SEControl.Instance.Play(Defines.KEY_SOUNDSE_DECIDE);
 					Debug.Log("exchange");
 					exchange_chara_id.Value = _iCharaId;
 					Fsm.Event("exchange");
@@ -946,7 +976,7 @@ namespace CampMainAction {
 		{
 			base.OnEnter();
 			campMain.m_panelSkill.gameObject.SetActive(true);
-			//campMain.m_panelStage.ShowList();
+
 			campMain.m_panelSkill.m_goControlRoot.SetActive(true);
 			campMain.m_panelSkill.SetupSettingSkill(DMCamp.Instance.dataSkill.list.FindAll(p => 0 < p.status), DMCamp.Instance.masterSkill.list);
 
@@ -958,16 +988,13 @@ namespace CampMainAction {
 			campMain.m_panelSkill.m_btnEdit.interactable = true;
 			campMain.m_panelSkill.m_btnClose.interactable = true;
 
-			campMain.m_panelSkill.m_btnList.gameObject.SetActive(true);
+			campMain.m_panelSkill.m_btnList.gameObject.SetActive(false);
 			campMain.m_panelSkill.m_btnClose.gameObject.SetActive(true);
 			campMain.m_panelSkill.m_btnEdit.gameObject.SetActive(true);
 
 			campMain.m_panelSkill.ClearSkillList();
+			campMain.m_panelSkill.SetupListSkill(DMCamp.Instance.masterSkill.list);
 
-			campMain.m_panelSkill.m_btnList.onClick.AddListener(()=>
-			{
-				Fsm.Event("list");
-			});
 			campMain.m_panelSkill.m_btnClose.onClick.AddListener(OnClose);
 			campMain.m_panelSkill.m_btnEdit.onClick.AddListener(() => {
 				Fsm.Event("edit");
@@ -1232,6 +1259,7 @@ namespace CampMainAction {
 			campMain.m_panelDecideCheckBottom.m_btnDecide.interactable = false;
 			campMain.m_panelDecideCheckBottom.m_btnDecide.onClick.AddListener(() =>
 			{
+				SEControl.Instance.Play(Defines.KEY_SOUNDSE_CASH);
 				Fsm.Event("buy");
 			});
 			campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.AddListener(() =>
@@ -1243,6 +1271,8 @@ namespace CampMainAction {
 				campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(false);
 
 				campMain.m_panelShop.gameObject.SetActive(false);
+				SEControl.Instance.Play(Defines.KEY_SOUNDSE_CANCEL);
+
 				Fsm.Event("close");
 			});
 
@@ -1266,6 +1296,9 @@ namespace CampMainAction {
 				campMain.m_panelShop.Select(_shop.m_masterCampItem.campitem_id);
 				if ( flag.Value)
 				{
+					SEControl.Instance.Play(Defines.KEY_SOUNDSE_DECIDE);
+
+
 					select_campitem_id.Value = _shop.m_masterCampItem.campitem_id;
 
 					int check_gem = DMCamp.Instance.gameData.ReadInt(Defines.KeyGem);
@@ -1375,6 +1408,7 @@ namespace CampMainAction {
 			campMain.m_panelDecideCheckBottom.m_txtLabelCancel.text = "Close";
 			campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.AddListener(() =>
 			{
+				SEControl.Instance.Play(Defines.KEY_SOUNDSE_CANCEL);
 				Fsm.Event("close");
 			});
 		}

@@ -48,6 +48,7 @@ public class BannerStage : MonoBehaviour {
 
 		m_btn.onClick.AddListener(() =>
 		{
+			SEControl.Instance.Play(Defines.KEY_SOUNDSE_DECIDE);// cursor_01
 			OnBanner.Invoke(this);
 		});
 	}

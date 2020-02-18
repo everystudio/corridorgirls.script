@@ -44,10 +44,12 @@ public class PanelCampItem : MonoBehaviour {
 			{
 				if(_banner.m_data.is_take)
 				{
+					SEControl.Instance.Play(Defines.KEY_SOUNDSE_PLUS);
 					m_iTotalMana += _banner.m_master.mana;
 				}
 				else
 				{
+					SEControl.Instance.Play(Defines.KEY_SOUNDSE_MINUS);
 					m_iTotalMana -= _banner.m_master.mana;
 				}
 				OnChangeTotalMana.Invoke(m_iTotalMana);

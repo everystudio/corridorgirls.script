@@ -40,4 +40,9 @@ public class SEControl : Singleton<SEControl> {
 
 	}
 
+	static public void Call(string _strName)
+	{
+		SEControl.Instance.Play(_strName);
+	}
+
 }

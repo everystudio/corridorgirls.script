@@ -167,7 +167,7 @@ public class DataUnit : CsvData<DataUnitParam> {
 	public void AddTension( int _iCharaId , int _iAdd , List<MasterCharaParam> _master_chara_list )
 	{
 		DataUnitParam unit_chara = list.Find(p => p.chara_id == _iCharaId && p.unit == "chara");
-		DataUnitParam unit_tension = list.Find(p => p.chara_id == _iCharaId && p.unit == "tension");
+		DataUnitParam unit_tension = list.Find(p => p.chara_id == _iCharaId && p.unit == "assist" && p.assist_type == "tension");
 		MasterCharaParam master_chara = _master_chara_list.Find(p => p.chara_id == _iCharaId);
 
 		if( unit_chara == null )

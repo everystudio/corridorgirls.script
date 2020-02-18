@@ -56,6 +56,7 @@ public class DMCamp : DataManagerBase<DMCamp> {
 		//mixer.SetFloat("BGM", user_data.ReadFloat(Defines.KEY_SOUNDVOLUME_BGM));
 		//mixer.SetFloat("SE", user_data.ReadFloat(Defines.KEY_SOUNDVOLUME_SE));
 
+		Debug.Log(user_data.ReadFloat(Defines.KEY_SOUNDVOLUME_SE));
 		// スタートより早くセットすると何者かに上書きされます。死ね
 		mixer.SetFloat("BGM", Mathf.Lerp(Defines.SOUND_VOLME_MIN, Defines.SOUND_VOLUME_MAX, user_data.ReadFloat(Defines.KEY_SOUNDVOLUME_BGM)));
 		mixer.SetFloat("SE", Mathf.Lerp(Defines.SOUND_VOLME_MIN, Defines.SOUND_VOLUME_MAX, user_data.ReadFloat(Defines.KEY_SOUNDVOLUME_SE)));
