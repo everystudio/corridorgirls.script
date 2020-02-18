@@ -50,6 +50,9 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 	public DataSkill dataSkill = new DataSkill();
 	public DataStage dataStage = new DataStage();
 
+	[SerializeField]
+	private UnityEngine.Audio.AudioMixer mixer;
+
 	public bool Initialized = false;
 
 	public override void Initialize()
@@ -73,10 +76,37 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 		return IsAging;
 	}
 
+	void Start()
+	{
+		Debug.Log("start");
+		// こっちで間に合うというかこのタイミングじゃないとボリューム調整が効かない
+		//mixer.SetFloat("BGM", user_data.ReadFloat(Defines.KEY_SOUNDVOLUME_BGM));
+		//mixer.SetFloat("SE", user_data.ReadFloat(Defines.KEY_SOUNDVOLUME_SE));
+
+		// スタートより早くセットすると何者かに上書きされます。死ね
+		mixer.SetFloat("BGM", Mathf.Lerp(Defines.SOUND_VOLME_MIN, Defines.SOUND_VOLUME_MAX, user_data.ReadFloat(Defines.KEY_SOUNDVOLUME_BGM)));
+		mixer.SetFloat("SE", Mathf.Lerp(Defines.SOUND_VOLME_MIN, Defines.SOUND_VOLUME_MAX, user_data.ReadFloat(Defines.KEY_SOUNDVOLUME_SE)));
+
+
+		BGMControl.Instance.Play();
+	}
 
 	private IEnumerator init_network()
 	{
 		Debug.Log(config.ReadInt("stage_id"));
+		if (!user_data.HasKey(Defines.KEY_SOUNDVOLUME_BGM))
+		{
+			Debug.Log("not haskey:Defines.KEY_SOUNDVOLUME_BGM");
+			user_data.WriteFloat(Defines.KEY_SOUNDVOLUME_BGM , 0.8f);
+		}
+		if (!user_data.HasKey(Defines.KEY_SOUNDVOLUME_SE))
+		{
+			Debug.Log("not haskey:Defines.KEY_SOUNDVOLUME_SE");
+			user_data.WriteFloat(Defines.KEY_SOUNDVOLUME_SE, 0.8f);
+		}
+		Debug.Log(user_data.ReadFloat(Defines.KEY_SOUNDVOLUME_BGM));
+		Debug.Log(user_data.ReadFloat(Defines.KEY_SOUNDVOLUME_SE));
+
 
 		gameData.SetSaveFilename(Defines.FILENAME_GAMEDATA);
 		gameData.Load();

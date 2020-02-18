@@ -51,7 +51,7 @@ public class BattleMain : MonoBehaviour {
 
 	public DataCard dataCardEnemy = new DataCard();
 
-	public UnityEventInt RequestBattle = new UnityEventInt();
+	public UnityEventBoolInt RequestBattle = new UnityEventBoolInt();
 	public UnityEventBool OnBattleFinished = new UnityEventBool();
 
 	public UnityEvent OnOpeningEnd = new UnityEvent();

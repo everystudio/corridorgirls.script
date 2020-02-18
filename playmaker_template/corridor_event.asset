@@ -856,13 +856,15 @@ MonoBehaviour:
         actionNames:
         - CharaControlAction.CharaAnimWin
         - HutongGames.PlayMaker.Actions.Wait
+        - SoundAction.PlaySE
         customNames:
         - 
         - 
-        actionEnabled: 0101
-        actionIsOpen: 0101
-        actionStartIndex: 0000000000000000
-        actionHashCodes: 0000000048c01101
+        - 
+        actionEnabled: 010101
+        actionIsOpen: 010101
+        actionStartIndex: 000000000000000003000000
+        actionHashCodes: 0000000048c0110113227100
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
@@ -872,7 +874,13 @@ MonoBehaviour:
         fsmEventTargetParams: []
         fsmPropertyParams: []
         layoutOptionParams: []
-        fsmStringParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: game_maoudamashii_9_jingle09
         fsmObjectParams: []
         fsmVarParams: []
         fsmArrayParams: []
@@ -898,13 +906,14 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 0f0000001700000001000000
+        paramDataType: 0f000000170000000100000012000000
         paramName:
         - time
         - finishEvent
         - realTime
-        paramDataPos: 000000000000000000000000
-        paramByteDataSize: 000000000000000001000000
+        - se_name
+        paramDataPos: 00000000000000000000000000000000
+        paramByteDataSize: 00000000000000000100000000000000
     - name: party_edit
       description: 
       colorIndex: 0
@@ -1394,8 +1403,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 646
-        y: 549.33594
+        x: 642
+        y: 501.33594
         width: 143
         height: 48
       isBreakpoint: 0
@@ -1406,7 +1415,7 @@ MonoBehaviour:
           name: FINISHED
           isSystemEvent: 1
           isGlobal: 0
-        toState: Finish
+        toState: playbgm_field
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
@@ -1471,8 +1480,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 651
-        y: 483.33594
+        x: 801
+        y: 428.33594
         width: 161
         height: 32
       isBreakpoint: 0
@@ -1561,8 +1570,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 819.0078
-        y: 526.33594
+        x: 828.0078
+        y: 510.33594
         width: 114
         height: 32
       isBreakpoint: 0
@@ -1618,6 +1627,75 @@ MonoBehaviour:
         paramName: []
         paramDataPos: 
         paramByteDataSize: 
+    - name: playbgm_field
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 666.14844
+        y: 577.33594
+        width: 124
+        height: 32
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Finish
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
+      actionData:
+        actionNames:
+        - SoundAction.PlayBGM
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: 13227100
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: anime_04_loop
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 12000000
+        paramName:
+        - bgm_name
+        paramDataPos: 00000000
+        paramByteDataSize: 00000000
     events:
     - name: FINISHED
       isSystemEvent: 1

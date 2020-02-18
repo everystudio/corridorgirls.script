@@ -40,4 +40,17 @@ public class Defines{
 	public const int CARD_SYMBOL_MAGIC = 3001;
 	public const int CARD_SYMBOL_HEAL = 5001;
 
+	public const float SOUND_VOLUME_MAX = 0.0f;
+	public const float SOUND_VOLME_MIN = -80.0f;
+
+	public const string BGM_NAME_CAMP = "anime_10_loop";
+	public const string BGM_NAME_FIELD = "anime_04_loop";
+	public const string BGM_NAME_BATTLE = "boss_battle_01_loop";
+	public const string BGM_NAME_BOSS = "battle_03_loop";
+
+	public const string SE_CARDPLAY = "cursor_09";
+
+	public const string KEY_SOUNDVOLUME_BGM = "volume_bgm";
+	public const string KEY_SOUNDVOLUME_SE = "volume_se";
+
 }

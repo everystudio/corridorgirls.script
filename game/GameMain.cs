@@ -129,6 +129,8 @@ public class GameMain : Singleton<GameMain> {
 		float x = -300.0f;
 		float width = 600.0f;
 
+		SEControl.Instance.Play(Defines.SE_CARDPLAY);
+
 		float pitch = width / (card_list_hand.Count + 1);
 		for ( int i = 0; i < card_list_hand.Count; i++) {
 
@@ -153,6 +155,8 @@ public class GameMain : Singleton<GameMain> {
 	{
 		float x = -300.0f;
 		float width = 600.0f;
+
+		SEControl.Instance.Play(Defines.SE_CARDPLAY);
 
 		float pitch = width / (card_list_hand.Count + 1);
 		for (int i = 0; i < card_list_hand.Count; i++)

@@ -165,11 +165,25 @@ namespace CharaControlAction {
 		public FsmInt target_corridor_index;
 		public FsmVector3 target_position;
 
+
+
 		public override void OnEnter()
 		{
 			base.OnEnter();
 			move_num.Value -= 1;
 			charaControl.target_corridor = DataManagerGame.Instance.dataCorridor.list.Find(p => p.index == target_corridor_index.Value);
+
+			string se_name_foot = "";
+			if(charaControl.m_bIsLeftFoot)
+			{
+				se_name_foot = "Heavy Armor Concrete Running 1_03";
+			}
+			else
+			{
+				se_name_foot = "Heavy Armor Concrete Running 1_04";
+			}
+			SEControl.Instance.Play(se_name_foot);
+			charaControl.m_bIsLeftFoot = !charaControl.m_bIsLeftFoot;
 
 			StartCoroutine(delay_finish());
 		}

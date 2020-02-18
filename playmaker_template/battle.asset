@@ -47,7 +47,7 @@ MonoBehaviour:
         actionEnabled: 01
         actionIsOpen: 01
         actionStartIndex: 00000000
-        actionHashCodes: dcbe4804
+        actionHashCodes: 7f32a604
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
@@ -70,7 +70,13 @@ MonoBehaviour:
           showInInspector: 0
           networkSync: 0
           value: 10001
-        fsmBoolParams: []
+        fsmBoolParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
         fsmVector2Params: []
         fsmVector3Params: []
         fsmColorParams: []
@@ -82,11 +88,12 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 10000000
+        paramDataType: 1100000010000000
         paramName:
+        - is_boss
         - enemy_chara_id
-        paramDataPos: 00000000
-        paramByteDataSize: 00000000
+        paramDataPos: 0000000000000000
+        paramByteDataSize: 0000000000000000
     - name: finish
       description: 
       colorIndex: 0
@@ -1139,7 +1146,7 @@ MonoBehaviour:
         actionEnabled: 01
         actionIsOpen: 01
         actionStartIndex: 00000000
-        actionHashCodes: 3ff28203
+        actionHashCodes: 805a1404
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
@@ -1149,7 +1156,13 @@ MonoBehaviour:
         fsmEventTargetParams: []
         fsmPropertyParams: []
         layoutOptionParams: []
-        fsmStringParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
         fsmObjectParams: []
         fsmVarParams: []
         fsmArrayParams: []
@@ -1192,14 +1205,15 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 10000000100000001000000010000000
+        paramDataType: 1000000010000000100000001000000012000000
         paramName:
         - symbol_id_player
         - symbol_id_enemy
         - symbol_id_player_canceler
         - symbol_id_enemy_canceler
-        paramDataPos: 00000000010000000200000003000000
-        paramByteDataSize: 00000000000000000000000000000000
+        - se_name
+        paramDataPos: 0000000001000000020000000300000000000000
+        paramByteDataSize: 0000000000000000000000000000000000000000
     - name: p_p_attack
       description: 
       colorIndex: 0
@@ -1237,7 +1251,7 @@ MonoBehaviour:
         actionEnabled: 01
         actionIsOpen: 01
         actionStartIndex: 00000000
-        actionHashCodes: b77b6f05
+        actionHashCodes: 09953302
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
@@ -1247,7 +1261,13 @@ MonoBehaviour:
         fsmEventTargetParams: []
         fsmPropertyParams: []
         layoutOptionParams: []
-        fsmStringParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
         fsmObjectParams: []
         fsmVarParams: []
         fsmArrayParams: []
@@ -1284,13 +1304,14 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 110000001000000010000000
+        paramDataType: 11000000100000001000000012000000
         paramName:
         - is_player
         - select_chara_id
         - symbol_id
-        paramDataPos: 000000000000000001000000
-        paramByteDataSize: 000000000000000000000000
+        - se_name
+        paramDataPos: 00000000000000000100000000000000
+        paramByteDataSize: 00000000000000000000000000000000
     - name: m_offset
       description: 
       colorIndex: 0
@@ -1328,7 +1349,7 @@ MonoBehaviour:
         actionEnabled: 01
         actionIsOpen: 01
         actionStartIndex: 00000000
-        actionHashCodes: 3ff28203
+        actionHashCodes: 805a1404
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
@@ -1338,7 +1359,13 @@ MonoBehaviour:
         fsmEventTargetParams: []
         fsmPropertyParams: []
         layoutOptionParams: []
-        fsmStringParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
         fsmObjectParams: []
         fsmVarParams: []
         fsmArrayParams: []
@@ -1381,14 +1408,15 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 10000000100000001000000010000000
+        paramDataType: 1000000010000000100000001000000012000000
         paramName:
         - symbol_id_player
         - symbol_id_enemy
         - symbol_id_player_canceler
         - symbol_id_enemy_canceler
-        paramDataPos: 00000000010000000200000003000000
-        paramByteDataSize: 00000000000000000000000000000000
+        - se_name
+        paramDataPos: 0000000001000000020000000300000000000000
+        paramByteDataSize: 0000000000000000000000000000000000000000
     - name: m_p_attack
       description: 
       colorIndex: 0
@@ -1426,7 +1454,7 @@ MonoBehaviour:
         actionEnabled: 01
         actionIsOpen: 01
         actionStartIndex: 00000000
-        actionHashCodes: b77b6f05
+        actionHashCodes: 09953302
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
@@ -1436,7 +1464,13 @@ MonoBehaviour:
         fsmEventTargetParams: []
         fsmPropertyParams: []
         layoutOptionParams: []
-        fsmStringParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
         fsmObjectParams: []
         fsmVarParams: []
         fsmArrayParams: []
@@ -1473,13 +1507,14 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 110000001000000010000000
+        paramDataType: 11000000100000001000000012000000
         paramName:
         - is_player
         - select_chara_id
         - symbol_id
-        paramDataPos: 000000000000000001000000
-        paramByteDataSize: 000000000000000000000000
+        - se_name
+        paramDataPos: 00000000000000000100000000000000
+        paramByteDataSize: 00000000000000000000000000000000
     - name: m_e_attack
       description: 
       colorIndex: 0
@@ -1517,7 +1552,7 @@ MonoBehaviour:
         actionEnabled: 01
         actionIsOpen: 01
         actionStartIndex: 00000000
-        actionHashCodes: b77b6f05
+        actionHashCodes: 09953302
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
@@ -1527,7 +1562,13 @@ MonoBehaviour:
         fsmEventTargetParams: []
         fsmPropertyParams: []
         layoutOptionParams: []
-        fsmStringParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
         fsmObjectParams: []
         fsmVarParams: []
         fsmArrayParams: []
@@ -1564,13 +1605,14 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 110000001000000010000000
+        paramDataType: 11000000100000001000000012000000
         paramName:
         - is_player
         - select_chara_id
         - symbol_id
-        paramDataPos: 000000000000000001000000
-        paramByteDataSize: 000000000000000000000000
+        - se_name
+        paramDataPos: 00000000000000000100000000000000
+        paramByteDataSize: 00000000000000000000000000000000
     - name: turn_end
       description: 
       colorIndex: 0
@@ -1816,7 +1858,7 @@ MonoBehaviour:
         actionEnabled: 01
         actionIsOpen: 01
         actionStartIndex: 00000000
-        actionHashCodes: 3ff28203
+        actionHashCodes: 805a1404
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
@@ -1826,7 +1868,13 @@ MonoBehaviour:
         fsmEventTargetParams: []
         fsmPropertyParams: []
         layoutOptionParams: []
-        fsmStringParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
         fsmObjectParams: []
         fsmVarParams: []
         fsmArrayParams: []
@@ -1869,14 +1917,15 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 10000000100000001000000010000000
+        paramDataType: 1000000010000000100000001000000012000000
         paramName:
         - symbol_id_player
         - symbol_id_enemy
         - symbol_id_player_canceler
         - symbol_id_enemy_canceler
-        paramDataPos: 00000000010000000200000003000000
-        paramByteDataSize: 00000000000000000000000000000000
+        - se_name
+        paramDataPos: 0000000001000000020000000300000000000000
+        paramByteDataSize: 0000000000000000000000000000000000000000
     - name: e_p_attack
       description: 
       colorIndex: 0
@@ -1914,7 +1963,7 @@ MonoBehaviour:
         actionEnabled: 01
         actionIsOpen: 01
         actionStartIndex: 00000000
-        actionHashCodes: b77b6f05
+        actionHashCodes: 09953302
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
@@ -1924,7 +1973,13 @@ MonoBehaviour:
         fsmEventTargetParams: []
         fsmPropertyParams: []
         layoutOptionParams: []
-        fsmStringParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
         fsmObjectParams: []
         fsmVarParams: []
         fsmArrayParams: []
@@ -1961,13 +2016,14 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 110000001000000010000000
+        paramDataType: 11000000100000001000000012000000
         paramName:
         - is_player
         - select_chara_id
         - symbol_id
-        paramDataPos: 000000000000000001000000
-        paramByteDataSize: 000000000000000000000000
+        - se_name
+        paramDataPos: 00000000000000000100000000000000
+        paramByteDataSize: 00000000000000000000000000000000
     - name: State 4
       description: 
       colorIndex: 0
@@ -2005,7 +2061,7 @@ MonoBehaviour:
         actionEnabled: 01
         actionIsOpen: 01
         actionStartIndex: 00000000
-        actionHashCodes: 3ff28203
+        actionHashCodes: 805a1404
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
@@ -2015,7 +2071,13 @@ MonoBehaviour:
         fsmEventTargetParams: []
         fsmPropertyParams: []
         layoutOptionParams: []
-        fsmStringParams: []
+        fsmStringParams:
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 
         fsmObjectParams: []
         fsmVarParams: []
         fsmArrayParams: []
@@ -2058,14 +2120,15 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 10000000100000001000000010000000
+        paramDataType: 1000000010000000100000001000000012000000
         paramName:
         - symbol_id_player
         - symbol_id_enemy
         - symbol_id_player_canceler
         - symbol_id_enemy_canceler
-        paramDataPos: 00000000010000000200000003000000
-        paramByteDataSize: 00000000000000000000000000000000
+        - se_name
+        paramDataPos: 0000000001000000020000000300000000000000
+        paramByteDataSize: 0000000000000000000000000000000000000000
     - name: skill_show
       description: 
       colorIndex: 0

@@ -40,13 +40,15 @@ namespace BattleMainAction
 	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
 	public class wait : BattleMainActionBase
 	{
+		public FsmBool is_boss;
 		public FsmInt enemy_chara_id;
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			battleMain.RequestBattle.AddListener((int _enemy_id)=>{
+			battleMain.RequestBattle.AddListener((bool _is_boss, int _enemy_id)=>{
+				is_boss.Value = _is_boss;
 				enemy_chara_id.Value = _enemy_id;
-				Debug.Log(string.Format("enemy:chara_id={0}", enemy_chara_id.Value));
+				Debug.Log(string.Format("is_boss:{0} enemy:chara_id={1}",is_boss.Value, enemy_chara_id.Value));
 				Finish();
 			});
 		}
@@ -62,7 +64,9 @@ namespace BattleMainAction
 	[HutongGames.PlayMaker.Tooltip("BattleMainAction")]
 	public class opening : BattleMainActionBase
 	{
+		public FsmBool is_boss;
 		public FsmInt enemy_chara_id;
+
 		public override void OnEnter()
 		{
 			base.OnEnter();
@@ -133,6 +137,14 @@ namespace BattleMainAction
 			battleMain.OnOpeningEnd.AddListener(() =>
 			{
 				battleMain.OnOpeningEnd.RemoveAllListeners();
+				if(is_boss.Value)
+				{
+					BGMControl.Instance.Play(Defines.BGM_NAME_BOSS);
+				}
+				else
+				{
+					BGMControl.Instance.Play(Defines.BGM_NAME_BATTLE);
+				}
 				Finish();
 			});
 		}
@@ -509,6 +521,8 @@ namespace BattleMainAction
 		public FsmInt symbol_id_player_canceler;
 		public FsmInt symbol_id_enemy_canceler;
 
+		public FsmString se_name;
+
 		//private bool m_bMove;
 		//private float m_fTime;
 		private float move_time;
@@ -589,8 +603,9 @@ namespace BattleMainAction
 		private void OnIconOffsetFinished()
 		{
 			offset_count += 1;
+			SEControl.Instance.Play(se_name.Value);
 
-			if( offset_num <= offset_count)
+			if ( offset_num <= offset_count)
 			{
 				Fsm.Event("continue");
 //				Finish();
@@ -708,6 +723,7 @@ namespace BattleMainAction
 			else
 			{
 			}
+			SEControl.Instance.Play("Magic Heal 03");
 			StartCoroutine(HealEffectAppear(arg0));
 		}
 
@@ -774,6 +790,8 @@ namespace BattleMainAction
 		public FsmBool is_player;
 		public FsmInt select_chara_id;
 		public FsmInt symbol_id;
+
+		public FsmString se_name;
 
 		private float m_fTime;
 
@@ -912,6 +930,7 @@ namespace BattleMainAction
 
 		private void OnHit(BattleIcon arg0)
 		{
+			SEControl.Instance.Play(se_name.Value);
 			// アニメーションのタイミングを合わせるために階層で呼び出してます
 			if (is_player.Value)
 			{
@@ -1241,6 +1260,8 @@ namespace BattleMainAction
 		{
 			base.OnEnter();
 			battleMain.OnBattleFinished.Invoke(battle_result.Value);
+
+			BGMControl.Instance.Stop();
 			Finish();
 		}
 	}

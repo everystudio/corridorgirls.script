@@ -535,6 +535,7 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 			PanelLogMessage.Instance.AddMessage("現在のデッキを表示します");
+			SEControl.Instance.Play("cursor_01");
 
 			GameMain.Instance.m_panelPlayerDeck.m_btnClose.gameObject.SetActive(false);
 			GameMain.Instance.m_panelPlayerDeck.Show();
@@ -543,6 +544,7 @@ namespace GameMainAction
 
 			GameMain.Instance.m_panelGameControlButtons.OnClickButton.AddListener((int _iIndex) =>
 			{
+				SEControl.Instance.Play("cancel_01");
 				Finish();
 			});
 		}
@@ -566,6 +568,7 @@ namespace GameMainAction
 			base.OnEnter();
 			PanelLogMessage.Instance.AddMessage("ステータスを表示します");
 
+			SEControl.Instance.Play("cursor_01");
 
 			GameMain.Instance.m_panelGameStatus.gameObject.SetActive(true);
 			GameMain.Instance.m_panelGameStatus.Show(DataManagerGame.Instance.dataUnit.list, DataManagerGame.Instance.masterChara.list);
@@ -574,6 +577,7 @@ namespace GameMainAction
 
 			GameMain.Instance.m_panelGameControlButtons.OnClickButton.AddListener((int _iIndex) =>
 			{
+				SEControl.Instance.Play("cancel_01");
 				Finish();
 			});
 
@@ -597,6 +601,7 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 			PanelLogMessage.Instance.AddMessage("所持アイテムを表示します");
+			SEControl.Instance.Play("cursor_01");
 
 			ItemMain.Instance.move = 0;
 
@@ -610,6 +615,7 @@ namespace GameMainAction
 					Fsm.Event("move");
 				}
 				else {
+					SEControl.Instance.Play("cancel_01");
 					Finish();
 				}
 			});
@@ -637,6 +643,7 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 			GameMain.Instance.CardSelectUp(0);
+			SEControl.Instance.Play("cursor_01");
 
 			m_panelSkillDetail = panel_skill_detail.Value.GetComponent<PanelSkillDetail>();
 			m_panelSkillDetail.Initialize(skill_id.Value , situation.Value , skill_used.Value);
@@ -652,6 +659,7 @@ namespace GameMainAction
 
 		private void OnCancel()
 		{
+			SEControl.Instance.Play("cancel_01");
 			Fsm.Event("cancel");
 		}
 
@@ -1053,7 +1061,7 @@ namespace GameMainAction
 			int index = UtilRand.GetIndex(enemy_prob);
 
 			// chara_id = enemy_idです
-			GameMain.Instance.battleMain.RequestBattle.Invoke(appear_enemy_list[index].enemy_id);
+			GameMain.Instance.battleMain.RequestBattle.Invoke(false ,appear_enemy_list[index].enemy_id);
 		}
 
 		public override void OnExit()
@@ -1098,7 +1106,7 @@ namespace GameMainAction
 			MasterStageParam master_stage = DataManagerGame.Instance.masterStage.list.Find(p => p.stage_id == stage_id.Value);
 
 			// chara_id = enemy_idです
-			GameMain.Instance.battleMain.RequestBattle.Invoke(master_stage.boss_chara_id);
+			GameMain.Instance.battleMain.RequestBattle.Invoke(true, master_stage.boss_chara_id);
 		}
 
 		public override void OnExit()
@@ -1452,6 +1460,7 @@ namespace GameMainAction
 			base.OnEnter();
 
 			PrizeList.Instance.m_bMenu = true;
+			//SEControl.Instance.Play("cursor_01");
 
 			GameMain.Instance.m_panelGameMenu.gameObject.SetActive(true);
 			GameMain.Instance.m_panelGameMenu.Show();
@@ -1468,6 +1477,7 @@ namespace GameMainAction
 			{
 				GameMain.Instance.m_panelGameMenu.gameObject.SetActive(false);
 				PrizeList.Instance.m_bMenu = false;
+				//SEControl.Instance.Play("cancel_01");
 				Fsm.Event("close");
 			});
 		}

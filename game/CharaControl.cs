@@ -26,6 +26,8 @@ public class CharaControl : MonoBehaviour {
 	public GameObject m_goArrowRoot;
 	public GameObject m_prefArrowTargetCorridor;
 
+	public bool m_bIsLeftFoot;
+
 	[HideInInspector]
 	public DataCorridorParam target_corridor;
 
