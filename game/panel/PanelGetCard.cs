@@ -37,6 +37,7 @@ public class PanelGetCard : MonoBehaviour {
 		}
 
 		int[] item_prob = new int[appear_card.Count];
+		Debug.Log(appear_card.Count);
 		for (int i = 0; i < appear_card.Count; i++)
 		{
 			item_prob[i] = appear_card[i].prob;

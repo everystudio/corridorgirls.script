@@ -19,7 +19,7 @@ namespace CorridorGirls
 		[MenuItem("Tools/Make MasterData_test")]
 		public static void MakeDataTest()
 		{
-			EveryStudioLibrary.Editor.EditorCoroutine.start(makeDataTest());
+			EveryStudioLibrary.Editor.EditorCoroutine.start(makeData());
 		}
 
 		private static IEnumerator makeDataTest()
@@ -151,6 +151,12 @@ namespace CorridorGirls
 			}));
 			yield return EveryStudioLibrary.Editor.EditorCoroutine.start(masterLevelup.SpreadSheet(DMCamp.SS_ID, "levelup", () => {
 				masterLevelup.SaveEditor("07data/master", "master_levelup");
+			}));
+			#endregion
+			#region チュートリアル用
+			DataCard tutorialCard = new DataCard();
+			yield return EveryStudioLibrary.Editor.EditorCoroutine.start(tutorialCard.SpreadSheet(DMCamp.SS_ID, "tutorial_card", () => {
+				tutorialCard.SaveEditor("07data/master", "data_tutorial_card");
 			}));
 			#endregion
 

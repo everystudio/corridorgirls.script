@@ -119,13 +119,47 @@ namespace GameMainAction
 
 			gameMain.CardOrder();
 
-
-
 			// スキル関係
 			gameMain.ClearSkill();
 			gameMain.m_panelStatus.SetupSkill(DataManagerGame.Instance.dataSkill.list.FindAll(p => 0 < p.status), DataManagerGame.Instance.masterSkill.list);
 
+			Finish();
+		}
 
+		public override void OnUpdate()
+		{
+			base.OnUpdate();
+		}
+	}
+
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class CardSetup_tutorial : GameMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			// 初期設定
+			DataManagerGame.Instance.dataCard.list.Clear();
+
+			int serial = 1;
+
+			List<DataUnitParam> unit_param_list = DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara" && (p.position == "left" || p.position == "right" || p.position == "back"));
+
+			// チュートリアル用のデッキデータをロード
+			DataManagerGame.Instance.dataCard.Load(DataManagerGame.Instance.data_holder.Get("data_tutorial_card"));
+			//DataManagerGame.Instance.dataSkill.Load(DataManagerGame.Instance.data_holder.Get("data_tutorial_skill"));
+
+			DataManagerGame.Instance.dataCard.CardFill(5);
+
+			gameMain.CardSetup(DataManagerGame.Instance.dataCard.list.FindAll(p => p.status == (int)DataCard.STATUS.HAND));
+
+			gameMain.CardOrder();
+
+			// スキル関係
+			gameMain.ClearSkill();
+			gameMain.m_panelStatus.SetupSkill(DataManagerGame.Instance.dataSkill.list.FindAll(p => 0 < p.status), DataManagerGame.Instance.masterSkill.list);
 
 			Finish();
 		}
@@ -208,8 +242,54 @@ namespace GameMainAction
 				});
 			}
 		}
+	}
+
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class CreateDungeonCorridor : GameMainActionBase
+	{
+		public FsmInt stage_id;
+
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			DataManagerGame.Instance.dataCorridor.Create(DataManagerGame.Instance.masterCorridor.list.FindAll(p => p.stage_id == stage_id.Value));
+			// ここでフラグを落とすのもなんか不自然な気がするけど
+			gameMain.m_bIsGoal = false;
+
+			gameMain.m_fadeScreen.Open();
+
+			foreach (Corridor c in gameMain.corridor_list)
+			{
+				GameObject.Destroy(c.gameObject);
+			}
+			gameMain.corridor_list.Clear();
+
+			foreach (DataCorridorParam param in DataManagerGame.Instance.dataCorridor.list)
+			{
+				Corridor corr = PrefabManager.Instance.MakeScript<Corridor>(gameMain.m_prefCorridor, gameMain.m_goStageRoot);
+				corr.Initialize(param);
+
+				gameMain.corridor_list.Add(corr);
+			}
+			gameMain.chara_control.SetCorridor(DataManagerGame.Instance.dataCorridor.list.Find(p => p.index == 1));
+
+			if (gameMain.m_fadeScreen.is_open)
+			{
+				Finish();
+			}
+			else
+			{
+				gameMain.m_fadeScreen.OnOpen.AddListener(() =>
+				{
+					gameMain.m_fadeScreen.OnOpen.RemoveAllListeners();
+					Finish();
+				});
+			}
+		}
 
 	}
+
 
 	[ActionCategory("GameMainAction")]
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
@@ -1528,11 +1608,118 @@ namespace GameMainAction
 			GameMain.Instance.m_panelGameControlButtons.OnClickButton.RemoveAllListeners();
 		}
 
-
-
 	}
 
 
+	#region tutorial
 
+	[ActionCategory("Common")]
+	[HutongGames.PlayMaker.Tooltip("Common")]
+	public class TutorialMessage : FsmStateAction
+	{
+		public FsmString message;
+		public FsmString message2;
+		public override void OnEnter()
+		{
+			base.OnEnter();
 
+			PanelLogMessage.Instance.AddMessage(message.Value);
+			if( message2.Value != "")
+			{
+				PanelLogMessage.Instance.AddMessage(message2.Value);
+			}
+			PanelTutorial.Instance.m_goRoot.SetActive(true);
+			PanelTutorial.Instance.m_txtMessage.text = message.Value + message2.Value;
+			PanelTutorial.Instance.m_img.gameObject.SetActive(false);
+			PanelTutorial.Instance.m_btn.onClick.AddListener(() =>
+			{
+				Finish();
+			});
+		}
+		public override void OnExit()
+		{
+			base.OnExit();
+			if (PanelTutorial.Instance != null)
+			{
+				PanelTutorial.Instance.m_goRoot.SetActive(false);
+				PanelTutorial.Instance.m_btn.onClick.RemoveAllListeners();
+			}
+		}
+	}
+
+	[ActionCategory("Common")]
+	[HutongGames.PlayMaker.Tooltip("Common")]
+	public class TutorialImage : FsmStateAction
+	{
+		public FsmString image_name;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			PanelTutorial.Instance.m_goRoot.SetActive(true);
+			PanelTutorial.Instance.m_txtMessage.text = "";
+			PanelTutorial.Instance.m_img.gameObject.SetActive(true);
+			PanelTutorial.Instance.m_img.sprite = SpriteManager.Instance.Get(image_name.Value);
+			PanelTutorial.Instance.m_btn.onClick.AddListener(() =>
+			{
+				Finish();
+			});
+		}
+		public override void OnExit()
+		{
+			base.OnExit();
+			if (PanelTutorial.Instance != null)
+			{
+				PanelTutorial.Instance.m_goRoot.SetActive(false);
+				PanelTutorial.Instance.m_btn.onClick.RemoveAllListeners();
+			}
+		}
+	}
+
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class SelectRequest : GameMainActionBase
+	{
+		public FsmInt request_serial;
+		public FsmInt select_card_serial;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			select_card_serial.Value = 0;
+
+			foreach (Card card in gameMain.card_list_hand)
+			{
+				if( card.data_card.card_serial == request_serial.Value)
+				{
+					card.OnClickCard.AddListener(OnClickCard);
+				}
+			}
+		}
+		private void OnClickCard(int arg0)
+		{
+			if (select_card_serial.Value == arg0)
+			{
+				Fsm.Event("select");
+			}
+			else {
+				select_card_serial.Value = arg0;
+				gameMain.CardSelectUp(select_card_serial.Value);
+
+				DataCardParam card = DataManagerGame.Instance.dataCard.list.Find(p => p.card_serial == select_card_serial.Value);
+
+				GameMain.Instance.SelectCharaId = card.chara_id;
+			}
+		}
+		public override void OnExit()
+		{
+			base.OnExit();
+			foreach (Card card in gameMain.card_list_hand)
+			{
+				card.OnClickCard.RemoveListener(OnClickCard);
+			}
+		}
+	}
+
+	#endregion
 }
