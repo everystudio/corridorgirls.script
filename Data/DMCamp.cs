@@ -7,6 +7,8 @@ public class DMCamp : DataManagerBase<DMCamp> {
 	public static readonly string SS_ID = "1NVMQClQVzejSE3nE3qsgNA2wMSEdM2l892afiGYj83c";
 	public static readonly string SS_TEST = "1bPRYINRf64UOumP6ExJGBb4pHN4qPlM-fUJk7VGAEpg";
 
+	public TextAssetHolder masterTextAssets;
+
 	public CsvKvs gameData = new CsvKvs();
 
 	public MasterStage masterStage = new MasterStage();
@@ -47,6 +49,26 @@ public class DMCamp : DataManagerBase<DMCamp> {
 	{
 		base.Initialize();
 		StartCoroutine(init_network());
+	}
+
+	public IEnumerator OverrideMasterData()
+	{
+		yield return StartCoroutine(masterChara.SpreadSheet(SS_ID, "chara", () => { }));
+		yield return StartCoroutine(masterCharaCard.SpreadSheet(SS_ID, "chara_card", () => { }));
+
+		yield return StartCoroutine(masterStage.SpreadSheet(SS_ID, "stage", () => { }));
+		yield return StartCoroutine(masterCard.SpreadSheet(SS_ID, "card", () => { }));
+		yield return StartCoroutine(masterCardSymbol.SpreadSheet(SS_ID, "card_symbol", () => { }));
+
+		yield return StartCoroutine(masterItem.SpreadSheet(SS_ID, "item", () => { }));
+		yield return StartCoroutine(masterStageItem.SpreadSheet(SS_ID, "stage_item", () => { }));
+		yield return StartCoroutine(masterStageCard.SpreadSheet(SS_ID, "stage_card", () => { }));
+
+		yield return StartCoroutine(masterSkill.SpreadSheet(SS_ID, "skill", () => { }));
+		yield return StartCoroutine(masterCampItem.SpreadSheet(SS_ID, "campitem", () => { }));
+		yield return StartCoroutine(masterCampShop.SpreadSheet(SS_ID, "campshop", () => { }));
+		yield return StartCoroutine(masterLevelup.SpreadSheet(SS_ID, "levelup", () => { }));
+
 	}
 
 	void Start()
@@ -99,25 +121,23 @@ public class DMCamp : DataManagerBase<DMCamp> {
 			user_data.WriteFloat(Defines.KEY_SOUNDVOLUME_SE, 0.8f);
 		}
 
-
-
 		// master
-		yield return StartCoroutine(masterChara.SpreadSheet(SS_ID, "chara", () => { }));
-		yield return StartCoroutine(masterCharaCard.SpreadSheet(SS_ID, "chara_card", () => { }));
+		masterChara.Load(masterTextAssets.Get("master_chara"));
+		masterCharaCard.Load(masterTextAssets.Get("master_chara_card"));
 
-		yield return StartCoroutine(masterStage.SpreadSheet(SS_ID, "stage", () => { }));
-		yield return StartCoroutine(masterCard.SpreadSheet(SS_ID, "card", () => { }));
-		yield return StartCoroutine(masterCardSymbol.SpreadSheet(SS_ID, "card_symbol", () => { }));
+		masterStage.Load(masterTextAssets.Get("master_stage"));
+		masterCard.Load(masterTextAssets.Get("master_card"));
+		masterCardSymbol.Load(masterTextAssets.Get("master_card_symbol"));
 
-		yield return StartCoroutine(masterItem.SpreadSheet(SS_ID, "item", () => { }));
-		yield return StartCoroutine(masterStageItem.SpreadSheet(SS_ID, "stage_item", () => { }));
-		yield return StartCoroutine(masterStageCard.SpreadSheet(SS_ID, "stage_card", () => { }));
+		masterItem.Load(masterTextAssets.Get("master_item"));
+		masterStageItem.Load(masterTextAssets.Get("master_stage_item"));
+		masterStageCard.Load(masterTextAssets.Get("master_card"));
 
-		yield return StartCoroutine(masterSkill.SpreadSheet(SS_ID, "skill", () => { }));
-		yield return StartCoroutine(masterCampItem.SpreadSheet(SS_ID, "campitem", () => { }));
-		yield return StartCoroutine(masterCampShop.SpreadSheet(SS_ID, "campshop", () => { }));
-		yield return StartCoroutine(masterLevelup.SpreadSheet(SS_ID, "levelup", () => { }));
-		
+		masterSkill.Load(masterTextAssets.Get("master_skill"));
+		masterCampItem.Load(masterTextAssets.Get("master_campitem"));
+		masterCampShop.Load(masterTextAssets.Get("master_campshop"));
+		masterLevelup.Load(masterTextAssets.Get("master_levelup"));
+
 		// data
 		dataUnitCamp.SetSaveFilename(Defines.FILENAME_UNIT_CAMP);
 		dataUnitGame.SetSaveFilename(Defines.FILENAME_UNIT_GAME);

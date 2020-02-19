@@ -76,6 +76,38 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 		return IsAging;
 	}
 
+	public IEnumerator OverrideMasterData()
+	{
+
+		yield return StartCoroutine(masterStage.SpreadSheet(SS_ID, "stage", () => { }));
+		yield return StartCoroutine(masterCorridor.SpreadSheet(SS_ID, "corridor", () => { }));
+		yield return StartCoroutine(masterCorridorEvent.SpreadSheet(SS_ID, "corridor_event", () => { }));
+
+		yield return StartCoroutine(masterCard.SpreadSheet(SS_ID, "card", () => { }));
+		yield return StartCoroutine(masterCardSymbol.SpreadSheet(SS_ID, "card_symbol", () => { }));
+
+		yield return StartCoroutine(masterChara.SpreadSheet(SS_ID, "chara", () => { }));
+		yield return StartCoroutine(masterCharaCard.SpreadSheet(SS_ID, "chara_card", () => { }));
+
+		yield return StartCoroutine(masterItem.SpreadSheet(SS_ID, "item", () => { }));
+		yield return StartCoroutine(masterStageWave.SpreadSheet(SS_ID, "stage_wave", () => { }));
+		yield return StartCoroutine(masterStageEvent.SpreadSheet(SS_ID, "stage_event", () => { }));
+		yield return StartCoroutine(masterStageItem.SpreadSheet(SS_ID, "stage_item", () => { }));
+		yield return StartCoroutine(masterStageCard.SpreadSheet(SS_ID, "stage_card", () => { }));
+		yield return StartCoroutine(masterStageMission.SpreadSheet(SS_ID, "stage_mission", () => { }));
+		yield return StartCoroutine(masterStageEnemy.SpreadSheet(SS_ID, "stage_enemy", () => { }));
+		yield return StartCoroutine(masterStageBattleBonus.SpreadSheet(SS_ID, "stage_bb", () => { }));
+
+		yield return StartCoroutine(masterSkill.SpreadSheet(SS_ID, "skill", () => { }));
+		yield return StartCoroutine(masterSkillEffect.SpreadSheet(SS_ID, "skill_effect", () => { }));
+
+		yield return StartCoroutine(masterBattleBonus.SpreadSheet(SS_ID, "bb", () => { }));
+
+		yield return StartCoroutine(masterMission.SpreadSheet(SS_ID, "mission", () => { }));
+		yield return StartCoroutine(masterMissionDetail.SpreadSheet(SS_ID, "mission_detail", () => { }));
+
+	}
+
 	void Start()
 	{
 		Debug.Log("start");
@@ -113,51 +145,35 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 
 		GetAgingState();
 
-		yield return StartCoroutine(masterStage.SpreadSheet(SS_ID, "stage", () => { }));
-		yield return StartCoroutine(masterCorridor.SpreadSheet(SS_ID, "corridor", () => { }));
-		yield return StartCoroutine(masterCorridorEvent.SpreadSheet(SS_ID, "corridor_event" , ()=> { }));
+		masterStage.Load(data_holder.Get("master_stage"));
+		masterCorridor.Load(data_holder.Get("master_corridor"));
+		masterCorridorEvent.Load(data_holder.Get("master_corridor_event"));
 
-		yield return StartCoroutine(masterCard.SpreadSheet(SS_ID, "card", () => {
-			/*
-			foreach( MasterCardParam card in masterCard.list)
-			{
-				Debug.Log(string.Format("{0}:{1}", card.card_id, card.label));
-			}
-			*/
-		}));
-		yield return StartCoroutine(masterCardSymbol.SpreadSheet(SS_ID, "card_symbol" , ()=> { }));
+		masterCard.Load(data_holder.Get("master_card"));
+		masterCardSymbol.Load(data_holder.Get("master_card_symbol"));
 
-		yield return StartCoroutine(masterChara.SpreadSheet(SS_ID, "chara", () => { }));
-		yield return StartCoroutine(masterCharaCard.SpreadSheet(SS_ID, "chara_card", () => { }));
+		masterChara.Load(data_holder.Get("master_chara"));
+		masterCharaCard.Load(data_holder.Get("master_chara_card"));
 
-		yield return StartCoroutine(masterItem.SpreadSheet(SS_ID, "item" , ()=> { }));
-		yield return StartCoroutine(masterStageWave.SpreadSheet(SS_ID, "stage_wave" , ()=> { }));
-		yield return StartCoroutine(masterStageEvent.SpreadSheet(SS_ID, "stage_event" , ()=> { }));
-		yield return StartCoroutine(masterStageItem.SpreadSheet(SS_ID, "stage_item" , ()=> { }));
-		yield return StartCoroutine(masterStageCard.SpreadSheet(SS_ID, "stage_card" , ()=> { }));
-		yield return StartCoroutine(masterStageMission.SpreadSheet(SS_ID, "stage_mission" , ()=> { }));
-		yield return StartCoroutine(masterStageEnemy.SpreadSheet(SS_ID, "stage_enemy" , ()=> { }));
-		yield return StartCoroutine(masterStageBattleBonus.SpreadSheet(SS_ID, "stage_bb" , ()=> { }));
+		masterItem.Load(data_holder.Get("master_item"));
+		masterStageWave.Load(data_holder.Get("master_stage_wave"));
+		masterStageEvent.Load(data_holder.Get("master_stage_event"));
+		masterStageItem.Load(data_holder.Get("master_stage_item"));
+		masterStageCard.Load(data_holder.Get("master_stage_card"));
+		masterStageMission.Load(data_holder.Get("master_stage_mission"));
+		masterStageEnemy.Load(data_holder.Get("master_stage_enemy"));
+		masterStageBattleBonus.Load(data_holder.Get("master_stage_bb"));
+
+		masterSkill.Load(data_holder.Get("master_skill"));
+		masterSkillEffect.Load(data_holder.Get("master_skill_effect"));
+
+		masterBattleBonus.Load(data_holder.Get("master_bb"));
+
+		masterMission.Load(data_holder.Get("master_mission"));
+		masterMissionDetail.Load(data_holder.Get("master_mission_detail"));
 		
-		yield return StartCoroutine(masterSkill.SpreadSheet(SS_ID, "skill" , ()=> { }));
-		yield return StartCoroutine(masterSkillEffect.SpreadSheet(SS_ID, "skill_effect" , ()=> { }));
-
-		yield return StartCoroutine(masterBattleBonus.SpreadSheet(SS_ID, "bb", () => { }));
-
-		yield return StartCoroutine(masterMission.SpreadSheet(SS_ID, "mission" , ()=> { }));
-		yield return StartCoroutine(masterMissionDetail.SpreadSheet(SS_ID, "mission_detail" , ()=> { }));
-
-		/*
-		foreach ( MasterItemParam item in masterItem.list)
-		{
-			Debug.Log(item.name);
-		}
-		*/
-
 		yield return null;
 
-		//dataCard.SetSaveFilename("data_card");
-		//dataCard.LoadMulti("data_card");
 		dataUnit.SetSaveFilename(Defines.FILENAME_UNIT_GAME);
 		dataSkill.SetSaveFilename("camp_skill");
 
