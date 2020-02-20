@@ -145,53 +145,47 @@ public class DMCamp : DataManagerBase<DMCamp> {
 		dataUnitGame.SetSaveFilename(Defines.FILENAME_UNIT_GAME);
 		dataSkill.SetSaveFilename(Defines.FILENAME_SKILL_CAMP);
 		dataItem.SetSaveFilename(Defines.FILENAME_ITEM_CAMP);
+		dataCard.SetSaveFilename(Defines.FILENAME_CARD_CAMP);
+
+		dataCampItem.SetSaveFilename(Defines.FILENAME_ITEM_CAMP);
 
 		if ( false == dataUnitCamp.LoadMulti())
 		{
 			dataUnitCamp.MakeInitialData(masterChara.list);
+			dataUnitCamp.Save();
 			//yield return StartCoroutine(dataUnitCamp.SpreadSheet(SS_TEST, "unit", () => { }));
 		}
 		if( false == dataSkill.LoadMulti())
 		{
 			dataSkill.MakeInitialData();
+			dataSkill.Save();
 		}
 		//yield return StartCoroutine(dataItem.SpreadSheet(SS_TEST, "item", () => { }));
 
 		if( false == dataCampItem.LoadMulti())
 		{
 			dataCampItem.list.Clear();
+			dataCampItem.Save();
 			//yield return StartCoroutine(dataCampItem.SpreadSheet(SS_TEST, "campitem", () => { }));
 		}
 		if( false == dataItem.LoadMulti())
 		{
 			dataItem.list.Clear();
+			dataItem.Save();
 		}
 
 		if( false == dataStage.LoadMulti())
 		{
 			// まだデータなし
+			dataStage.Save();
 		}
 
 		if(false == dataCard.LoadMulti())
 		{
-			int serial = 1;
-			List<DataUnitParam> unit_param_list = dataUnitCamp.list.FindAll(p => p.unit == "chara" && p.position != "none");
-			foreach (DataUnitParam unit in unit_param_list)
-			{
-				List<MasterCharaCardParam> card_list = masterCharaCard.list.FindAll(p => p.chara_id == unit.chara_id);
-				foreach (MasterCharaCardParam c in card_list)
-				{
-					DataCardParam dc = new DataCardParam();
+			dataCard.Reset(dataUnitCamp.list, masterCharaCard.list);
+			dataCard.Save();
 
-					dc.chara_id = c.chara_id;
-					dc.card_id = c.card_id;
-					dc.card_serial = serial;
-					dc.status = (int)DataCard.STATUS.DECK;
-					serial += 1;
 
-					dataCard.list.Add(dc);
-				}
-			}
 		}
 
 		yield return null;

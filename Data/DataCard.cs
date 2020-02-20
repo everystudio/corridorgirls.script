@@ -154,4 +154,29 @@ public class DataCard : CsvData< DataCardParam> {
 		arg0.status = (int)_eStatus;
 		list.Add(arg0);
 	}
+
+	public void Reset(List<DataUnitParam> _unit_list , List<MasterCharaCardParam> _master_chara_card_list )
+	{
+		int serial = 1;
+		list.Clear();
+		List<DataUnitParam> unit_param_list = _unit_list.FindAll(p => p.unit == "chara" && p.position != "none");
+		foreach (DataUnitParam unit in unit_param_list)
+		{
+			List<MasterCharaCardParam> card_list = _master_chara_card_list.FindAll(p => p.chara_id == unit.chara_id);
+			foreach (MasterCharaCardParam c in card_list)
+			{
+				DataCardParam dc = new DataCardParam();
+
+				dc.chara_id = c.chara_id;
+				dc.card_id = c.card_id;
+				dc.card_serial = serial;
+				dc.status = (int)DataCard.STATUS.DECK;
+				serial += 1;
+
+				list.Add(dc);
+			}
+		}
+
+	}
+
 }

@@ -963,6 +963,7 @@ namespace CampMainAction {
 
 			campMain.m_panelStatus.Initialize(DMCamp.Instance.dataUnitCamp, DMCamp.Instance.masterChara);
 
+			DMCamp.Instance.dataCard.Reset(DMCamp.Instance.dataUnitCamp.list, DMCamp.Instance.masterCharaCard.list);
 
 			Finish();
 		}
@@ -996,10 +997,13 @@ namespace CampMainAction {
 	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
 	public class skill_top : CampMainActionBase
 	{
+		public FsmInt skill_id;
 		public override void OnEnter()
 		{
 			base.OnEnter();
 			campMain.m_panelSkill.gameObject.SetActive(true);
+
+			campMain.m_panelSkill.m_imgListBG.color = Color.white;
 
 			campMain.m_panelSkill.m_goControlRoot.SetActive(true);
 			campMain.m_panelSkill.SetupSettingSkill(DMCamp.Instance.dataSkill.list.FindAll(p => 0 < p.status), DMCamp.Instance.masterSkill.list);
@@ -1023,6 +1027,14 @@ namespace CampMainAction {
 			campMain.m_panelSkill.m_btnEdit.onClick.AddListener(() => {
 				Fsm.Event("edit");
 			});
+
+			campMain.m_panelSkill.OnSetSkillId.AddListener(_select);
+			campMain.m_panelSkill.OnListSkillId.AddListener(_select);
+		}
+		private void _select(int _iSkillId)
+		{
+			skill_id.Value = _iSkillId;
+			Fsm.Event("select");
 		}
 
 		private void OnClose()
@@ -1037,8 +1049,42 @@ namespace CampMainAction {
 			campMain.m_panelSkill.m_btnList.onClick.RemoveListener(OnClose);
 			campMain.m_panelSkill.m_btnClose.onClick.RemoveListener(OnClose);
 			campMain.m_panelSkill.m_btnEdit.onClick.RemoveAllListeners();
+
+			campMain.m_panelSkill.OnSetSkillId.RemoveListener(_select);
+			campMain.m_panelSkill.OnListSkillId.RemoveListener(_select);
+
 		}
 	}
+
+	[ActionCategory("CampMainAction")]
+	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
+	public class skill_detail : CampMainActionBase
+	{
+		public FsmInt skill_id;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			campMain.m_panelSkillDetail.gameObject.SetActive(true);
+			campMain.m_panelSkillDetail.Initialize( DMCamp.Instance.masterSkill.list.Find(p=>p.skill_id == skill_id.Value));
+
+
+			campMain.m_panelSkill.m_btnList.gameObject.SetActive(false);
+			campMain.m_panelSkill.m_btnClose.gameObject.SetActive(true);
+			campMain.m_panelSkill.m_btnEdit.gameObject.SetActive(false);
+			campMain.m_panelSkill.m_btnClose.onClick.AddListener(()=>
+			{
+				Finish();
+			});
+		}
+		public override void OnExit()
+		{
+			base.OnExit();
+			campMain.m_panelSkillDetail.gameObject.SetActive(false);
+			campMain.m_panelSkill.m_btnClose.onClick.RemoveAllListeners();
+
+		}
+	}
+
 
 	[ActionCategory("CampMainAction")]
 	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
@@ -1080,6 +1126,7 @@ namespace CampMainAction {
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			campMain.m_panelSkill.m_imgListBG.color = Color.red;
 			campMain.m_panelSkill.Select(0);
 			campMain.m_panelSkill.SetupSettingSkill(DMCamp.Instance.dataSkill.list.FindAll(p => 0 < p.status), DMCamp.Instance.masterSkill.list);
 			campMain.m_panelSkill.SetupListSkill(DMCamp.Instance.masterSkill.list);

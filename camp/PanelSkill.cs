@@ -25,6 +25,7 @@ public class PanelSkill : MonoBehaviour {
 	public UnityEventInt OnSetSkillId = new UnityEventInt();
 	public UnityEventInt OnListSkillId = new UnityEventInt();
 
+	public Image m_imgListBG;
 	public GameObject m_goControlRoot;
 
 	public void Select( int _iSkillId)

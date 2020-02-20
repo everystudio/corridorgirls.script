@@ -18,18 +18,53 @@ public class PanelSkillDetail : MonoBehaviour {
 
 	private MasterSkillParam m_masterSkillParam;
 
-	public void Initialize(int _iSkillId , string _strSituation , bool _bUsed)
+	public void Initialize( MasterSkillParam _master)
 	{
-		m_masterSkillParam = DataManagerGame.Instance.masterSkill.list.Find(p => p.skill_id == _iSkillId);
+		m_masterSkillParam = _master;
+		common();
+
+		string strOutline = "";
+		string strForMp = "" ;
+
+		if (m_masterSkillParam.situation == "any")
+		{
+			strOutline = m_masterSkillParam.outline + strForMp;
+		}
+		else if (m_masterSkillParam.situation == "field")
+		{
+			strOutline = string.Format("{0}\n\nこのスキルはフィールドでのみ使用可能です{1}", m_masterSkillParam.outline, strForMp);
+		}
+		else if (m_masterSkillParam.situation == "battle")
+		{
+			strOutline = string.Format("{0}\n\nこのスキルはバトル中のみ使用可能です{1}", m_masterSkillParam.outline, strForMp);
+		}
+		else
+		{
+			strOutline = "スキルの設定不備です";
+		}
+		m_txtOutline.text = strOutline;
+
+	}
+
+	private void common()
+	{
 
 		m_txtTitle.text = m_masterSkillParam.name;
 		m_imgSkillIcon.sprite = SpriteManager.Instance.Get(m_masterSkillParam.sprite_name);
 		m_txtMP.text = string.Format("MP:{0}", m_masterSkillParam.mp);
 
+
+
+	}
+
+	public void Initialize(int _iSkillId , string _strSituation , bool _bUsed)
+	{
+		m_masterSkillParam = DataManagerGame.Instance.masterSkill.list.Find(p => p.skill_id == _iSkillId);
+
+		common();
+
 		string strOutline = "";
-
 		bool bEnableMp = m_masterSkillParam.mp <= DataManagerGame.Instance.GetMp();
-
 		string strForMp = bEnableMp ? "" : "\n<color=red>MPが不足しています</color>";
 
 		bool bMatchSituation = true;

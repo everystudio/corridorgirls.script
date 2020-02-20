@@ -41,6 +41,7 @@ public class Defines{
 	public const string FILENAME_ITEM_CAMP = "item_camp";
 	public const string FILENAME_ITEM_GAME = "item_game";
 
+	public const string FILENAME_CAMPITEM = "campitem";
 
 	public const float ICON_MOVE_TIME = 0.1f;
 

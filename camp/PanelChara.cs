@@ -53,22 +53,22 @@ public class PanelChara : MonoBehaviour {
 		}
 		icon_list.Clear();
 
-		//Debug.Log( DMCamp.Instance.masterChara.list.Count );
-		foreach (MasterCharaParam p in DMCamp.Instance.masterChara.list)
-		{
-			//Debug.Log(string.Format("id:{0} name:{1} unit:{2}", p.chara_id, p.name, p.unit));
-		}
 
 		foreach (MasterCharaParam p in DMCamp.Instance.masterChara.list.FindAll(p=>p.unit == "chara"))
 		{
-			CharaIcon icon = PrefabManager.Instance.MakeScript<CharaIcon>(m_prefCharaIcon, m_goCharaListContents);
-			icon.Initialize(p);
+			DataUnitParam unit = DMCamp.Instance.dataUnitCamp.list.Find(a => a.chara_id == p.chara_id);
 
-			icon.OnClickIcon.AddListener((CharaIcon _icon) =>
+			if (unit != null)
 			{
-				OnListCharaId.Invoke(_icon.m_masterChara.chara_id);
-			});
-			icon_list.Add(icon);
+				CharaIcon icon = PrefabManager.Instance.MakeScript<CharaIcon>(m_prefCharaIcon, m_goCharaListContents);
+				icon.Initialize(p);
+
+				icon.OnClickIcon.AddListener((CharaIcon _icon) =>
+				{
+					OnListCharaId.Invoke(_icon.m_masterChara.chara_id);
+				});
+				icon_list.Add(icon);
+			}
 		}
 	}
 

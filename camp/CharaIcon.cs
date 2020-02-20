@@ -26,11 +26,10 @@ public class CharaIcon : MonoBehaviour {
 	}
 	public OnCharaIcon OnClickIcon = new OnCharaIcon();
 
-	public void Initialize( MasterCharaParam _master)
+	public void Initialize( MasterCharaParam _master )
 	{
 		m_txtName.text = _master.name;
 		m_masterChara = _master;
-
 
 		m_imgIcon.sprite = SpriteManager.Instance.Get(string.Format("chara{0:000}01_00_faceicon", _master.chara_id));
 

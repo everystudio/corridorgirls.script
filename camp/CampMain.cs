@@ -12,6 +12,7 @@ public class CampMain : Singleton<CampMain> {
 
 	public PanelChara m_panelChara;
 	public PanelSkill m_panelSkill;
+	public PanelSkillDetail m_panelSkillDetail;
 
 	public PanelStatus m_panelStatus;
 	public PanelPlayerDeck m_panelPlayerDeck;
