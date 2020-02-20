@@ -14,6 +14,14 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 	public TextAssetHolder data_holder;
 
 	public CsvKvs gameData = new CsvKvs();
+	//public DataKvs dataQuest = new DataKvs();
+	public DataCorridor dataCorridor = new DataCorridor();
+	public DataCard dataCard = new DataCard();
+	public DataUnit dataUnit = new DataUnit();
+	public DataItem dataItem = new DataItem();
+	public DataSkill dataSkill = new DataSkill();
+	public DataStage dataStage = new DataStage();
+
 
 	public MasterStage masterStage = new MasterStage();
 	public MasterCorridor masterCorridor = new MasterCorridor();
@@ -41,14 +49,7 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 
 	public MasterMission masterMission = new MasterMission();
 	public MasterMissionDetail masterMissionDetail = new MasterMissionDetail();
-
-	public DataKvs dataQuest = new DataKvs();
-	public DataCorridor dataCorridor = new DataCorridor();
-	public DataCard dataCard = new DataCard();
-	public DataUnit dataUnit = new DataUnit();
-	public DataItem dataItem = new DataItem();
-	public DataSkill dataSkill = new DataSkill();
-	public DataStage dataStage = new DataStage();
+	public MasterHelp masterHelp = new MasterHelp();
 
 	[SerializeField]
 	private UnityEngine.Audio.AudioMixer mixer;
@@ -141,7 +142,11 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 
 
 		gameData.SetSaveFilename(Defines.FILENAME_GAMEDATA);
-		gameData.Load();
+		if( false == gameData.LoadMulti())
+		{
+			gameData.AddInt(Defines.KEY_MP , 0);
+			gameData.AddInt(Defines.KEY_MP_MAX , 30);
+		}
 
 		GetAgingState();
 
@@ -171,34 +176,49 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 
 		masterMission.Load(data_holder.Get("master_mission"));
 		masterMissionDetail.Load(data_holder.Get("master_mission_detail"));
-		
+		masterHelp.Load(data_holder.Get("master_help"));		
+
 		yield return null;
 
+		dataCorridor.SetSaveFilename(Defines.FILENAME_DATA_CORRIDOR);
 		dataUnit.SetSaveFilename(Defines.FILENAME_UNIT_GAME);
-		dataSkill.SetSaveFilename("camp_skill");
+		dataSkill.SetSaveFilename(Defines.FILENAME_SKILL_GAME);
+		dataItem.SetSaveFilename(Defines.FILENAME_ITEM_GAME);
+
+		dataStage.SetSaveFilename(Defines.FILENAME_DATA_STAGE);
 
 		if (false == dataUnit.LoadMulti())
 		{
-			yield return StartCoroutine(dataUnit.SpreadSheet(SS_TEST, "unit", () => { }));
+			dataUnit.MakeInitialData(masterChara.list);
 		}
 		if (false == dataSkill.LoadMulti())
 		{
-			yield return StartCoroutine(dataSkill.SpreadSheet(SS_TEST, "skill", () => { }));
+			//yield return StartCoroutine(dataSkill.SpreadSheet(SS_TEST, "skill", () => { }));
 		}
-		yield return StartCoroutine(dataQuest.SpreadSheet(SS_TEST, "quest", () => { }));
-		yield return StartCoroutine(dataItem.SpreadSheet(SS_TEST, "item", () => { }));
-
-		dataStage.SetSaveFilename(Defines.FILENAME_DATA_STAGE);
+		if (false == dataItem.LoadMulti())
+		{
+			//yield return StartCoroutine(dataItem.SpreadSheet(SS_TEST, "item", () => { }));
+		}
 		if( false == dataStage.LoadMulti())
 		{
 			Debug.LogError("no data stage");
 		}
 
 		Initialized = true;
-
 	}
 
-	private void OnRecievedMasterDungeonStep(List<MasterGimicParam> arg0)
+	public void SaveTurn()
+	{
+		gameData.Save();
+		dataCorridor.Save();
+		dataCard.Save();
+		dataUnit.Save();
+		dataItem.Save();
+		dataSkill.Save();
+		dataStage.Save();
+	}
+
+private void OnRecievedMasterDungeonStep(List<MasterGimicParam> arg0)
 	{
 	}
 
@@ -212,20 +232,20 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 
 	public int GetMp()
 	{
-		return DataManagerGame.Instance.dataQuest.ReadInt(Defines.KEY_MP);
+		return DataManagerGame.Instance.gameData.ReadInt(Defines.KEY_MP);
 	}
 
 	public void MpHeal(int _iHeal)
 	{
-		int mp_max = DataManagerGame.Instance.dataQuest.ReadInt(Defines.KEY_MP_MAX);
-		int mp_current = DataManagerGame.Instance.dataQuest.ReadInt(Defines.KEY_MP);
+		int mp_max = DataManagerGame.Instance.gameData.ReadInt(Defines.KEY_MP_MAX);
+		int mp_current = DataManagerGame.Instance.gameData.ReadInt(Defines.KEY_MP);
 
 		if (mp_max < mp_current + _iHeal)
 		{
-			DataManagerGame.Instance.dataQuest.WriteInt(Defines.KEY_MP, mp_max);
+			DataManagerGame.Instance.gameData.WriteInt(Defines.KEY_MP, mp_max);
 		}
 		else {
-			DataManagerGame.Instance.dataQuest.AddInt(Defines.KEY_MP, _iHeal);
+			DataManagerGame.Instance.gameData.AddInt(Defines.KEY_MP, _iHeal);
 		}
 
 	}

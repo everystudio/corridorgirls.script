@@ -8,10 +8,21 @@ namespace CampMainAction {
 	public class CampMainActionBase : FsmStateAction
 	{
 		protected CampMain campMain;
+		public int help_id;
 		public override void OnEnter()
 		{
 			base.OnEnter();
 			campMain = Owner.GetComponent<CampMain>();
+
+			if( help_id!= 0)
+			{
+				if( DMCamp.Instance.user_data.HasKey(Defines.GetHelpKey(help_id)) == false)
+				{
+					PanelHelp.Instance.Show(DMCamp.Instance.masterHelp.list.Find(p => p.help_id == help_id));
+					DMCamp.Instance.user_data.AddInt(Defines.GetHelpKey(help_id), 1);
+					DMCamp.Instance.user_data.Save();
+				}
+			}
 		}
 
 		public void PartyReset()
@@ -81,15 +92,7 @@ namespace CampMainAction {
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			if (DMCamp.Instance.user_data.HasKey("is_game") == false)
-			{
-				DMCamp.Instance.user_data.WriteInt("is_game", 0);
-				Fsm.Event("tutorial");
-			}
-			else
-			{
-				Finish();
-			}
+			Finish();
 		}
 
 	}
@@ -106,7 +109,6 @@ namespace CampMainAction {
 
 			campMain.m_panelSkill.m_goControlRoot.SetActive(false);
 			aging_timer = 0.0f;
-
 
 			campMain.m_infoHeaderCamp.SetFood(DMCamp.Instance.gameData.ReadInt(Defines.KeyFood));
 			campMain.m_infoHeaderCamp.SetMana(DMCamp.Instance.gameData.ReadInt(Defines.KeyMana));

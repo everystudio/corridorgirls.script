@@ -259,4 +259,23 @@ public class DataUnit : CsvData<DataUnitParam> {
 		return add;
 	}
 
+	public void MakeInitialData(List<MasterCharaParam> _masterList)
+	{
+		MasterCharaParam left = _masterList.Find(p => p.chara_id == 1);
+		MasterCharaParam right = _masterList.Find(p => p.chara_id == 3);
+		MasterCharaParam back = _masterList.Find(p => p.chara_id == 2);
+
+		DataUnitParam data_left = left.BuildLevel(1, 60);
+		data_left.position = "left";
+		DataUnitParam data_right = right.BuildLevel(1, 60);
+		data_right.position = "right";
+		DataUnitParam data_back = back.BuildLevel(1, 60);
+		data_back.position = "back";
+
+		list.Add(data_left);
+		list.Add(data_right);
+		list.Add(data_back);
+
+	}
+
 }

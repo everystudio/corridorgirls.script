@@ -25,6 +25,14 @@ public class MasterCharaParam : CsvDataParam
 	{
 		_unit.level = _iLevel;
 		_unit.tension = _iTension;
+
+		// レベル１の時だけは係数をかける
+		if( _iLevel == 1)
+		{
+			_iLevel = 0;
+		}
+
+
 		/*
 		Debug.Log(string.Format("request level:{0}", _iLevel));
 		for( int i = 1; i < 30; i++)

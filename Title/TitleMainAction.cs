@@ -37,27 +37,25 @@ namespace TitleMainAction {
 	[HutongGames.PlayMaker.Tooltip("TitleMainAction")]
 	public class check : TitleMainActionBase
 	{
+		public FsmString mode_name;
 		public override void OnEnter()
 		{
 			base.OnEnter();
 
-			if( title.user_data.HasKey("is_game") == false)
+			title.tapScreen.OnTapScreenFinish.AddListener(() =>
 			{
-				Fsm.Event("tutorial");
-			}
-			else if(title.user_data.ReadInt("is_game") == 0)
-			{
-				Fsm.Event("camp");
-			}
-			else if(title.user_data.ReadInt("is_game") != 0)
-			{
-				Fsm.Event("game");
-			}
-			else
-			{
-				// 何がはいる？
-			}
 
+				if (title.user_data.HasKey(Defines.KEY_GAMEMODE) == false)
+				{
+					mode_name.Value = "game_tutorial";
+				}
+				else
+				{
+					mode_name.Value = title.user_data.Read(Defines.KEY_GAMEMODE);
+				}
+				Finish();
+			});
+			title.tapScreen.m_animator.SetBool("decide" , true);
 		}
 	}
 

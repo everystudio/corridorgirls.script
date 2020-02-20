@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class Defines{
 
+	#region USER_DATA
+	public const string KEY_GAMEMODE = "gamemode";
+
 	public const string KeyGem = "gem";
 	public const string KeyCoin = "coin";
 	public const string KeyFood = "food";
 	public const string KeyMana = "mana";
 
 	public const string KEY_AGING = "aging";
+	#endregion
 
 
 	public const int BUY_FOOD_FROM_GEM = 100;
@@ -21,11 +25,22 @@ public class Defines{
 	public const int ADD_GEM_FROM_UNITYADS = 10;
 
 	public const string FILENAME_GAMEDATA = "game_data";
+	public const string FILENAME_DATA_STAGE = "data_stage";
+
+	public const string FILENAME_DATA_CORRIDOR = "data_corridor";
 
 	public const string FILENAME_UNIT_CAMP = "unit_camp";
 	public const string FILENAME_UNIT_GAME = "unit_game";
 
-	public const string FILENAME_DATA_STAGE = "data_stage";
+	public const string FILENAME_SKILL_CAMP = "skill_camp";
+	public const string FILENAME_SKILL_GAME = "skill_game";
+
+	public const string FILENAME_CARD_CAMP = "card_camp";
+	public const string FILENAME_CARD_GAME = "card_game";
+
+	public const string FILENAME_ITEM_CAMP = "item_camp";
+	public const string FILENAME_ITEM_GAME = "item_game";
+
 
 	public const float ICON_MOVE_TIME = 0.1f;
 
@@ -60,6 +75,12 @@ public class Defines{
 	public const string KEY_SOUNDSE_MINUS = "cancel_02";
 
 	public const string KEY_SOUNDSE_CASH = "se_cash";
+
+
+	public static string GetHelpKey( int _iHelpId)
+	{
+		return string.Format("checked_help_id_{0}", _iHelpId);
+	}
 
 
 }

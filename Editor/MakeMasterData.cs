@@ -142,6 +142,7 @@ namespace CorridorGirls
 			MasterCampItem masterCampItem = new MasterCampItem();
 			MasterCampShop masterCampShop = new MasterCampShop();
 			MasterLevelup masterLevelup = new MasterLevelup();
+			MasterHelp masterHelp = new MasterHelp();
 
 			yield return EveryStudioLibrary.Editor.EditorCoroutine.start(masterCampItem.SpreadSheet(DMCamp.SS_ID, "campitem", () => {
 				masterCampItem.SaveEditor("07data/master", "master_campitem");
@@ -152,6 +153,12 @@ namespace CorridorGirls
 			yield return EveryStudioLibrary.Editor.EditorCoroutine.start(masterLevelup.SpreadSheet(DMCamp.SS_ID, "levelup", () => {
 				masterLevelup.SaveEditor("07data/master", "master_levelup");
 			}));
+			yield return EveryStudioLibrary.Editor.EditorCoroutine.start(masterHelp.SpreadSheet(DMCamp.SS_ID, "help", () => {
+				masterHelp.SaveEditor("07data/master", "master_help");
+			}));
+
+			
+
 			#endregion
 			#region チュートリアル用
 			DataCard tutorialCard = new DataCard();

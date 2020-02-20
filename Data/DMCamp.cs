@@ -11,11 +11,18 @@ public class DMCamp : DataManagerBase<DMCamp> {
 
 	public CsvKvs gameData = new CsvKvs();
 
+	public DataCard dataCard = new DataCard();
+	public DataUnit dataUnitCamp = new DataUnit();
+	public DataUnit dataUnitGame = new DataUnit();
+	public DataItem dataItem = new DataItem();
+	public DataSkill dataSkill = new DataSkill();
+	public DataStage dataStage = new DataStage();
+	public DataCampItem dataCampItem = new DataCampItem();
+
 	public MasterStage masterStage = new MasterStage();
 
 	public MasterChara masterChara = new MasterChara();
 	public MasterCharaCard masterCharaCard = new MasterCharaCard();
-
 
 	public MasterCard masterCard = new MasterCard();
 	public MasterCardSymbol masterCardSymbol = new MasterCardSymbol();
@@ -26,19 +33,12 @@ public class DMCamp : DataManagerBase<DMCamp> {
 
 	public MasterSkill masterSkill = new MasterSkill();
 
-
 	public MasterCampItem masterCampItem = new MasterCampItem();
 	public MasterCampShop masterCampShop = new MasterCampShop();
 	public MasterLevelup masterLevelup = new MasterLevelup();
 
-	public DataCard dataCard = new DataCard();
-	public DataUnit dataUnitCamp = new DataUnit();
-	public DataUnit dataUnitGame = new DataUnit();
-	public DataItem dataItem = new DataItem();
-	public DataSkill dataSkill = new DataSkill();
-	public DataStage dataStage = new DataStage();
+	public MasterHelp masterHelp = new MasterHelp();
 
-	public DataCampItem dataCampItem = new DataCampItem();
 	[SerializeField]
 	private UnityEngine.Audio.AudioMixer mixer;
 
@@ -68,7 +68,8 @@ public class DMCamp : DataManagerBase<DMCamp> {
 		yield return StartCoroutine(masterCampItem.SpreadSheet(SS_ID, "campitem", () => { }));
 		yield return StartCoroutine(masterCampShop.SpreadSheet(SS_ID, "campshop", () => { }));
 		yield return StartCoroutine(masterLevelup.SpreadSheet(SS_ID, "levelup", () => { }));
-
+		
+		yield return StartCoroutine(masterHelp.SpreadSheet(SS_ID, "help", () => { }));
 	}
 
 	void Start()
@@ -137,52 +138,63 @@ public class DMCamp : DataManagerBase<DMCamp> {
 		masterCampItem.Load(masterTextAssets.Get("master_campitem"));
 		masterCampShop.Load(masterTextAssets.Get("master_campshop"));
 		masterLevelup.Load(masterTextAssets.Get("master_levelup"));
-
+		masterHelp.Load(masterTextAssets.Get("master_help"));
 		// data
+		dataStage.SetSaveFilename(Defines.FILENAME_DATA_STAGE);
 		dataUnitCamp.SetSaveFilename(Defines.FILENAME_UNIT_CAMP);
 		dataUnitGame.SetSaveFilename(Defines.FILENAME_UNIT_GAME);
-		dataSkill.SetSaveFilename("camp_skill");
+		dataSkill.SetSaveFilename(Defines.FILENAME_SKILL_CAMP);
+		dataItem.SetSaveFilename(Defines.FILENAME_ITEM_CAMP);
 
-		if( false == dataUnitCamp.LoadMulti())
+		if ( false == dataUnitCamp.LoadMulti())
 		{
-			yield return StartCoroutine(dataUnitCamp.SpreadSheet(SS_TEST, "unit", () => { }));
+			dataUnitCamp.MakeInitialData(masterChara.list);
+			//yield return StartCoroutine(dataUnitCamp.SpreadSheet(SS_TEST, "unit", () => { }));
 		}
 		if( false == dataSkill.LoadMulti())
 		{
-			yield return StartCoroutine(dataSkill.SpreadSheet(SS_TEST, "skill", () => { }));
+			dataSkill.MakeInitialData();
 		}
-		yield return StartCoroutine(dataItem.SpreadSheet(SS_TEST, "item", () => { }));
+		//yield return StartCoroutine(dataItem.SpreadSheet(SS_TEST, "item", () => { }));
 
 		if( false == dataCampItem.LoadMulti())
 		{
-			yield return StartCoroutine(dataCampItem.SpreadSheet(SS_TEST, "campitem", () => { }));
+			dataCampItem.list.Clear();
+			//yield return StartCoroutine(dataCampItem.SpreadSheet(SS_TEST, "campitem", () => { }));
+		}
+		if( false == dataItem.LoadMulti())
+		{
+			dataItem.list.Clear();
 		}
 
-		dataStage.SetSaveFilename(Defines.FILENAME_DATA_STAGE);
 		if( false == dataStage.LoadMulti())
 		{
 			// まだデータなし
 		}
 
-		int serial = 1;
-		List<DataUnitParam> unit_param_list = dataUnitCamp.list.FindAll(p => p.unit == "chara" && p.position != "none");
-		foreach (DataUnitParam unit in unit_param_list)
+		if(false == dataCard.LoadMulti())
 		{
-			List<MasterCharaCardParam> card_list = masterCharaCard.list.FindAll(p => p.chara_id == unit.chara_id);
-			foreach (MasterCharaCardParam c in card_list)
+			int serial = 1;
+			List<DataUnitParam> unit_param_list = dataUnitCamp.list.FindAll(p => p.unit == "chara" && p.position != "none");
+			foreach (DataUnitParam unit in unit_param_list)
 			{
-				DataCardParam dc = new DataCardParam();
+				List<MasterCharaCardParam> card_list = masterCharaCard.list.FindAll(p => p.chara_id == unit.chara_id);
+				foreach (MasterCharaCardParam c in card_list)
+				{
+					DataCardParam dc = new DataCardParam();
 
-				dc.chara_id = c.chara_id;
-				dc.card_id = c.card_id;
-				dc.card_serial = serial;
-				dc.status = (int)DataCard.STATUS.DECK;
-				serial += 1;
+					dc.chara_id = c.chara_id;
+					dc.card_id = c.card_id;
+					dc.card_serial = serial;
+					dc.status = (int)DataCard.STATUS.DECK;
+					serial += 1;
 
-				dataCard.list.Add(dc);
+					dataCard.list.Add(dc);
+				}
 			}
 		}
 
+		yield return null;
 
 		Initialized = true;
 

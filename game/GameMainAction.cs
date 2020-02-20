@@ -17,6 +17,24 @@ namespace GameMainAction
 			gameMain = Owner.GetComponent<GameMain>();
 		}
 	}
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class GameMainActionBaseHelp : FsmStateAction
+	{
+		public int help_id;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			if (help_id != 0)
+			{
+				if (DataManagerGame.Instance.user_data.HasKey(Defines.GetHelpKey(help_id)) == false)
+				{
+					PanelHelp.Instance.Show(DataManagerGame.Instance.masterHelp.list.Find(p => p.help_id == help_id));
+					DataManagerGame.Instance.user_data.AddInt(Defines.GetHelpKey(help_id), 1);
+				}
+			}
+		}
+	}
 
 	[ActionCategory("GameMainAction")]
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
@@ -142,10 +160,6 @@ namespace GameMainAction
 
 			// 初期設定
 			DataManagerGame.Instance.dataCard.list.Clear();
-
-			int serial = 1;
-
-			List<DataUnitParam> unit_param_list = DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara" && (p.position == "left" || p.position == "right" || p.position == "back"));
 
 			// チュートリアル用のデッキデータをロード
 			DataManagerGame.Instance.dataCard.Load(DataManagerGame.Instance.data_holder.Get("data_tutorial_card"));
@@ -782,7 +796,7 @@ namespace GameMainAction
 			SkillMain.Instance.SkillRequest.Invoke(skill_id.Value);
 
 			masterSkillParam = DataManagerGame.Instance.masterSkill.list.Find(p => p.skill_id == skill_id.Value);
-			DataManagerGame.Instance.dataQuest.AddInt(Defines.KEY_MP, -1 * masterSkillParam.mp);
+			DataManagerGame.Instance.gameData.AddInt(Defines.KEY_MP, -1 * masterSkillParam.mp);
 
 		}
 
@@ -864,7 +878,7 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			DataManagerGame.Instance.dataQuest.AddInt(Defines.KEY_MP, add_mp.Value);
+			DataManagerGame.Instance.gameData.AddInt(Defines.KEY_MP, add_mp.Value);
 			Finish();
 		}
 	}
@@ -1676,6 +1690,25 @@ namespace GameMainAction
 				PanelTutorial.Instance.m_goRoot.SetActive(false);
 				PanelTutorial.Instance.m_btn.onClick.RemoveAllListeners();
 			}
+		}
+	}
+
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class TutorialEnd : GameMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			// これだけでチュートリアル完了扱い？
+			DataManagerGame.Instance.user_data.Write(Defines.KEY_GAMEMODE, "camp");
+			// 一応入れておく
+			DataManagerGame.Instance.user_data.WriteInt("tutorial_status", 1);
+
+			DataManagerGame.Instance.user_data.Save();
+
+			Finish();
 		}
 	}
 
