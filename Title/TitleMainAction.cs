@@ -26,8 +26,8 @@ namespace TitleMainAction {
 			base.OnEnter();
 			title.m_txtVersion.text = string.Format("Ver:{0}", Application.version);
 
-			title.gameData.SetSaveFilename(Defines.FILENAME_GAMEDATA);
-			title.gameData.Load();
+			title.user_data.SetSaveFilename(DataManagerGame.FILENAME_USERDATA);
+			title.user_data.Load();
 
 			Finish();
 		}
@@ -41,15 +41,15 @@ namespace TitleMainAction {
 		{
 			base.OnEnter();
 
-			if( title.gameData.HasKey("is_game") == false)
+			if( title.user_data.HasKey("is_game") == false)
 			{
 				Fsm.Event("tutorial");
 			}
-			else if(title.gameData.ReadInt("is_game") == 0)
+			else if(title.user_data.ReadInt("is_game") == 0)
 			{
 				Fsm.Event("camp");
 			}
-			else if(title.gameData.ReadInt("is_game") != 0)
+			else if(title.user_data.ReadInt("is_game") != 0)
 			{
 				Fsm.Event("game");
 			}

@@ -8,6 +8,7 @@ public class GameMain : Singleton<GameMain> {
 	public GameObject m_prefCorridor;
 
 	public GameObject m_goCardRoot;
+	public Animator m_animCardRoot;
 	public GameObject m_prefCard;
 
 	public PanelStatus panelStatus;

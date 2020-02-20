@@ -73,6 +73,28 @@ namespace CampMainAction {
 		}
 	}
 
+
+	[ActionCategory("CampMainAction")]
+	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
+	public class check_tutorial : CampMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			if (DMCamp.Instance.user_data.HasKey("is_game") == false)
+			{
+				DMCamp.Instance.user_data.WriteInt("is_game", 0);
+				Fsm.Event("tutorial");
+			}
+			else
+			{
+				Finish();
+			}
+		}
+
+	}
+
+
 	[ActionCategory("CampMainAction")]
 	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
 	public class idle : CampMainActionBase

@@ -206,6 +206,8 @@ namespace BattleMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			battleMain.gameMain.m_animCardRoot.SetBool("is_active", true);
+
 			battleMain.gameMain.m_panelGameControlButtons.ShowButtonNum(0, null);
 
 			battleMain.gameMain.m_panelStatus.m_btnStatus.onClick.AddListener(() =>
@@ -225,6 +227,7 @@ namespace BattleMainAction
 		public override void OnExit()
 		{
 			base.OnExit();
+			battleMain.gameMain.m_animCardRoot.SetBool("is_active", false);
 
 			battleMain.gameMain.m_panelStatus.m_btnStatus.onClick.RemoveAllListeners();
 			battleMain.gameMain.m_panelStatus.m_btnItem.onClick.RemoveAllListeners();

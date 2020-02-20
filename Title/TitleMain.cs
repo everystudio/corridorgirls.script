@@ -8,6 +8,6 @@ public class TitleMain : MonoBehaviour {
 
 	public TextMeshProUGUI m_txtVersion;
 
-	public CsvKvs gameData = new CsvKvs();
+	public CsvKvs user_data = new CsvKvs();
 
 }

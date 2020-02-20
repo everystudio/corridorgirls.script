@@ -577,6 +577,8 @@ namespace GameMainAction
 
 			GameCamera.Instance.RequestMoveStart.Invoke();
 
+
+			gameMain.m_animCardRoot.SetBool("is_active", true);
 			gameMain.m_panelGameControlButtons.ShowButtonNum(0, null);
 
 			gameMain.m_panelStatus.m_btnStatus.onClick.AddListener(() =>
@@ -600,6 +602,7 @@ namespace GameMainAction
 			gameMain.m_panelStatus.m_btnStatus.onClick.RemoveAllListeners();
 			gameMain.m_panelStatus.m_btnItem.onClick.RemoveAllListeners();
 			gameMain.m_panelStatus.m_btnDeck.onClick.RemoveAllListeners();
+			gameMain.m_animCardRoot.SetBool("is_active", false);
 
 			if (GameCamera.Instance != null)
 			{
