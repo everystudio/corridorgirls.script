@@ -89,11 +89,13 @@ public class PanelSkill : MonoBehaviour {
 		m_bannerSkillList.Clear();
 
 	}
-	public void SetupListSkill(List<MasterSkillParam> _master_list)
+	public void SetupListSkill( List<DataSkillParam> _data_list , List<MasterSkillParam> _master_list)
 	{
 		ClearSkillList();
-		foreach (MasterSkillParam master in _master_list)
+
+		foreach( DataSkillParam data in _data_list)
 		{
+			MasterSkillParam master = _master_list.Find(p => p.skill_id == data.skill_id);
 			BannerSkill banner = PrefabManager.Instance.MakeScript<BannerSkill>(m_prefBannerSkill, m_goSkillBannerRoot);
 			banner.Initialize(master);
 			banner.OnSkillBanner.AddListener((BannerSkill _banner) =>

@@ -1021,7 +1021,7 @@ namespace CampMainAction {
 			campMain.m_panelSkill.m_btnEdit.gameObject.SetActive(true);
 
 			campMain.m_panelSkill.ClearSkillList();
-			campMain.m_panelSkill.SetupListSkill(DMCamp.Instance.masterSkill.list);
+			campMain.m_panelSkill.SetupListSkill(DMCamp.Instance.dataSkill.list.FindAll(p => 0 <= p.status) , DMCamp.Instance.masterSkill.list);
 
 			campMain.m_panelSkill.m_btnClose.onClick.AddListener(OnClose);
 			campMain.m_panelSkill.m_btnEdit.onClick.AddListener(() => {
@@ -1094,7 +1094,7 @@ namespace CampMainAction {
 		{
 			base.OnEnter();
 
-			campMain.m_panelSkill.SetupListSkill(DMCamp.Instance.masterSkill.list);
+			campMain.m_panelSkill.SetupListSkill(DMCamp.Instance.dataSkill.list.FindAll(p => 0 < p.status) , DMCamp.Instance.masterSkill.list);
 
 			campMain.m_panelSkill.m_textBtnList.text = "----";
 			campMain.m_panelSkill.m_textBtnEdit.text = "----";
@@ -1129,7 +1129,7 @@ namespace CampMainAction {
 			campMain.m_panelSkill.m_imgListBG.color = Color.red;
 			campMain.m_panelSkill.Select(0);
 			campMain.m_panelSkill.SetupSettingSkill(DMCamp.Instance.dataSkill.list.FindAll(p => 0 < p.status), DMCamp.Instance.masterSkill.list);
-			campMain.m_panelSkill.SetupListSkill(DMCamp.Instance.masterSkill.list);
+			campMain.m_panelSkill.SetupListSkill(DMCamp.Instance.dataSkill.list.FindAll(p => 0 <= p.status) , DMCamp.Instance.masterSkill.list);
 
 			campMain.m_panelSkill.m_btnList.gameObject.SetActive(false);
 
