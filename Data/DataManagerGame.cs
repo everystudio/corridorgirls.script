@@ -41,6 +41,7 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 	public MasterStageMission masterStageMission = new MasterStageMission();
 	public MasterStageEnemy masterStageEnemy = new MasterStageEnemy();
 	public MasterStageBattleBonus masterStageBattleBonus = new MasterStageBattleBonus();
+	public MasterStageShopItem masterStageShopItem = new MasterStageShopItem();
 
 	public MasterSkill masterSkill = new MasterSkill();
 	public MasterSkillEffect masterSkillEffect = new MasterSkillEffect();
@@ -98,7 +99,8 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 		yield return StartCoroutine(masterStageMission.SpreadSheet(SS_ID, "stage_mission", () => { }));
 		yield return StartCoroutine(masterStageEnemy.SpreadSheet(SS_ID, "stage_enemy", () => { }));
 		yield return StartCoroutine(masterStageBattleBonus.SpreadSheet(SS_ID, "stage_bb", () => { }));
-
+		yield return StartCoroutine(masterStageShopItem.SpreadSheet(SS_ID, "stage_shopitem", () => { }));
+		
 		yield return StartCoroutine(masterSkill.SpreadSheet(SS_ID, "skill", () => { }));
 		yield return StartCoroutine(masterSkillEffect.SpreadSheet(SS_ID, "skill_effect", () => { }));
 
@@ -147,7 +149,7 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 			gameData.AddInt(Defines.KEY_MP , 0);
 			gameData.AddInt(Defines.KEY_MP_MAX , 30);
 		}
-
+		gameData.AddInt(Defines.KeyGold, 100);
 		GetAgingState();
 
 		masterStage.Load(data_holder.Get("master_stage"));
@@ -168,6 +170,7 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 		masterStageMission.Load(data_holder.Get("master_stage_mission"));
 		masterStageEnemy.Load(data_holder.Get("master_stage_enemy"));
 		masterStageBattleBonus.Load(data_holder.Get("master_stage_bb"));
+		masterStageShopItem.Load(data_holder.Get("master_stage_shopitem"));
 
 		masterSkill.Load(data_holder.Get("master_skill"));
 		masterSkillEffect.Load(data_holder.Get("master_skill_effect"));

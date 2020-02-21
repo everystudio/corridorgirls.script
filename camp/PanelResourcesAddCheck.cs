@@ -34,8 +34,8 @@ public class PanelResourcesAddCheck : MonoBehaviour {
 
 		m_txtMessage.text = "ジェムを消費して食料を増やします。よろしいですか？";
 
-		int food = DMCamp.Instance.gameData.ReadInt(Defines.KeyFood);
-		int gem = DMCamp.Instance.gameData.ReadInt(Defines.KeyGem);
+		int food = DMCamp.Instance.user_data.ReadInt(Defines.KeyFood);
+		int gem = DMCamp.Instance.user_data.ReadInt(Defines.KeyGem);
 
 		m_txtLabelFood.text = string.Format("{0} → {1}", food, food + Defines.BUY_FOOD_FROM_GEM);
 
@@ -57,8 +57,8 @@ public class PanelResourcesAddCheck : MonoBehaviour {
 		{
 			gameObject.SetActive(false);
 
-			DMCamp.Instance.gameData.AddInt(Defines.KeyFood , Defines.BUY_FOOD_FROM_GEM);
-			DMCamp.Instance.gameData.AddInt(Defines.KeyGem , -1 * Defines.BUY_FOOD_COST_GEM);
+			DMCamp.Instance.user_data.AddInt(Defines.KeyFood , Defines.BUY_FOOD_FROM_GEM);
+			DMCamp.Instance.user_data.AddInt(Defines.KeyGem , -1 * Defines.BUY_FOOD_COST_GEM);
 
 			infoHeader.AddFood(Defines.BUY_FOOD_FROM_GEM);
 			infoHeader.AddGem(-1 * Defines.BUY_FOOD_COST_GEM);
@@ -79,8 +79,8 @@ public class PanelResourcesAddCheck : MonoBehaviour {
 
 		m_txtMessage.text = "ジェムを消費してマナを増やします。よろしいですか？";
 
-		int mana = DMCamp.Instance.gameData.ReadInt(Defines.KeyMana);
-		int gem = DMCamp.Instance.gameData.ReadInt(Defines.KeyGem);
+		int mana = DMCamp.Instance.user_data.ReadInt(Defines.KeyMana);
+		int gem = DMCamp.Instance.user_data.ReadInt(Defines.KeyGem);
 
 		m_txtLabelMana.text = string.Format("{0} → {1}", mana, mana + Defines.BUY_MANA_FROM_GEM);
 
@@ -102,8 +102,8 @@ public class PanelResourcesAddCheck : MonoBehaviour {
 		{
 			gameObject.SetActive(false);
 
-			DMCamp.Instance.gameData.AddInt(Defines.KeyMana, Defines.BUY_MANA_FROM_GEM);
-			DMCamp.Instance.gameData.AddInt(Defines.KeyGem, -1 * Defines.BUY_MANA_COST_GEM);
+			DMCamp.Instance.user_data.AddInt(Defines.KeyMana, Defines.BUY_MANA_FROM_GEM);
+			DMCamp.Instance.user_data.AddInt(Defines.KeyGem, -1 * Defines.BUY_MANA_COST_GEM);
 
 			infoHeader.AddMana(Defines.BUY_MANA_FROM_GEM);
 			infoHeader.AddGem(-1 * Defines.BUY_MANA_COST_GEM);
@@ -126,7 +126,7 @@ public class PanelResourcesAddCheck : MonoBehaviour {
 
 		m_txtMessage.text = "動画広告を視聴してジェムを獲得します。よろしいですか？";
 
-		int gem = DMCamp.Instance.gameData.ReadInt(Defines.KeyGem);
+		int gem = DMCamp.Instance.user_data.ReadInt(Defines.KeyGem);
 
 		m_txtLabelGem.text = string.Format("{0} → {1}", gem, gem + Defines.ADD_GEM_FROM_UNITYADS);
 		if (Advertisement.IsReady() )
@@ -147,7 +147,7 @@ public class PanelResourcesAddCheck : MonoBehaviour {
 		{
 			gameObject.SetActive(false);
 			Advertisement.Show();
-			DMCamp.Instance.gameData.AddInt(Defines.KeyGem, Defines.ADD_GEM_FROM_UNITYADS);
+			DMCamp.Instance.user_data.AddInt(Defines.KeyGem, Defines.ADD_GEM_FROM_UNITYADS);
 			infoHeader.AddGem(Defines.ADD_GEM_FROM_UNITYADS);
 
 		});

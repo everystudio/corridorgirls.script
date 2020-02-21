@@ -8,7 +8,7 @@ public class Defines{
 	public const string KEY_GAMEMODE = "gamemode";
 
 	public const string KeyGem = "gem";
-	public const string KeyCoin = "coin";
+	public const string KeyGold = "gold";
 	public const string KeyFood = "food";
 	public const string KeyMana = "mana";
 

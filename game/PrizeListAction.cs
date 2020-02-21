@@ -17,6 +17,27 @@ namespace PrizeListAction  {
 	}
 	[ActionCategory("PrizeListAction")]
 	[HutongGames.PlayMaker.Tooltip("PrizeListAction")]
+	public class wait : PrizeListActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			prizeList.Clear();
+			prizeList.NumUpdate();
+			Finish();
+		}
+
+		public override void OnUpdate()
+		{
+			base.OnUpdate();
+			if(DataManagerGame.Instance.Initialized)
+			{
+				Finish();
+			}
+		}
+	}
+	[ActionCategory("PrizeListAction")]
+	[HutongGames.PlayMaker.Tooltip("PrizeListAction")]
 	public class Reset : PrizeListActionBase
 	{
 		public override void OnEnter()
@@ -120,9 +141,9 @@ namespace PrizeListAction  {
 			base.OnUpdate();
 
 			timer += Time.deltaTime;
-			if( 0.05f < timer)
+			if( 0.025f < timer)
 			{
-				timer -= 0.05f;
+				timer -= 0.025f;
 
 				bool bChange = false;
 				if (prizeList.m_iFoodDisp <prizeList.m_iFood)
@@ -145,7 +166,12 @@ namespace PrizeListAction  {
 					prizeList.m_iGoldDisp += 1;
 					bChange = true;
 				}
-				if( bChange)
+				else if(prizeList.m_iGold < prizeList.m_iGoldDisp)
+				{
+					prizeList.m_iGoldDisp -= 1;
+					bChange = true;
+				}
+				if ( bChange)
 				{
 					prizeList.NumUpdate();
 				}

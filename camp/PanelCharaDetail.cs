@@ -19,6 +19,38 @@ public class PanelCharaDetail : MonoBehaviour {
 	public GameObject m_prefCard;
 	public GameObject m_goCardRoot;
 
+	public void ShowScout(MasterCharaParam _masterChara , List<MasterCardParam> _master_card_list, List<MasterCharaCardParam> _chara_card_list, List<MasterCardSymbolParam> _symbol_list)
+	{
+		m_imgIcon.sprite = SpriteManager.Instance.Get(string.Format(Defines.STR_FORMAT_FACEICON, _masterChara.chara_id));
+		m_txtCharaName.text = _masterChara.name;
+		m_txtHP.text = _masterChara.hp_max.ToString();
+		m_txtSTR.text = _masterChara.str.ToString();
+		m_txtMAG.text = _masterChara.magic.ToString();
+		m_txtHEAL.text = _masterChara.heal.ToString();
+		m_txtFood.text = _masterChara.food.ToString();
+
+		m_barTension.SetValueCurrent(100);
+
+		Card[] arr = m_goCardRoot.GetComponentsInChildren<Card>();
+		foreach (Card c in arr)
+		{
+			GameObject.Destroy(c.gameObject);
+		}
+		foreach (MasterCharaCardParam p in _chara_card_list.FindAll(p => p.chara_id == _masterChara.chara_id))
+		{
+			//Debug.Log(p.card_id);
+			Card c = PrefabManager.Instance.MakeScript<Card>(m_prefCard, m_goCardRoot);
+
+			DataCardParam data_card = new DataCardParam();
+			data_card.chara_id = _masterChara.chara_id;
+			data_card.card_id = p.card_id;
+			data_card.master = _master_card_list.Find(a => a.card_id == p.card_id);
+
+			c.Initialize(data_card, _symbol_list);
+		}
+
+	}
+
 	public void Show(DataUnitParam _dataChara ,  MasterCharaParam _masterChara , List<MasterCardParam> _master_card_list , List<MasterCharaCardParam> _chara_card_list , List<MasterCardSymbolParam> _symbol_list)
 	{
 		m_imgIcon.sprite = SpriteManager.Instance.Get(string.Format(Defines.STR_FORMAT_FACEICON, _masterChara.chara_id));
@@ -39,7 +71,6 @@ public class PanelCharaDetail : MonoBehaviour {
 
 		foreach ( MasterCharaCardParam p in _chara_card_list.FindAll(p=>p.chara_id == _masterChara.chara_id))
 		{
-
 			//Debug.Log(p.card_id);
 			Card c = PrefabManager.Instance.MakeScript<Card>(m_prefCard, m_goCardRoot);
 
@@ -51,6 +82,7 @@ public class PanelCharaDetail : MonoBehaviour {
 			c.Initialize(data_card, _symbol_list);
 		}
 	}
+
 
 
 

@@ -91,7 +91,10 @@ namespace ItemMainAction
 			itemMain.m_panelItemList.OnSelectItem.RemoveAllListeners();
 			itemMain.m_panelItemList.gameObject.SetActive(false);
 
-			GameMain.Instance.m_panelGameControlButtons.OnClickButton.RemoveAllListeners();
+			if (GameMain.Instance != null)
+			{
+				GameMain.Instance.m_panelGameControlButtons.OnClickButton.RemoveAllListeners();
+			}
 		}
 	}
 

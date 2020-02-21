@@ -19,6 +19,7 @@ public class GameMain : Singleton<GameMain> {
 	// 演出とかで使うもの
 	public RouletteItem rouletteItem;
 	public PanelGetCard panelGetCard;
+	public PanelStageShop panelStageShop;
 
 	public GameObject m_goSkillButtonRoot;
 	public GameObject m_prefBtnSkill;

@@ -75,7 +75,7 @@ MonoBehaviour:
           name: shop
           isSystemEvent: 0
           isGlobal: 0
-        toState: State 2
+        toState: shop
         linkStyle: 0
         linkConstraint: 0
         colorIndex: 0
@@ -976,7 +976,7 @@ MonoBehaviour:
         paramName: []
         paramDataPos: 
         paramByteDataSize: 
-    - name: State 2
+    - name: shop
       description: 
       colorIndex: 0
       position:
@@ -984,18 +984,28 @@ MonoBehaviour:
         x: 248
         y: 733
         width: 100
-        height: 16
+        height: 32
       isBreakpoint: 0
       isSequence: 0
       hideUnused: 0
-      transitions: []
+      transitions:
+      - fsmEvent:
+          name: FINISHED
+          isSystemEvent: 1
+          isGlobal: 0
+        toState: Finish
+        linkStyle: 0
+        linkConstraint: 0
+        colorIndex: 0
       actionData:
-        actionNames: []
-        customNames: []
-        actionEnabled: 
-        actionIsOpen: 
-        actionStartIndex: 
-        actionHashCodes: 
+        actionNames:
+        - GameMainAction.StageShop
+        customNames:
+        - 
+        actionEnabled: 01
+        actionIsOpen: 01
+        actionStartIndex: 00000000
+        actionHashCodes: e9ac1d02
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
@@ -1011,7 +1021,19 @@ MonoBehaviour:
         fsmArrayParams: []
         fsmEnumParams: []
         fsmFloatParams: []
-        fsmIntParams: []
+        fsmIntParams:
+        - useVariable: 1
+          name: stage_id
+          tooltip: 
+          showInInspector: 1
+          networkSync: 0
+          value: 0
+        - useVariable: 1
+          name: wave
+          tooltip: 
+          showInInspector: 1
+          networkSync: 0
+          value: 0
         fsmBoolParams: []
         fsmVector2Params: []
         fsmVector3Params: []
@@ -1024,10 +1046,12 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 
-        paramName: []
-        paramDataPos: 
-        paramByteDataSize: 
+        paramDataType: 1000000010000000
+        paramName:
+        - stage_id
+        - wave
+        paramDataPos: 0000000001000000
+        paramByteDataSize: 0000000000000000
     - name: State 3
       description: 
       colorIndex: 0

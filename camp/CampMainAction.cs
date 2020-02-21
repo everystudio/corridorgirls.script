@@ -70,12 +70,13 @@ namespace CampMainAction {
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			campMain.m_btnInvite.SetBadgeNum(0);
 		}
 
 		public override void OnUpdate()
 		{
 			base.OnUpdate();
-			if(DMCamp.Instance.Initialized)
+			if (DMCamp.Instance.Initialized && NTPTimer.Instance.Initialized)
 			{
 				campMain.m_panelStatus.Initialize(DMCamp.Instance.dataUnitCamp, DMCamp.Instance.masterChara);
 				campMain.m_panelStatus.SetupSkill(DMCamp.Instance.dataSkill.list.FindAll(p => 0 < p.status), DMCamp.Instance.masterSkill.list);
@@ -103,16 +104,20 @@ namespace CampMainAction {
 	public class idle : CampMainActionBase
 	{
 		private float aging_timer;
+		private float debug_timer;
 		public override void OnEnter()
 		{
 			base.OnEnter();
 
 			campMain.m_panelSkill.m_goControlRoot.SetActive(false);
 			aging_timer = 0.0f;
+			debug_timer = 0.0f;
 
-			campMain.m_infoHeaderCamp.SetFood(DMCamp.Instance.gameData.ReadInt(Defines.KeyFood));
-			campMain.m_infoHeaderCamp.SetMana(DMCamp.Instance.gameData.ReadInt(Defines.KeyMana));
-			campMain.m_infoHeaderCamp.SetGem(DMCamp.Instance.gameData.ReadInt(Defines.KeyGem));
+			campMain.m_infoHeaderCamp.SetFood(DMCamp.Instance.user_data.ReadInt(Defines.KeyFood));
+			campMain.m_infoHeaderCamp.SetMana(DMCamp.Instance.user_data.ReadInt(Defines.KeyMana));
+			campMain.m_infoHeaderCamp.SetGem(DMCamp.Instance.user_data.ReadInt(Defines.KeyGem));
+
+			campMain.m_btnInvite.Refresh();
 
 			campMain.m_panelStatus.m_btnDeck.onClick.AddListener(() =>
 			{
@@ -133,7 +138,20 @@ namespace CampMainAction {
 					Fsm.Event("stage");
 				}
 			}
+
+			/*
+			debug_timer += Time.deltaTime;
+			if( 1.0f < debug_timer)
+			{
+				debug_timer -= 1.0f;
+				Debug.Log(NTPTimer.Instance.now.ToString("yyyy/MM/dd (ddd) HH:mm:ss"));
+			}
+			*/
+
+
 			#endregion
+
+
 		}
 
 		public override void OnExit()
@@ -263,7 +281,7 @@ namespace CampMainAction {
 			campMain.m_panelStageCheck.gameObject.SetActive(true);
 			play_cost.Value = campMain.m_panelStageCheck.Initialize(stage_id.Value);
 
-			int food_num = DMCamp.Instance.gameData.ReadInt(Defines.KeyFood);
+			int food_num = DMCamp.Instance.user_data.ReadInt(Defines.KeyFood);
 
 			if(play_cost.Value <= food_num)
 			{
@@ -338,7 +356,7 @@ namespace CampMainAction {
 		{
 			base.OnEnter();
 
-			mana = DMCamp.Instance.gameData.ReadInt(Defines.KeyMana);
+			mana = DMCamp.Instance.user_data.ReadInt(Defines.KeyMana);
 			campMain.m_panelCampItem.gameObject.SetActive(true);
 			campMain.m_panelCampItem.Initialize(DMCamp.Instance.dataCampItem.list);
 
@@ -897,7 +915,7 @@ namespace CampMainAction {
 				MasterLevelupParam levelup_param = DMCamp.Instance.masterLevelup.list.Find(p => p.level == level);
 				need_mana.Value += levelup_param.mana;
 			}
-			if (need_mana.Value <= DMCamp.Instance.gameData.ReadInt(Defines.KeyMana))
+			if (need_mana.Value <= DMCamp.Instance.user_data.ReadInt(Defines.KeyMana))
 			{
 				campMain.m_panelChara.m_panelCharaLevelup.m_txtNeedMana.text = string.Format("消費マナ\n<color=#0FF>{0}</color>", need_mana);
 				campMain.m_panelChara.m_btnList.interactable = true;
@@ -937,7 +955,7 @@ namespace CampMainAction {
 			master_chara.BuildLevel(data_unit, data_unit.level + levelup_num.Value, data_unit.tension);
 
 
-			DMCamp.Instance.gameData.AddInt(Defines.KeyMana, -1 * need_mana.Value);
+			DMCamp.Instance.user_data.AddInt(Defines.KeyMana, -1 * need_mana.Value);
 
 			campMain.m_infoHeaderCamp.AddMana(-1 * need_mana.Value);
 
@@ -1372,7 +1390,7 @@ namespace CampMainAction {
 
 					select_campitem_id.Value = _shop.m_masterCampItem.campitem_id;
 
-					int check_gem = DMCamp.Instance.gameData.ReadInt(Defines.KeyGem);
+					int check_gem = DMCamp.Instance.user_data.ReadInt(Defines.KeyGem);
 
 					bool buy_ok = _shop.m_masterCampShop.gem <= check_gem;
 
@@ -1456,6 +1474,117 @@ namespace CampMainAction {
 	}
 
 
+	[ActionCategory("CampMainAction")]
+	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
+	public class scout_top : CampMainActionBase
+	{
+		public FsmInt chara_id;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			campMain.m_panelScout.gameObject.SetActive(true);
+			int num = campMain.m_panelScout.Show();
+
+			campMain.m_panelDecideCheckBottom.m_txtMessage.text = (0<num)?"スカウトしたいキャラを\n選択してください":"スカウトできるキャラは\nただいま不在です";
+			campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(true);
+
+			campMain.m_panelDecideCheckBottom.m_txtLabelCancel.text = "閉じる";
+
+			campMain.m_panelDecideCheckBottom.m_btnDecide.gameObject.SetActive(false);
+			campMain.m_panelDecideCheckBottom.m_btnOther.gameObject.SetActive(false);
+			campMain.m_panelDecideCheckBottom.m_btnCancel.gameObject.SetActive(true);
+			campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.AddListener(() =>
+			{
+				campMain.m_panelScout.gameObject.SetActive(false);
+				campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(false);
+
+				campMain.m_panelScout.m_btnInvite.Refresh();
+				Finish();
+			});
+
+			campMain.m_panelScout.OnListCharaId.AddListener((_chara_id) =>
+			{
+				chara_id.Value = _chara_id;
+				Fsm.Event("select");
+			});
+
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+
+		}
+	}
+
+
+	[ActionCategory("CampMainAction")]
+	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
+	public class scout_check : CampMainActionBase
+	{
+		public FsmInt chara_id;
+		MasterCharaParam master_chara;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			master_chara = DMCamp.Instance.masterChara.list.Find(p => p.chara_id == chara_id.Value);
+
+			campMain.m_panelScout.m_panelCharaDetail.gameObject.SetActive(true);
+			campMain.m_panelScout.m_panelCharaDetail.ShowScout(
+				master_chara,
+				DMCamp.Instance.masterCard.list,
+				DMCamp.Instance.masterCharaCard.list,
+				DMCamp.Instance.masterCardSymbol.list
+				);
+
+
+
+			bool can_buy = master_chara.scout <= DMCamp.Instance.user_data.ReadInt(Defines.KeyGem);
+
+			campMain.m_panelDecideCheckBottom.m_txtLabelDecide.text = "スカウトする";
+			campMain.m_panelDecideCheckBottom.m_btnDecide.interactable = can_buy;
+
+			campMain.m_panelDecideCheckBottom.m_txtMessage.text = can_buy ?
+				string.Format("スカウト必要ジェム{0}個\nジェム{1}→<color=red>{2}</color>",
+				master_chara.scout, DMCamp.Instance.user_data.ReadInt(Defines.KeyGem),
+				DMCamp.Instance.user_data.ReadInt(Defines.KeyGem) - master_chara.scout) :
+				string.Format("<color=red>ジェムが足りません\n必要ジェム{0}個</color>", master_chara.scout);
+
+			campMain.m_panelDecideCheckBottom.m_btnDecide.gameObject.SetActive(true);
+			campMain.m_panelDecideCheckBottom.m_btnOther.gameObject.SetActive(false);
+			campMain.m_panelDecideCheckBottom.m_btnCancel.gameObject.SetActive(true);
+
+
+			campMain.m_panelDecideCheckBottom.m_btnDecide.onClick.AddListener(() =>
+			{
+				SEControl.Instance.Play(Defines.KEY_SOUNDSE_CASH);
+
+				DMCamp.Instance.user_data.AddInt(Defines.KeyGem, -1 * master_chara.scout);
+				campMain.m_infoHeaderCamp.AddGem(-1 * master_chara.scout);
+
+				DataUnitParam add_chara = DataUnit.MakeUnit(master_chara, "none", 60);
+				DMCamp.Instance.dataUnitCamp.list.Add(add_chara);
+
+				Finish();
+			});
+			campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.AddListener(() =>
+			{
+				Finish();
+			});
+
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			campMain.m_panelDecideCheckBottom.m_btnDecide.interactable = true;
+			campMain.m_panelScout.m_panelCharaDetail.gameObject.SetActive(false);
+
+		}
+
+	}
 
 
 	[ActionCategory("CampMainAction")]
@@ -1543,10 +1672,10 @@ namespace CampMainAction {
 			DMCamp.Instance.dataStage.Save();
 
 			// プレイ用コストの消化
-			DMCamp.Instance.gameData.AddInt(Defines.KeyFood, -1 * play_cost.Value);
-			DMCamp.Instance.gameData.AddInt(Defines.KeyMana, -1 * play_mana.Value);
+			DMCamp.Instance.user_data.AddInt(Defines.KeyFood, -1 * play_cost.Value);
+			DMCamp.Instance.user_data.AddInt(Defines.KeyMana, -1 * play_mana.Value);
 
-			DMCamp.Instance.gameData.Save();
+			DMCamp.Instance.user_data.Save();
 
 			Finish();
 		}

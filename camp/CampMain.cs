@@ -27,6 +27,11 @@ public class CampMain : Singleton<CampMain> {
 
 	public InfoHeaderCamp m_infoHeaderCamp;
 
+	public PanelScout m_panelScout;
+
+
+	public BtnInvite m_btnInvite;
+
 	public override void Initialize()
 	{
 		base.Initialize();

@@ -69,6 +69,7 @@ namespace CorridorGirls
 			MasterStageMission masterStageMission = new MasterStageMission();
 			MasterStageEnemy masterStageEnemy = new MasterStageEnemy();
 			MasterStageBattleBonus masterStageBattleBonus = new MasterStageBattleBonus();
+			MasterStageShopItem masterStageShopItem = new MasterStageShopItem();
 
 			MasterSkill masterSkill = new MasterSkill();
 			MasterSkillEffect masterSkillEffect = new MasterSkillEffect();
@@ -77,6 +78,8 @@ namespace CorridorGirls
 
 			MasterMission masterMission = new MasterMission();
 			MasterMissionDetail masterMissionDetail = new MasterMissionDetail();
+
+
 			yield return EveryStudioLibrary.Editor.EditorCoroutine.start(masterCardSymbol.SpreadSheet(DataManagerGame.SS_ID, "card_symbol", () => {
 				masterCardSymbol.SaveEditor("07data/master", "master_card_symbol");
 			}));
@@ -112,6 +115,9 @@ namespace CorridorGirls
 			yield return EveryStudioLibrary.Editor.EditorCoroutine.start(masterStageBattleBonus.SpreadSheet(DataManagerGame.SS_ID, "stage_bb", () => {
 				masterStageBattleBonus.SaveEditor("07data/master", "master_stage_bb");
 			}));
+			yield return EveryStudioLibrary.Editor.EditorCoroutine.start(masterStageShopItem.SpreadSheet(DataManagerGame.SS_ID, "stage_shopitem", () => {
+				masterStageBattleBonus.SaveEditor("07data/master", "master_stage_shopitem");
+			}));
 
 			yield return EveryStudioLibrary.Editor.EditorCoroutine.start(masterSkill.SpreadSheet(DataManagerGame.SS_ID, "skill", () => {
 				masterSkill.SaveEditor("07data/master", "master_skill");
@@ -133,6 +139,9 @@ namespace CorridorGirls
 				{
 					//Debug.Log(p.message);
 				}
+			}));
+			yield return EveryStudioLibrary.Editor.EditorCoroutine.start(masterMission.SpreadSheet(DataManagerGame.SS_ID, "mission", () => {
+				masterMission.SaveEditor("07data/master", "master_mission");
 			}));
 
 

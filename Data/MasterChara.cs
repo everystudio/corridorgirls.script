@@ -19,6 +19,8 @@ public class MasterCharaParam : CsvDataParam
 	public string texture_name { get; set; }
 	public string sprite_name { get; set; }
 
+	public int scout { get; set; }
+
 	private const float LEVELUP_PARAM_RATE = 0.05f;
 
 	public DataUnitParam BuildLevel(DataUnitParam _unit , int _iLevel, int _iTension)

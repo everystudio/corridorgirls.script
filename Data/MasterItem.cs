@@ -15,6 +15,7 @@ public class MasterItemParam : CsvDataParam
 	public int param2 { get; set; }
 	public int param3 { get; set; }
 	public string sprite_name { get; set; }
+	public int gold { get; set; }
 
 	public bool CheckSituation(string _strSituation)
 	{

@@ -55,7 +55,7 @@ public class PrizeList : Singleton<PrizeList> {
 		OnCompleteDisable.Invoke();
 	}
 
-	public void Reset()
+	public void Clear()
 	{
 		m_iFood = 0;
 		m_iFoodDisp = 0;
@@ -65,6 +65,18 @@ public class PrizeList : Singleton<PrizeList> {
 		m_iGemDisp = 0;
 		m_iGold = 0;
 		m_iGoldDisp = 0;
+	}
+
+	public void Reset()
+	{
+		m_iFood = DataManagerGame.Instance.gameData.ReadInt(Defines.KeyFood);
+		m_iFoodDisp = m_iFood;
+		m_iMana = DataManagerGame.Instance.gameData.ReadInt(Defines.KeyMana);
+		m_iManaDisp = m_iMana;
+		m_iGem = DataManagerGame.Instance.gameData.ReadInt(Defines.KeyGem);
+		m_iGemDisp = m_iGem;
+		m_iGold = DataManagerGame.Instance.gameData.ReadInt(Defines.KeyGold);
+		m_iGoldDisp = m_iGold;
 	}
 
 	public void NumUpdate()

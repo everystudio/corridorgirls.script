@@ -82,7 +82,7 @@ namespace GameMainAction
 
 			// テンションのみだろうけどセット
 			List<DataUnitParam> unit_param_list = DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara" && (p.position == "left" || p.position == "right" || p.position == "back"));
-			foreach(DataUnitParam unit in unit_param_list)
+			foreach (DataUnitParam unit in unit_param_list)
 			{
 				//Debug.Log(string.Format("chara_id={0} str={1}", unit.chara_id, unit.str));
 				unit.BuildAssist(DataManagerGame.Instance.dataUnit.list.FindAll(p => p.chara_id == unit.chara_id && p.unit == "assist"));
@@ -121,7 +121,7 @@ namespace GameMainAction
 					dc.card_id = c.card_id;
 					dc.card_serial = serial;
 					dc.status = (int)DataCard.STATUS.DECK;
-					if( unit.position == "back")
+					if (unit.position == "back")
 					{
 						dc.status = (int)DataCard.STATUS.NOTUSE;
 					}
@@ -133,7 +133,7 @@ namespace GameMainAction
 
 			DataManagerGame.Instance.dataCard.CardFill(5);
 
-			gameMain.CardSetup(DataManagerGame.Instance.dataCard.list.FindAll(p=>p.status == (int)DataCard.STATUS.HAND));
+			gameMain.CardSetup(DataManagerGame.Instance.dataCard.list.FindAll(p => p.status == (int)DataCard.STATUS.HAND));
 
 			gameMain.CardOrder();
 
@@ -223,13 +223,13 @@ namespace GameMainAction
 			gameMain.total_wave = master_stage.total_wave;
 			gameMain.now_wave = wave.Value;
 
-			foreach ( Corridor c in gameMain.corridor_list)
+			foreach (Corridor c in gameMain.corridor_list)
 			{
 				GameObject.Destroy(c.gameObject);
 			}
 			gameMain.corridor_list.Clear();
 
-			DataManagerGame.Instance.dataCorridor.BuildDungeon(master_stage , wave.Value);
+			DataManagerGame.Instance.dataCorridor.BuildDungeon(master_stage, wave.Value);
 
 			foreach (DataCorridorParam param in DataManagerGame.Instance.dataCorridor.list)
 			{
@@ -319,7 +319,7 @@ namespace GameMainAction
 			//Debug.Log(hand_card_num);
 			PanelLogMessage.Instance.AddMessage("行動を開始してください");
 
-			if ( hand_card_num <= card_fill_num.Value)
+			if (hand_card_num <= card_fill_num.Value)
 			{
 				Fsm.Event("card_fill");
 			}
@@ -338,7 +338,8 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			coin.Value = DataManagerGame.Instance.user_data.ReadInt(Defines.KeyCoin);
+			coin.Value = DataManagerGame.Instance.gameData.ReadInt(Defines.KeyGold);
+			Debug.Log(coin.Value);
 			Finish();
 		}
 	}
@@ -351,7 +352,7 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			coin.Value = DataManagerGame.Instance.user_data.AddInt(Defines.KeyCoin, add.Value);
+			coin.Value = DataManagerGame.Instance.gameData.AddInt(Defines.KeyGold, add.Value);
 			PrizeList.Instance.m_iGold = coin.Value;
 			Finish();
 		}
@@ -365,7 +366,7 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			gem.Value = DataManagerGame.Instance.user_data.AddInt(Defines.KeyGem, add.Value);
+			gem.Value = DataManagerGame.Instance.gameData.AddInt(Defines.KeyGem, add.Value);
 			PrizeList.Instance.m_iGem = gem.Value;
 			Finish();
 		}
@@ -379,7 +380,7 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			mana.Value = DataManagerGame.Instance.user_data.AddInt(Defines.KeyMana, add.Value);
+			mana.Value = DataManagerGame.Instance.gameData.AddInt(Defines.KeyMana, add.Value);
 			PrizeList.Instance.m_iMana = mana.Value;
 			Finish();
 		}
@@ -393,7 +394,7 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			food.Value = DataManagerGame.Instance.user_data.AddInt(Defines.KeyFood, add.Value);
+			food.Value = DataManagerGame.Instance.gameData.AddInt(Defines.KeyFood, add.Value);
 			PrizeList.Instance.m_iFood = food.Value;
 			Finish();
 		}
@@ -413,7 +414,7 @@ namespace GameMainAction
 			List<DataCardParam> add_list = new List<DataCardParam>();
 			bool bResult = DataManagerGame.Instance.dataCard.CardFill(fill_num.Value, ref add_list);
 
-			foreach( DataCardParam card in add_list)
+			foreach (DataCardParam card in add_list)
 			{
 				GameMain.Instance.CardAdd(card);
 			}
@@ -440,7 +441,7 @@ namespace GameMainAction
 
 			PanelLogMessage.Instance.AddMessage("山札がなくなりました");
 			PanelLogMessage.Instance.AddMessage("デッキリロードを行います");
-			
+
 			GameMain.Instance.m_iCountDeck += 1;
 
 			DataManagerGame.Instance.dataCard.DeckShuffle();
@@ -477,7 +478,7 @@ namespace GameMainAction
 				select_card_serial.Value = arg0;
 				gameMain.CardSelectUp(select_card_serial.Value);
 
-				DataCardParam card =  DataManagerGame.Instance.dataCard.list.Find(p => p.card_serial == select_card_serial.Value);
+				DataCardParam card = DataManagerGame.Instance.dataCard.list.Find(p => p.card_serial == select_card_serial.Value);
 
 				GameMain.Instance.SelectCharaId = card.chara_id;
 			}
@@ -555,7 +556,7 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 			//Debug.Log("SkillSelect");
-			foreach( BtnSkill btn in GameMain.Instance.m_panelStatus.m_btnSkillList)
+			foreach (BtnSkill btn in GameMain.Instance.m_panelStatus.m_btnSkillList)
 			{
 				//Debug.Log(btn.gameObject.name);
 				btn.OnSkillButton.AddListener(OnSkill);
@@ -616,7 +617,10 @@ namespace GameMainAction
 			gameMain.m_panelStatus.m_btnStatus.onClick.RemoveAllListeners();
 			gameMain.m_panelStatus.m_btnItem.onClick.RemoveAllListeners();
 			gameMain.m_panelStatus.m_btnDeck.onClick.RemoveAllListeners();
-			gameMain.m_animCardRoot.SetBool("is_active", false);
+			if (gameMain.m_animCardRoot != null)
+			{
+				gameMain.m_animCardRoot.SetBool("is_active", false);
+			}
 
 			if (GameCamera.Instance != null)
 			{
@@ -637,7 +641,7 @@ namespace GameMainAction
 			GameMain.Instance.m_panelPlayerDeck.m_btnClose.gameObject.SetActive(false);
 			GameMain.Instance.m_panelPlayerDeck.Show();
 
-			GameMain.Instance.m_panelGameControlButtons.ShowButtonNum(1,new string[1]{ "閉じる"});
+			GameMain.Instance.m_panelGameControlButtons.ShowButtonNum(1, new string[1] { "閉じる" });
 
 			GameMain.Instance.m_panelGameControlButtons.OnClickButton.AddListener((int _iIndex) =>
 			{
@@ -721,7 +725,10 @@ namespace GameMainAction
 		public override void OnExit()
 		{
 			base.OnExit();
-			ItemMain.Instance.OnClose.RemoveAllListeners();
+			if (ItemMain.Instance != null)
+			{
+				ItemMain.Instance.OnClose.RemoveAllListeners();
+			}
 		}
 	}
 
@@ -743,7 +750,7 @@ namespace GameMainAction
 			SEControl.Instance.Play("cursor_01");
 
 			m_panelSkillDetail = panel_skill_detail.Value.GetComponent<PanelSkillDetail>();
-			m_panelSkillDetail.Initialize(skill_id.Value , situation.Value , skill_used.Value);
+			m_panelSkillDetail.Initialize(skill_id.Value, situation.Value, skill_used.Value);
 
 			m_panelSkillDetail.m_btnUse.onClick.AddListener(OnSkill);
 			m_panelSkillDetail.m_btnCancel.onClick.AddListener(OnCancel);
@@ -802,12 +809,12 @@ namespace GameMainAction
 
 		private void OnSkillFinished(bool arg0)
 		{
-			if( 0 < SkillMain.Instance.move_num)
+			if (0 < SkillMain.Instance.move_num)
 			{
 				move_num.Value = SkillMain.Instance.move_num;
 				Fsm.Event("move");
 			}
-			else if( 0 < SkillMain.Instance.damage)
+			else if (0 < SkillMain.Instance.damage)
 			{
 				damage.Value = SkillMain.Instance.damage;
 				Fsm.Event("damage");
@@ -897,9 +904,9 @@ namespace GameMainAction
 			// ここのシリアルは手札じゃなくてもOK
 			//Card selected_card = GameMain.Instance.card_list_hand.Find(p => p.data_card.card_serial == card_serial.Value);
 			DataCardParam selected_card = DataManagerGame.Instance.dataCard.list.Find(p => p.card_serial == card_serial.Value);
-			if(selected_card == null)
+			if (selected_card == null)
 			{
-				foreach( Card dc in GameMain.Instance.card_list_hand)
+				foreach (Card dc in GameMain.Instance.card_list_hand)
 				{
 					//Debug.Log(dc.data_card.card_serial);
 				}
@@ -1076,7 +1083,7 @@ namespace GameMainAction
 			// ここ順番をうまく入れ替えしたい気がする
 			List<DataUnitParam> unit_chara_list = DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara" && p.position != "none");
 			int[] chara_id_arr = new int[unit_chara_list.Count];
-			for( int i = 0; i < chara_id_arr.Length; i++)
+			for (int i = 0; i < chara_id_arr.Length; i++)
 			{
 				chara_id_arr[i] = unit_chara_list[i].chara_id;
 			}
@@ -1088,13 +1095,13 @@ namespace GameMainAction
 
 		private void OnSelectCardParam(DataCardParam arg0)
 		{
-			Debug.LogWarning(string.Format("card:label={0} power={1} chara_id={2}", arg0.master.label, arg0.master.power , arg0.chara_id));
+			Debug.LogWarning(string.Format("card:label={0} power={1} chara_id={2}", arg0.master.label, arg0.master.power, arg0.chara_id));
 
 			DataUnitParam add_unit = DataManagerGame.Instance.dataUnit.list.Find(p => p.chara_id == arg0.chara_id);
 
 			DataCard.STATUS add_status = DataCard.STATUS.NONE;
 
-			if( add_unit.position == "left" || add_unit.position == "right")
+			if (add_unit.position == "left" || add_unit.position == "right")
 			{
 				add_status = DataCard.STATUS.DECK;
 			}
@@ -1117,6 +1124,111 @@ namespace GameMainAction
 				gameMain.panelGetCard.gameObject.SetActive(false);
 			}
 		}
+	}
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class StageShop : GameMainActionBase
+	{
+		public FsmInt stage_id;
+		public FsmInt wave;
+		private int total_gold;
+		private List<IconStageShopItem> icon_list = new List<IconStageShopItem>();
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			PrizeList.Instance.m_bMenu = true;
+			total_gold = 0;
+			icon_list.Clear();
+			GameMain.Instance.panelStageShop.gameObject.SetActive(true);
+			GameMain.Instance.panelStageShop.Initialize(stage_id.Value, wave.Value);
+			GameMain.Instance.panelStageShop.m_txtTotalGold.text = "0";
+			GameMain.Instance.panelStageShop.OnClickIcon.RemoveAllListeners();
+			GameMain.Instance.panelStageShop.OnClickIcon.AddListener((IconStageShopItem _icon) =>
+			{
+				Debug.Log(_icon.icon_index);
+				if (icon_list.Contains(_icon))
+				{
+					icon_list.Remove(_icon);
+					_icon.Select(false);
+					SEControl.Instance.Play(false ? Defines.KEY_SOUNDSE_PLUS : Defines.KEY_SOUNDSE_MINUS);
+				}
+				else
+				{
+					icon_list.Add(_icon);
+					_icon.Select(true);
+					SEControl.Instance.Play(true ? Defines.KEY_SOUNDSE_PLUS : Defines.KEY_SOUNDSE_MINUS);
+				}
+				total_gold = 0;
+				foreach( IconStageShopItem icon in icon_list)
+				{
+					total_gold += icon.m_masterItemParam.gold;
+				}
+				GameMain.Instance.panelStageShop.m_txtTotalGold.text = total_gold.ToString();
+
+				if( 0 < icon_list.Count)
+				{
+					int gold = DataManagerGame.Instance.gameData.ReadInt(Defines.KeyGold);
+					Debug.Log(gold);
+					if( total_gold <= gold)
+					{
+						GameMain.Instance.m_panelGameControlButtons.ShowButtonNum(2, new string[2] { "購入", "退店" }, new bool[2] { true, true });
+					}
+					else
+					{
+						GameMain.Instance.m_panelGameControlButtons.ShowButtonNum(2, new string[2] { "<color=red>ゴールド不足</color>", "退店" }, new bool[2] { false, true });
+					}
+				}
+				else
+				{
+					// ボタンの初期状態
+					GameMain.Instance.m_panelGameControlButtons.ShowButtonNum(2, new string[2] { "購入", "退店" }, new bool[2] { false, true });
+
+				}
+
+
+			});
+
+			// ボタンの初期状態
+			GameMain.Instance.m_panelGameControlButtons.ShowButtonNum(2, new string[2] { "購入", "退店" } , new bool[2] { false, true });
+
+			GameMain.Instance.m_panelGameControlButtons.OnClickButton.AddListener((int _iIndex) =>
+			{
+				if (_iIndex == 0)
+				{
+					// 購入手続き
+					GameMain.Instance.m_panelGameControlButtons.ShowButtonNum(2, new string[2] { "購入", "退店" }, new bool[2] { false, true });
+					PrizeList.Instance.m_iGold = DataManagerGame.Instance.gameData.AddInt(Defines.KeyGold, -1 * total_gold);
+					foreach (IconStageShopItem icon in icon_list)
+					{
+						DataManagerGame.Instance.dataItem.AddItem(icon.m_masterItemParam);
+						icon.m_animator.Play("soldout");
+						icon.m_btn.onClick.RemoveAllListeners();
+					}
+
+					total_gold = 0;
+					icon_list.Clear();
+					GameMain.Instance.panelStageShop.m_txtTotalGold.text = total_gold.ToString();
+
+					SEControl.Instance.Play(Defines.KEY_SOUNDSE_CASH);
+				}
+				else
+				{
+					Finish();
+				}
+			});
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			GameMain.Instance.panelStageShop.gameObject.SetActive(false);
+			PrizeList.Instance.m_bMenu = false;
+
+			GameMain.Instance.panelStageShop.OnClickIcon.RemoveAllListeners();
+			GameMain.Instance.m_panelGameControlButtons.OnClickButton.RemoveAllListeners();
+		}
+
 	}
 
 	[ActionCategory("GameMainAction")]
@@ -1535,9 +1647,9 @@ namespace GameMainAction
 					data_stage.best_reload = GameMain.Instance.m_iCountDeck;
 				}
 
-				DataManagerGame.Instance.gameData.AddInt(Defines.KeyFood, PrizeList.Instance.m_iFood);
-				DataManagerGame.Instance.gameData.AddInt(Defines.KeyMana, PrizeList.Instance.m_iMana);
-				DataManagerGame.Instance.gameData.AddInt(Defines.KeyGem, PrizeList.Instance.m_iGem);
+				DataManagerGame.Instance.user_data.AddInt(Defines.KeyFood, PrizeList.Instance.m_iFood);
+				DataManagerGame.Instance.user_data.AddInt(Defines.KeyMana, PrizeList.Instance.m_iMana);
+				DataManagerGame.Instance.user_data.AddInt(Defines.KeyGem, PrizeList.Instance.m_iGem);
 
 				DataManagerGame.Instance.dataStage.Save();
 			}

@@ -26,4 +26,24 @@ public class DataItem : CsvData<DataItemParam> {
 		return item != null;
 	}
 
+	public void AddItem( MasterItemParam _master)
+	{
+		DataItemParam add = new DataItemParam();
+		add.item_id = _master.item_id;
+
+		int serial = 1;
+
+		foreach( DataItemParam data in list)
+		{
+			if( serial <= data.serial)
+			{
+				serial = data.serial + 1;
+			}
+		}
+		add.serial = serial;
+		add.status = (int)STATUS.STANDBY;
+		list.Add(add);
+	}
+
+
 }
