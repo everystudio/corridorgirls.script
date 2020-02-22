@@ -29,7 +29,7 @@ public class CampMain : Singleton<CampMain> {
 
 	public PanelScout m_panelScout;
 
-
+	public Animator m_animSideButton;
 	public BtnInvite m_btnInvite;
 
 	public override void Initialize()

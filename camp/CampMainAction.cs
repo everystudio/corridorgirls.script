@@ -110,6 +110,8 @@ namespace CampMainAction {
 			base.OnEnter();
 
 			campMain.m_panelSkill.m_goControlRoot.SetActive(false);
+			campMain.m_animSideButton.SetBool("show", true);
+
 			aging_timer = 0.0f;
 			//debug_timer = 0.0f;
 
@@ -158,6 +160,7 @@ namespace CampMainAction {
 		{
 			base.OnExit();
 			campMain.m_panelStatus.m_btnDeck.onClick.RemoveAllListeners();
+			campMain.m_animSideButton.SetBool("show", false);
 		}
 	}
 
