@@ -71,7 +71,7 @@ namespace GameMainAction
 
 			gameMain.gauge_mp.Setup();
 
-			stage_id.Value = DataManagerGame.Instance.config.ReadInt("stage_id");
+			stage_id.Value = DataManagerGame.Instance.gameData.ReadInt(Defines.KEY_STAGE_ID);
 
 			MasterStageParam master_stage = DataManagerGame.Instance.masterStage.list.Find(p => p.stage_id == stage_id.Value);
 

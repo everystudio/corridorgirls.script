@@ -15,6 +15,8 @@ public class Defines{
 	public const string KEY_AGING = "aging";
 	#endregion
 
+	public const string KEY_STAGE_ID = "stage_id";
+
 
 	public const int BUY_FOOD_FROM_GEM = 100;
 	public const int BUY_FOOD_COST_GEM = 10;

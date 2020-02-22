@@ -1995,7 +1995,7 @@ MonoBehaviour:
         actionEnabled: 01
         actionIsOpen: 01
         actionStartIndex: 00000000
-        actionHashCodes: 489d2e03
+        actionHashCodes: a2959c01
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
@@ -2030,6 +2030,12 @@ MonoBehaviour:
           showInInspector: 0
           networkSync: 0
           value: 0
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
         fsmBoolParams: []
         fsmVector2Params: []
         fsmVector3Params: []
@@ -2042,14 +2048,15 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 10000000100000001000000000000000
+        paramDataType: 1000000010000000100000001000000000000000
         paramName:
         - stage_id
         - play_cost
         - play_mana
+        - carry_gold
         - help_id
-        paramDataPos: 00000000010000000200000000000000
-        paramByteDataSize: 00000000000000000000000004000000
+        paramDataPos: 0000000001000000020000000300000000000000
+        paramByteDataSize: 0000000000000000000000000000000004000000
     events:
     - name: FINISHED
       isSystemEvent: 1

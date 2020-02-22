@@ -1433,7 +1433,7 @@ namespace CampMainAction {
 			MasterCampShopParam shop = DMCamp.Instance.masterCampShop.list.Find(p => p.campitem_id == select_campitem_id.Value);
 			MasterCampItemParam item = DMCamp.Instance.masterCampItem.list.Find(p => p.campitem_id == select_campitem_id.Value);
 
-			int gem = DMCamp.Instance.gameData.ReadInt(Defines.KeyGem);
+			int gem = DMCamp.Instance.user_data.ReadInt(Defines.KeyGem);
 
 			campMain.m_panelShop.m_goPanelBuyCheck.SetActive(true);
 			campMain.m_panelShop.m_txtBuyCheckMessage.text = string.Format("{0}\nを購入します", item.name);
@@ -1453,7 +1453,10 @@ namespace CampMainAction {
 				add_item.is_take = false;
 				DMCamp.Instance.dataCampItem.list.Add(add_item);
 
-				DMCamp.Instance.gameData.AddInt(Defines.KeyGem, -1 * buy_shop.gem);
+				DMCamp.Instance.user_data.AddInt(Defines.KeyGem, -1 * buy_shop.gem);
+
+				DMCamp.Instance.dataCampItem.Save();
+				DMCamp.Instance.user_data.Save();
 
 				Fsm.Event("buy");
 			});
@@ -1498,6 +1501,10 @@ namespace CampMainAction {
 			{
 				campMain.m_panelScout.gameObject.SetActive(false);
 				campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(false);
+				campMain.m_panelDecideCheckBottom.m_btnDecide.gameObject.SetActive(true);
+				campMain.m_panelDecideCheckBottom.m_btnOther.gameObject.SetActive(true);
+				campMain.m_panelDecideCheckBottom.m_btnCancel.gameObject.SetActive(true);
+
 
 				campMain.m_panelScout.m_btnInvite.Refresh();
 				Finish();
@@ -1567,6 +1574,9 @@ namespace CampMainAction {
 				DataUnitParam add_chara = DataUnit.MakeUnit(master_chara, "none", 60);
 				DMCamp.Instance.dataUnitCamp.list.Add(add_chara);
 
+				DMCamp.Instance.user_data.Save();
+				DMCamp.Instance.dataUnitCamp.Save();
+
 				Finish();
 			});
 			campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.AddListener(() =>
@@ -1633,6 +1643,7 @@ namespace CampMainAction {
 		public FsmInt stage_id;
 		public FsmInt play_cost;
 		public FsmInt play_mana;
+		public FsmInt carry_gold;
 		public override void OnEnter()
 		{
 			base.OnEnter();
@@ -1669,12 +1680,44 @@ namespace CampMainAction {
 			{
 				data_stage.challange_count += 1;
 			}
-			DMCamp.Instance.dataStage.Save();
+
+			// スキル関係
+			DataSkill game_skill = new DataSkill();
+			game_skill.SetSaveFilename(Defines.FILENAME_SKILL_GAME);
+			foreach (DataSkillParam skill in DMCamp.Instance.dataSkill.list.FindAll(p=>0 < p.status))
+			{
+				game_skill.list.Add(skill);
+			}
+			game_skill.Save();
+
+			// アイテム関係
+			DataItem game_item = new DataItem();
+			game_item.SetSaveFilename(Defines.FILENAME_ITEM_GAME);
+			foreach( DataCampItemParam campitem in DMCamp.Instance.dataCampItem.list.FindAll(p=>p.is_take == true))
+			{
+				MasterCampItemParam master_campitem = DMCamp.Instance.masterCampItem.list.Find(p => p.campitem_id == campitem.campitem_id);
+				MasterItemParam master_item = DMCamp.Instance.masterItem.list.Find(p => p.item_id == master_campitem.item_id);
+
+				game_item.AddItem(master_item);
+			}
+			game_item.Save();
+
+			// ゲームデータ
+			DMCamp.Instance.gameData = new CsvKvs();
+			DMCamp.Instance.gameData.SetSaveFilename(Defines.FILENAME_GAMEDATA);
+			DMCamp.Instance.gameData.WriteInt(Defines.KEY_STAGE_ID, stage_id.Value);
+
+			DMCamp.Instance.gameData.AddInt(Defines.KEY_MP, 0);
+			DMCamp.Instance.gameData.AddInt(Defines.KEY_MP_MAX, 30);
+
+			DMCamp.Instance.gameData.WriteInt(Defines.KeyGold, carry_gold.Value);
+			DMCamp.Instance.gameData.Save();
 
 			// プレイ用コストの消化
 			DMCamp.Instance.user_data.AddInt(Defines.KeyFood, -1 * play_cost.Value);
 			DMCamp.Instance.user_data.AddInt(Defines.KeyMana, -1 * play_mana.Value);
 
+			DMCamp.Instance.dataStage.Save();
 			DMCamp.Instance.user_data.Save();
 
 			Finish();

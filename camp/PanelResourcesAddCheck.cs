@@ -62,6 +62,8 @@ public class PanelResourcesAddCheck : MonoBehaviour {
 
 			infoHeader.AddFood(Defines.BUY_FOOD_FROM_GEM);
 			infoHeader.AddGem(-1 * Defines.BUY_FOOD_COST_GEM);
+
+			DMCamp.Instance.user_data.Save();
 		});
 		m_btnNo.onClick.AddListener(() =>
 		{
@@ -108,6 +110,7 @@ public class PanelResourcesAddCheck : MonoBehaviour {
 			infoHeader.AddMana(Defines.BUY_MANA_FROM_GEM);
 			infoHeader.AddGem(-1 * Defines.BUY_MANA_COST_GEM);
 
+			DMCamp.Instance.user_data.Save();
 		});
 		m_btnNo.onClick.AddListener(() =>
 		{
@@ -150,6 +153,7 @@ public class PanelResourcesAddCheck : MonoBehaviour {
 			DMCamp.Instance.user_data.AddInt(Defines.KeyGem, Defines.ADD_GEM_FROM_UNITYADS);
 			infoHeader.AddGem(Defines.ADD_GEM_FROM_UNITYADS);
 
+			DMCamp.Instance.user_data.Save();
 		});
 		m_btnNo.onClick.AddListener(() =>
 		{

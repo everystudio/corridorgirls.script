@@ -146,10 +146,9 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 		gameData.SetSaveFilename(Defines.FILENAME_GAMEDATA);
 		if( false == gameData.LoadMulti())
 		{
-			gameData.AddInt(Defines.KEY_MP , 0);
-			gameData.AddInt(Defines.KEY_MP_MAX , 30);
+			gameData.AddInt(Defines.KEY_MP, 0);
+			gameData.AddInt(Defines.KEY_MP_MAX, 30);
 		}
-		gameData.AddInt(Defines.KeyGold, 100);
 		GetAgingState();
 
 		masterStage.Load(data_holder.Get("master_stage"));
