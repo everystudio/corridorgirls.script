@@ -104,14 +104,14 @@ namespace CampMainAction {
 	public class idle : CampMainActionBase
 	{
 		private float aging_timer;
-		private float debug_timer;
+		//private float debug_timer;
 		public override void OnEnter()
 		{
 			base.OnEnter();
 
 			campMain.m_panelSkill.m_goControlRoot.SetActive(false);
 			aging_timer = 0.0f;
-			debug_timer = 0.0f;
+			//debug_timer = 0.0f;
 
 			campMain.m_infoHeaderCamp.SetFood(DMCamp.Instance.user_data.ReadInt(Defines.KeyFood));
 			campMain.m_infoHeaderCamp.SetMana(DMCamp.Instance.user_data.ReadInt(Defines.KeyMana));
