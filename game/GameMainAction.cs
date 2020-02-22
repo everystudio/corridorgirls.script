@@ -1630,28 +1630,51 @@ namespace GameMainAction
 	public class SaveResult : GameMainActionBase
 	{
 		public FsmInt stage_id;
+		public FsmBool is_win;
 		public override void OnEnter()
 		{
 			base.OnEnter();
 
 			if( gameMain.m_bIsGoal)
 			{
-				DataStageParam data_stage = DataManagerGame.Instance.dataStage.list.Find(p => p.stage_id == stage_id.Value);
-				data_stage.clear_count += 1;
-				if( GameMain.Instance.m_iCountCardPlay < data_stage.best_play)
+				if (is_win.Value)
 				{
-					data_stage.best_play = GameMain.Instance.m_iCountCardPlay;
-				}
-				if (GameMain.Instance.m_iCountDeck < data_stage.best_reload)
-				{
-					data_stage.best_reload = GameMain.Instance.m_iCountDeck;
+					DataStageParam data_stage = DataManagerGame.Instance.dataStage.list.Find(p => p.stage_id == stage_id.Value);
+					data_stage.clear_count += 1;
+					if (GameMain.Instance.m_iCountCardPlay < data_stage.best_play)
+					{
+						data_stage.best_play = GameMain.Instance.m_iCountCardPlay;
+					}
+					if (GameMain.Instance.m_iCountDeck < data_stage.best_reload)
+					{
+						data_stage.best_reload = GameMain.Instance.m_iCountDeck;
+					}
+
+					// ゲームデータから取得しないあたりちょっとゆがんだプログラムな気がする
+					DataManagerGame.Instance.user_data.AddInt(Defines.KeyFood, PrizeList.Instance.m_iFood);
+					DataManagerGame.Instance.user_data.AddInt(Defines.KeyMana, PrizeList.Instance.m_iMana);
+					DataManagerGame.Instance.user_data.AddInt(Defines.KeyGem, PrizeList.Instance.m_iGem);
+
+					DataManagerGame.Instance.user_data.Save();
+					DataManagerGame.Instance.dataStage.Save();
 				}
 
-				DataManagerGame.Instance.user_data.AddInt(Defines.KeyFood, PrizeList.Instance.m_iFood);
-				DataManagerGame.Instance.user_data.AddInt(Defines.KeyMana, PrizeList.Instance.m_iMana);
-				DataManagerGame.Instance.user_data.AddInt(Defines.KeyGem, PrizeList.Instance.m_iGem);
-
-				DataManagerGame.Instance.dataStage.Save();
+				DataUnit unit_camp = new DataUnit();
+				unit_camp.SetSaveFilename(Defines.FILENAME_UNIT_CAMP);
+				if(unit_camp.Load())
+				{
+					foreach( DataUnitParam party_unit in DataManagerGame.Instance.dataUnit.list.FindAll(p=>p.unit == "chara"))
+					{
+						DataUnitParam unit = unit_camp.list.Find(p => p.chara_id == party_unit.chara_id);
+						if( unit != null)
+						{
+							int set_tension = Mathf.Max( party_unit.tension - 5 , 0 );
+							unit.tension = set_tension;
+						}
+					}
+					// テンションのみ修正
+					unit_camp.Save();
+				}
 			}
 
 
