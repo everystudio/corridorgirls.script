@@ -20,11 +20,11 @@ public class DataSkill : CsvData<DataSkillParam> {
 	public void MakeInitialData()
 	{
 		list.Clear();
-		list.Add(new DataSkillParam(1, 1));	
-		list.Add(new DataSkillParam(2, 2));	
-		list.Add(new DataSkillParam(3, 3));	
-		list.Add(new DataSkillParam(4, 0));	
-		list.Add(new DataSkillParam(5, -1));
+		list.Add(new DataSkillParam(10002, 1));	
+		list.Add(new DataSkillParam(20001, 2));	
+		list.Add(new DataSkillParam(31001, 3));	
+		list.Add(new DataSkillParam(40001, 0));	
+		list.Add(new DataSkillParam(50001, -1));
 	}
 
 }
