@@ -64,6 +64,16 @@ public class InfoHeaderCamp : MonoBehaviour {
 		m_txtMana.text = m_iManaDisp.ToString();
 		m_txtGem.text = m_iGemDisp.ToString();
 	}
+
+	public void NumUpdateForce()
+	{
+		m_iFoodDisp = m_iFood;
+		m_iManaDisp = m_iMana;
+		m_iGemDisp = m_iGem;
+		m_txtFood.text = m_iFoodDisp.ToString();
+		m_txtMana.text = m_iManaDisp.ToString();
+		m_txtGem.text = m_iGemDisp.ToString();
+	}
 	private float timer;
 	void Update()
 	{

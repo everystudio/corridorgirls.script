@@ -24,9 +24,13 @@ public class PanelBattlePrize : MonoBehaviour {
 		battle_bonus_holder_list.Clear();
 
 		List<MasterStageBattleBonusParam> stage_bb_list = DataManagerGame.Instance.masterStageBattleBonus.list.FindAll(p => p.stage_id == _iStage && p.wave == _iWave);
-		if(stage_bb_list.Count == 0)
+		if (stage_bb_list.Count == 0)
 		{
 			stage_bb_list = DataManagerGame.Instance.masterStageBattleBonus.list.FindAll(p => p.stage_id == _iStage && p.wave == 0);
+		}
+		if (stage_bb_list.Count == 0)
+		{
+			stage_bb_list = DataManagerGame.Instance.masterStageBattleBonus.list.FindAll(p => p.stage_id == 0 && p.wave == _iWave);
 		}
 
 		int[] prob_arr = new int[stage_bb_list.Count];
