@@ -116,7 +116,7 @@ namespace CorridorGirls
 				masterStageBattleBonus.SaveEditor("07data/master", "master_stage_bb");
 			}));
 			yield return EveryStudioLibrary.Editor.EditorCoroutine.start(masterStageShopItem.SpreadSheet(DataManagerGame.SS_ID, "stage_shopitem", () => {
-				masterStageBattleBonus.SaveEditor("07data/master", "master_stage_shopitem");
+				masterStageShopItem.SaveEditor("07data/master", "master_stage_shopitem");
 			}));
 
 			yield return EveryStudioLibrary.Editor.EditorCoroutine.start(masterSkill.SpreadSheet(DataManagerGame.SS_ID, "skill", () => {
