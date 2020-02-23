@@ -1133,10 +1133,12 @@ namespace GameMainAction
 		public FsmInt wave;
 		private int total_gold;
 		private List<IconStageShopItem> icon_list = new List<IconStageShopItem>();
+
+		private float aging_timer;
 		public override void OnEnter()
 		{
 			base.OnEnter();
-
+			aging_timer = 0.0f;
 			PrizeList.Instance.m_bMenu = true;
 			total_gold = 0;
 			icon_list.Clear();
@@ -1183,10 +1185,7 @@ namespace GameMainAction
 				{
 					// ボタンの初期状態
 					GameMain.Instance.m_panelGameControlButtons.ShowButtonNum(2, new string[2] { "購入", "退店" }, new bool[2] { false, true });
-
 				}
-
-
 			});
 
 			// ボタンの初期状態
@@ -1218,7 +1217,19 @@ namespace GameMainAction
 				}
 			});
 		}
-
+		public override void OnUpdate()
+		{
+			base.OnUpdate();
+			if (DataManagerGame.Instance.IsAging)
+			{
+				aging_timer += Time.deltaTime;
+				if( 3.0f < aging_timer)
+				{
+					// キャンセルボタン
+					GameMain.Instance.m_panelGameControlButtons.button_list[1].onClick.Invoke();
+				}
+			}
+		}
 		public override void OnExit()
 		{
 			base.OnExit();
