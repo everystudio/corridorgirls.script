@@ -18,6 +18,7 @@ public class DMCamp : DataManagerBase<DMCamp> {
 	public DataSkill dataSkill = new DataSkill();
 	public DataStage dataStage = new DataStage();
 	public DataCampItem dataCampItem = new DataCampItem();
+	public DataPresent dataPresent = new DataPresent();
 
 	public MasterStage masterStage = new MasterStage();
 
@@ -148,6 +149,7 @@ public class DMCamp : DataManagerBase<DMCamp> {
 		dataCard.SetSaveFilename(Defines.FILENAME_CARD_CAMP);
 
 		dataCampItem.SetSaveFilename(Defines.FILENAME_ITEM_CAMP);
+		dataPresent.SetSaveFilename(Defines.FILENAME_DATA_PRESENT);
 
 		if ( false == dataUnitCamp.LoadMulti())
 		{
@@ -184,8 +186,11 @@ public class DMCamp : DataManagerBase<DMCamp> {
 		{
 			dataCard.Reset(dataUnitCamp.list, masterCharaCard.list);
 			dataCard.Save();
+		}
 
-
+		if( false == dataPresent.LoadMulti())
+		{
+			dataPresent.Save();
 		}
 
 		yield return null;

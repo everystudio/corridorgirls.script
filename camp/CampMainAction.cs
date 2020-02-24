@@ -70,13 +70,18 @@ namespace CampMainAction {
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			campMain.m_btnPresent.SetBadgeNum(0);
 			campMain.m_btnInvite.SetBadgeNum(0);
+			if( NTPTimer.Instance.IsError == true)
+			{
+				// ここはなんでもいい。instanceにタッチできればOKです
+			}
 		}
 
 		public override void OnUpdate()
 		{
 			base.OnUpdate();
-			if (DMCamp.Instance.Initialized && NTPTimer.Instance.Initialized)
+			if (DMCamp.Instance.Initialized )
 			{
 				campMain.m_panelStatus.Initialize(DMCamp.Instance.dataUnitCamp, DMCamp.Instance.masterChara);
 				campMain.m_panelStatus.SetupSkill(DMCamp.Instance.dataSkill.list.FindAll(p => 0 < p.status), DMCamp.Instance.masterSkill.list);
@@ -94,16 +99,121 @@ namespace CampMainAction {
 
 	[ActionCategory("CampMainAction")]
 	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
-	public class check_tutorial : CampMainActionBase
+	public class TimerCheck : CampMainActionBase
+	{
+		public FsmGameObject txtWaiting;
+
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			txtWaiting.Value.GetComponent<TMPro.TextMeshProUGUI>().text = "ゲームデータ\nチェック中";
+
+			NTPTimer.Instance.RequestRefresh((_result) =>
+			{
+				if( _result)
+				{
+					Finish();
+				}
+				else
+				{
+					Fsm.Event("error");
+				}
+			});
+		}
+	}
+
+
+	[ActionCategory("CampMainAction")]
+	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
+	public class error_timer : CampMainActionBase
+	{
+		public FsmGameObject txtWaiting;
+		public FsmGameObject btn;
+		private float timer;
+		private bool retry_wait;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			timer = 0.0f;
+			retry_wait = false;
+			txtWaiting.Value.GetComponent<TMPro.TextMeshProUGUI>().text = "ネットワークエラーが\n発生しました";
+		}
+		public override void OnUpdate()
+		{
+			base.OnUpdate();
+			if (retry_wait == false)
+			{
+				if (timer < 2.0f)
+				{
+					timer += Time.deltaTime;
+				}
+				else
+				{
+					txtWaiting.Value.GetComponent<TMPro.TextMeshProUGUI>().text = "ネットワークエラーが\n発生しました\n\n画面タップで\nリトライします";
+					btn.Value.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() =>
+					{
+						Finish();
+					});
+					retry_wait = true;
+				}
+
+			}
+		}
+		public override void OnExit()
+		{
+			base.OnExit();
+			btn.Value.GetComponent<UnityEngine.UI.Button>().onClick.RemoveAllListeners();
+		}
+	}
+
+	[ActionCategory("CampMainAction")]
+	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
+	public class check_loginbonus : CampMainActionBase
 	{
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			Finish();
+
+			bool new_day = false;
+
+			string strToday = NTPTimer.Instance.now.ToString(Defines.FORMAT_LASTPLAY_DATE);
+
+			if(DMCamp.Instance.user_data.HasKey(Defines.KEY_LASTPLAY_DATE))
+			{
+				new_day = DMCamp.Instance.user_data.Read(Defines.KEY_LASTPLAY_DATE) != strToday;
+			}
+			else
+			{
+				new_day = true;
+			}
+
+			if( new_day)
+			{
+				Fsm.Event("loginbonus");
+			}
+			else
+			{
+				Finish();
+			}
 		}
-
 	}
+	[ActionCategory("CampMainAction")]
+	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
+	public class get_loginbonus : CampMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			string strToday = NTPTimer.Instance.now.ToString(Defines.FORMAT_LASTPLAY_DATE);
+			DMCamp.Instance.user_data.Write(Defines.KEY_LASTPLAY_DATE, strToday);
+			DMCamp.Instance.dataPresent.Add(1, 5, "ログインボーナス");
 
+			DMCamp.Instance.user_data.Save();
+			DMCamp.Instance.dataPresent.Save();
+			Finish();
+
+		}
+	}
 
 	[ActionCategory("CampMainAction")]
 	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
@@ -125,6 +235,7 @@ namespace CampMainAction {
 			campMain.m_infoHeaderCamp.SetMana(DMCamp.Instance.user_data.ReadInt(Defines.KeyMana));
 			campMain.m_infoHeaderCamp.SetGem(DMCamp.Instance.user_data.ReadInt(Defines.KeyGem));
 
+			campMain.m_btnPresent.Refresh();
 			campMain.m_btnInvite.Refresh();
 
 			campMain.m_panelStatus.m_btnDeck.onClick.AddListener(() =>
@@ -1484,7 +1595,97 @@ namespace CampMainAction {
 			campMain.m_panelShop.m_goPanelBuyCheck.SetActive(false);
 		}
 	}
+	[ActionCategory("CampMainAction")]
+	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
+	public class present_top : CampMainActionBase
+	{
+		public FsmInt present_serial;
+		public override void OnEnter()
+		{
+			base.OnEnter();
 
+			List<DataPresentParam> list = DMCamp.Instance.dataPresent.list.FindAll(p => p.recieved == false);
+			Debug.Log(list.Count);
+			campMain.m_panelPresent.gameObject.SetActive(true);
+			StartCoroutine(campMain.m_panelPresent.Initialize(list, () =>
+			{
+				// これいらないなぁ
+			}));
+
+
+			campMain.m_panelDecideCheckBottom.m_txtMessage.text = (0 < list.Count) ? "プレゼント一覧です" : "受け取れるプレゼントは\nありません";
+			campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(true);
+
+			campMain.m_panelDecideCheckBottom.m_txtLabelCancel.text = "閉じる";
+
+			campMain.m_panelDecideCheckBottom.m_btnDecide.gameObject.SetActive(false);
+			campMain.m_panelDecideCheckBottom.m_btnOther.gameObject.SetActive(false);
+			campMain.m_panelDecideCheckBottom.m_btnCancel.gameObject.SetActive(true);
+			campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.AddListener(() =>
+			{
+				campMain.m_panelPresent.gameObject.SetActive(false);
+				campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(false);
+
+				campMain.m_panelDecideCheckBottom.m_btnDecide.gameObject.SetActive(true);
+				campMain.m_panelDecideCheckBottom.m_btnOther.gameObject.SetActive(true);
+				campMain.m_panelDecideCheckBottom.m_btnCancel.gameObject.SetActive(true);
+
+				Finish();
+			});
+
+			campMain.m_panelPresent.OnClickBanner.AddListener((_data) =>
+			{
+				present_serial.Value = _data.serial;
+				Fsm.Event("recieve");
+			});
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			campMain.m_panelPresent.OnClickBanner.RemoveAllListeners();
+		}
+	}
+
+	[ActionCategory("CampMainAction")]
+	[HutongGames.PlayMaker.Tooltip("CampMainAction")]
+	public class present_recieve : CampMainActionBase
+	{
+		public FsmInt present_serial;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			DataPresentParam present = DMCamp.Instance.dataPresent.list.Find(p => p.serial == present_serial.Value);
+
+			switch (present.item_id)
+			{
+				case 1:
+					DMCamp.Instance.user_data.AddInt(Defines.KeyGem, present.num);
+					campMain.m_infoHeaderCamp.AddGem(present.num);
+					break;
+				case 2:
+					DMCamp.Instance.user_data.AddInt(Defines.KeyMana, present.num);
+					campMain.m_infoHeaderCamp.AddMana(present.num);
+					break;
+				case 3:
+					DMCamp.Instance.user_data.AddInt(Defines.KeyFood, present.num);
+					campMain.m_infoHeaderCamp.AddFood(present.num);
+					break;
+				default:
+					Debug.LogError("今の所想定してない");
+					break;
+			}
+
+			present.recieved = true;
+			present.recieved_date = NTPTimer.Instance.now.ToString(Defines.FORMAT_STANDARD_DATE);
+			DMCamp.Instance.dataPresent.Save();
+			DMCamp.Instance.user_data.Save();
+
+			Finish();
+
+		}
+	}
 
 	[ActionCategory("CampMainAction")]
 	[HutongGames.PlayMaker.Tooltip("CampMainAction")]

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,10 @@ public class Defines{
 	public const string KeyGold = "gold";
 	public const string KeyFood = "food";
 	public const string KeyMana = "mana";
+
+	public const string KEY_LASTPLAY_DATE = "last_play_date";
+	public const string FORMAT_LASTPLAY_DATE = "yyyyMMdd";
+	public const string FORMAT_STANDARD_DATE = "yyyy/MM/dd HH:mm:ss";
 
 	public const string KEY_AGING = "aging";
 	#endregion
@@ -42,6 +47,8 @@ public class Defines{
 
 	public const string FILENAME_ITEM_CAMP = "item_camp";
 	public const string FILENAME_ITEM_GAME = "item_game";
+
+	public const string FILENAME_DATA_PRESENT = "data_present";
 
 	public const string FILENAME_CAMPITEM = "campitem";
 

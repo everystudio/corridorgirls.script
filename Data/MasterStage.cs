@@ -20,6 +20,9 @@ public class MasterStageParam : CsvDataParam
 	public int challenge_reload { get; set; }
 	public int challenge_play { get; set; }
 
+	public bool is_show { get; set; }
+	public string week { get; set; }
+
 }
 
 public class MasterStage : CsvData<MasterStageParam> {

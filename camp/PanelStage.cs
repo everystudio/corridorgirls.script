@@ -28,7 +28,7 @@ public class PanelStage : MonoBehaviour {
 		}
 		banner_list.Clear();
 
-		foreach( MasterStageParam p in DMCamp.Instance.masterStage.list)
+		foreach( MasterStageParam p in DMCamp.Instance.masterStage.list.FindAll(p=>p.is_show == true))
 		{
 			BannerStage banner = PrefabManager.Instance.MakeScript<BannerStage>(m_prefBanner, m_goContents);
 			banner.Initialize(p);
