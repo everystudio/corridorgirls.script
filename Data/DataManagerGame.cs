@@ -186,6 +186,7 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 		dataUnit.SetSaveFilename(Defines.FILENAME_UNIT_GAME);
 		dataSkill.SetSaveFilename(Defines.FILENAME_SKILL_GAME);
 		dataItem.SetSaveFilename(Defines.FILENAME_ITEM_GAME);
+		dataCard.SetSaveFilename(Defines.FILENAME_CARD_GAME);
 
 		dataStage.SetSaveFilename(Defines.FILENAME_DATA_STAGE);
 

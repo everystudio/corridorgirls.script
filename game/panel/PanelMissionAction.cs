@@ -414,7 +414,7 @@ namespace PanelMissionAction {
 					bIsFinish = true;
 					foreach (DataUnitParam u in DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara"))
 					{
-						DataManagerGame.Instance.dataUnit.AddAssist(u,"mission","ミッション", u.chara_id, prize_type_sub.Value, param.Value, 9999);
+						DataManagerGame.Instance.dataUnit.AddAssist(u,"mission","ミッション", u.chara_id, prize_type_sub.Value, param.Value, -1);
 					}
 					break;
 				case "damage":

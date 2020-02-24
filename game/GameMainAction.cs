@@ -301,9 +301,32 @@ namespace GameMainAction
 				});
 			}
 		}
-
 	}
 
+
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class SaveData : GameMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			// ターン毎のデータ保存
+			foreach (DataUnitParam assist in DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "assist" && 0 < p.turn ))
+			{
+				//Debug.Log(assist.assist_name);
+				assist.turn -= 1;
+				if(assist.turn == 0)
+				{
+					DataUnitParam chara = DataManagerGame.Instance.dataUnit.list.Find(p => p.chara_id == assist.chara_id && p.unit == "chara");
+					chara.RemoveAssist(assist);
+				}
+			}
+			DataManagerGame.Instance.SaveTurn();
+
+			Finish();
+		}
+	}
 
 	[ActionCategory("GameMainAction")]
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
@@ -313,7 +336,14 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
+
 			GameMain.Instance.total_turn += 1;
+
+			// ターン消費アイテムの削除
+
+
+
+
 
 			int hand_card_num = DataManagerGame.Instance.dataCard.list.FindAll(p => p.status == (int)DataCard.STATUS.HAND).Count;
 			//Debug.Log(hand_card_num);
@@ -1423,11 +1453,12 @@ namespace GameMainAction
 							bbholder.chara_id_list[i],
 							bbholder.battle_bonus_list[i].field,
 							bbholder.battle_bonus_list[i].param,
-							999);
+							-1);
 					}
 					GameMain.Instance.battleMain.HpRefresh();
 					GameMain.Instance.CharaRefresh();
 
+					//Debug.Log(DataManagerGame.Instance.dataUnit.list.Count);
 				}
 
 				if (_iIndex == 1)
@@ -1548,7 +1579,7 @@ namespace GameMainAction
 
 	[ActionCategory("GameMainAction")]
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
-	public class TurnEnt : GameMainActionBase
+	public class MoveEnt : GameMainActionBase
 	{
 		public override void OnEnter()
 		{

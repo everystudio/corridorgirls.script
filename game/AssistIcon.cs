@@ -72,7 +72,7 @@ public class AssistIcon : MonoBehaviour {
 		}
 		else
 		{
-			m_txtTurn.text = "無効";
+			m_txtTurn.text = "";
 		}
 
 

@@ -72,6 +72,8 @@ public class DataUnitParam : CsvDataParam
 		str = (int)(_base.str * fSwing);
 		magic = (int)(_base.magic * fSwing);
 		heal = (int)(_base.heal * fSwing);
+
+		turn = -1;	// 永続
 		return;
 	}
 
@@ -134,11 +136,9 @@ public class DataUnitParam : CsvDataParam
 			Debug.LogError("not set");
 		}
 
-		hp -= _assist.hp_max;
-		if( hp_max < hp)
-		{
-			hp = hp_max;
-		}
+		hp_max -= _assist.hp_max;
+		hp = Math.Min(hp, hp_max);
+
 		str -= _assist.str;
 		magic -= _assist.magic;
 		heal -= _assist.heal;

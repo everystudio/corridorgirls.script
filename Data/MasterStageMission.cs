@@ -24,9 +24,9 @@ public class MasterStageMission : CsvData<MasterStageMissionParam> {
 			stage_mission_list = list.FindAll(p => p.stage_id == _iStageId && p.wave == 0);
 		}
 
-		Debug.Log(_iStageId);
-		Debug.Log(_iWave);
-		Debug.Log(stage_mission_list.Count);
+		//Debug.Log(_iStageId);
+		//Debug.Log(_iWave);
+		//Debug.Log(stage_mission_list.Count);
 
 		int[] prob_arr = new int[stage_mission_list.Count];
 		for( int i = 0; i < prob_arr.Length; i++)

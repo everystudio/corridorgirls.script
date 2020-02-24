@@ -19,7 +19,10 @@ public class AssistList : MonoBehaviour {
 			}
 		}
 
-		List<DataUnitParam> assist_list = DataManagerGame.Instance.dataUnit.list.FindAll(p => p.chara_id == _iCharaId && p.unit != "chara");
+		List<DataUnitParam> assist_list = DataManagerGame.Instance.dataUnit.list.FindAll(p =>
+		p.chara_id == _iCharaId &&
+		p.unit == "assist" &&
+		p.turn != 0);
 
 		foreach( DataUnitParam assist in assist_list)
 		{
