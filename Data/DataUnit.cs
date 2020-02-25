@@ -94,7 +94,11 @@ public class DataUnitParam : CsvDataParam
 			hp_max += _assist.hp_max;
 			if (0 < _assist.hp_max)
 			{
-				hp += _assist.hp_max;
+				// HPの最大値につられて増えるのは生きてる時だけ
+				if (0 < hp)
+				{
+					hp += _assist.hp_max;
+				}
 			}
 			else if (_assist.hp_max < 0)
 			{
@@ -144,8 +148,20 @@ public class DataUnitParam : CsvDataParam
 		heal -= _assist.heal;
 		luck -= _assist.luck;
 		_assist.assist_set = false;
-
 	}
+
+	public void Attack_Sim( int _iAttack , int _iSymbolId , DataCardParam _card , DataUnitParam _target)
+	{
+		for( int i = 0; i< 6; i++)
+		{
+			if(_card.GetSymbolId(i)== _iSymbolId)
+			{
+				_target.hp -= _iAttack;
+			}
+		}
+		return;
+	}
+
 
 }
 

@@ -142,6 +142,9 @@ public class GameSimulator : MonoBehaviour {
 				dataCard.list.Add(dc);
 			}
 		}
+
+		Debug.LogWarning(dataCard.list.Count);
+
 		dataCard.CardFill(5);
 	}
 }

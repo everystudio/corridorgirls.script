@@ -64,6 +64,33 @@ public class DataCardParam : MasterCardParam
 		symbol_6 = c.symbol_6;
 		power = c.power;
 	}
+	public void ClearSymbolId(int _iIndex)
+	{
+		switch (_iIndex)
+		{
+			case 0:
+				symbol_1 = 0;
+				break;
+			case 1:
+				symbol_2 = 0;
+				break;
+			case 2:
+				symbol_3 = 0;
+				break;
+			case 3:
+				symbol_4 = 0;
+				break;
+			case 4:
+				symbol_5 = 0;
+				break;
+			case 5:
+				symbol_6 = 0;
+				break;
+			default:
+				break;
+		}
+	}
+
 
 }
 
@@ -92,6 +119,17 @@ public class DataCard : CsvData< DataCardParam> {
 		}
 
 		int index = UtilRand.GetIndex(select_prob);
+
+		if( temp.Count <= index)
+		{
+			foreach( DataCardParam data in list)
+			{
+				Debug.Log(string.Format("card_id:{0} chara_id:{1} status:{2}",
+					data.card_id,
+					data.card_serial,
+					(STATUS)data.status));
+			}
+		}
 
 		return temp[index];
 	}
@@ -125,7 +163,7 @@ public class DataCard : CsvData< DataCardParam> {
 		}
 
 		int select_count = iAdd <= deck_card ? iAdd : deck_card;
-		Debug.Log(string.Format("fill={0} deck_card={1} add={2} select_count={3}", _iFillNum, deck_card, iAdd, select_count));
+		//Debug.Log(string.Format("fill={0} deck_card={1} add={2} select_count={3}", _iFillNum, deck_card, iAdd, select_count));
 
 		for ( int i = 0; i < select_count; i++)
 		{
@@ -267,5 +305,46 @@ public class DataCard : CsvData< DataCardParam> {
 				break;
 		}
 		return iRetSerial;
+	}
+
+	public static void Offset(DataCardParam _a , DataCardParam _b)
+	{
+		for( int i = 0; i < 6; i++)
+		{
+			int index_b = 0;
+			switch (_a.GetSymbolId(i))
+			{
+				case 1001:
+					if(_b.ContainSymbolId(2001 , ref index_b))
+					{
+						_a.ClearSymbolId(i);
+						_b.ClearSymbolId(index_b);
+					}
+					break;
+				case 2001:
+					if (_b.ContainSymbolId(1001, ref index_b))
+					{
+						_a.ClearSymbolId(i);
+						_b.ClearSymbolId(index_b);
+					}
+					break;
+				case 3001:
+					if (_b.ContainSymbolId(4001, ref index_b))
+					{
+						_a.ClearSymbolId(i);
+						_b.ClearSymbolId(index_b);
+					}
+					break;
+				case 4001:
+					if (_b.ContainSymbolId(3001, ref index_b))
+					{
+						_a.ClearSymbolId(i);
+						_b.ClearSymbolId(index_b);
+					}
+					break;
+				default:
+					break;
+			}
+		}
 	}
 }

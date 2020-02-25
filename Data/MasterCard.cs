@@ -36,6 +36,18 @@ public class MasterCardParam : CsvDataParam
 		}
 		return 0;
 	}
+	public bool ContainSymbolId(int _iSymbolId , ref int _iIndex)
+	{
+		for( int i = 0; i < 6; i++)
+		{
+			if( GetSymbolId(i) == _iSymbolId)
+			{
+				_iIndex = i;
+				return true;
+			}
+		}
+		return false;
+	}
 	public int GetMainSymbolId()
 	{
 		int iSymbolId = 0;
