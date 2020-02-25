@@ -213,6 +213,8 @@ namespace PanelPartyEditAction
 			{
 				yield return StartCoroutine(DataManagerGame.Instance.dataUnit.SpreadSheet(DataManagerGame.SS_TEST, "unit", () => { }));
 			}
+			GameMain.Instance.panelStatus.Initialize(DataManagerGame.Instance.dataUnit, DataManagerGame.Instance.masterChara);
+
 			Fsm.Event("cancel");
 		}
 
