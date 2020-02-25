@@ -110,7 +110,7 @@ namespace PanelGetCardAction {
 
 		private void select(int _iSerial)
 		{
-			Debug.Log(_iSerial);
+			//Debug.Log(_iSerial);
 			foreach (Card c in panel.card_list)
 			{
 				c.m_animator.SetBool("up", _iSerial == c.data_card.card_serial);

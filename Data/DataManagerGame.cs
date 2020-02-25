@@ -113,7 +113,7 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 
 	void Start()
 	{
-		Debug.Log("start");
+		//Debug.Log("start");
 		// こっちで間に合うというかこのタイミングじゃないとボリューム調整が効かない
 		//mixer.SetFloat("BGM", user_data.ReadFloat(Defines.KEY_SOUNDVOLUME_BGM));
 		//mixer.SetFloat("SE", user_data.ReadFloat(Defines.KEY_SOUNDVOLUME_SE));
@@ -128,7 +128,7 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 
 	private IEnumerator init_network()
 	{
-		Debug.Log(config.ReadInt("stage_id"));
+		//Debug.Log(config.ReadInt("stage_id"));
 		if (!user_data.HasKey(Defines.KEY_SOUNDVOLUME_BGM))
 		{
 			Debug.Log("not haskey:Defines.KEY_SOUNDVOLUME_BGM");
@@ -139,8 +139,8 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 			Debug.Log("not haskey:Defines.KEY_SOUNDVOLUME_SE");
 			user_data.WriteFloat(Defines.KEY_SOUNDVOLUME_SE, 0.8f);
 		}
-		Debug.Log(user_data.ReadFloat(Defines.KEY_SOUNDVOLUME_BGM));
-		Debug.Log(user_data.ReadFloat(Defines.KEY_SOUNDVOLUME_SE));
+		//Debug.Log(user_data.ReadFloat(Defines.KEY_SOUNDVOLUME_BGM));
+		//Debug.Log(user_data.ReadFloat(Defines.KEY_SOUNDVOLUME_SE));
 
 
 		gameData.SetSaveFilename(Defines.FILENAME_GAMEDATA);

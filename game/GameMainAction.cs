@@ -1134,7 +1134,7 @@ namespace GameMainAction
 
 		private void OnSelectCardParam(DataCardParam arg0)
 		{
-			Debug.LogWarning(string.Format("card:label={0} power={1} chara_id={2}", arg0.master.label, arg0.master.power, arg0.chara_id));
+			//Debug.LogWarning(string.Format("card:label={0} power={1} chara_id={2}", arg0.master.label, arg0.master.power, arg0.chara_id));
 
 			DataUnitParam add_unit = DataManagerGame.Instance.dataUnit.list.Find(p => p.chara_id == arg0.chara_id);
 
