@@ -182,6 +182,9 @@ namespace ItemMainAction
 			DataItemParam data_item = DataManagerGame.Instance.dataItem.list.Find(p => p.serial == item_serial.Value);
 			MasterItemParam master_item = DataManagerGame.Instance.masterItem.list.Find(p => p.item_id == data_item.item_id);
 
+			PanelLogMessage.Instance.AddMessage(string.Format("<color=#0FF>{0}</color>を使います", master_item.name));
+
+
 			item_type.Value = master_item.item_type;
 			item_type_sub.Value = master_item.item_type_sub;
 			range.Value = master_item.range;

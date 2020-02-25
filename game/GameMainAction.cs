@@ -382,6 +382,7 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			PanelLogMessage.Instance.AddMessage(string.Format("ゴールドを<color=#0FF>{0}</color>獲得しました" , add.Value));
 			coin.Value = DataManagerGame.Instance.gameData.AddInt(Defines.KeyGold, add.Value);
 			PrizeList.Instance.m_iGold = coin.Value;
 			Finish();
@@ -397,6 +398,7 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 			gem.Value = DataManagerGame.Instance.gameData.AddInt(Defines.KeyGem, add.Value);
+			PanelLogMessage.Instance.AddMessage(string.Format("ジェムを<color=#0FF>{0}</color>獲得しました", add.Value));
 			PrizeList.Instance.m_iGem = gem.Value;
 			Finish();
 		}
@@ -411,6 +413,7 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 			mana.Value = DataManagerGame.Instance.gameData.AddInt(Defines.KeyMana, add.Value);
+			PanelLogMessage.Instance.AddMessage(string.Format("マナを<color=#0FF>{0}</color>獲得しました", add.Value));
 			PrizeList.Instance.m_iMana = mana.Value;
 			Finish();
 		}
@@ -425,6 +428,7 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 			food.Value = DataManagerGame.Instance.gameData.AddInt(Defines.KeyFood, add.Value);
+			PanelLogMessage.Instance.AddMessage(string.Format("フードを<color=#0FF>{0}</color>獲得しました", add.Value));
 			PrizeList.Instance.m_iFood = food.Value;
 			Finish();
 		}
@@ -835,6 +839,9 @@ namespace GameMainAction
 			masterSkillParam = DataManagerGame.Instance.masterSkill.list.Find(p => p.skill_id == skill_id.Value);
 			DataManagerGame.Instance.gameData.AddInt(Defines.KEY_MP, -1 * masterSkillParam.mp);
 
+			PanelLogMessage.Instance.AddMessage(string.Format("スキル<color=#0FF>{0}</color>を使います",masterSkillParam.name));
+
+
 		}
 
 		private void OnSkillFinished(bool arg0)
@@ -1105,6 +1112,8 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			PanelLogMessage.Instance.AddMessage(string.Format("カードを獲得することが出来ます"));
+
 			gameMain.panelGetCard.gameObject.SetActive(true);
 
 
@@ -1168,6 +1177,7 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			PanelLogMessage.Instance.AddMessage(string.Format("ショップで買い物ができます"));
 			aging_timer = 0.0f;
 			PrizeList.Instance.m_bMenu = true;
 			total_gold = 0;
@@ -1544,6 +1554,7 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			PanelLogMessage.Instance.AddMessage(string.Format("パーティーの入れ替えが可能です"));
 
 			gameMain.m_panelPartyEdit.gameObject.SetActive(true);
 
