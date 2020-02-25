@@ -91,6 +91,8 @@ namespace GameSimulatorAction{
 	[HutongGames.PlayMaker.Tooltip("GameSimulatorAction")]
 	public class move : GameSimulatorActionBase
 	{
+		public FsmInt card_play_count;
+		public FsmInt mp;
 		public FsmInt current_index;
 		public FsmString corridor_type;
 		public override void OnEnter()
@@ -107,7 +109,12 @@ namespace GameSimulatorAction{
 			DataCardParam select_card = simulator.dataCard.RandomSelectFromHand();
 
 			DataCorridorParam current_corridor = simulator.dataCorridor.list.Find(p => p.index == current_index.Value);
-
+			card_play_count.Value += 1;
+			mp.Value += select_card.power;
+			if(30 < mp.Value)
+			{
+				mp.Value = 30;
+			}
 			for (int i = 0; i < select_card.power; i++)
 			{
 				current_index.Value = current_corridor.next_index;
@@ -196,11 +203,13 @@ namespace GameSimulatorAction{
 	[HutongGames.PlayMaker.Tooltip("GameSimulatorAction")]
 	public class card_fill : GameSimulatorActionBase
 	{
+		public FsmInt deck_reload_count;
 		public override void OnEnter()
 		{
 			base.OnEnter();
 			if(simulator.dataCard.CardFill(5)==false)
 			{
+				deck_reload_count.Value += 1;
 				simulator.dataCard.DeckShuffle();
 				if( simulator.dataCard.CardFill(5) == false)
 				{
@@ -235,9 +244,24 @@ namespace GameSimulatorAction{
 	[HutongGames.PlayMaker.Tooltip("GameSimulatorAction")]
 	public class battle_turn_start : GameSimulatorActionBase
 	{
+
+		public FsmInt mp;
 		public override void OnEnter()
 		{
 			base.OnEnter();
+
+			//Debug.Log(string.Format("mp:{0}", mp.Value));
+
+			List<DataUnitParam> damage_unit = simulator.dataUnit.list.FindAll(p => p.unit == "chara" && 0 < p.hp && p.hp < p.hp_max);
+			if( 0 < damage_unit.Count && 20 < mp.Value)
+			{
+				mp.Value -= 20;
+				foreach( DataUnitParam unit in damage_unit)
+				{
+					unit.HpHeal(10);
+				}
+				Debug.Log("<color=yellow>回復</color>");
+			}
 
 			Finish();
 		}
@@ -249,26 +273,39 @@ namespace GameSimulatorAction{
 	{
 		public FsmInt stage_id;
 		public FsmInt wave;
+		public FsmBool is_boss;
 		public override void OnEnter()
 		{
 			base.OnEnter();
 
-			Debug.Log("battle_start");
-			List<MasterStageEnemyParam> appear_enemy_list = simulator.masterStageEnemy.list.FindAll(p => p.stage_id == stage_id.Value && p.wave == wave.Value);
-			if (appear_enemy_list.Count == 0)
-			{
-				appear_enemy_list = simulator.masterStageEnemy.list.FindAll(p => p.stage_id == stage_id.Value && p.wave == 0);
-			}
-			int[] enemy_prob = new int[appear_enemy_list.Count];
-			for (int i = 0; i < appear_enemy_list.Count; i++)
-			{
-				enemy_prob[i] = appear_enemy_list[i].prob;
-			}
+			int enemy_chara_id = 0;
 
-			int index = UtilRand.GetIndex(enemy_prob);
-			// chara_id = enemy_idです
-			//GameMain.Instance.battleMain.RequestBattle.Invoke(false, appear_enemy_list[index].enemy_id);
-			create_enemy(appear_enemy_list[index].enemy_id);
+			if (is_boss.Value == false) {
+				Debug.Log("battle_start");
+
+				List<MasterStageEnemyParam> appear_enemy_list = simulator.masterStageEnemy.list.FindAll(p => p.stage_id == stage_id.Value && p.wave == wave.Value);
+				if (appear_enemy_list.Count == 0)
+				{
+					appear_enemy_list = simulator.masterStageEnemy.list.FindAll(p => p.stage_id == stage_id.Value && p.wave == 0);
+				}
+				int[] enemy_prob = new int[appear_enemy_list.Count];
+				for (int i = 0; i < appear_enemy_list.Count; i++)
+				{
+					enemy_prob[i] = appear_enemy_list[i].prob;
+				}
+
+				int index = UtilRand.GetIndex(enemy_prob);
+				// chara_id = enemy_idです
+				//GameMain.Instance.battleMain.RequestBattle.Invoke(false, appear_enemy_list[index].enemy_id);
+				enemy_chara_id = appear_enemy_list[index].enemy_id;
+			}
+			else
+			{
+				MasterStageParam master_stage = simulator.masterStage.list.Find(p => p.stage_id == stage_id.Value);
+
+				enemy_chara_id = master_stage.boss_chara_id;
+			}
+			create_enemy(enemy_chara_id);
 
 			Finish();
 		}
@@ -359,6 +396,8 @@ namespace GameSimulatorAction{
 	[HutongGames.PlayMaker.Tooltip("GameSimulatorAction")]
 	public class fight : GameSimulatorActionBase
 	{
+		public FsmInt card_play_count;
+		public FsmInt mp;
 		public FsmInt player_card_serial;
 		public FsmInt enemy_card_serial;
 		public override void OnEnter()
@@ -369,6 +408,12 @@ namespace GameSimulatorAction{
 			DataCardParam enemy_card = simulator.dataCardEnemy.list.Find(p => p.card_serial == enemy_card_serial.Value);
 			player_card.status = (int)DataCard.STATUS.REMOVE;
 
+			card_play_count.Value += 1;
+			mp.Value += player_card.power;
+			if (30 < mp.Value )
+			{
+				mp.Value = 30;
+			}
 			DataCard.Offset(player_card, enemy_card);
 
 			DataUnitParam player_unit = simulator.dataUnit.list.Find(p => p.chara_id == player_card.chara_id && p.unit == "chara");

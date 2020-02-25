@@ -26,10 +26,14 @@ public class DataUnitParam : CsvDataParam
 
 	public void HpHeal(int _iHeal)
 	{
-		hp += _iHeal;
-		if (hp_max < hp)
+		// 生きてる人だけね
+		if (0 < hp)
 		{
-			hp = hp_max;
+			hp += _iHeal;
+			if (hp_max < hp)
+			{
+				hp = hp_max;
+			}
 		}
 	}
 
