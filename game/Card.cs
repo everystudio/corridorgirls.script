@@ -32,15 +32,9 @@ public class Card : MonoBehaviour {
 	public Image m_imgStatusFrame;
 	public TextMeshProUGUI m_txtStatus;
 
-	public void Initialize(MasterCardParam _master , List<MasterCardSymbolParam> _master_card_symbol_list)
+	private void _initialize( List<MasterCardSymbolParam> _master_card_symbol_list)
 	{
 		m_imgStatusFrame.gameObject.SetActive(false);
-
-		if ( data_card == null)
-		{
-			data_card = new DataCardParam();
-			data_card.master = _master;
-		}
 
 		if( data_card.chara_id == 0)
 		{
@@ -64,7 +58,7 @@ public class Card : MonoBehaviour {
 		{
 			//Debug.Log(_card.card_id);
 			//Debug.Log(_card.master);
-			int symbol_id = _master.GetSymbolId(i);
+			int symbol_id = data_card.GetSymbolId(i);
 
 			if (0 < symbol_id)
 			{
@@ -84,18 +78,20 @@ public class Card : MonoBehaviour {
 				}
 			}
 		}
-		m_txtType.text = _master.label;
-		m_txtPower.text = _master.power.ToString();
+		m_txtType.text = data_card.label;
+		m_txtPower.text = data_card.power.ToString();
+	}
+	public void Initialize(MasterCardParam _master_card, List<MasterCardSymbolParam> _master_card_symbol_list)
+	{
+		data_card = new DataCardParam();
+		data_card.Copy(_master_card, 0, 0);
+		_initialize(_master_card_symbol_list);
 	}
 
 	public void Initialize(DataCardParam _card , List<MasterCardSymbolParam> _master_card_symbol_list)
 	{
 		data_card = _card;
-		if(data_card.master == null)
-		{
-			Debug.Log(string.Format("card_id={0} serial={1}", data_card.card_id, data_card.card_serial));
-		}
-		Initialize(data_card.master , _master_card_symbol_list );
+		_initialize( _master_card_symbol_list );
 	}
 
 

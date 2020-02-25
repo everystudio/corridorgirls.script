@@ -184,7 +184,7 @@ public class DMCamp : DataManagerBase<DMCamp> {
 
 		if(false == dataCard.LoadMulti())
 		{
-			dataCard.Reset(dataUnitCamp.list, masterCharaCard.list);
+			dataCard.Reset(dataUnitCamp.list, masterCard.list, masterCharaCard.list);
 			dataCard.Save();
 		}
 

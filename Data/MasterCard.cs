@@ -36,6 +36,76 @@ public class MasterCardParam : CsvDataParam
 		}
 		return 0;
 	}
+	public int GetMainSymbolId()
+	{
+		int iSymbolId = 0;
+		int iNum = 0;
+
+		Dictionary<int, int> dict = new Dictionary<int, int>();
+
+		int[] symbol_arr = new int[6]
+		{
+			symbol_1,
+			symbol_2,
+			symbol_3,
+			symbol_4,
+			symbol_5,
+			symbol_6
+		};
+
+		foreach( int symbol_id in symbol_arr)
+		{
+			if( dict.ContainsKey(symbol_id) == false)
+			{
+				if (0 < symbol_id)
+				{
+					dict.Add(symbol_id, 1);
+				}
+			}
+			else
+			{
+				dict[symbol_id] += 1;
+			}
+		}
+
+		foreach( KeyValuePair<int,int>kvp in dict)
+		{
+			if(iNum <kvp.Value)
+			{
+				iNum = kvp.Value;
+				iSymbolId = kvp.Key;
+			}
+		}
+		return iSymbolId;
+	}
+
+	public bool ContainSymbolId( int _iSymbolId)
+	{
+		bool bRet = false;
+
+		int[] symbol_arr = new int[6]
+		{
+			symbol_1,
+			symbol_2,
+			symbol_3,
+			symbol_4,
+			symbol_5,
+			symbol_6
+		};
+
+		foreach( int symbol_id in symbol_arr)
+		{
+			if( symbol_id == _iSymbolId)
+			{
+				return true;
+			}
+		}
+
+
+
+		return bRet;
+	}
+
 
 }
 

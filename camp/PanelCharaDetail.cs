@@ -42,9 +42,11 @@ public class PanelCharaDetail : MonoBehaviour {
 			Card c = PrefabManager.Instance.MakeScript<Card>(m_prefCard, m_goCardRoot);
 
 			DataCardParam data_card = new DataCardParam();
-			data_card.chara_id = _masterChara.chara_id;
-			data_card.card_id = p.card_id;
-			data_card.master = _master_card_list.Find(a => a.card_id == p.card_id);
+			//data_card.chara_id = _masterChara.chara_id;
+			//data_card.card_id = p.card_id;
+
+			// 表示用なのでシリアル不要
+			data_card.Copy(_master_card_list.Find(a => a.card_id == p.card_id) , _masterChara.chara_id , 0 );
 
 			c.Initialize(data_card, _symbol_list);
 		}
@@ -75,10 +77,8 @@ public class PanelCharaDetail : MonoBehaviour {
 			Card c = PrefabManager.Instance.MakeScript<Card>(m_prefCard, m_goCardRoot);
 
 			DataCardParam data_card = new DataCardParam();
-			data_card.chara_id = _masterChara.chara_id;
-			data_card.card_id = p.card_id;
-			data_card.master = _master_card_list.Find(a => a.card_id == p.card_id);
 
+			data_card.Copy(_master_card_list.Find(a => a.card_id == p.card_id), _masterChara.chara_id, 0);
 			c.Initialize(data_card, _symbol_list);
 		}
 	}

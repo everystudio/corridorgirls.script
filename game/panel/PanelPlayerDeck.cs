@@ -10,7 +10,7 @@ public class PanelPlayerDeck : MonoBehaviour {
 
 	public Button m_btnClose;
 
-	public void show2(bool _bShowStatus , List<DataUnitParam> _unit_list, List<DataCardParam> _data_card_list, List<MasterCardParam> _master_card_list, List<MasterCardSymbolParam> _master_card_symbol_list)
+	private void show2(bool _bShowStatus , List<DataUnitParam> _unit_list, List<DataCardParam> _data_card_list, List<MasterCardParam> _master_card_list, List<MasterCardSymbolParam> _master_card_symbol_list)
 	{
 		Card[] arr = m_goContentRoot.GetComponentsInChildren<Card>();
 		foreach (Card banner in arr)
@@ -30,7 +30,13 @@ public class PanelPlayerDeck : MonoBehaviour {
 			Card script = PrefabManager.Instance.MakeScript<Card>(m_prefCard, m_goContentRoot);
 
 			// 事前にセット
-			card_param.master = _master_card_list.Find(p => p.card_id == card_param.card_id);
+			// powerなしは未設定と判断
+			if( card_param.power == 0)
+			{
+				card_param.Copy(_master_card_list.Find(p => p.card_id == card_param.card_id), card_param.chara_id, card_param.card_serial);
+			}
+
+			//card_param.master = _master_card_list.Find(p => p.card_id == card_param.card_id);
 			//Debug.Log(card_param.master);
 			script.Initialize(card_param, _master_card_symbol_list);
 			if (_bShowStatus)

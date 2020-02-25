@@ -117,9 +117,12 @@ namespace GameMainAction
 				{
 					DataCardParam dc = new DataCardParam();
 
-					dc.chara_id = c.chara_id;
-					dc.card_id = c.card_id;
-					dc.card_serial = serial;
+					dc.Copy(DataManagerGame.Instance.masterCard.list.Find(p => p.card_id == c.card_id), c.chara_id, serial);
+
+					//dc.chara_id = c.chara_id;
+					//dc.card_id = c.card_id;
+					//dc.card_serial = serial;
+
 					dc.status = (int)DataCard.STATUS.DECK;
 					if (unit.position == "back")
 					{
@@ -887,7 +890,7 @@ namespace GameMainAction
 				Card selected_card = null;
 				selected_card = gameMain.card_list_hand.Find(p => p.data_card.card_serial == select_card_serial.Value);
 
-				move_num.Value = selected_card.data_card.master.power;
+				move_num.Value = selected_card.data_card.power;
 
 				selected_card.data_card.status = (int)DataCard.STATUS.REMOVE;
 				selected_card.m_animator.SetBool("delete", true);
@@ -941,6 +944,7 @@ namespace GameMainAction
 			// ここのシリアルは手札じゃなくてもOK
 			//Card selected_card = GameMain.Instance.card_list_hand.Find(p => p.data_card.card_serial == card_serial.Value);
 			DataCardParam selected_card = DataManagerGame.Instance.dataCard.list.Find(p => p.card_serial == card_serial.Value);
+			/*
 			if (selected_card == null)
 			{
 				foreach (Card dc in GameMain.Instance.card_list_hand)
@@ -953,8 +957,8 @@ namespace GameMainAction
 			{
 				//Debug.Log(selected_card.card_id);
 			}
-
-			DataManagerGame.Instance.MpHeal(selected_card.master.power);
+			*/
+			DataManagerGame.Instance.MpHeal(selected_card.power);
 
 			Finish();
 		}

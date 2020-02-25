@@ -1101,7 +1101,7 @@ namespace CampMainAction {
 
 			campMain.m_panelStatus.Initialize(DMCamp.Instance.dataUnitCamp, DMCamp.Instance.masterChara);
 
-			DMCamp.Instance.dataCard.Reset(DMCamp.Instance.dataUnitCamp.list, DMCamp.Instance.masterCharaCard.list);
+			DMCamp.Instance.dataCard.Reset(DMCamp.Instance.dataUnitCamp.list, DMCamp.Instance.masterCard.list, DMCamp.Instance.masterCharaCard.list);
 
 			Finish();
 		}

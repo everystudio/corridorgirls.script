@@ -144,4 +144,56 @@ public class DataCorridor : CsvData<DataCorridorParam> {
 	}
 
 
+
+	public void BuildDungeonSim(
+		MasterStageParam _master,
+		int _iWave ,
+		MasterStageEvent _masterStageEvent ,
+		MasterStageWave _masterStageWave ,
+		MasterCorridorEvent _masterCorridorEvent)
+	{
+		list.Clear();
+
+		DataCorridorParam last = null;
+		List<MasterStageEventParam> event_list = _masterStageEvent.list.FindAll(p => p.stage_id == _master.stage_id && p.wave == _iWave);
+		MasterStageWaveParam stage_wave = _masterStageWave.list.Find(p => p.stage_id == _master.stage_id && p.wave == _iWave);
+
+		// １からはじめたいため、ループがいつもと少し違う
+		for (int i = 1; i <= stage_wave.length; i++)
+		{
+			DataCorridorParam cor = new DataCorridorParam();
+
+			cor.index = i;
+			cor.x = i * 2;
+			cor.y = 0;
+			cor.next_index = i + 1;
+
+			cor.corridor_event = _masterCorridorEvent.list.Find(p => p.corridor_event_id == 0); ;
+			if (i == 1)
+			{
+				cor.corridor_event = _masterCorridorEvent.list.Find(p => p.corridor_event_id == 1);
+			}
+			else
+			{
+				MasterStageEventParam stage_event = MasterStageEvent.GetRand(event_list);
+				cor.corridor_event = _masterCorridorEvent.list.Find(p => p.corridor_event_id == stage_event.corridor_event_id);
+			}
+			list.Add(cor);
+			last = cor;
+		}
+
+		last.corridor_event = _masterCorridorEvent.list.Find(p => p.corridor_event_id == 2);
+		if (_master.total_wave == _iWave)
+		{
+			last.corridor_event.label = "BOSS";
+		}
+		else
+		{
+			last.corridor_event.label = "NEXT";
+		}
+	}
+
+
+
+
 }
