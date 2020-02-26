@@ -116,11 +116,13 @@ public class DataCorridor : CsvData<DataCorridorParam> {
 		last.corridor_event = DataManagerGame.Instance.masterCorridorEvent.list.Find(p => p.corridor_event_id == 2);
 		if(_master.total_wave == _iWave)
 		{
+			last.corridor_event_id = 2;
 			last.corridor_event.label = "BOSS";
 			last.corridor_label = "BOSS";
 		}
 		else
 		{
+			last.corridor_event_id = 2;
 			last.corridor_event.label = "NEXT";
 			last.corridor_label = "NEXT";
 		}
