@@ -907,6 +907,7 @@ namespace CampMainAction {
 			campMain.m_panelChara.m_btnClose.gameObject.SetActive(true);
 			campMain.m_panelChara.m_btnEdit.gameObject.SetActive(false);
 			campMain.m_panelChara.m_btnList.gameObject.SetActive(true);
+			campMain.m_panelChara.m_btnList.interactable = true;
 			campMain.m_panelChara.m_txtClose.text = "戻る";
 			campMain.m_panelChara.m_txtEdit.text = "パーティ編成";
 			campMain.m_panelChara.m_txtList.text = "キャラ一覧";
@@ -982,11 +983,13 @@ namespace CampMainAction {
 			// プラマイボタン
 			campMain.m_panelChara.m_panelCharaLevelup.m_btnPlus.onClick.AddListener(() =>
 			{
+				SEControl.Instance.Play(Defines.KEY_SOUNDSE_PLUS);
 				levelup_num.Value += 1;
 				check_data();
 			});
 			campMain.m_panelChara.m_panelCharaLevelup.m_btnMinus.onClick.AddListener(() =>
 			{
+				SEControl.Instance.Play(Defines.KEY_SOUNDSE_MINUS);
 				levelup_num.Value -= 1;
 				check_data();
 			});
@@ -1069,11 +1072,11 @@ namespace CampMainAction {
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			SEControl.Instance.Play(Defines.KEY_SOUNDSE_LEVELUP);
 			DataUnitParam data_unit = DMCamp.Instance.dataUnitCamp.list.Find(p => p.chara_id == chara_id.Value);
 			MasterCharaParam master_chara = DMCamp.Instance.masterChara.list.Find(p => p.chara_id == chara_id.Value);
 
 			master_chara.BuildLevel(data_unit, data_unit.level + levelup_num.Value, data_unit.tension);
-
 
 			DMCamp.Instance.user_data.AddInt(Defines.KeyMana, -1 * need_mana.Value);
 
@@ -1081,6 +1084,9 @@ namespace CampMainAction {
 
 
 			campMain.m_panelStatus.Initialize(DMCamp.Instance.dataUnitCamp, DMCamp.Instance.masterChara);
+
+			DMCamp.Instance.user_data.Save();
+			DMCamp.Instance.dataUnitCamp.Save();
 
 			Finish();			
 
@@ -1780,8 +1786,8 @@ namespace CampMainAction {
 
 				DMCamp.Instance.user_data.AddInt(Defines.KeyGem, -1 * master_chara.scout);
 				campMain.m_infoHeaderCamp.AddGem(-1 * master_chara.scout);
-
-				DataUnitParam add_chara = DataUnit.MakeUnit(master_chara, "none", 60);
+				// スカウト時はレベル１
+				DataUnitParam add_chara = DataUnit.MakeUnit(master_chara, 1,"none", 60);
 				DMCamp.Instance.dataUnitCamp.list.Add(add_chara);
 
 				DMCamp.Instance.user_data.Save();
@@ -1864,7 +1870,7 @@ namespace CampMainAction {
 			foreach ( DataUnitParam unit in party_members)
 			{
 				MasterCharaParam master = DMCamp.Instance.masterChara.list.Find(p => p.chara_id == unit.chara_id);
-				DMCamp.Instance.dataUnitGame.list.Add(DataUnit.MakeUnit(master,unit.position, unit.tension));
+				DMCamp.Instance.dataUnitGame.list.Add(DataUnit.MakeUnit(master,unit.level, unit.position, unit.tension));
 
 				DataUnitParam unit_tension = new DataUnitParam();
 

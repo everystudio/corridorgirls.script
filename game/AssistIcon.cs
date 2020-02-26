@@ -31,6 +31,11 @@ public class AssistIcon : MonoBehaviour {
 			m_txtEffect.text = string.Format("癒+{0}", _unit.heal);
 			m_imgBack.color = Color.green;
 		}
+		else if( 0 < _unit.hp_max)
+		{
+			m_txtEffect.text = string.Format("最大HP+{0}", _unit.hp_max);
+			m_imgBack.color = Color.green;
+		}
 		else
 		{
 			m_imgBack.color = Color.white;

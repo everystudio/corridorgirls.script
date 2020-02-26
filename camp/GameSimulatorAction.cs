@@ -22,7 +22,6 @@ namespace GameSimulatorAction{
 	[HutongGames.PlayMaker.Tooltip("GameSimulatorAction")]
 	public class standby : GameSimulatorActionBase
 	{
-		public FsmInt stage_id;
 		public override void OnEnter()
 		{
 			base.OnEnter();
@@ -35,11 +34,50 @@ namespace GameSimulatorAction{
 			base.OnUpdate();
 			if(simulator.start_simulation)
 			{
-				stage_id.Value = simulator.stage_id;
+				simulator.stage_id_index =-1;
 				Finish();
 			}
 		}
+		public override void OnExit()
+		{
+			base.OnExit();
+			simulator.start_simulation = false;
+		}
 	}
+
+
+	[ActionCategory("GameSimulatorAction")]
+	[HutongGames.PlayMaker.Tooltip("GameSimulatorAction")]
+	public class set_stage_id : GameSimulatorActionBase
+	{
+		public FsmInt stage_id;
+		public FsmInt level;
+		public FsmInt simulation_count;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			simulator.stage_id_index += 1;
+			level.Value = simulator.chara_level;
+			simulation_count.Value = simulator.simulation_count;
+
+			if (simulator.stage_id_index < simulator.stage_id_list.Count)
+			{
+				stage_id.Value = simulator.stage_id_list[simulator.stage_id_index];
+				Finish();
+			}
+			else
+			{
+				Fsm.Event("end");
+			}
+
+		}
+	}
+
+
+
+
+
 	[ActionCategory("GameSimulatorAction")]
 	[HutongGames.PlayMaker.Tooltip("GameSimulatorAction")]
 	public class party_initialize : GameSimulatorActionBase
@@ -105,7 +143,14 @@ namespace GameSimulatorAction{
 
 		private IEnumerator move_wait()
 		{
-			yield return null;
+			simulator.move_delay += 1;
+			if (200 < simulator.move_delay)
+			{
+				simulator.move_delay = 0;
+				yield return null;
+			}
+
+
 			DataCardParam select_card = simulator.dataCard.RandomSelectFromHand();
 
 			DataCorridorParam current_corridor = simulator.dataCorridor.list.Find(p => p.index == current_index.Value);
@@ -314,7 +359,7 @@ namespace GameSimulatorAction{
 		{
 			simulator.dataUnit.list.RemoveAll(p => p.unit == "enemy");
 			MasterCharaParam master_enemy = simulator.masterChara.list.Find(p => p.chara_id == _enemy_chara_id);
-			DataUnitParam enemy = DataUnit.MakeUnit(master_enemy, "enemy", 60);
+			DataUnitParam enemy = DataUnit.MakeUnit(master_enemy,1, "enemy", 60);
 			simulator.dataUnit.list.Add(enemy);
 
 			//Debug.LogError(_enemy_chara_id);
@@ -586,6 +631,74 @@ namespace GameSimulatorAction{
 			{
 				Fsm.Event("next");
 			}
+
+		}
+	}
+	[ActionCategory("GameSimulatorAction")]
+	[HutongGames.PlayMaker.Tooltip("GameSimulatorAction")]
+	public class data_record : GameSimulatorActionBase
+	{
+		public FsmInt stage_id;
+		public FsmInt level;
+		public FsmInt wave;
+		public FsmInt play_count;
+		public FsmInt reload_count;
+		public FsmBool is_boss;
+		public FsmBool is_clear;
+
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			MasterStageParam master_stage = simulator.masterStage.list.Find(p => p.stage_id == stage_id.Value);
+
+			DataSimulation dataSimulation = new DataSimulation();
+			dataSimulation.SetSaveFilename("data_simulation");
+			if (dataSimulation.LoadMulti())
+			{
+				DataSimulationParam param = dataSimulation.list.Find(p => p.stage_id == stage_id.Value && p.level == level.Value);
+
+				if( param == null)
+				{
+					param = new DataSimulationParam();
+					param.stage_id = stage_id.Value;
+					param.level = level.Value;
+					dataSimulation.list.Add(param);
+				}
+				param.count += 1;
+
+				switch ( wave.Value)
+				{
+					case 1:
+						param.wave_1 += 1;
+						break;
+					case 2:
+						param.wave_2 += 1;
+						break;
+					case 3:
+						param.wave_3 += 1;
+						break;
+					case 4:
+						param.wave_4 += 1;
+						break;
+					case 5:
+						param.wave_5 += 1;
+						break;
+				}
+				if(is_boss.Value)
+				{
+					param.arrive_boss += 1;
+				}
+
+				if (is_clear.Value)
+				{
+					param.clear += 1;
+					param.clear_play_count += play_count.Value;
+					param.clear_reload_count += reload_count.Value;
+				}
+			}
+			dataSimulation.Save();
+			Finish();
 
 		}
 	}

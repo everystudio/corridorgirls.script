@@ -6,12 +6,21 @@ public class GameSimulator : MonoBehaviour {
 
 	public bool start_simulation;
 
+	public List<int> stage_id_list;
+	public int chara_level;
+	public int simulation_count;
+
+
 	public int left_chara_id;
 	public int right_chara_id;
 	public int back_chara_id;
 
-	public int stage_id;
+	[HideInInspector]
+	public int stage_id_index;
+	[HideInInspector]
 	public int wave;
+	[HideInInspector]
+	public int move_delay;
 
 	public DataCorridor dataCorridor = new DataCorridor();
 	public DataCard dataCard = new DataCard();
@@ -99,6 +108,9 @@ public class GameSimulator : MonoBehaviour {
 
 	public void party_initialize()
 	{
+		// 最低レベルは1
+		chara_level = Mathf.Max(1, chara_level);
+
 		List<DataUnitParam> party_members = DMCamp.Instance.dataUnitCamp.list.FindAll(p => p.unit == "chara" && p.position != "none");
 		dataUnit.list.Clear();
 
@@ -106,9 +118,9 @@ public class GameSimulator : MonoBehaviour {
 		MasterCharaParam master_right = DMCamp.Instance.masterChara.list.Find(p => p.chara_id == right_chara_id);
 		MasterCharaParam master_back = DMCamp.Instance.masterChara.list.Find(p => p.chara_id == back_chara_id);
 
-		dataUnit.list.Add(DataUnit.MakeUnit(master_left, "left", 60));
-		dataUnit.list.Add(DataUnit.MakeUnit(master_right, "right", 60));
-		dataUnit.list.Add(DataUnit.MakeUnit(master_back, "back", 60));
+		dataUnit.list.Add(DataUnit.MakeUnit(master_left, chara_level, "left", 60));
+		dataUnit.list.Add(DataUnit.MakeUnit(master_right, chara_level, "right", 60));
+		dataUnit.list.Add(DataUnit.MakeUnit(master_back, chara_level, "back", 60));
 	}
 
 	public void card_initialize()

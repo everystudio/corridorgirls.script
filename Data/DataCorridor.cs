@@ -69,6 +69,12 @@ public class DataCorridor : CsvData<DataCorridorParam> {
 
 		DataCorridorParam last = null;
 		List<MasterStageEventParam> event_list = DataManagerGame.Instance.masterStageEvent.list.FindAll(p => p.stage_id == _master.stage_id && p.wave == _iWave);
+		if( event_list.Count == 0)
+		{
+			event_list = DataManagerGame.Instance.masterStageEvent.list.FindAll(p => p.stage_id == 0 && p.wave == _iWave);
+		}
+
+
 		MasterStageWaveParam stage_wave = DataManagerGame.Instance.masterStageWave.list.Find(p => p.stage_id == _master.stage_id && p.wave == _iWave);
 
 		// １からはじめたいため、ループがいつもと少し違う
@@ -156,6 +162,11 @@ public class DataCorridor : CsvData<DataCorridorParam> {
 
 		DataCorridorParam last = null;
 		List<MasterStageEventParam> event_list = _masterStageEvent.list.FindAll(p => p.stage_id == _master.stage_id && p.wave == _iWave);
+		if( event_list.Count == 0)
+		{
+			event_list = _masterStageEvent.list.FindAll(p => p.stage_id == 0 && p.wave == _iWave);
+		}
+
 		MasterStageWaveParam stage_wave = _masterStageWave.list.Find(p => p.stage_id == _master.stage_id && p.wave == _iWave);
 
 		// １からはじめたいため、ループがいつもと少し違う

@@ -315,8 +315,8 @@ MonoBehaviour:
         - 
         actionEnabled: 010101
         actionIsOpen: 010101
-        actionStartIndex: 000000000200000003000000
-        actionHashCodes: e9ac1d02dcbe480400000000
+        actionStartIndex: 000000000400000005000000
+        actionHashCodes: 3ff28203dcbe480400000000
         unityObjectParams: []
         fsmGameObjectParams: []
         fsmOwnerDefaultParams: []
@@ -345,6 +345,18 @@ MonoBehaviour:
           showInInspector: 0
           networkSync: 0
           value: 0
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
+        - useVariable: 0
+          name: 
+          tooltip: 
+          showInInspector: 0
+          networkSync: 0
+          value: 0
         - useVariable: 1
           name: skill_id
           tooltip: 
@@ -363,13 +375,15 @@ MonoBehaviour:
         arrayParamTypes: []
         customTypeSizes: 
         customTypeNames: []
-        paramDataType: 100000001000000010000000
+        paramDataType: 1000000010000000100000001000000010000000
         paramName:
         - select_card_serial
         - select_chara_id
+        - enemy_card_serial
+        - enemy_card_id
         - skill_id
-        paramDataPos: 000000000100000002000000
-        paramByteDataSize: 000000000000000000000000
+        paramDataPos: 0000000001000000020000000300000004000000
+        paramByteDataSize: 0000000000000000000000000000000000000000
     - name: enemy_card
       description: 
       colorIndex: 0

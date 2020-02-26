@@ -85,6 +85,7 @@ public class Defines{
 	public const string KEY_SOUNDSE_MINUS = "cancel_02";
 
 	public const string KEY_SOUNDSE_CASH = "se_cash";
+	public const string KEY_SOUNDSE_LEVELUP = "se_cleanup";
 
 
 	public static string GetHelpKey( int _iHelpId)

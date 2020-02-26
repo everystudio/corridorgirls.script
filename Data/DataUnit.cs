@@ -222,21 +222,21 @@ public class DataUnit : CsvData<DataUnitParam> {
 
 	}
 
-	public static DataUnitParam MakeUnit( MasterCharaParam _base, string _strPosition, int _iTension )
+	public static DataUnitParam MakeUnit( MasterCharaParam _base, int _iLevel, string _strPosition, int _iTension )
 	{
-		DataUnitParam ret = new DataUnitParam();
+		DataUnitParam ret = _base.BuildLevel(_iLevel, _iTension);
 		ret.chara_id = _base.chara_id;
 		ret.unit = _base.unit;
 
-		ret.hp = _base.hp_max;
-		ret.hp_max = _base.hp_max;
+		//ret.hp = _base.hp_max;
+		//ret.hp_max = _base.hp_max;
 
-		ret.tension = _iTension;
+		//ret.tension = _iTension;
 		ret.position = _strPosition;
 
-		ret.str = _base.str;
-		ret.magic = _base.magic;
-		ret.heal = _base.heal;
+		//ret.str = _base.str;
+		//ret.magic = _base.magic;
+		//ret.heal = _base.heal;
 
 		return ret;
 	}

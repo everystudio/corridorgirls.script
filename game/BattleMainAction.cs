@@ -112,7 +112,7 @@ namespace BattleMainAction
 			MasterCharaParam master_enemy = DataManagerGame.Instance.masterChara.list.Find(p => p.chara_id == enemy_chara_id.Value);
 
 			// 敵にこっそりテンションを入れるならここ
-			DataUnitParam enemy = DataUnit.MakeUnit(master_enemy, "enemy", 60);
+			DataUnitParam enemy = DataUnit.MakeUnit(master_enemy,1, "enemy", 60);
 			DataManagerGame.Instance.dataUnit.list.Add(enemy);
 
 			battleMain.m_sprEnemy.sprite = SpriteManager.Instance.Get(master_enemy.sprite_name);
@@ -304,6 +304,9 @@ namespace BattleMainAction
 		public FsmInt select_card_serial;
 		public FsmInt select_chara_id;
 
+		public FsmInt enemy_card_serial;
+		public FsmInt enemy_card_id;
+
 		private float aging_timer;
 
 		public override void OnEnter()
@@ -372,8 +375,24 @@ namespace BattleMainAction
 				{
 					if (0 == select_card_serial.Value)
 					{
-						int index = UtilRand.GetRand(battleMain.gameMain.card_list_hand.Count);
-						OnClickCard(battleMain.gameMain.card_list_hand[index].data_card.card_serial);
+						//int index = UtilRand.GetRand(battleMain.gameMain.card_list_hand.Count);
+
+						// シミュレーターから持ってきた
+						DataCardParam data_enemy_card = battleMain.dataCardEnemy.list.Find(p => p.card_serial == enemy_card_serial.Value);
+						MasterCardParam master_enemy_card = DataManagerGame.Instance.masterCard.list.Find(p => p.card_id == enemy_card_id.Value);
+
+
+						int iSerialPlayerCard = DataManagerGame.Instance.dataCard.SelectBattleCard_FromHand(
+							master_enemy_card,
+							DataManagerGame.Instance.masterCard.list,
+							DataManagerGame.Instance.masterCardSymbol.list);
+
+						if (iSerialPlayerCard == 0)
+						{
+							iSerialPlayerCard = DataManagerGame.Instance.dataCard.RandomSelectFromHand().card_serial;
+						}
+
+						OnClickCard(iSerialPlayerCard);
 					}
 					else
 					{
