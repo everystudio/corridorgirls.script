@@ -83,6 +83,8 @@ namespace CampMainAction {
 			base.OnUpdate();
 			if (DMCamp.Instance.Initialized )
 			{
+				DMCamp.Instance.user_data.Write(Defines.KEY_GAMEMODE, "camp");
+
 				campMain.m_panelStatus.Initialize(DMCamp.Instance.dataUnitCamp, DMCamp.Instance.masterChara);
 				campMain.m_panelStatus.SetupSkill(DMCamp.Instance.dataSkill.list.FindAll(p => 0 < p.status), DMCamp.Instance.masterSkill.list);
 
@@ -1934,6 +1936,9 @@ namespace CampMainAction {
 			DMCamp.Instance.user_data.AddInt(Defines.KeyMana, -1 * play_mana.Value);
 
 			DMCamp.Instance.dataStage.Save();
+
+
+			DMCamp.Instance.user_data.Write(Defines.KEY_GAMEMODE, "game");
 			DMCamp.Instance.user_data.Save();
 
 			Finish();

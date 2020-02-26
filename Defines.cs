@@ -22,6 +22,15 @@ public class Defines{
 	#endregion
 
 	public const string KEY_STAGE_ID = "stage_id";
+	public const string KEY_WAVE = "current_wave";
+	public const string KEY_CURRENT_INDEX = "current_index";
+
+	public const string KEY_GAME_TURN = "game_turn";
+	public const string KEY_GAME_CARDPLAY = "game_cardplay";
+	public const string KEY_GAME_DECKRELOAD = "game_deckreload";
+	public const string KEY_GAME_BATTLE_ENEMY_ID = "battle_enemy_id";
+	public const string KEY_GAME_IS_BATTLE = "is_battle";
+	public const string KEY_GAME_IS_BOSS = "is_boss";
 
 
 	public const int BUY_FOOD_FROM_GEM = 100;
@@ -45,6 +54,7 @@ public class Defines{
 
 	public const string FILENAME_CARD_CAMP = "card_camp";
 	public const string FILENAME_CARD_GAME = "card_game";
+	public const string FILENAME_CARD_ENEMY = "card_game_enemy";
 
 	public const string FILENAME_ITEM_CAMP = "item_camp";
 	public const string FILENAME_ITEM_GAME = "item_game";

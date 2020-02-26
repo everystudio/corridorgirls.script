@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using HutongGames.PlayMaker;
 using System;
-
+#if UNITY_IOS
+using UnityEngine.iOS;
+#endif
 namespace GameMainAction
 {
 	[ActionCategory("GameMainAction")]
@@ -65,6 +67,8 @@ namespace GameMainAction
 	{
 		public FsmBool show_ad_banner;
 		public FsmInt stage_id;
+
+		public FsmBool resume;
 		public override void OnEnter()
 		{
 			base.OnEnter();
@@ -74,10 +78,12 @@ namespace GameMainAction
 				gameMain.m_adsBannerTop.Show();
 			}
 
-
 			gameMain.gauge_mp.Setup();
-
 			stage_id.Value = DataManagerGame.Instance.gameData.ReadInt(Defines.KEY_STAGE_ID);
+
+			GameMain.Instance.total_turn = DataManagerGame.Instance.gameData.ReadInt(Defines.KEY_GAME_TURN);
+			GameMain.Instance.m_iCountCardPlay = DataManagerGame.Instance.gameData.ReadInt(Defines.KEY_GAME_CARDPLAY);
+			GameMain.Instance.m_iCountDeck = DataManagerGame.Instance.gameData.ReadInt(Defines.KEY_GAME_DECKRELOAD);
 
 			MasterStageParam master_stage = DataManagerGame.Instance.masterStage.list.Find(p => p.stage_id == stage_id.Value);
 
@@ -95,6 +101,13 @@ namespace GameMainAction
 				//Debug.Log(string.Format("chara_id={0} str={1}", unit.chara_id, unit.str));
 			}
 
+			if (DataManagerGame.Instance.gameData.HasKey(Defines.KEY_WAVE))
+			{
+				resume.Value = true;
+			}
+			else {
+				resume.Value = false;
+			}
 			Finish();
 		}
 	}
@@ -104,44 +117,46 @@ namespace GameMainAction
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
 	public class CardSetup : GameMainActionBase
 	{
+		public FsmBool resume;
+
 		public override void OnEnter()
 		{
 			base.OnEnter();
 
+			if( resume.Value == false ){
 
-			// 初期設定
-			DataManagerGame.Instance.dataCard.list.Clear();
+				// 初期設定
+				DataManagerGame.Instance.dataCard.list.Clear();
 
-			int serial = 1;
+				int serial = 1;
 
-			List<DataUnitParam> unit_param_list = DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara" && (p.position == "left" || p.position == "right" || p.position == "back"));
+				List<DataUnitParam> unit_param_list = DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara" && (p.position == "left" || p.position == "right" || p.position == "back"));
 
-			foreach (DataUnitParam unit in unit_param_list)
-			{
-				List<MasterCharaCardParam> card_list = DataManagerGame.Instance.masterCharaCard.list.FindAll(p => p.chara_id == unit.chara_id);
-				foreach (MasterCharaCardParam c in card_list)
+				foreach (DataUnitParam unit in unit_param_list)
 				{
-					DataCardParam dc = new DataCardParam();
-
-					dc.Copy(DataManagerGame.Instance.masterCard.list.Find(p => p.card_id == c.card_id), c.chara_id, serial);
-
-					//dc.chara_id = c.chara_id;
-					//dc.card_id = c.card_id;
-					//dc.card_serial = serial;
-
-					dc.status = (int)DataCard.STATUS.DECK;
-					if (unit.position == "back")
+					List<MasterCharaCardParam> card_list = DataManagerGame.Instance.masterCharaCard.list.FindAll(p => p.chara_id == unit.chara_id);
+					foreach (MasterCharaCardParam c in card_list)
 					{
-						dc.status = (int)DataCard.STATUS.NOTUSE;
+						DataCardParam dc = new DataCardParam();
+
+						dc.Copy(DataManagerGame.Instance.masterCard.list.Find(p => p.card_id == c.card_id), c.chara_id, serial);
+
+						//dc.chara_id = c.chara_id;
+						//dc.card_id = c.card_id;
+						//dc.card_serial = serial;
+
+						dc.status = (int)DataCard.STATUS.DECK;
+						if (unit.position == "back")
+						{
+							dc.status = (int)DataCard.STATUS.NOTUSE;
+						}
+						serial += 1;
+
+						DataManagerGame.Instance.dataCard.list.Add(dc);
 					}
-					serial += 1;
-
-					DataManagerGame.Instance.dataCard.list.Add(dc);
 				}
+				DataManagerGame.Instance.dataCard.CardFill(5);
 			}
-
-			DataManagerGame.Instance.dataCard.CardFill(5);
-
 			gameMain.CardSetup(DataManagerGame.Instance.dataCard.list.FindAll(p => p.status == (int)DataCard.STATUS.HAND));
 
 			gameMain.CardOrder();
@@ -149,6 +164,7 @@ namespace GameMainAction
 			// スキル関係
 			gameMain.ClearSkill();
 			gameMain.m_panelStatus.SetupSkill(DataManagerGame.Instance.dataSkill.list.FindAll(p => 0 < p.status), DataManagerGame.Instance.masterSkill.list);
+
 
 			Finish();
 		}
@@ -226,13 +242,14 @@ namespace GameMainAction
 		public FsmInt stage_id;
 		public FsmInt wave;
 
+		public FsmBool resume;
+
 		public override void OnEnter()
 		{
 			base.OnEnter();
 			//DataManagerGame.Instance.dataCorridor.Create(DataManagerGame.Instance.masterCorridor.list.FindAll(p => p.stage_id == 1));
 			// ここでフラグを落とすのもなんか不自然な気がするけど
 			gameMain.m_bIsGoal = false;
-
 			gameMain.m_fadeScreen.Open();
 
 			MasterStageParam master_stage = DataManagerGame.Instance.masterStage.list.Find(p => p.stage_id == stage_id.Value);
@@ -240,37 +257,62 @@ namespace GameMainAction
 			gameMain.total_wave = master_stage.total_wave;
 			gameMain.now_wave = wave.Value;
 
+
 			foreach (Corridor c in gameMain.corridor_list)
 			{
 				GameObject.Destroy(c.gameObject);
 			}
 			gameMain.corridor_list.Clear();
 
-			DataManagerGame.Instance.dataCorridor.BuildDungeon(master_stage, wave.Value);
-
+			int set_index = 1;
+			if (resume.Value == false)
+			{
+				DataManagerGame.Instance.dataCorridor.BuildDungeon(master_stage, stage_id.Value, wave.Value);
+			}
+			else
+			{
+				set_index = DataManagerGame.Instance.gameData.ReadInt(Defines.KEY_CURRENT_INDEX);
+			}
 			foreach (DataCorridorParam param in DataManagerGame.Instance.dataCorridor.list)
 			{
 				//Debug.Log(string.Format("x={0} y={1}", param.master.x, param.master.y));
 
 				Corridor corr = PrefabManager.Instance.MakeScript<Corridor>(gameMain.m_prefCorridor, gameMain.m_goStageRoot);
 				corr.Initialize(param);
-
 				gameMain.corridor_list.Add(corr);
 				//obj.transform.localPosition = new Vector3(param.master.x, param.master.y, 0.0f);
 			}
-			gameMain.chara_control.SetCorridor(DataManagerGame.Instance.dataCorridor.list.Find(p => p.index == 1));
+
+			gameMain.chara_control.SetCorridor(DataManagerGame.Instance.dataCorridor.list.Find(p => p.index == set_index));
 
 			if (gameMain.m_fadeScreen.is_open)
 			{
-				Finish();
+				end();
 			}
 			else
 			{
 				gameMain.m_fadeScreen.OnOpen.AddListener(() =>
 				{
 					gameMain.m_fadeScreen.OnOpen.RemoveAllListeners();
-					Finish();
+					end();
 				});
+			}
+		}
+		private void end()
+		{
+			if( 0 < DataManagerGame.Instance.gameData.ReadInt(Defines.KEY_GAME_IS_BATTLE))
+			{
+				GameMain.Instance.SelectCharaId = DataManagerGame.Instance.dataUnit.list.Find(p => 0 < p.hp && (p.position == "left" || p.position == "right")).chara_id;
+				Fsm.Event("battle");
+			}
+			else if( 0 < DataManagerGame.Instance.gameData.ReadInt(Defines.KEY_GAME_IS_BOSS))
+			{
+				GameMain.Instance.SelectCharaId = DataManagerGame.Instance.dataUnit.list.Find(p => 0 < p.hp && (p.position == "left" || p.position == "right")).chara_id;
+				Fsm.Event("boss");
+			}
+			else
+			{
+				Finish();
 			}
 		}
 	}
@@ -325,6 +367,10 @@ namespace GameMainAction
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
 	public class SaveData : GameMainActionBase
 	{
+		public FsmInt wave;
+		public FsmBool is_battle;
+		public FsmBool is_boss;
+
 		public override void OnEnter()
 		{
 			base.OnEnter();
@@ -339,6 +385,21 @@ namespace GameMainAction
 					chara.RemoveAssist(assist);
 				}
 			}
+
+			if (wave.Value != 0)
+			{
+				DataManagerGame.Instance.gameData.WriteInt(Defines.KEY_WAVE, wave.Value);
+			}
+			//Debug.Log(GameMain.Instance.chara_control.target_corridor.index);
+			DataManagerGame.Instance.gameData.WriteInt(Defines.KEY_CURRENT_INDEX, GameMain.Instance.chara_control.target_corridor.index);
+
+			DataManagerGame.Instance.gameData.WriteInt(Defines.KEY_GAME_TURN, GameMain.Instance.total_turn);
+			DataManagerGame.Instance.gameData.WriteInt(Defines.KEY_GAME_CARDPLAY, GameMain.Instance.m_iCountCardPlay);
+			DataManagerGame.Instance.gameData.WriteInt(Defines.KEY_GAME_DECKRELOAD, GameMain.Instance.m_iCountDeck);
+
+			DataManagerGame.Instance.gameData.WriteInt(Defines.KEY_GAME_IS_BATTLE, is_battle.Value ? 1 : 0);
+			DataManagerGame.Instance.gameData.WriteInt(Defines.KEY_GAME_IS_BOSS, is_boss.Value ? 1 : 0);
+
 			DataManagerGame.Instance.SaveTurn();
 
 			Finish();
@@ -984,6 +1045,7 @@ namespace GameMainAction
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
 	public class CheckCorridorEvent : GameMainActionBase
 	{
+		public FsmBool battle;
 		public override void OnEnter()
 		{
 			base.OnEnter();
@@ -1030,8 +1092,13 @@ namespace GameMainAction
 			}
 			*/
 			//Debug.Log(gameMain.chara_control.target_corridor.corridor_event.corridor_type);
-
-			Fsm.Event(gameMain.chara_control.target_corridor.corridor_event.corridor_type);
+			if (battle.Value)
+			{
+				Fsm.Event("battle");
+			}
+			else {
+				Fsm.Event(gameMain.chara_control.target_corridor.corridor_event.corridor_type);
+			}
 		}
 	}
 	[ActionCategory("GameMainAction")]
@@ -1704,9 +1771,11 @@ namespace GameMainAction
 	{
 		public FsmInt stage_id;
 		public FsmBool is_win;
+
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			bool request_review = false;
 			gameMain.m_adsBannerBottom.Hide();
 			gameMain.m_adsBannerTop.Hide();
 
@@ -1714,6 +1783,8 @@ namespace GameMainAction
 			{
 				if (is_win.Value)
 				{
+					request_review = 0 == DataManagerGame.Instance.dataStage.list.FindAll(p => 0 < p.clear_count).Count;
+
 					DataStageParam data_stage = DataManagerGame.Instance.dataStage.list.Find(p => p.stage_id == stage_id.Value);
 					data_stage.clear_count += 1;
 					if (GameMain.Instance.m_iCountCardPlay < data_stage.best_play)
@@ -1729,6 +1800,7 @@ namespace GameMainAction
 					DataManagerGame.Instance.user_data.AddInt(Defines.KeyFood, PrizeList.Instance.m_iFood);
 					DataManagerGame.Instance.user_data.AddInt(Defines.KeyMana, PrizeList.Instance.m_iMana);
 					DataManagerGame.Instance.user_data.AddInt(Defines.KeyGem, PrizeList.Instance.m_iGem);
+					DataManagerGame.Instance.user_data.Write(Defines.KEY_GAMEMODE, "camp");
 
 					DataManagerGame.Instance.user_data.Save();
 					DataManagerGame.Instance.dataStage.Save();
@@ -1752,9 +1824,58 @@ namespace GameMainAction
 				}
 			}
 
+			if (request_review)
+			{
+				Fsm.Event("review");
+			}
+			else
+			{
+				Finish();
+			}
+		}
+	}
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class Review : GameMainActionBase
+	{
+		public FsmGameObject panel;
+		public FsmGameObject button;
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			panel.Value.SetActive(true);
+
+			button.Value.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() =>
+			{
+				DataPresent dataPresent = new DataPresent();
+				dataPresent.SetSaveFilename(Defines.FILENAME_DATA_PRESENT);
+				dataPresent.LoadMulti();
+				dataPresent.Add(1, 30, "ステージ初クリアのお祝い");
+				DataManagerGame.Instance.user_data.AddInt(Defines.KeyGem, 30);
+				dataPresent.Save();
+#if UNITY_IOS
 
 
-			Finish();
+			if (Device.RequestStoreReview())
+			{
+				Finish();
+			}
+			else
+			{
+				Finish();
+			}
+#else
+				Finish();
+#endif
+
+
+			});
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+			panel.Value.SetActive(false);
 		}
 	}
 

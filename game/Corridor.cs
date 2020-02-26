@@ -24,7 +24,13 @@ public class Corridor : MonoBehaviour {
 		}
 		//Debug.Log(_data);
 		//Debug.Log(_data.corridor_event);
-		m_txtLabel.text = _data.corridor_event.label;
+
+		if(_data.corridor_event == null)
+		{
+			_data.corridor_event = DataManagerGame.Instance.masterCorridorEvent.list.Find(p => p.corridor_event_id == _data.corridor_event_id);
+		}
+
+		m_txtLabel.text = _data.corridor_label;
 		//Debug.Log(_data.corridor_event.sprite_name);
 		if (_data.corridor_event.sprite_name != "")
 		{

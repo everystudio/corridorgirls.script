@@ -206,6 +206,14 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 		{
 			Debug.LogError("no data stage");
 		}
+		if( false == dataCard.LoadMulti())
+		{
+
+		}
+		if( false == dataCorridor.LoadMulti())
+		{
+
+		}
 
 		Initialized = true;
 	}
@@ -219,6 +227,7 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 		dataItem.Save();
 		dataSkill.Save();
 		dataStage.Save();
+		GameMain.Instance.battleMain.dataCardEnemy.Save(Defines.FILENAME_CARD_ENEMY);
 	}
 
 private void OnRecievedMasterDungeonStep(List<MasterGimicParam> arg0)

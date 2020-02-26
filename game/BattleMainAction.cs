@@ -104,33 +104,43 @@ namespace BattleMainAction
 			//Debug.LogWarning(DataManagerGame.Instance.masterCharaCard.list.FindAll(p => p.chara_id == enemy_chara_id.Value).Count);
 
 
-
-
-			// 敵は１体消して新規に追加
-			DataManagerGame.Instance.dataUnit.list.RemoveAll(p => p.unit == "enemy");
-
 			MasterCharaParam master_enemy = DataManagerGame.Instance.masterChara.list.Find(p => p.chara_id == enemy_chara_id.Value);
 
-			// 敵にこっそりテンションを入れるならここ
-			DataUnitParam enemy = DataUnit.MakeUnit(master_enemy,1, "enemy", 60);
-			DataManagerGame.Instance.dataUnit.list.Add(enemy);
+			battleMain.dataCardEnemy.SetSaveFilename(Defines.FILENAME_CARD_ENEMY);
 
-			battleMain.m_sprEnemy.sprite = SpriteManager.Instance.Get(master_enemy.sprite_name);
 
-			int iSerial = 1;
-			foreach( MasterCharaCardParam cc in DataManagerGame.Instance.masterCharaCard.list.FindAll(p=>p.chara_id == enemy_chara_id.Value))
+			if (0 == DataManagerGame.Instance.gameData.ReadInt(Defines.KEY_GAME_BATTLE_ENEMY_ID))
 			{
-				DataCardParam add = new DataCardParam();
+				// 敵は１体消して新規に追加
+				DataManagerGame.Instance.dataUnit.list.RemoveAll(p => p.unit == "enemy");
 
-				MasterCardParam master_card = DataManagerGame.Instance.masterCard.list.Find(p => p.card_id == cc.card_id);
+				// 敵にこっそりテンションを入れるならここ
+				DataUnitParam enemy = DataUnit.MakeUnit(master_enemy, 1, "enemy", 60);
+				DataManagerGame.Instance.dataUnit.list.Add(enemy);
 
-				add.Copy(master_card, enemy_chara_id.Value, iSerial);
+				DataManagerGame.Instance.gameData.WriteInt(Defines.KEY_GAME_BATTLE_ENEMY_ID, enemy_chara_id.Value);
 
-				battleMain.dataCardEnemy.list.Add(add);
+				int iSerial = 1;
+				foreach (MasterCharaCardParam cc in DataManagerGame.Instance.masterCharaCard.list.FindAll(p => p.chara_id == enemy_chara_id.Value))
+				{
+					DataCardParam add = new DataCardParam();
+					MasterCardParam master_card = DataManagerGame.Instance.masterCard.list.Find(p => p.card_id == cc.card_id);
+					add.Copy(master_card, enemy_chara_id.Value, iSerial);
+					battleMain.dataCardEnemy.list.Add(add);
+					iSerial += 1;
+				}
+			}
+			else
+			{
+				Debug.Log("battle resume");
+				enemy_chara_id.Value = DataManagerGame.Instance.gameData.ReadInt(Defines.KEY_GAME_BATTLE_ENEMY_ID);
+				master_enemy = DataManagerGame.Instance.masterChara.list.Find(p => p.chara_id == enemy_chara_id.Value);
 
-				iSerial += 1;
+				battleMain.dataCardEnemy.LoadMulti();
 			}
 
+
+			battleMain.m_sprEnemy.sprite = SpriteManager.Instance.Get(master_enemy.sprite_name);
 			battleMain.HpRefresh();
 
 
@@ -1282,6 +1292,8 @@ namespace BattleMainAction
 		{
 			base.OnEnter();
 			battleMain.OnBattleFinished.Invoke(battle_result.Value);
+
+			DataManagerGame.Instance.gameData.WriteInt(Defines.KEY_GAME_BATTLE_ENEMY_ID, 0);
 
 			BGMControl.Instance.Stop();
 			Finish();

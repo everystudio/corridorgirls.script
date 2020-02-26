@@ -16,6 +16,9 @@ public class DataCorridorParam : CsvDataParam
 	public int next_index { get; set; }
 	public int next_index2 { get; set; }
 	public int next_index3 { get; set; }
+
+	public string corridor_label { get; set; }
+	public int corridor_event_id { get; set; }
 	#endregion
 
 	public MasterCorridorParam master;
@@ -63,19 +66,22 @@ public class DataCorridor : CsvData<DataCorridorParam> {
 		}
 	}
 
-	public void BuildDungeon( MasterStageParam _master , int _iWave)
+	public void BuildDungeon( MasterStageParam _master , int _iStageId , int _iWave)
 	{
 		list.Clear();
+		Debug.Log(_master.stage_id);
+		Debug.Log(_iStageId);
+		Debug.Log(_iWave);
 
 		DataCorridorParam last = null;
-		List<MasterStageEventParam> event_list = DataManagerGame.Instance.masterStageEvent.list.FindAll(p => p.stage_id == _master.stage_id && p.wave == _iWave);
+		List<MasterStageEventParam> event_list = DataManagerGame.Instance.masterStageEvent.list.FindAll(p => p.stage_id == _iStageId && p.wave == _iWave);
 		if( event_list.Count == 0)
 		{
 			event_list = DataManagerGame.Instance.masterStageEvent.list.FindAll(p => p.stage_id == 0 && p.wave == _iWave);
 		}
 
 
-		MasterStageWaveParam stage_wave = DataManagerGame.Instance.masterStageWave.list.Find(p => p.stage_id == _master.stage_id && p.wave == _iWave);
+		MasterStageWaveParam stage_wave = DataManagerGame.Instance.masterStageWave.list.Find(p => p.stage_id == _iStageId && p.wave == _iWave);
 
 		// １からはじめたいため、ループがいつもと少し違う
 		for ( int i = 1; i <= stage_wave.length; i++)
@@ -91,50 +97,19 @@ public class DataCorridor : CsvData<DataCorridorParam> {
 			if( i == 1)
 			{
 				cor.corridor_event = DataManagerGame.Instance.masterCorridorEvent.list.Find(p => p.corridor_event_id == 1);
+				cor.corridor_event_id = 1;
+				cor.corridor_label = "START";
 			}
 			else
 			{
 				MasterStageEventParam stage_event = MasterStageEvent.GetRand(event_list);
 				cor.corridor_event = DataManagerGame.Instance.masterCorridorEvent.list.Find(p => p.corridor_event_id == stage_event.corridor_event_id);
+				cor.corridor_event_id = cor.corridor_event.corridor_event_id;
+				cor.corridor_label = cor.corridor_event.label;
 			}
 			list.Add(cor);
 			last = cor;
 		}
-		/*
-		#region 分布チェック用
-		int[] log_event = new int[10];
-		for ( int i = 0; i < 10000; i++)
-		{
-			MasterStageEventParam stage_event = MasterStageEvent.GetRand(event_list);
-
-			if (stage_event.corridor_event_id== 1001)
-			{
-				log_event[0] += 1;
-			}
-			else if (stage_event.corridor_event_id == 2001)
-			{
-				log_event[1] += 1;
-			}
-			else if (stage_event.corridor_event_id == 4101)
-			{
-				log_event[2] += 1;
-			}
-			else if (stage_event.corridor_event_id == 6101)
-			{
-				log_event[3] += 1;
-			}
-			else if (stage_event.corridor_event_id == 7001)
-			{
-				log_event[4] += 1;
-			}
-		}
-		for( int i = 0; i < 5; i++)
-		{
-			Debug.Log(log_event[i]);
-		}
-		#endregion
-		*/
-
 		// ゴール
 
 
@@ -142,10 +117,12 @@ public class DataCorridor : CsvData<DataCorridorParam> {
 		if(_master.total_wave == _iWave)
 		{
 			last.corridor_event.label = "BOSS";
+			last.corridor_label = "BOSS";
 		}
 		else
 		{
 			last.corridor_event.label = "NEXT";
+			last.corridor_label = "NEXT";
 		}
 	}
 
