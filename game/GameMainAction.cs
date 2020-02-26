@@ -63,11 +63,17 @@ namespace GameMainAction
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
 	public class Startup : GameMainActionBase
 	{
-
+		public FsmBool show_ad_banner;
 		public FsmInt stage_id;
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			if (show_ad_banner.Value)
+			{
+				gameMain.m_adsBannerBottom.Show();
+				gameMain.m_adsBannerTop.Show();
+			}
+
 
 			gameMain.gauge_mp.Setup();
 
@@ -1701,8 +1707,10 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			gameMain.m_adsBannerBottom.Hide();
+			gameMain.m_adsBannerTop.Hide();
 
-			if( gameMain.m_bIsGoal)
+			if ( gameMain.m_bIsGoal)
 			{
 				if (is_win.Value)
 				{

@@ -42,6 +42,9 @@ public class GameMain : Singleton<GameMain> {
 
 	public FadeScreen m_fadeScreen;
 
+	public AdsBanner m_adsBannerBottom;
+	public AdsBanner m_adsBannerTop;
+
 	public BackgroundControl m_backgroundControl;
 	public GaugeMP gauge_mp;
 
