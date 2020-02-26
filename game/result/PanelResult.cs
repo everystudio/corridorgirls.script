@@ -37,11 +37,12 @@ public class PanelResult : MonoBehaviour {
 
 		// 個別にカウントアップ
 
+
 		while (m_iFoodDisp < m_iFood)
 		{
 			m_iFoodDisp += 1;
 			m_txtNumFood.text = m_iFoodDisp.ToString();
-			yield return new WaitForSeconds(0.05f);
+			yield return new WaitForSeconds(0.01f);
 		}
 
 		if (0 < m_iFood)
@@ -53,7 +54,7 @@ public class PanelResult : MonoBehaviour {
 		{
 			m_iManaDisp += 1;
 			m_txtNumMana.text = m_iManaDisp.ToString();
-			yield return new WaitForSeconds(0.05f);
+			yield return new WaitForSeconds(0.01f);
 		}
 
 		if (0 < m_iMana)
@@ -65,7 +66,7 @@ public class PanelResult : MonoBehaviour {
 		{
 			m_iGemDisp += 1;
 			m_txtNumGem.text = m_iGemDisp.ToString();
-			yield return new WaitForSeconds(0.05f);
+			yield return new WaitForSeconds(0.01f);
 		}
 
 		if (0 < m_iGem)
