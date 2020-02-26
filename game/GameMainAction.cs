@@ -166,6 +166,14 @@ namespace GameMainAction
 
 			// チュートリアル用のデッキデータをロード
 			DataManagerGame.Instance.dataCard.Load(DataManagerGame.Instance.data_holder.Get("data_tutorial_card"));
+
+			foreach(DataCardParam card in DataManagerGame.Instance.dataCard.list)
+			{
+				MasterCardParam master = DataManagerGame.Instance.masterCard.list.Find(p => p.card_id == card.card_id);
+				card.Copy(master, card.chara_id, card.card_serial);
+			}
+
+
 			//DataManagerGame.Instance.dataSkill.Load(DataManagerGame.Instance.data_holder.Get("data_tutorial_skill"));
 
 			DataManagerGame.Instance.dataCard.CardFill(5);
@@ -1096,6 +1104,8 @@ namespace GameMainAction
 			item_id.Value = arg0;
 			MasterItemParam master_item = DataManagerGame.Instance.masterItem.list.Find(p => p.item_id == arg0);
 			Debug.Log(master_item.name);
+
+			DataManagerGame.Instance.dataItem.AddItem(master_item);
 			Finish();
 		}
 

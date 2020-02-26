@@ -35,6 +35,38 @@ namespace TitleMainAction {
 
 	[ActionCategory("TitleMainAction")]
 	[HutongGames.PlayMaker.Tooltip("TitleMainAction")]
+	public class check_agree : TitleMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			if (title.user_data.HasKey(Defines.KEY_AGREE) == false)
+			{
+				Fsm.Event("check");
+			}
+			else
+			{
+				Finish();
+			}
+		}
+	}
+
+	[ActionCategory("TitleMainAction")]
+	[HutongGames.PlayMaker.Tooltip("TitleMainAction")]
+	public class agree : TitleMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			title.user_data.Write(Defines.KEY_AGREE, "agree");
+			title.user_data.Save();
+			Finish();
+		}
+	}
+
+
+	[ActionCategory("TitleMainAction")]
+	[HutongGames.PlayMaker.Tooltip("TitleMainAction")]
 	public class check : TitleMainActionBase
 	{
 		public FsmString mode_name;

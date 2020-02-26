@@ -6,6 +6,7 @@ using UnityEngine;
 public class Defines{
 
 	#region USER_DATA
+	public const string KEY_AGREE = "agree_game_rule";
 	public const string KEY_GAMEMODE = "gamemode";
 
 	public const string KeyGem = "gem";

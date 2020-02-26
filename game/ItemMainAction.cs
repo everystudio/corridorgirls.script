@@ -68,7 +68,7 @@ namespace ItemMainAction
 			base.OnEnter();
 
 			itemMain.m_panelItemList.gameObject.SetActive(true);
-
+			Debug.Log(DataManagerGame.Instance.dataItem.list.Count);
 			itemMain.m_panelItemList.Show(
 				DataManagerGame.Instance.dataItem.list.FindAll(p => p.status == (int)DataItem.STATUS.STANDBY),
 				DataManagerGame.Instance.masterItem.list
