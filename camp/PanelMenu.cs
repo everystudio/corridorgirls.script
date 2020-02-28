@@ -9,12 +9,12 @@ public class PanelMenu : MonoBehaviour {
 	public void Show()
 	{
 		bool bDevelopment = Application.identifier.Contains("development");
-
+		Debug.Log(bDevelopment);
 #if UNITY_EDITOR
 		bDevelopment = true;
 #endif
 		m_bannerAging.gameObject.SetActive(bDevelopment);
-
+		m_bannerAging.gameObject.SetActive(false);
 	}
 
 

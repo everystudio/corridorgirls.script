@@ -1825,6 +1825,7 @@ namespace CampMainAction {
 			base.OnEnter();
 
 			campMain.m_panelMenu.gameObject.SetActive(true);
+			campMain.m_panelMenu.Show();
 
 			campMain.m_panelDecideCheckBottom.m_txtMessage.text = "メニュー/設定\n変更したい内容を選択してください";
 			campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(true);
