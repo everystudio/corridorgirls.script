@@ -134,16 +134,22 @@ public class GameMain : Singleton<GameMain> {
 		float x = -300.0f;
 		float width = 600.0f;
 
-		SEControl.Instance.Play(Defines.SE_CARDPLAY);
+		bool bSoundPlay = false;
+
+		float max_length = 0.0f;
 
 		float pitch = width / (card_list_hand.Count + 1);
 		for ( int i = 0; i < card_list_hand.Count; i++) {
 
+			Vector3 moved_pos = new Vector3(x + (pitch * (i + 1)), 0.0f, 0.0f);
+
+			max_length = Mathf.Max(Vector3.SqrMagnitude(moved_pos - card_list_hand[i].transform.localPosition), max_length);
+
 			iTween.MoveTo(card_list_hand[i].gameObject,
 				iTween.Hash(
-					"x", x + (pitch * (i + 1)),
-					"y", 0.0f,
-					"z", 0.0f,
+					"x", moved_pos.x,
+					"y", moved_pos.y,
+					"z", moved_pos.z,
 					"time", 0.5f,
 					"isLocal", true)
 				);
@@ -154,6 +160,10 @@ public class GameMain : Singleton<GameMain> {
 				0.0f,
 				0.0f);
 				*/
+		}
+		if(50 < max_length)
+		{
+			SEControl.Instance.Play(Defines.SE_CARDPLAY);
 		}
 	}
 	public void CardSelectUp( int _iSerial)

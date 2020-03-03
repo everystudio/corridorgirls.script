@@ -63,6 +63,43 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 		StartCoroutine(init_network());
 	}
 
+	public int GameSpeedIndex
+	{
+		get
+		{
+			return game_speed_index;
+		}
+	}
+	public float GameSpeed
+	{
+		get { return game_speed_arr[game_speed_index]; }
+	}
+	private int game_speed_index;
+	private float[] game_speed_arr = new float[4]
+	{
+		1.0f,
+		1.5f,
+		2.0f,
+		3.0f
+	};
+	public void ChangeGameSpeed()
+	{
+		game_speed_index += 1;
+		SetGameSpeed(game_speed_index);
+		user_data.WriteInt(Defines.KEY_GAMESPEED, game_speed_index);
+		// これはあまりやりたくないなぁ
+		user_data.Save();
+	}
+	public void SetGameSpeed( int _iIndex )
+	{
+		game_speed_index = _iIndex;
+		if (game_speed_arr.Length <= game_speed_index)
+		{
+			game_speed_index = 0;
+		}
+		Time.timeScale = GameSpeed;
+	}
+
 	private bool m_bIsAging;
 	public bool IsAging
 	{
@@ -139,6 +176,13 @@ public class DataManagerGame : DataManagerBase<DataManagerGame> {
 			Debug.Log("not haskey:Defines.KEY_SOUNDVOLUME_SE");
 			user_data.WriteFloat(Defines.KEY_SOUNDVOLUME_SE, 0.8f);
 		}
+		if(!user_data.HasKey(Defines.KEY_GAMESPEED))
+		{
+			Debug.Log("not haskey:Defines.KEY_GAMESPEED");
+			user_data.WriteInt(Defines.KEY_GAMESPEED, 0);
+		}
+		game_speed_index = user_data.ReadInt(Defines.KEY_GAMESPEED);
+		SetGameSpeed(game_speed_index);
 		//Debug.Log(user_data.ReadFloat(Defines.KEY_SOUNDVOLUME_BGM));
 		//Debug.Log(user_data.ReadFloat(Defines.KEY_SOUNDVOLUME_SE));
 

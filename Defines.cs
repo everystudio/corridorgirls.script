@@ -8,6 +8,7 @@ public class Defines{
 	#region USER_DATA
 	public const string KEY_AGREE = "agree_game_rule";
 	public const string KEY_GAMEMODE = "gamemode";
+	public const string KEY_GAMESPEED = "gamespeed";
 
 	public const string KeyGem = "gem";
 	public const string KeyGold = "gold";

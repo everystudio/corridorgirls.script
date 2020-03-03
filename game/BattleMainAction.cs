@@ -439,7 +439,7 @@ namespace BattleMainAction
 
 		private IEnumerator exe_main()
 		{
-			yield return new WaitForSeconds(1.5f);
+			yield return new WaitForSeconds(0.5f);
 
 			battleMain.enemy_card = PrefabManager.Instance.MakeScript<Card>(
 				battleMain.m_prefCard, battleMain.m_goEnemyCardRoot);
@@ -531,7 +531,7 @@ namespace BattleMainAction
 		{
 			base.OnUpdate();
 			time += Time.deltaTime;
-			if( 2.0f < time)
+			if( 1.0f < time)
 			{
 				Finish();
 			}

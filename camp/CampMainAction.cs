@@ -70,6 +70,11 @@ namespace CampMainAction {
 		public override void OnEnter()
 		{
 			base.OnEnter();
+
+			// キャンプはタイマーリセットする
+			Time.timeScale = 1.0f;
+
+
 			campMain.m_btnPresent.SetBadgeNum(0);
 			campMain.m_btnInvite.SetBadgeNum(0);
 			if( NTPTimer.Instance.IsError == true)

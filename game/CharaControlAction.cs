@@ -395,6 +395,7 @@ namespace CharaControlAction {
 		{
 			base.OnEnter();
 			GameMain.Instance.chara_control.m_animator.SetTrigger("win");
+			Finish();
 		}
 	}
 	[ActionCategory("CharaControlAction")]

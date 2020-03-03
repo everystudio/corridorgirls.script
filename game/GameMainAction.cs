@@ -574,6 +574,7 @@ namespace GameMainAction
 			base.OnEnter();
 
 			select_card_serial.Value = 0;
+			gameMain.CardOrder();
 
 			foreach (Card card in gameMain.card_list_hand)
 			{
@@ -589,6 +590,9 @@ namespace GameMainAction
 			else {
 				select_card_serial.Value = arg0;
 				gameMain.CardSelectUp(select_card_serial.Value);
+
+				// 強引な気もするけど
+				gameMain.chara_control.m_animator.Play("idle");
 
 				DataCardParam card = DataManagerGame.Instance.dataCard.list.Find(p => p.card_serial == select_card_serial.Value);
 
@@ -1275,7 +1279,7 @@ namespace GameMainAction
 			GameMain.Instance.panelStageShop.OnClickIcon.RemoveAllListeners();
 			GameMain.Instance.panelStageShop.OnClickIcon.AddListener((IconStageShopItem _icon) =>
 			{
-				Debug.Log(_icon.icon_index);
+				//Debug.Log(_icon.icon_index);
 				if (icon_list.Contains(_icon))
 				{
 					icon_list.Remove(_icon);
@@ -1298,7 +1302,7 @@ namespace GameMainAction
 				if( 0 < icon_list.Count)
 				{
 					int gold = DataManagerGame.Instance.gameData.ReadInt(Defines.KeyGold);
-					Debug.Log(gold);
+					//Debug.Log(gold);
 					if( total_gold <= gold)
 					{
 						GameMain.Instance.m_panelGameControlButtons.ShowButtonNum(2, new string[2] { "購入", "退店" }, new bool[2] { true, true });
@@ -1903,9 +1907,6 @@ namespace GameMainAction
 
 			GameMain.Instance.m_panelGameControlButtons.OnClickButton.AddListener((int _iIndex) =>
 			{
-				GameMain.Instance.m_panelGameMenu.gameObject.SetActive(false);
-				PrizeList.Instance.m_bMenu = false;
-				//SEControl.Instance.Play("cancel_01");
 				Fsm.Event("close");
 			});
 		}
@@ -1922,6 +1923,21 @@ namespace GameMainAction
 		}
 	}
 
+
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class GameMenuClose : GameMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			GameMain.Instance.m_panelGameMenu.gameObject.SetActive(false);
+			PrizeList.Instance.m_bMenu = false;
+			//SEControl.Instance.Play("cancel_01");
+
+			Finish();
+		}
+	}
 
 	[ActionCategory("GameMainAction")]
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]

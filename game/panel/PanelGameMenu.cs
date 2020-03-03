@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PanelGameMenu : MonoBehaviour {
+
+	public BannerMenu m_bannerGamespeed;
 	public BannerMenu m_bannerAging;
 	public BannerMenu m_bannerRetire;
 
@@ -39,7 +41,7 @@ public class PanelGameMenu : MonoBehaviour {
 		AddMenuNum("カードプレイ数", GameMain.Instance.m_iCountCardPlay.ToString());
 		AddMenuNum("デッキリロード数", GameMain.Instance.m_iCountDeck.ToString());
 
-
+		_gamespeed_label();
 	}
 
 	private void AddMenuNum(string _strTitle , string _strParam)
@@ -49,6 +51,23 @@ public class PanelGameMenu : MonoBehaviour {
 
 	}
 
+	private void _gamespeed_label()
+	{
+		string star = "";
+		for (int i = 0; i < 4; i++)
+		{
+			if (i <= DataManagerGame.Instance.GameSpeedIndex)
+			{
+				star += "★";
+			}
+			else
+			{
+				star += "☆";
+			}
+		}
+		m_bannerGamespeed.m_txtLabel.text = string.Format("ゲームスピード変更：{0}", star);
+
+	}
 
 	void Start()
 	{
@@ -60,6 +79,14 @@ public class PanelGameMenu : MonoBehaviour {
 		{
 			ToggleAgingMenu(!m_bannerAging.m_bToggle);
 		});
+
+
+		m_bannerGamespeed.m_btn.onClick.AddListener(() =>
+		{
+			DataManagerGame.Instance.ChangeGameSpeed();
+			_gamespeed_label();
+		});
+
 	}
 
 	private void ToggleAgingMenu(bool _bFlag)
