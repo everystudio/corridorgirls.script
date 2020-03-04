@@ -569,11 +569,14 @@ namespace GameMainAction
 	public class CardSelect : GameMainActionBase
 	{
 		public FsmInt select_card_serial;
+
+		private int temp_select_card_serial;
 		public override void OnEnter()
 		{
 			base.OnEnter();
 
 			select_card_serial.Value = 0;
+			temp_select_card_serial = 0;
 			gameMain.CardOrder();
 
 			foreach (Card card in gameMain.card_list_hand)
@@ -583,18 +586,19 @@ namespace GameMainAction
 		}
 		private void OnClickCard(int arg0)
 		{
-			if (select_card_serial.Value == arg0)
+			if (temp_select_card_serial == arg0)
 			{
+				select_card_serial.Value = arg0;
 				Fsm.Event("select");
 			}
 			else {
-				select_card_serial.Value = arg0;
-				gameMain.CardSelectUp(select_card_serial.Value);
+				temp_select_card_serial = arg0;
+				gameMain.CardSelectUp(temp_select_card_serial);
 
 				// 強引な気もするけど
 				gameMain.chara_control.m_animator.Play("idle");
 
-				DataCardParam card = DataManagerGame.Instance.dataCard.list.Find(p => p.card_serial == select_card_serial.Value);
+				DataCardParam card = DataManagerGame.Instance.dataCard.list.Find(p => p.card_serial == temp_select_card_serial);
 
 				GameMain.Instance.SelectCharaId = card.chara_id;
 			}
@@ -751,6 +755,7 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			GameMain.Instance.CardSelectUp(0);
 			PanelLogMessage.Instance.AddMessage("現在のデッキを表示します");
 			SEControl.Instance.Play("cursor_01");
 
@@ -783,6 +788,7 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			GameMain.Instance.CardSelectUp(0);
 			PanelLogMessage.Instance.AddMessage("ステータスを表示します");
 
 			SEControl.Instance.Play("cursor_01");
@@ -817,6 +823,8 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
+			GameMain.Instance.CardSelectUp(0);
+
 			PanelLogMessage.Instance.AddMessage("所持アイテムを表示します");
 			SEControl.Instance.Play("cursor_01");
 
