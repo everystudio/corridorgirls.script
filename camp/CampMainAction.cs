@@ -93,6 +93,12 @@ namespace CampMainAction {
 				campMain.m_panelStatus.Initialize(DMCamp.Instance.dataUnitCamp, DMCamp.Instance.masterChara);
 				campMain.m_panelStatus.SetupSkill(DMCamp.Instance.dataSkill.list.FindAll(p => 0 < p.status), DMCamp.Instance.masterSkill.list);
 
+				// Gemがマイナスの場合、０で初期化
+				if(DMCamp.Instance.user_data.ReadInt(Defines.KeyGem) < 0)
+				{
+					DMCamp.Instance.user_data.WriteInt(Defines.KeyGem, 0);
+				}
+
 				campMain.m_infoHeaderCamp.SetFood(DMCamp.Instance.user_data.ReadInt(Defines.KeyFood));
 				campMain.m_infoHeaderCamp.SetMana(DMCamp.Instance.user_data.ReadInt(Defines.KeyMana));
 				campMain.m_infoHeaderCamp.SetGem(DMCamp.Instance.user_data.ReadInt(Defines.KeyGem));
