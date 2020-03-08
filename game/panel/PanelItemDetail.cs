@@ -11,12 +11,19 @@ public class PanelItemDetail : MonoBehaviour {
 	public Image m_imgBack;
 	public PartyHolder m_partyHolder;
 
+	public Image m_imgItemIcon;
+
 	public TextMeshProUGUI m_txtName;
 	public TextMeshProUGUI m_txtOutline;
 
 	public void Initialize(MasterItemParam _master)
 	{
 		m_master = _master;
+
+		if (m_imgItemIcon != null)
+		{
+			m_imgItemIcon.sprite = SpriteManager.Instance.Get(_master.sprite_name);
+		}
 		m_txtName.text = _master.name;
 
 		string strOutline = "";

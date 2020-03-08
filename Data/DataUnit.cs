@@ -266,7 +266,9 @@ public class DataUnit : CsvData<DataUnitParam> {
 			case "heal":
 				add.heal = _iParam;
 				break;
+			case "hp":
 			case "hp_max":
+				// hpでもhp_maxでもどっちでもいいよ
 				add.hp_max = _iParam;
 				break;
 			case "luck":

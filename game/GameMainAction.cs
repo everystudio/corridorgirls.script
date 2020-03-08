@@ -374,6 +374,8 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
+
+			bool bRemove = false;
 			// ターン毎のデータ保存
 			foreach (DataUnitParam assist in DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "assist" && 0 < p.turn ))
 			{
@@ -381,9 +383,15 @@ namespace GameMainAction
 				assist.turn -= 1;
 				if(assist.turn == 0)
 				{
+					bRemove = true;
 					DataUnitParam chara = DataManagerGame.Instance.dataUnit.list.Find(p => p.chara_id == assist.chara_id && p.unit == "chara");
 					chara.RemoveAssist(assist);
 				}
+			}
+			if(bRemove)
+			{
+				GameMain.Instance.battleMain.HpRefresh();
+				GameMain.Instance.CharaRefresh();
 			}
 
 			if (wave.Value != 0)

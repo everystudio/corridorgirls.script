@@ -285,6 +285,10 @@ namespace ItemMainAction
 					DataManagerGame.Instance.dataUnit.AddAssist(unit,"item", masterItem.name, unit.chara_id, item_type_sub.Value, param.Value, turn.Value);
 				}
 			}
+			GameMain.Instance.battleMain.HpRefresh();
+			GameMain.Instance.CharaRefresh();
+
+
 			Finish();
 		}
 	}

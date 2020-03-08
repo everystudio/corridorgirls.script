@@ -42,6 +42,7 @@ public class Processor : IPreprocessBuild, IPostprocessBuild
 				case "target_env":
 					if (args[i + 1] == "development")
 					{
+						PlayerSettings.productName = string.Format("Dev{0}", PlayerSettings.productName);
 						PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.iOS, PlayerSettings.applicationIdentifier + ".development");
 					}
 					break;
@@ -89,6 +90,7 @@ public class Processor : IPreprocessBuild, IPostprocessBuild
 
 		if (PlayerSettings.applicationIdentifier.Contains("development"))
 		{
+			PlayerSettings.productName = PlayerSettings.productName.Replace("Dev", "");
 			PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.iOS, PlayerSettings.applicationIdentifier.Replace(".development", ""));
 		}
 

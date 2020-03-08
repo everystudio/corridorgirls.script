@@ -19,7 +19,8 @@ namespace CorridorGirls
 		[MenuItem("Tools/Make MasterData_test")]
 		public static void MakeDataTest()
 		{
-			EveryStudioLibrary.Editor.EditorCoroutine.start(makeData());
+			//			EveryStudioLibrary.Editor.EditorCoroutine.start(makeData());
+			Debug.Log(PlayerSettings.productName);
 		}
 
 		private static IEnumerator makeDataTest()
