@@ -427,7 +427,7 @@ namespace GameMainAction
 
 			// ターン消費アイテムの削除
 
-
+			Debug.Log(DataManagerGame.Instance.user_data.ReadInt(Defines.KeyGem));
 
 
 
@@ -1820,29 +1820,32 @@ namespace GameMainAction
 					DataManagerGame.Instance.user_data.AddInt(Defines.KeyFood, PrizeList.Instance.m_iFood);
 					DataManagerGame.Instance.user_data.AddInt(Defines.KeyMana, PrizeList.Instance.m_iMana);
 					DataManagerGame.Instance.user_data.AddInt(Defines.KeyGem, PrizeList.Instance.m_iGem);
-					DataManagerGame.Instance.user_data.Write(Defines.KEY_GAMEMODE, "camp");
 
-					DataManagerGame.Instance.user_data.Save();
 					DataManagerGame.Instance.dataStage.Save();
 				}
-
-				DataUnit unit_camp = new DataUnit();
-				unit_camp.SetSaveFilename(Defines.FILENAME_UNIT_CAMP);
-				if(unit_camp.Load())
-				{
-					foreach( DataUnitParam party_unit in DataManagerGame.Instance.dataUnit.list.FindAll(p=>p.unit == "chara"))
-					{
-						DataUnitParam unit = unit_camp.list.Find(p => p.chara_id == party_unit.chara_id);
-						if( unit != null)
-						{
-							int set_tension = Mathf.Max( party_unit.tension - 5 , 0 );
-							unit.tension = set_tension;
-						}
-					}
-					// テンションのみ修正
-					unit_camp.Save();
-				}
 			}
+
+			// ユーザーデータはここで保存
+			DataManagerGame.Instance.user_data.Write(Defines.KEY_GAMEMODE, "camp");
+			DataManagerGame.Instance.user_data.Save();
+
+			DataUnit unit_camp = new DataUnit();
+			unit_camp.SetSaveFilename(Defines.FILENAME_UNIT_CAMP);
+			if (unit_camp.Load())
+			{
+				foreach (DataUnitParam party_unit in DataManagerGame.Instance.dataUnit.list.FindAll(p => p.unit == "chara"))
+				{
+					DataUnitParam unit = unit_camp.list.Find(p => p.chara_id == party_unit.chara_id);
+					if (unit != null)
+					{
+						int set_tension = Mathf.Max(party_unit.tension - 5, 0);
+						unit.tension = set_tension;
+					}
+				}
+				// テンションのみ修正
+				unit_camp.Save();
+			}
+
 
 			if (request_review)
 			{

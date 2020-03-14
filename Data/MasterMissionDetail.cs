@@ -32,7 +32,7 @@ public class MasterMissionDetail : CsvData<MasterMissionDetailParam>
 					detail.message += "\n";
 				}
 			}
-			Debug.Log(detail.message);
+			//Debug.Log(detail.message);
 		}
 	}
 

@@ -96,6 +96,7 @@ namespace CampMainAction {
 				// Gemがマイナスの場合、０で初期化
 				if(DMCamp.Instance.user_data.ReadInt(Defines.KeyGem) < 0)
 				{
+					Debug.LogError(DMCamp.Instance.user_data.ReadInt(Defines.KeyGem));
 					DMCamp.Instance.user_data.WriteInt(Defines.KeyGem, 0);
 				}
 
@@ -243,7 +244,7 @@ namespace CampMainAction {
 
 			aging_timer = 0.0f;
 			//debug_timer = 0.0f;
-
+			//Debug.Log(DMCamp.Instance.user_data.ReadInt(Defines.KeyGem));
 			campMain.m_infoHeaderCamp.SetFood(DMCamp.Instance.user_data.ReadInt(Defines.KeyFood));
 			campMain.m_infoHeaderCamp.SetMana(DMCamp.Instance.user_data.ReadInt(Defines.KeyMana));
 			campMain.m_infoHeaderCamp.SetGem(DMCamp.Instance.user_data.ReadInt(Defines.KeyGem));
@@ -1818,6 +1819,11 @@ namespace CampMainAction {
 		public override void OnExit()
 		{
 			base.OnExit();
+
+			campMain.m_panelDecideCheckBottom.m_btnDecide.onClick.RemoveAllListeners();
+			campMain.m_panelDecideCheckBottom.m_btnOther.onClick.RemoveAllListeners();
+			campMain.m_panelDecideCheckBottom.m_btnCancel.onClick.RemoveAllListeners();
+
 			campMain.m_panelDecideCheckBottom.m_btnDecide.interactable = true;
 			campMain.m_panelScout.m_panelCharaDetail.gameObject.SetActive(false);
 
@@ -1944,6 +1950,7 @@ namespace CampMainAction {
 			DMCamp.Instance.gameData.Save();
 
 			// プレイ用コストの消化
+			Debug.Log(DMCamp.Instance.user_data.ReadInt(Defines.KeyGem));
 			DMCamp.Instance.user_data.AddInt(Defines.KeyFood, -1 * play_cost.Value);
 			DMCamp.Instance.user_data.AddInt(Defines.KeyMana, -1 * play_mana.Value);
 
