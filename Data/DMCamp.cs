@@ -45,7 +45,10 @@ public class DMCamp : DataManagerBase<DMCamp> {
 
 	[HideInInspector]
 	public bool Initialized = false;
-
+	public bool IsAutoMove()
+	{
+		return 0 < user_data.ReadInt(Defines.KeyAutoModeMove);
+	}
 	public override void Initialize()
 	{
 		base.Initialize();

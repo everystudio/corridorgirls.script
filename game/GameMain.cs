@@ -48,6 +48,8 @@ public class GameMain : Singleton<GameMain> {
 	public BackgroundControl m_backgroundControl;
 	public GaugeMP gauge_mp;
 
+	public BtnAutoMove m_btnAutoMove;
+
 	[HideInInspector] public bool m_bIsGoal;
 	[HideInInspector] public bool m_bIsGameover;
 

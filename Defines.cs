@@ -15,6 +15,9 @@ public class Defines{
 	public const string KeyFood = "food";
 	public const string KeyMana = "mana";
 
+	public const string KeyAutoModeMove = "auto_mode_move";
+	public const string KeyMoviePlay_GameEnd = "movie_play_gameend";
+
 	public const string KEY_LASTPLAY_DATE = "last_play_date";
 	public const string FORMAT_LASTPLAY_DATE = "yyyyMMdd";
 	public const string FORMAT_STANDARD_DATE = "yyyy/MM/dd HH:mm:ss";

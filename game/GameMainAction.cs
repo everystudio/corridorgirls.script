@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using HutongGames.PlayMaker;
 using System;
+using UnityEngine.Advertisements;
 #if UNITY_IOS
 using UnityEngine.iOS;
 #endif
+using GoogleMobileAds.Api;
+
 namespace GameMainAction
 {
 	[ActionCategory("GameMainAction")]
@@ -217,7 +220,6 @@ namespace GameMainAction
 		}
 	}
 
-
 	[ActionCategory("GameMainAction")]
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
 	public class UnitSetup : GameMainActionBase
@@ -226,14 +228,21 @@ namespace GameMainAction
 		{
 			base.OnEnter();
 			gameMain.panelStatus.Initialize(DataManagerGame.Instance.dataUnit, DataManagerGame.Instance.masterChara);
-
 			Finish();
 		}
-
 	}
 
-
-
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class AutomodeSetup : GameMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+			gameMain.m_btnAutoMove.ShowUpdate();
+			Finish();
+		}
+	}
 
 	[ActionCategory("GameMainAction")]
 	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
@@ -625,6 +634,7 @@ namespace GameMainAction
 	[HutongGames.PlayMaker.Tooltip("AgincAction")]
 	public class AgingCardSelect : GameMainActionBase
 	{
+		public bool auto_mode;
 		public FsmInt select_card_serial;
 
 
@@ -643,7 +653,7 @@ namespace GameMainAction
 
 		public override void OnUpdate()
 		{
-			if (DataManagerGame.Instance.IsAging)
+			if (DataManagerGame.Instance.IsAging || (auto_mode && DataManagerGame.Instance.IsAutoMove()))
 			{
 				base.OnUpdate();
 				time += Time.deltaTime;
@@ -720,6 +730,7 @@ namespace GameMainAction
 
 			GameCamera.Instance.RequestMoveStart.Invoke();
 
+			gameMain.m_btnAutoMove.gameObject.SetActive(true);
 
 			gameMain.m_animCardRoot.SetBool("is_active", true);
 			gameMain.m_panelGameControlButtons.ShowButtonNum(0, null);
@@ -742,6 +753,8 @@ namespace GameMainAction
 		public override void OnExit()
 		{
 			base.OnExit();
+			gameMain.m_btnAutoMove.gameObject.SetActive(false);
+
 			gameMain.m_panelStatus.m_btnStatus.onClick.RemoveAllListeners();
 			gameMain.m_panelStatus.m_btnItem.onClick.RemoveAllListeners();
 			gameMain.m_panelStatus.m_btnDeck.onClick.RemoveAllListeners();
@@ -2075,6 +2088,82 @@ namespace GameMainAction
 			DataManagerGame.Instance.user_data.Save();
 
 			Finish();
+		}
+	}
+
+
+	[ActionCategory("GameMainAction")]
+	[HutongGames.PlayMaker.Tooltip("GameMainAction")]
+	public class PlayAdsMovie : GameMainActionBase
+	{
+		public override void OnEnter()
+		{
+			base.OnEnter();
+
+			if (DataManagerGame.Instance.gameData.HasKey(Defines.KeyMoviePlay_GameEnd))
+			{
+				if (Advertisement.IsReady())
+				{
+					var options = new ShowOptions { resultCallback = HandleShowResult };
+					Advertisement.Show(options);
+				}
+				else
+				{
+					RewardAd.Instance.rewardBasedVideo.OnAdLoaded += HandleRewardBasedVideoLoaded;
+					RewardAd.Instance.RequestRewardBasedVideo();
+				}
+			}
+			else
+			{
+				Finish();
+			}
+
+
+		}
+
+		private void HandleRewardBasedVideoLoaded(object sender, EventArgs e)
+		{
+			RewardAd.Instance.rewardBasedVideo.OnAdLoaded -= HandleRewardBasedVideoLoaded;
+
+			if (RewardAd.Instance.rewardBasedVideo.IsLoaded())
+			{
+				RewardAd.Instance.rewardBasedVideo.OnAdStarted += HandleRewardBasedVideoStarted;
+				RewardAd.Instance.rewardBasedVideo.OnAdRewarded += HandleRewardBasedVideoRewarded;
+				RewardAd.Instance.rewardBasedVideo.OnAdClosed += HandleRewardBasedVideoClosed;
+				RewardAd.Instance.rewardBasedVideo.Show();
+			}
+			else
+			{
+				Finish();
+			}
+
+		}
+		private void HandleRewardBasedVideoRewarded(object sender, Reward e)
+		{
+			//rewarded = true;
+		}
+		private void HandleRewardBasedVideoClosed(object sender, EventArgs e)
+		{
+			Finish();
+		}
+		private void HandleRewardBasedVideoStarted(object sender, EventArgs e)
+		{
+
+		}
+
+		private void HandleShowResult(UnityEngine.Advertisements.ShowResult obj)
+		{
+			Finish();
+		}
+
+		public override void OnExit()
+		{
+			base.OnExit();
+
+			RewardAd.Instance.rewardBasedVideo.OnAdStarted -= HandleRewardBasedVideoStarted;
+			RewardAd.Instance.rewardBasedVideo.OnAdRewarded -= HandleRewardBasedVideoRewarded;
+			RewardAd.Instance.rewardBasedVideo.OnAdClosed -= HandleRewardBasedVideoClosed;
+
 		}
 	}
 
