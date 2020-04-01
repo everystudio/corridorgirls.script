@@ -748,6 +748,7 @@ namespace CampMainAction {
 			campMain.m_panelDecideCheckBottom.m_txtMessage.text = "変更したいキャラを\n選択してください";
 			campMain.m_panelDecideCheckBottom.m_goRoot.SetActive(true);
 
+			campMain.m_panelDecideCheckBottom.m_txtLabelDecide.text = "キャラ一覧";
 			campMain.m_panelDecideCheckBottom.m_btnDecide.onClick.AddListener(() =>
 			{
 				SEControl.Instance.Play(Defines.KEY_SOUNDSE_DECIDE);
@@ -760,6 +761,7 @@ namespace CampMainAction {
 				SEControl.Instance.Play(Defines.KEY_SOUNDSE_CANCEL);
 				Fsm.Event("cancel");
 			});
+			campMain.m_panelDecideCheckBottom.m_btnOther.gameObject.SetActive(false);
 
 			campMain.m_panelChara.ShowList();
 			campMain.m_panelChara.OnListCharaId.AddListener((int _iCharaId) =>
