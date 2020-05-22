@@ -78,7 +78,7 @@ namespace GameMainAction
 			if (show_ad_banner.Value)
 			{
 				gameMain.m_adsBannerBottom.Show();
-				gameMain.m_adsBannerTop.Show();
+				//gameMain.m_adsBannerTop.Show();
 			}
 
 			gameMain.gauge_mp.Setup();
@@ -1819,7 +1819,7 @@ namespace GameMainAction
 			base.OnEnter();
 			bool request_review = false;
 			gameMain.m_adsBannerBottom.Hide();
-			gameMain.m_adsBannerTop.Hide();
+			//gameMain.m_adsBannerTop.Hide();
 
 			if ( gameMain.m_bIsGoal)
 			{
