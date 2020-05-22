@@ -239,7 +239,10 @@ namespace GameMainAction
 		public override void OnEnter()
 		{
 			base.OnEnter();
-			gameMain.m_btnAutoMove.ShowUpdate();
+			if (gameMain.m_btnAutoMove != null)
+			{
+				gameMain.m_btnAutoMove.ShowUpdate();
+			}
 			Finish();
 		}
 	}
@@ -730,7 +733,10 @@ namespace GameMainAction
 
 			GameCamera.Instance.RequestMoveStart.Invoke();
 
-			gameMain.m_btnAutoMove.gameObject.SetActive(true);
+			if (gameMain.m_btnAutoMove != null)
+			{
+				gameMain.m_btnAutoMove.gameObject.SetActive(true);
+			}
 
 			gameMain.m_animCardRoot.SetBool("is_active", true);
 			gameMain.m_panelGameControlButtons.ShowButtonNum(0, null);
@@ -753,7 +759,10 @@ namespace GameMainAction
 		public override void OnExit()
 		{
 			base.OnExit();
-			gameMain.m_btnAutoMove.gameObject.SetActive(false);
+			if (gameMain.m_btnAutoMove != null)
+			{
+				gameMain.m_btnAutoMove.gameObject.SetActive(false);
+			}
 
 			gameMain.m_panelStatus.m_btnStatus.onClick.RemoveAllListeners();
 			gameMain.m_panelStatus.m_btnItem.onClick.RemoveAllListeners();
